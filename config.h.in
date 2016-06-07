@@ -1,0 +1,27 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+/* Export plateform */
+#cmakedefine UNIX @UNIX@
+#cmakedefine WIN32 @WIN32@
+#cmakedefine MSVC @MSVC@
+#cmakedefine APPLE @APPLE@
+
+/* Does the platform provide extended function */
+#cmakedefine HAVE_BYTESWAP_H
+#cmakedefine HAVE_REGEX_H
+#cmakedefine HAVE_STRINGS_H
+#cmakedefine HAVE_SYS_TIME_H
+
+#cmakedefine HAVE_STRCASESTR
+#cmakedefine HAVE_STRCASECMP
+#cmakedefine HAVE_STRNCASECMP
+#cmakedefine HAVE_STRNDUP
+#cmakedefine HAVE_STRICMP
+#cmakedefine HAVE_STRNICMP
+#cmakedefine HAVE_STRTOK_R
+
+#cmakedefine USE_REGEX
+#cmakedefine USE_PTHREAD
+
+#endif /* CONFIG_H */

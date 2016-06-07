@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     QPushButton hello( "Hello world!", 0 );
     hello.resize( 100, 30 );
 
-    a.setMainWidget( &hello );
+    //a.setMainWidget( &hello );
     hello.show();
     return a.exec();
 }

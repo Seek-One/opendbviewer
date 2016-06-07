@@ -133,9 +133,6 @@ include_directories (${PROJECT_BINARY_DIR})
 
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
-# src directory
-add_subdirectory (src)
-
 ####################
 # Build test suite
 ####################
@@ -160,4 +157,4 @@ add_executable (${APPLICATION_EXE} ${APPLICATION_SRC}
 target_link_libraries (${APPLICATION_EXE}
     ${QT_LIBRARIES}
 )
-install(TARGETS ${APPLICATION_EXE_NAME} DESTINATION ${APPLICATION_PATH_BIN})
+#install(TARGETS ${APPLICATION_EXE_NAME} DESTINATION ${APPLICATION_PATH_BIN})

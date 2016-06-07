@@ -24,7 +24,7 @@ set (APPLICATION_PACKAGE_VENDOR "jet1oeil")
 set (APPLICATION_PACKAGE_NAME "opendbviewer")
 set (APPLICATION_EXE_NAME opendbviewer)
 
-project (com.jet1oeil.toolkit CXX C)
+project (opendbviewer CXX C)
 
 #set (CMAKE_VERBOSE_MAKEFILE OFF)
 

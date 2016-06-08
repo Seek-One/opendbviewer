@@ -1,6 +1,3 @@
-#include <QApplication>
-#include <QPushButton>
-
 // Enable memory leak detection
 #if defined(_MSC_VER) && defined(_DEBUG)
 #define _CRTDBG_MAP_ALLOC
@@ -11,6 +8,11 @@
 #define new DEBUG_NEW
 #endif // _DEBUG
 
+#include <QApplication>
+#include <QPushButton>
+
+#include "GUI/QWindowMain.h"
+
 int main(int argc, char *argv[])
 {
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -19,10 +21,8 @@ int main(int argc, char *argv[])
 
     QApplication a( argc, argv );
 
-    QPushButton hello( "Hello world!", 0 );
-    hello.resize( 100, 30 );
+    QWindowMain window;
+    window.show();
 
-    //a.setMainWidget( &hello );
-    hello.show();
     return a.exec();
 }

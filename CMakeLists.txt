@@ -139,6 +139,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src)
 
 SET (APPLICATION_SRC 
     src/main.cpp
+	src/GUI/QWindowMain.cpp
+	src/GUI/QWindowMain.h
 )
     
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro

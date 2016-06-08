@@ -141,16 +141,20 @@ SET (APPLICATION_SRC
     src/main.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUI/QWindowMain.h
+	src/GUI/QDatabaseTableView.cpp
+	src/GUI/QDatabaseTableView.h
+	src/GUI/QDatabaseConnectionView.cpp
+	src/GUI/QDatabaseConnectionView.h
 )
     
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
-#set(UNITTEST_MOC_HEADERS
-#    src/GUI/QWindowMain.h
-#)
-#qt_wrap_cpp(
-#  APPLICATION_MOC_OUTFILES
-#  ${APPLICATION_MOC_HEADERS}
-#)
+set(APPLICATION_MOC_HEADERS
+    src/GUI/QWindowMain.h
+)
+qt_wrap_cpp(
+  APPLICATION_MOC_OUTFILES
+  ${APPLICATION_MOC_HEADERS}
+)
 
 set (APPLICATION_EXE ${APPLICATION_EXE_NAME})
 add_executable (${APPLICATION_EXE} ${APPLICATION_SRC}

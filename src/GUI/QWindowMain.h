@@ -26,19 +26,24 @@
 #include <QToolBar>
 #include <QTextEdit>
 
+#include "QDatabaseTableView.h"
+#include "QDatabaseConnectionView.h"
 
 class QWindowMain : public QMainWindow
 {
+	Q_OBJECT
 public:
-	QWindowMain();
+	QWindowMain(QWidget* parent = 0);
+	virtual ~QWindowMain();
+
+public slots:
+	void newDatabaseConnection();
 
 private:
 	void createMenu(); //Creates a menu bar
-	void applyLayout();
-	QWidget* makeDBTab();
-	QTabWidget* makeWorksheetTab();
-	QTabWidget* makeChannelTab();
-	QTabWidget* makeDataTab();
+
+
+	QTabWidget *m_pDatabaseConnectionTab;
 };
 
 

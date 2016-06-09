@@ -13,6 +13,8 @@
 
 #include "GUI/QWindowMain.h"
 
+#include "GUIController/QWindowMainController.h"
+
 int main(int argc, char *argv[])
 {
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -22,6 +24,10 @@ int main(int argc, char *argv[])
     QApplication a( argc, argv );
 
     QWindowMain window;
+
+    QWindowMainController controller;
+    controller.init(&window);
+
     window.show();
 
     return a.exec();

@@ -29,14 +29,18 @@ public:
 	QWindowMain(QWidget* parent = 0);
 	virtual ~QWindowMain();
 
-public slots:
-	void newDatabaseConnection();
-	void about();
+	QAction* getNewConnectionAction() const;
+
+
+	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 
 private:
 	void createMenu(); //Creates a menu bar
 
 	QTabWidget *m_pDatabaseConnectionTab;
+
+	// List of actions
+	QAction* m_pNewConnectionAction;
 };
 
 

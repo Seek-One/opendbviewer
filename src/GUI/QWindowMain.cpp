@@ -27,8 +27,6 @@ QWindowMain::QWindowMain(QWidget* parent)
     //Creation of the first set of tabs for database files
     m_pDatabaseConnectionTab = new QTabWidget(this);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
-
-    newDatabaseConnection();
 }
 
 QWindowMain::~QWindowMain()
@@ -36,20 +34,27 @@ QWindowMain::~QWindowMain()
 
 }
 
+QAction* QWindowMain::getNewConnectionAction() const
+{
+	return m_pNewConnectionAction;
+}
+
+void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
+{
+	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
+}
+
 void QWindowMain::createMenu()
 {
 	QAction *pAction;
 
     QMenu *pFileMenu = menuBar()->addMenu(tr("&File"));
-    pAction = new QAction(tr("&New connection"), this);
-    pFileMenu->addAction(pAction);
-
-    connect(pAction, SIGNAL(triggered()), this, SLOT(newDatabaseConnection()));
+    m_pNewConnectionAction = new QAction(tr("&New connection"), this);
+    pFileMenu->addAction(m_pNewConnectionAction);
 
     pAction = new QAction(tr("&Quit"), this);
     pFileMenu->addAction(pAction);
 
-    connect(pAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     QMenu *pEditMenu = menuBar()->addMenu(tr("&Edit"));
     pAction = new QAction(tr("&Cut"), this);
@@ -66,20 +71,5 @@ void QWindowMain::createMenu()
     QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
     pAction = new QAction(tr("&About"), this);
     pHelpMenu->addAction(pAction);
-    connect(pAction, SIGNAL(triggered()), this, SLOT(about()));
 
-}
-
-void QWindowMain::newDatabaseConnection()
-{
-	qDebug("clicked");
-
-	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(this);
-
-	m_pDatabaseConnectionTab->addTab(pConnectionView, tr("new tab"));
-}
-
-void QWindowMain::about()
-{
-	QMessageBox::information(this, tr("About..."), tr("Text"));
 }

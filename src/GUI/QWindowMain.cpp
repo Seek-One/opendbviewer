@@ -6,13 +6,12 @@
  */
 
 #include "QWindowMain.h"
-#include "QDatabaseConnectionView.h"
 
 QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)
 {
     //Set minimum window size
-    setMinimumSize(600, 600);
+    setMinimumSize(900, 600);
 
     //Creation of the menu bar
     createMenu();
@@ -53,8 +52,22 @@ void QWindowMain::createMenu()
     connect(pAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     QMenu *pEditMenu = menuBar()->addMenu(tr("&Edit"));
+    pAction = new QAction(tr("&Cut"), this);
+    pEditMenu->addAction(pAction);
+    pAction = new QAction(tr("&Copy"), this);
+    pEditMenu->addAction(pAction);
+    pAction = new QAction(tr("&Paste"), this);
+    pEditMenu->addAction(pAction);
+    pAction = new QAction(tr("&Delete"), this);
+    pEditMenu->addAction(pAction);
+
     QMenu *pViewMenu = menuBar()->addMenu(tr("&View"));
+
     QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
+    pAction = new QAction(tr("&About"), this);
+    pHelpMenu->addAction(pAction);
+    connect(pAction, SIGNAL(triggered()), this, SLOT(about()));
+
 }
 
 void QWindowMain::newDatabaseConnection()
@@ -64,4 +77,9 @@ void QWindowMain::newDatabaseConnection()
 	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(this);
 
 	m_pDatabaseConnectionTab->addTab(pConnectionView, tr("new tab"));
+}
+
+void QWindowMain::about()
+{
+	QMessageBox::information(this, tr("About..."), tr("Text"));
 }

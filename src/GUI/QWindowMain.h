@@ -13,21 +13,14 @@
 #include <QMenuBar>
 #include <QTabWidget>
 #include <QWidget>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QAction>
 #include <QApplication>
-#include <QStandardItemModel>
-#include <QStandardItem>
-#include <QHeaderView>
-#include <QPushButton>
-#include <QTableView>
-#include <QTreeView>
-#include <QToolBar>
-#include <QTextEdit>
+#include <QMessageBox>
 
 #include "QDatabaseTableView.h"
 #include "QDatabaseConnectionView.h"
+#include "QDatabaseWorksheetView.h"
 
 class QWindowMain : public QMainWindow
 {
@@ -38,10 +31,10 @@ public:
 
 public slots:
 	void newDatabaseConnection();
+	void about();
 
 private:
 	void createMenu(); //Creates a menu bar
-
 
 	QTabWidget *m_pDatabaseConnectionTab;
 };

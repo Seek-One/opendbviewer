@@ -10,12 +10,13 @@
 
 #include <QWidget>
 #include <QTabWidget>
-#include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>
+#include <QTableView>
+#include <QTextEdit>
 #include <QTableView>
 
 class QDatabaseTableView : public QWidget
@@ -27,9 +28,9 @@ public:
 private:
 	QWidget* makeDataTab();
 	QWidget* makeStructureTab();
+	QWidget* makeCreationScriptTab();
 
 private:
-	QWidget *m_pTableTab2;
 
 };
 

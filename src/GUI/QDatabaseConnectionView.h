@@ -21,8 +21,11 @@
 #include <QTextEdit>
 #include <QTableView>
 #include <QApplication>
+#include <QSplitter>
+#include <QList>
 
 #include "QDatabaseTableView.h"
+#include "QDatabaseWorksheetView.h"
 
 class QDatabaseConnectionView : public QWidget
 {
@@ -33,6 +36,9 @@ public:
 private:
 	QWidget* makeWorksheetTab();
 	QWidget* makeChannelTab();
+	QWidget* makeStructureTable();
+	QWidget* makeVerticalConnectionPannel();
+	QToolBar* makeOptionButtonsToolBar();
 
 private:
 	QWidget *m_pTab2;

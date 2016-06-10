@@ -32,10 +32,6 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
 
-	//Creation of the first tab called Worksheet
-	QWidget *pTab1 = new QWidget;
-	pTab1 = makeWorksheetTab();
-	m_pTabsInConnection->addTab(pTab1, "worksheet");
 
 	//Creation of the second tab called Channels
 	m_pTab2 = new QWidget;
@@ -50,6 +46,10 @@ QDatabaseConnectionView::~QDatabaseConnectionView()
 
 }
 
+void QDatabaseConnectionView::addWorksheetView(QDatabaseWorksheetView* pDatabaseWorksheetView, const QString& szTitle)
+{
+	m_pTabsInConnection->addTab(pDatabaseWorksheetView, szTitle);
+}
 
 QWidget* QDatabaseConnectionView::makeWorksheetTab()
 {
@@ -140,3 +140,7 @@ QTabWidget* QDatabaseConnectionView::getTabsInConnection() const
 	return m_pTabsInConnection;
 }
 
+QWidget* QDatabaseConnectionView::getWorksheetTab() const
+{
+	return m_pTab1;
+}

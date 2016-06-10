@@ -8,6 +8,8 @@
 #include "QDatabaseConnectionViewController.h"
 
 #include "GUI/QDatabaseConnectionView.h"
+#include "GUI/QDatabaseWorksheetView.h"
+#include "QDatabaseWorksheetViewController.h"
 
 QDatabaseConnectionViewController::QDatabaseConnectionViewController()
 {
@@ -26,16 +28,27 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
+	openWorksheet();
 }
 
 void QDatabaseConnectionViewController::openWorksheet()
 {
-	QWidget *pNewTab = new QWidget;
-	m_pDatabaseConnectionView->getTabsInConnection()->addTab(pNewTab, "worksheet");
+	QDatabaseWorksheetView* pDatabaseWorksheetView = new QDatabaseWorksheetView(m_pDatabaseConnectionView);
+	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("worksheet"));
+
+	QDatabaseWorksheetViewController* pDatabaseWorksheetViewController = new QDatabaseWorksheetViewController;
+	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView);
 }
 
 void QDatabaseConnectionViewController::closeTab(const int& index)
 {
-	m_pDatabaseConnectionView->getTabsInConnection()->widget(index);
+	if(m_pDatabaseConnectionView->getTabsInConnection()->count() == 1)
+	{
+		return;
+	}
+
+	QWidget* tabItem = m_pDatabaseConnectionView->getTabsInConnection()->widget(index);
 	m_pDatabaseConnectionView->getTabsInConnection()->removeTab(index);
+
+	delete(tabItem);
 }

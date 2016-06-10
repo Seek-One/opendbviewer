@@ -37,6 +37,8 @@ public:
 	QPushButton* getNewWorksheetButton() const;
 	QAction* getNewWorksheetAction() const;
 	QTabWidget* getTabsInConnection() const;
+	QWidget* getWorksheetTab() const;
+	void addWorksheetView(QDatabaseWorksheetView* pDatabaseWorksheetView, const QString& szTitle);
 
 private:
 	QWidget* makeWorksheetTab();

@@ -29,7 +29,7 @@ public:
 public slots:
 	void newDatabaseConnection();
 	void about();
-	void closeTab(const int& index);
+	void closeConnectionTab(const int& index);
 
 private:
 	QWindowMain* m_pMainWindow;

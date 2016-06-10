@@ -31,7 +31,7 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
     connect(m_pMainWindow->getNewConnectionAction(), SIGNAL(triggered()), this, SLOT(newDatabaseConnection()));
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
-    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
     newDatabaseConnection();
 }
 
@@ -42,6 +42,8 @@ void QWindowMainController::newDatabaseConnection()
 
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = new QDatabaseConnectionViewController();
 	pDatabaseConnectionViewController->init(pConnectionView);
+
+	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
 }
 
 void QWindowMainController::about()
@@ -49,8 +51,15 @@ void QWindowMainController::about()
 	QMessageBox::information(m_pMainWindow, tr("About..."), tr("Text"));
 }
 
-void QWindowMainController::closeTab(const int& index)
+void QWindowMainController::closeConnectionTab(const int& index)
 {
-	m_pMainWindow->getDatabaseConnectionTab()->widget(index);
+	if(m_pMainWindow->getDatabaseConnectionTab()->count() == 1)
+	{
+		return;
+	}
+
+	QWidget* tabItem = m_pMainWindow->getDatabaseConnectionTab()->widget(index);
 	m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
+
+	delete(tabItem);
 }

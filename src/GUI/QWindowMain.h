@@ -30,17 +30,22 @@ public:
 	virtual ~QWindowMain();
 
 	QAction* getNewConnectionAction() const;
-
+	QAction* getQuitAction() const;
+	QAction* getAboutAction() const;
+	QTabWidget* getDatabaseConnectionTab() const;
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 
 private:
 	void createMenu(); //Creates a menu bar
 
+
 	QTabWidget *m_pDatabaseConnectionTab;
 
 	// List of actions
 	QAction* m_pNewConnectionAction;
+	QAction* m_pQuitAction;
+	QAction* m_pAboutAction;
 };
 
 

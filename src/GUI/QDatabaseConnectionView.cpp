@@ -6,6 +6,7 @@
  */
 
 #include "QDatabaseConnectionView.h"
+#include "GUIController/QWindowMainController.h"
 
 QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 		: QWidget(parent)
@@ -18,30 +19,30 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	pMainLayout->addWidget(pPage1);
 
 	QHBoxLayout *pDatabaseConnectionLayout = new QHBoxLayout(); //Creates a layout to be used for widgets in the connection tab
+	pPage1->setLayout(pDatabaseConnectionLayout);
 
 	QSplitter *pDatabaseConnectionSplitter = new QSplitter();
 	pDatabaseConnectionSplitter->setChildrenCollapsible(false);
 	pDatabaseConnectionLayout->addWidget(pDatabaseConnectionSplitter);
 
-	pPage1->setLayout(pDatabaseConnectionLayout);
+	QWidget *pVertConnectionPanel = new QWidget;
+	pVertConnectionPanel = makeVerticalConnectionPanel();
+	pDatabaseConnectionSplitter->addWidget(pVertConnectionPanel);
 
-	QWidget *pVertConnectionPannel = new QWidget;
-	pVertConnectionPannel = makeVerticalConnectionPannel();
-	pDatabaseConnectionSplitter->addWidget(pVertConnectionPannel);
-
-	QTabWidget *pTabsInConnection = new QTabWidget(pPage1);//Used to create a tab widget in the opened connection tab
-	pTabsInConnection->setTabsClosable(true);
+	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
+	m_pTabsInConnection->setTabsClosable(true);
 
 	//Creation of the first tab called Worksheet
-	QWidget *pTab1 = makeWorksheetTab();
-	pTabsInConnection->addTab(pTab1, "worksheet");
+	QWidget *pTab1 = new QWidget;
+	pTab1 = makeWorksheetTab();
+	m_pTabsInConnection->addTab(pTab1, "worksheet");
 
 	//Creation of the second tab called Channels
 	m_pTab2 = new QWidget;
 	m_pTab2 = makeChannelTab();
-	pTabsInConnection->addTab(m_pTab2, "channels");
+	m_pTabsInConnection->addTab(m_pTab2, "channels");
 
-	pDatabaseConnectionSplitter->addWidget(pTabsInConnection);
+	pDatabaseConnectionSplitter->addWidget(m_pTabsInConnection);
 }
 
 QDatabaseConnectionView::~QDatabaseConnectionView()
@@ -49,17 +50,19 @@ QDatabaseConnectionView::~QDatabaseConnectionView()
 
 }
 
+
 QWidget* QDatabaseConnectionView::makeWorksheetTab()
 {
-	QWidget *pTab1 = new QWidget();
+	m_pTab1 = new QWidget();
 	QVBoxLayout *pWorksheetTabLayout = new QVBoxLayout();
-	pTab1->setLayout(pWorksheetTabLayout);
+	m_pTab1->setLayout(pWorksheetTabLayout);
 
 	QDatabaseWorksheetView* pWorksheetView = new QDatabaseWorksheetView(this);
 	pWorksheetTabLayout->addWidget(pWorksheetView);
 
-	return pTab1;
+	return m_pTab1;
 }
+
 
 
 QWidget* QDatabaseConnectionView::makeChannelTab()
@@ -87,27 +90,26 @@ QWidget* QDatabaseConnectionView::makeStructureTable()
 
 	QTreeView *pStructureView = new QTreeView();
 	pStructureView->setModel(pStructureModel);
-	//pStructureView->header()->hide();
 
 	return pStructureView;
 }
 
-QWidget* QDatabaseConnectionView::makeVerticalConnectionPannel()
+QWidget* QDatabaseConnectionView::makeVerticalConnectionPanel()
 {
-	QWidget *pVertConnectionPannel = new QWidget;
+	QWidget *pVertConnectionPanel = new QWidget;
 
-	QVBoxLayout *pVertConnectionPannelLayout = new QVBoxLayout;
-	pVertConnectionPannel->setLayout(pVertConnectionPannelLayout);
+	QVBoxLayout *pVertConnectionPanelLayout = new QVBoxLayout;
+	pVertConnectionPanel->setLayout(pVertConnectionPanelLayout);
 
 	QToolBar *pOptionButtonsToolbar = new QToolBar();
 	pOptionButtonsToolbar = makeOptionButtonsToolBar();
-	pVertConnectionPannelLayout->addWidget(pOptionButtonsToolbar);
+	pVertConnectionPanelLayout->addWidget(pOptionButtonsToolbar);
 
 	QWidget *pStructureView = new QWidget();
 	pStructureView = makeStructureTable();
-	pVertConnectionPannelLayout->addWidget(pStructureView);
+	pVertConnectionPanelLayout->addWidget(pStructureView);
 
-	return pVertConnectionPannel;
+	return pVertConnectionPanel;
 }
 
 QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
@@ -117,8 +119,24 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
 	QPushButton *pRefresh = new QPushButton("Refresh", this); //TODO needs image rather than text
 	pOptionButtonsToolbar->addWidget(pRefresh);
 
-	QPushButton *pNewWorksheet = new QPushButton("New", this);//TODO needs image rather than text
-	pOptionButtonsToolbar->addWidget(pNewWorksheet);
+	m_pNewWorksheetButton= new QPushButton("New", this);//TODO needs image rather than text
+	pOptionButtonsToolbar->addWidget(m_pNewWorksheetButton);
 
 	return pOptionButtonsToolbar;
 }
+
+QPushButton* QDatabaseConnectionView::getNewWorksheetButton() const
+{
+	return m_pNewWorksheetButton;
+}
+
+QAction* QDatabaseConnectionView::getNewWorksheetAction() const
+{
+	return m_pNewWorksheetAction;
+}
+
+QTabWidget* QDatabaseConnectionView::getTabsInConnection() const
+{
+	return m_pTabsInConnection;
+}
+

@@ -24,6 +24,7 @@ public:
 private:
 	QToolBar* makeWorksheetToolbar();
 
+
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

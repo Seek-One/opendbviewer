@@ -26,6 +26,7 @@ QWindowMain::QWindowMain(QWidget* parent)
 
     //Creation of the first set of tabs for database files
     m_pDatabaseConnectionTab = new QTabWidget(this);
+    m_pDatabaseConnectionTab->setTabsClosable(true);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
 }
 
@@ -37,6 +38,21 @@ QWindowMain::~QWindowMain()
 QAction* QWindowMain::getNewConnectionAction() const
 {
 	return m_pNewConnectionAction;
+}
+
+QAction* QWindowMain::getQuitAction() const
+{
+	return m_pQuitAction;
+}
+
+QAction* QWindowMain::getAboutAction() const
+{
+	return m_pAboutAction;
+}
+
+QTabWidget* QWindowMain::getDatabaseConnectionTab() const
+{
+	return m_pDatabaseConnectionTab;
 }
 
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
@@ -52,8 +68,8 @@ void QWindowMain::createMenu()
     m_pNewConnectionAction = new QAction(tr("&New connection"), this);
     pFileMenu->addAction(m_pNewConnectionAction);
 
-    pAction = new QAction(tr("&Quit"), this);
-    pFileMenu->addAction(pAction);
+    m_pQuitAction = new QAction(tr("&Quit"), this);
+    pFileMenu->addAction(m_pQuitAction);
 
 
     QMenu *pEditMenu = menuBar()->addMenu(tr("&Edit"));
@@ -69,7 +85,8 @@ void QWindowMain::createMenu()
     QMenu *pViewMenu = menuBar()->addMenu(tr("&View"));
 
     QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
-    pAction = new QAction(tr("&About"), this);
-    pHelpMenu->addAction(pAction);
+    m_pAboutAction = new QAction(tr("&About"), this);
+    pHelpMenu->addAction(m_pAboutAction);
 
 }
+

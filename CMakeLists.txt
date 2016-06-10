@@ -149,12 +149,15 @@ SET (APPLICATION_SRC
 	src/GUI/QDatabaseWorksheetView.h
 	src/GUIController/QWindowMainController.cpp
 	src/GUIController/QWindowMainController.h
+	src/GUIController/QDatabaseConnectionViewController.cpp
+	src/GUIController/QDatabaseConnectionViewController.h
 )
     
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
     src/GUI/QWindowMain.h
 	src/GUIController/QWindowMainController.h
+	src/GUIController/QDatabaseConnectionViewController.h
 )
 qt_wrap_cpp(
   APPLICATION_MOC_OUTFILES

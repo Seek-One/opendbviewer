@@ -10,6 +10,11 @@
 
 #include <QObject>
 
+#include "QWindowMainController.h"
+
+#include "GUI/QWindowMain.h"
+#include "GUI/QDatabaseConnectionView.h"
+
 class QWindowMain;
 
 class QWindowMainController : public QObject
@@ -24,6 +29,7 @@ public:
 public slots:
 	void newDatabaseConnection();
 	void about();
+	void closeTab(const int& index);
 
 private:
 	QWindowMain* m_pMainWindow;

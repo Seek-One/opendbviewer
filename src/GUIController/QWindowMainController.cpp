@@ -6,13 +6,20 @@
  */
 
 #include <QMessageBox>
+#include <QDialog>
+#include <QTabWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QString>
 
 #include "QWindowMainController.h"
+#include "QDatabaseConnectionViewController.h"
+#include "QDatabaseSelectionViewController.h"
 
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
-
-#include "QDatabaseConnectionViewController.h"
+#include "GUI/QDatabaseSelectionView.h"
 
 QWindowMainController::QWindowMainController()
 {
@@ -32,7 +39,7 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
-    newDatabaseConnection();
+
 }
 
 void QWindowMainController::newDatabaseConnection()
@@ -44,7 +51,12 @@ void QWindowMainController::newDatabaseConnection()
 	pDatabaseConnectionViewController->init(pConnectionView);
 
 	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
+
+	QDatabaseSelectionView* pSelectionView = new QDatabaseSelectionView;
+	QDatabaseSelectionViewController* pSelectionViewController = new QDatabaseSelectionViewController();
+	pSelectionViewController->init(pSelectionView);
 }
+
 
 void QWindowMainController::about()
 {
@@ -53,13 +65,9 @@ void QWindowMainController::about()
 
 void QWindowMainController::closeConnectionTab(const int& index)
 {
-	if(m_pMainWindow->getDatabaseConnectionTab()->count() == 1)
-	{
-		return;
-	}
-
 	QWidget* tabItem = m_pMainWindow->getDatabaseConnectionTab()->widget(index);
 	m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
 
 	delete(tabItem);
 }
+

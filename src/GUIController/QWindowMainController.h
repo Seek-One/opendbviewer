@@ -14,6 +14,7 @@
 
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
+#include "GUI/QDatabaseSelectionView.h"
 
 class QWindowMain;
 
@@ -26,10 +27,15 @@ public:
 
 	void init(QWindowMain* pMainWindow);
 
+
+private:
+	QWidget* makeTab();
+
 public slots:
 	void newDatabaseConnection();
 	void about();
 	void closeConnectionTab(const int& index);
+	//void openFileSelectionWindow();
 
 private:
 	QWindowMain* m_pMainWindow;

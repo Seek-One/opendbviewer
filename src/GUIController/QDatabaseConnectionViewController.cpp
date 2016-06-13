@@ -42,7 +42,7 @@ void QDatabaseConnectionViewController::openWorksheet()
 
 void QDatabaseConnectionViewController::closeTab(const int& index)
 {
-	if(m_pDatabaseConnectionView->getTabsInConnection()->count() == 1)
+	if(m_pDatabaseConnectionView->getTabsInConnection()->count() < 2)
 	{
 		return;
 	}

@@ -81,12 +81,15 @@ QWidget* QDatabaseConnectionView::makeStructureTable()
 {
 	QStandardItemModel *pStructureModel = new QStandardItemModel();
 	QStandardItem *pStructureItem = new QStandardItem("Structure");
-	pStructureModel->setHorizontalHeaderItem(0, pStructureItem);
-	//QStandardItem *pTableItem = new QStandardItem("Tables");
-	//pStructureModel->appendRow(pTableItem);
 
-	//QStandardItem *pSystemTablesItem = new QStandardItem("System tables");
-	//pStructureModel->appendRow(pSystemTablesItem);
+	pStructureModel->setHorizontalHeaderItem(0, pStructureItem);
+	QStandardItem *pTableItem = new QStandardItem("Tables");
+	pTableItem->setEditable(false);
+	pStructureModel->appendRow(pTableItem);
+
+	QStandardItem *pSystemTablesItem = new QStandardItem("System tables");
+	pSystemTablesItem->setEditable(false);
+	pStructureModel->appendRow(pSystemTablesItem);
 
 	QTreeView *pStructureView = new QTreeView();
 	pStructureView->setModel(pStructureModel);

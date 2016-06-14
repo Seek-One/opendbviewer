@@ -36,8 +36,8 @@ QDatabaseSelectionView::QDatabaseSelectionView(QWidget* parent)
 	m_pCancelButton = new QPushButton("Cancel");
 	pBottomButtonsLayout->addWidget(m_pCancelButton);
 
-	QPushButton *pOKButton = new QPushButton("OK");
-	pBottomButtonsLayout->addWidget(pOKButton);
+	m_pOKButton = new QPushButton("OK");
+	pBottomButtonsLayout->addWidget(m_pOKButton);
 
 	pNewConnectionFileSelection->show();
 }
@@ -81,4 +81,9 @@ QPushButton* QDatabaseSelectionView::getFileSelectionButton() const
 QPushButton* QDatabaseSelectionView::getCancelButton() const
 {
 	return m_pCancelButton;
+}
+
+QPushButton* QDatabaseSelectionView::getOKButton() const
+{
+	return m_pOKButton;
 }

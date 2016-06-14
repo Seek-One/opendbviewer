@@ -5,15 +5,21 @@
  *      Author: echopin
  */
 
+#include <QStandardItem>
+
 #include "QDatabaseConnectionViewController.h"
 
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QDatabaseWorksheetView.h"
 #include "QDatabaseWorksheetViewController.h"
+#include "Database/DatabaseController.h"
 
-QDatabaseConnectionViewController::QDatabaseConnectionViewController()
+QDatabaseConnectionViewController::QDatabaseConnectionViewController(const QString& szFileName)
 {
+	m_szFileName = szFileName;
 	m_pDatabaseConnectionView = NULL;
+
+	m_pListTableModel = new QStandardItemModel();
 }
 
 QDatabaseConnectionViewController::~QDatabaseConnectionViewController()
@@ -27,6 +33,8 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 
 	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+
+	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
 	openWorksheet();
 }
@@ -51,4 +59,21 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 	m_pDatabaseConnectionView->getTabsInConnection()->removeTab(index);
 
 	delete(tabItem);
+}
+
+
+void QDatabaseConnectionViewController::updateTables()
+{
+	DatabaseController* pDatabaseController = new DatabaseController(m_szFileName);
+	pDatabaseController->loadTables(onDbLoadTable, this);
+}
+
+void QDatabaseConnectionViewController::onDbLoadTable(const QString& szTable, void* user_data)
+{
+	QDatabaseConnectionViewController* pController = (QDatabaseConnectionViewController*)(user_data);
+
+	QStandardItem *pTableItem = new QStandardItem(szTable);
+	pController->m_pListTableModel->appendRow(pTableItem);
+	pTableItem->setEditable(false);
+
 }

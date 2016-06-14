@@ -7,6 +7,7 @@
 
 #include "QDatabaseConnectionView.h"
 #include "GUIController/QWindowMainController.h"
+#include "Database/DatabaseController.h"
 
 QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 		: QWidget(parent)
@@ -31,7 +32,6 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 
 	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
-
 
 	//Creation of the second tab called Channels
 	m_pTab2 = new QWidget;
@@ -63,8 +63,6 @@ QWidget* QDatabaseConnectionView::makeWorksheetTab()
 	return m_pTab1;
 }
 
-
-
 QWidget* QDatabaseConnectionView::makeChannelTab()
 {
 	QWidget *pTab2 = new QWidget();
@@ -75,26 +73,6 @@ QWidget* QDatabaseConnectionView::makeChannelTab()
 	pChannelTabLayout->addWidget(tableView);
 
 	return pTab2;
-}
-
-QWidget* QDatabaseConnectionView::makeStructureTable()
-{
-	QStandardItemModel *pStructureModel = new QStandardItemModel();
-	QStandardItem *pStructureItem = new QStandardItem("Structure");
-
-	pStructureModel->setHorizontalHeaderItem(0, pStructureItem);
-	QStandardItem *pTableItem = new QStandardItem("Tables");
-	pTableItem->setEditable(false);
-	pStructureModel->appendRow(pTableItem);
-
-	QStandardItem *pSystemTablesItem = new QStandardItem("System tables");
-	pSystemTablesItem->setEditable(false);
-	pStructureModel->appendRow(pSystemTablesItem);
-
-	QTreeView *pStructureView = new QTreeView();
-	pStructureView->setModel(pStructureModel);
-
-	return pStructureView;
 }
 
 QWidget* QDatabaseConnectionView::makeVerticalConnectionPanel()
@@ -108,9 +86,8 @@ QWidget* QDatabaseConnectionView::makeVerticalConnectionPanel()
 	pOptionButtonsToolbar = makeOptionButtonsToolBar();
 	pVertConnectionPanelLayout->addWidget(pOptionButtonsToolbar);
 
-	QWidget *pStructureView = new QWidget();
-	pStructureView = makeStructureTable();
-	pVertConnectionPanelLayout->addWidget(pStructureView);
+	m_pTableTreeView = new QTreeView();
+	pVertConnectionPanelLayout->addWidget(m_pTableTreeView);
 
 	return pVertConnectionPanel;
 }
@@ -126,6 +103,12 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
 	pOptionButtonsToolbar->addWidget(m_pNewWorksheetButton);
 
 	return pOptionButtonsToolbar;
+}
+
+void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)
+{
+	m_pTableTreeView->setModel(pModel);
+	m_pTableTreeView->header()->hide();
 }
 
 QPushButton* QDatabaseConnectionView::getNewWorksheetButton() const

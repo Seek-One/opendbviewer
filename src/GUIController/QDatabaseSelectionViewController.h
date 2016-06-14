@@ -12,6 +12,7 @@
 #include <QString>
 #include <QFileDialog>
 #include "GUI/QDatabaseSelectionView.h"
+#include "GUI/QWindowMain.h"
 
 class QDatabaseSelectionView;
 
@@ -22,15 +23,19 @@ public:
 	QDatabaseSelectionViewController();
 	virtual ~QDatabaseSelectionViewController();
 
-	void init(QDatabaseSelectionView* pDatabaseSelectionView);
+	void init(QWindowMain* pMainWindow, QDatabaseSelectionView* pDatabaseSelectionView);
+	QString getFileName() const;
 
 public slots:
 	void openFileDialog();
 	void closeSelectionWindow();
+	void loadDatabase();
 
 private:
 	QDatabaseSelectionView* m_pDatabaseSelectionView;
-	QString m_pFileName;
+	QString m_fileName;
+	QWindowMain* m_pMainWindow;
+
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_ */

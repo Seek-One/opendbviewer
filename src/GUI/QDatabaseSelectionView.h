@@ -28,12 +28,14 @@ public:
 	virtual ~QDatabaseSelectionView();
 	QPushButton* getFileSelectionButton() const;
 	QPushButton* getCancelButton() const;
+	QPushButton* getOKButton() const;
 
 private:
 	QWidget* makeTab();
 
 private:
 	QPushButton* m_pFileSelectionButton;
+	QPushButton* m_pOKButton;
 	QPushButton* m_pCancelButton;
 };
 

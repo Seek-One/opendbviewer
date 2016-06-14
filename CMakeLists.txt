@@ -157,6 +157,8 @@ SET (APPLICATION_SRC
 	src/GUIController/QDatabaseWorksheetViewController.h
 	src/GUIController/QDatabaseSelectionViewController.cpp
 	src/GUIController/QDatabaseSelectionViewController.h
+	src/Database/DatabaseController.cpp
+	src/Database/DatabaseController.h
 )
     
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro

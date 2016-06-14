@@ -40,10 +40,11 @@ public:
 	QWidget* getWorksheetTab() const;
 	void addWorksheetView(QDatabaseWorksheetView* pDatabaseWorksheetView, const QString& szTitle);
 
+	void setTablesModel(QStandardItemModel* pModel);
+
 private:
 	QWidget* makeWorksheetTab();
 	QWidget* makeChannelTab();
-	QWidget* makeStructureTable();
 	QWidget* makeVerticalConnectionPanel();
 	QToolBar* makeOptionButtonsToolBar();
 
@@ -53,6 +54,7 @@ private:
 	QPushButton *m_pNewWorksheetButton;
 	QAction* m_pNewWorksheetAction;
 	QTabWidget *m_pTabsInConnection;
+	QTreeView *m_pTableTreeView;
 
 
 };

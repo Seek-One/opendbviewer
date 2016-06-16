@@ -179,7 +179,16 @@ qt_wrap_cpp(
 ####################
 
 set (I18N_FILES
+	src/main.cpp
+	src/GUI/QDatabaseConnectionView.cpp
+	src/GUI/QDatabaseSelectionView.cpp
+	src/GUI/QDatabaseTableView.cpp
+	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QWindowMain.cpp
+	src/GUIController/QDatabaseConnectionViewController.cpp
+	src/GUIController/QDatabaseSelectionViewController.cpp
+	src/GUIController/QDatabaseWorksheetViewController.cpp
+	src/GUIController/QWindowMainController.cpp
 )
 
 set (TS_FILES

@@ -23,6 +23,7 @@
 
 class QDatabaseSelectionView : public QWidget
 {
+	Q_OBJECT
 public:
 	QDatabaseSelectionView(QWidget* parent = 0);
 	virtual ~QDatabaseSelectionView();

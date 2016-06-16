@@ -21,6 +21,7 @@
 
 class QDatabaseTableView : public QWidget
 {
+	Q_OBJECT
 public:
 	QDatabaseTableView(QWidget* parent = 0);
 	virtual ~QDatabaseTableView();

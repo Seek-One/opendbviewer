@@ -123,8 +123,13 @@ include (CMakeModules/IncludeLibraries.cmake)
 configure_file (
   "${PROJECT_SOURCE_DIR}/config.h.in"
   "${PROJECT_BINARY_DIR}/config.h"
-  )
+)
 add_definitions(-DHAVE_CONFIG_H)
+configure_file (
+  "${PROJECT_SOURCE_DIR}/version.h.in"
+  "${PROJECT_BINARY_DIR}/version.h"
+)
+add_definitions(-DHAVE_VERSION_H)
 include_directories (${PROJECT_BINARY_DIR})
 
 ####################
@@ -133,12 +138,8 @@ include_directories (${PROJECT_BINARY_DIR})
 
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
-####################
-# Build test suite
-####################
-
-SET (APPLICATION_SRC 
-    src/main.cpp
+set(APPLICATION_SOURCES
+	src/main.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUI/QWindowMain.h
 	src/GUI/QDatabaseTableView.cpp
@@ -160,22 +161,66 @@ SET (APPLICATION_SRC
 	src/Database/DatabaseController.cpp
 	src/Database/DatabaseController.h
 )
-    
+
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
-    src/GUI/QWindowMain.h
+	src/GUI/QWindowMain.h
 	src/GUIController/QWindowMainController.h
 	src/GUIController/QDatabaseConnectionViewController.h
 	src/GUIController/QDatabaseSelectionViewController.h
 )
 qt_wrap_cpp(
-  APPLICATION_MOC_OUTFILES
-  ${APPLICATION_MOC_HEADERS}
+	APPLICATION_MOC_OUTFILES
+	${APPLICATION_MOC_HEADERS}
 )
 
+####################
+# i18n
+####################
+
+set (I18N_FILES
+	src/GUI/QWindowMain.cpp
+)
+
+set (TS_FILES
+    ts/fr.ts
+)
+
+option (UPDATE_TRANSLATIONS "Update source translation ts/*.ts files (WARNING: make clean will delete the source .ts files! Danger!)" ON)
+if (UPDATE_TRANSLATIONS)
+  qt_create_translation(qm_FILES ${TS_FILES} ${I18N_FILES})
+else (UPDATE_TRANSLATIONS)
+  qt_add_translation(qm_FILES ${TS_FILES})
+endif (UPDATE_TRANSLATIONS)
+
+add_custom_target(update_ts ALL DEPENDS ${qm_FILES})
+
+####################
+# Resource files
+####################
+
+# Configure translation file
+configure_file (
+  "${PROJECT_SOURCE_DIR}/ts.qrc.in"
+  "${PROJECT_BINARY_DIR}/ts.qrc"
+)
+
+# Resources
+set (QRC_FILES
+	${PROJECT_BINARY_DIR}/ts.qrc
+	data/app.qrc
+)
+QT_ADD_RESOURCES(RCS_OUTFILES ${QRC_FILES})
+
+####################
+# Create Executable
+####################
+
 set (APPLICATION_EXE ${APPLICATION_EXE_NAME})
-add_executable (${APPLICATION_EXE} ${APPLICATION_SRC}
-    ${APPLICATION_MOC_OUTFILES}
+add_executable (${APPLICATION_EXE}
+	${APPLICATION_SOURCES}
+	${APPLICATION_MOC_OUTFILES}
+	${qm_FILES}
 )
 target_link_libraries (${APPLICATION_EXE}
     ${QT_LIBRARIES}

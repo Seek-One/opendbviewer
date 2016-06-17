@@ -20,6 +20,7 @@
 #include <QTableView>
 #include <QSqlQueryModel>
 #include <QStandardItemModel>
+#include <QTreeView>
 
 class QDatabaseTableView : public QWidget
 {
@@ -29,7 +30,7 @@ public:
 	virtual ~QDatabaseTableView();
 
 	QStandardItemModel* getStructureModel() const;
-	QTableView* getStructureTable() const;
+	QTreeView* getStructureTable() const;
 
 private:
 	QWidget* makeDataTab();
@@ -37,7 +38,7 @@ private:
 	QWidget* makeCreationScriptTab();
 
 private:
-	QTableView* m_pStructureTable;
+	QTreeView* m_pStructureTable;
 	QStandardItemModel* m_pStructureModel;
 };
 

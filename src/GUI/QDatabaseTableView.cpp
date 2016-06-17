@@ -8,6 +8,8 @@
 #include "QDatabaseTableView.h"
 #include <QSqlQueryModel>
 #include <QDebug>
+#include <QHeaderView>
+#include <QTreeView>
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -47,7 +49,7 @@ QWidget* QDatabaseTableView::makeStructureTab()
 	QWidget *pTableTab1 = new QWidget;
 	pTableTab1->setLayout(pStructureLayout);
 
-	m_pStructureTable = new QTableView();
+	m_pStructureTable = new QTreeView();
 	pStructureLayout->addWidget(m_pStructureTable);
 	m_pStructureModel = new QStandardItemModel();
 
@@ -136,7 +138,7 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 }
 
 
-QTableView* QDatabaseTableView::getStructureTable() const
+QTreeView* QDatabaseTableView::getStructureTable() const
 {
 	return m_pStructureTable;
 }

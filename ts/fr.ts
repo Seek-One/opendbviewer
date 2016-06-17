@@ -17,7 +17,7 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="54"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="51"/>
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -51,42 +51,42 @@
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="55"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="57"/>
         <source>Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="57"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="59"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="59"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="61"/>
         <source>Not null</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="61"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="63"/>
         <source>Default value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="63"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="65"/>
         <source>Primary key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="82"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="84"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="86"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="88"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="92"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="94"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>

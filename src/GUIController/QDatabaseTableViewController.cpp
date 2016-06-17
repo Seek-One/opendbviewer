@@ -7,7 +7,6 @@
 
 #include <GUIController/QDatabaseTableViewController.h>
 #include <GUI/QDatabaseTableView.h>
-#include <QDebug>
 
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
@@ -40,7 +39,18 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QString& szNam
 	pNameItem->setEditable(false);
 	QStandardItem *pTypeItem = new QStandardItem(szType);
 	pTypeItem->setEditable(false);
-	QStandardItem *pNotNullItem = new QStandardItem(bNotNull);
+
+	//Workaround for bNotNull not being displayed in table
+	QString bNotNullString;
+	if (bNotNull == false)
+	{
+		bNotNullString = "false";
+	}
+	else
+	{
+		bNotNullString = "true";
+	}
+	QStandardItem *pNotNullItem = new QStandardItem(bNotNullString);
 	pNotNullItem->setEditable(false);
 	QStandardItem *pDefaultValue = new QStandardItem(szDefaultValue);
 	pDefaultValue->setEditable(false);

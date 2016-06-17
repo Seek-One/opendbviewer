@@ -111,7 +111,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
     {
 		QString szName = tableInfoQuery.value(1).toString();
 		QString szType = tableInfoQuery.value(2).toString();
-		bool bNotNull = tableInfoQuery.value(3).toBool();
+		bool bNotNull = tableInfoQuery.value(3).toInt();
 		QString szDefaultValue = tableInfoQuery.value(4).toString();
 		QString szPk = tableInfoQuery.value(5).toString();
 		func(szName, szType, bNotNull, szDefaultValue, szPk, user_data);

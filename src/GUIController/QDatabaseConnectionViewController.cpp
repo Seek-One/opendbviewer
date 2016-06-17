@@ -6,11 +6,7 @@
  */
 
 #include <QStandardItem>
-#include <QStandardItemModel>
-#include <QAction>
-#include <QModelIndex>
 #include <QDebug>
-#include <QList>
 
 #include "QDatabaseConnectionViewController.h"
 #include "QDatabaseTableViewController.h"
@@ -19,6 +15,7 @@
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QDatabaseWorksheetView.h"
 #include "GUI/QDatabaseTableView.h"
+
 #include "Database/DatabaseController.h"
 
 QDatabaseConnectionViewController::QDatabaseConnectionViewController(const QString& szFileName)
@@ -73,10 +70,7 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTabName);
 
 	QDatabaseTableViewController* pDatabaseTableViewController = new QDatabaseTableViewController();
-	DatabaseController* pDatabaseController = new DatabaseController(m_szFileName);
-	pDatabaseTableViewController->init(pDatabaseTableView, m_szTableName, pDatabaseController);
-
-	//m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
+	pDatabaseTableViewController->init(pDatabaseTableView, m_szTableName, m_pDatabaseController);
 }
 
 

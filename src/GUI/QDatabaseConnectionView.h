@@ -38,25 +38,29 @@ public:
 	QAction* getNewWorksheetAction() const;
 	QTabWidget* getTabsInConnection() const;
 	QWidget* getWorksheetTab() const;
+	QTreeView *getTableTreeView() const;
+	QStandardItem* getTableItem() const;
+	QStandardItem* getStructureTableItem() const;
+	QStandardItem* getViewTableItem() const;
 	void addWorksheetView(QDatabaseWorksheetView* pDatabaseWorksheetView, const QString& szTitle);
+	void addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle);
 
 	void setTablesModel(QStandardItemModel* pModel);
 
 private:
 	QWidget* makeWorksheetTab();
-	QWidget* makeChannelTab();
 	QWidget* makeVerticalConnectionPanel();
 	QToolBar* makeOptionButtonsToolBar();
 
 private:
 	QWidget *m_pTab1;
-	QWidget *m_pTab2;
 	QPushButton *m_pNewWorksheetButton;
 	QAction* m_pNewWorksheetAction;
 	QTabWidget *m_pTabsInConnection;
 	QTreeView *m_pTableTreeView;
-
-
+	QStandardItem* m_pTableItem;
+	QStandardItem* m_pStructureTableItem;
+	QStandardItem* m_pViewItem;
 };
 
 #endif /* SRC_GUI_QDATABASECONNECTIONVIEW_H_ */

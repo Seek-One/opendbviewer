@@ -18,6 +18,8 @@
 #include <QTableView>
 #include <QTextEdit>
 #include <QTableView>
+#include <QSqlQueryModel>
+#include <QStandardItemModel>
 
 class QDatabaseTableView : public QWidget
 {
@@ -26,13 +28,17 @@ public:
 	QDatabaseTableView(QWidget* parent = 0);
 	virtual ~QDatabaseTableView();
 
+	QStandardItemModel* getStructureModel() const;
+	QTableView* getStructureTable() const;
+
 private:
 	QWidget* makeDataTab();
 	QWidget* makeStructureTab();
 	QWidget* makeCreationScriptTab();
 
 private:
-
+	QTableView* m_pStructureTable;
+	QStandardItemModel* m_pStructureModel;
 };
 
 

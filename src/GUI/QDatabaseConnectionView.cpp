@@ -9,6 +9,8 @@
 #include "GUIController/QWindowMainController.h"
 #include "Database/DatabaseController.h"
 
+#include <QHeaderView>
+
 QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 		: QWidget(parent)
 {
@@ -32,11 +34,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 
 	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
-
-	//Creation of the second tab called Channels
-	m_pTab2 = new QWidget;
-	m_pTab2 = makeChannelTab();
-	m_pTabsInConnection->addTab(m_pTab2, "channels");
+	m_pTabsInConnection->setMinimumSize(600, 400);
 
 	pDatabaseConnectionSplitter->addWidget(m_pTabsInConnection);
 }
@@ -51,6 +49,11 @@ void QDatabaseConnectionView::addWorksheetView(QDatabaseWorksheetView* pDatabase
 	m_pTabsInConnection->addTab(pDatabaseWorksheetView, szTitle);
 }
 
+void QDatabaseConnectionView::addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle)
+{
+	m_pTabsInConnection->addTab(pDatabaseTableView, szTableTitle);
+}
+
 QWidget* QDatabaseConnectionView::makeWorksheetTab()
 {
 	m_pTab1 = new QWidget();
@@ -63,17 +66,6 @@ QWidget* QDatabaseConnectionView::makeWorksheetTab()
 	return m_pTab1;
 }
 
-QWidget* QDatabaseConnectionView::makeChannelTab()
-{
-	QWidget *pTab2 = new QWidget();
-	QVBoxLayout *pChannelTabLayout = new QVBoxLayout;//Layout to be used in the Channel tab
-	pTab2->setLayout(pChannelTabLayout);
-
-	QDatabaseTableView* tableView = new QDatabaseTableView(this);
-	pChannelTabLayout->addWidget(tableView);
-
-	return pTab2;
-}
 
 QWidget* QDatabaseConnectionView::makeVerticalConnectionPanel()
 {
@@ -108,7 +100,27 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
 void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)
 {
 	m_pTableTreeView->setModel(pModel);
-	m_pTableTreeView->header()->hide();
+	QStandardItem *pHeader = new QStandardItem("Structure");
+	pModel->setHorizontalHeaderItem(0, pHeader);
+	m_pTableTreeView->expandAll();
+
+	//Creates the "tables" item in the tree view
+	m_pTableItem = new QStandardItem("Tables");
+	m_pTableItem->setEditable(false);
+	pModel->appendRow(m_pTableItem);
+
+	//Creates the "structure tables" item in the tree view
+	m_pStructureTableItem = new QStandardItem("Structure tables");
+	m_pStructureTableItem->setEditable(false);
+	pModel->appendRow(m_pStructureTableItem);
+
+	//Creates the "views" item in the tree view
+	m_pViewItem = new QStandardItem("Views");
+	m_pViewItem->setEditable(false);
+	pModel->appendRow(m_pViewItem);
+	//m_pTableTreeView->header()->hide();
+	m_pTableTreeView->expandAll();
+
 }
 
 QPushButton* QDatabaseConnectionView::getNewWorksheetButton() const
@@ -129,4 +141,24 @@ QTabWidget* QDatabaseConnectionView::getTabsInConnection() const
 QWidget* QDatabaseConnectionView::getWorksheetTab() const
 {
 	return m_pTab1;
+}
+
+QTreeView* QDatabaseConnectionView::getTableTreeView() const
+{
+	return m_pTableTreeView;
+}
+
+QStandardItem* QDatabaseConnectionView::getTableItem() const
+{
+	return m_pTableItem;
+}
+
+QStandardItem* QDatabaseConnectionView::getStructureTableItem() const
+{
+	return m_pStructureTableItem;
+}
+
+QStandardItem* QDatabaseConnectionView::getViewTableItem() const
+{
+	return m_pViewItem;
 }

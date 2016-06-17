@@ -47,16 +47,6 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 
 void QWindowMainController::newDatabaseConnection()
 {
-/*
-	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
-	m_pMainWindow->addDatabaseConnectionView(pConnectionView, tr("new tab"));
-
-	QDatabaseConnectionViewController* pDatabaseConnectionViewController = new QDatabaseConnectionViewController();
-	pDatabaseConnectionViewController->init(pConnectionView);
-
-	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
-*/
-
 	QDatabaseSelectionView* pSelectionView = new QDatabaseSelectionView;
 	QDatabaseSelectionViewController* pSelectionViewController = new QDatabaseSelectionViewController();
 	pSelectionViewController->init(m_pMainWindow, pSelectionView);

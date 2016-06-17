@@ -12,6 +12,7 @@
 #include <QListView>
 
 typedef void (*DbLoadTableCB)(const QString& szTable, void* user_data);
+typedef void (*DbLoadTableDescription)(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 
 class DatabaseController
 {
@@ -19,14 +20,14 @@ public:
 	DatabaseController(const QString& szFilename);
 	virtual ~DatabaseController();
 
-	QList<QString> getTableList() const;
 	bool loadTables(DbLoadTableCB func, void* user_data);
+	bool loadSystemTables(DbLoadTableCB func, void* user_data);
+	bool loadViewsTables(DbLoadTableCB func, void* user_data);
+	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 
 private:
 	QString m_szFilename;
 	QSqlDatabase m_db;
-
-	QList<QString> m_tableList;
 
 	bool openDatabase();
 	void closeDataBase();

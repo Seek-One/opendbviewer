@@ -158,6 +158,8 @@ set(APPLICATION_SOURCES
 	src/GUIController/QDatabaseWorksheetViewController.h
 	src/GUIController/QDatabaseSelectionViewController.cpp
 	src/GUIController/QDatabaseSelectionViewController.h
+	src/GUIController/QDatabaseTableViewController.cpp
+	src/GUIController/QDatabaseTableViewController.h
 	src/Database/DatabaseController.cpp
 	src/Database/DatabaseController.h
 )

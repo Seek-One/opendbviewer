@@ -11,6 +11,8 @@
 #include <QWidget>
 #include <QStandardItemModel>
 
+#include "Database/DatabaseController.h"
+
 #include "GUI/QDatabaseConnectionView.h"
 
 class QDatabaseConnectionView;
@@ -26,18 +28,23 @@ public:
 
 public slots:
 	void openWorksheet();
+	void openTableTab(const QModelIndex& index);
 	void closeTab(const int& index);
 
 	void updateTables();
 
 private:
-	static void onDbLoadTable(const QString& szTable, void* user_data);
+	static void onDbLoadTables(const QString& szTable, void* user_data);
+	static void onDbLoadSystemTables(const QString& szTable, void* user_data);
+	static void onDbLoadViewsTables(const QString& szTable, void* user_data);
+	static void onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 
 private:
 	QString m_szFileName;
 	QDatabaseConnectionView* m_pDatabaseConnectionView;
-
+	QString m_szTableName;
 	QStandardItemModel* m_pListTableModel;
+	DatabaseController* m_pDatabaseController;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASECONNECTIONVIEWCONTROLLER_H_ */

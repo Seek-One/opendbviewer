@@ -51,42 +51,42 @@
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="57"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="59"/>
         <source>Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="59"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="61"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="61"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="63"/>
         <source>Not null</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="63"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="65"/>
         <source>Default value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="65"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="67"/>
         <source>Primary key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="84"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="88"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="88"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="92"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="94"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="98"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>

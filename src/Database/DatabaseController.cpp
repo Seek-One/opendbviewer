@@ -18,6 +18,7 @@
 #include <QString>
 #include <QSqlRecord>
 #include <QStandardItem>
+#include <QStringList>
 
 DatabaseController::DatabaseController(const QString& szFilename)
 {
@@ -106,7 +107,6 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	openDatabase();
 	QSqlQuery tableInfoQuery("PRAGMA table_info("+szTableName+");");
 	tableInfoQuery.exec();
-
 	while (tableInfoQuery.next())
     {
 		QString szName = tableInfoQuery.value(1).toString();
@@ -115,6 +115,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 		QString szDefaultValue = tableInfoQuery.value(4).toString();
 		QString szPk = tableInfoQuery.value(5).toString();
 		func(szName, szType, bNotNull, szDefaultValue, szPk, user_data);
+		m_szListColumnName += szName;
     }
 
 	tableInfoQuery.finish();
@@ -123,3 +124,51 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	return true;
 }
 
+bool DatabaseController::loadTableData(const QString& szTableName, DbLoadTableData func, void* user_data)
+{
+	openDatabase();
+
+	QList<QString> pRowData;
+	QStringList pColumnName;
+	QString columnNameString;
+	//pColumnName << "rowid";
+
+	QList<QString>::const_iterator iter = m_szListColumnName.begin();
+	while(iter != m_szListColumnName.end())
+	{
+		//Adding the item we are on to the column name list
+		pColumnName.append(*iter);
+		iter++;
+	}
+
+	//Converting the list to a string
+	columnNameString = pColumnName.join(", ");
+	QSqlQuery tableDataQuery("SELECT rowid as rowid, "+columnNameString+" FROM "+szTableName+" ORDER BY rowid;");
+	tableDataQuery.exec();
+
+	//if there is no data to get, get both pColumnName and empty pRowData for setting the header, and position the query back to the first record
+	if (tableDataQuery.next() == false)
+		func(pColumnName, pRowData, user_data);
+		tableDataQuery.previous();
+
+	while(tableDataQuery.next())
+	{
+		int currentColumnNumber;
+		for (currentColumnNumber = 0; currentColumnNumber <= pColumnName.size(); currentColumnNumber++)
+		{
+			pRowData << tableDataQuery.value(currentColumnNumber).toString();
+		}
+		func(pColumnName, pRowData, user_data);
+		//Clearing pRowData to have an empty list when starting the while loop again
+		pRowData.clear();
+	}
+
+		//tableDataQuery.finish();
+
+	qDebug() << "Column name string: " << columnNameString;
+	m_szListColumnName.clear();
+
+	closeDataBase();
+
+	return true;
+}

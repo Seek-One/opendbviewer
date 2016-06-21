@@ -28,9 +28,8 @@ class QDatabaseTableView : public QWidget
 public:
 	QDatabaseTableView(QWidget* parent = 0);
 	virtual ~QDatabaseTableView();
-
 	QStandardItemModel* getStructureModel() const;
-	QTreeView* getStructureTable() const;
+	QStandardItemModel* getDataResultsModel() const;
 
 private:
 	QWidget* makeDataTab();
@@ -38,7 +37,7 @@ private:
 	QWidget* makeCreationScriptTab();
 
 private:
-	QTreeView* m_pStructureTable;
+	QStandardItemModel* m_pDataResultsModel;
 	QStandardItemModel* m_pStructureModel;
 };
 

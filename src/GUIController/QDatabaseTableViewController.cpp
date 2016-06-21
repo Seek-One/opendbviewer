@@ -7,6 +7,7 @@
 
 #include <GUIController/QDatabaseTableViewController.h>
 #include <GUI/QDatabaseTableView.h>
+#include <QDebug>
 
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
@@ -27,6 +28,7 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 	m_pDatabaseController = pDatabaseController;
 
 	m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
+	m_pDatabaseController->loadTableData(m_szTableName, onDbLoadTableData, this);
 }
 
 
@@ -49,7 +51,8 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QString& szNam
 	else
 	{
 		bNotNullString = "true";
-	}
+	}//end of workaround
+
 	QStandardItem *pNotNullItem = new QStandardItem(bNotNullString);
 	pNotNullItem->setEditable(false);
 	QStandardItem *pDefaultValue = new QStandardItem(szDefaultValue);
@@ -63,5 +66,27 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QString& szNam
 
 	//Adds a row to the table
 	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(tableItemList);
+}
 
+void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data)
+{
+	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
+	QList<QString> pHeader;
+	//Adds rowid column to the header
+	pHeader << "rowid" << pColumnName;
+	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(pHeader);
+	qDebug() << "pRowData" << pRowData;
+
+
+	QList<QStandardItem*> pRowDataItemList;
+	QList<QString>::const_iterator iter = pRowData.begin();
+	while(iter != pRowData.end())
+	{
+		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
+		QStandardItem* pDataItem = new QStandardItem(*iter);
+		pRowDataItemList.append(pDataItem);
+		iter++;
+	}
+	//Appending the row with the QList<QStandardItem>
+	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->appendRow(pRowDataItemList);
 }

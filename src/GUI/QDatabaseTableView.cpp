@@ -10,6 +10,8 @@
 #include <QDebug>
 #include <QHeaderView>
 #include <QTreeView>
+#include <QTableView>
+#include <QModelIndex>
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -49,8 +51,8 @@ QWidget* QDatabaseTableView::makeStructureTab()
 	QWidget *pTableTab1 = new QWidget;
 	pTableTab1->setLayout(pStructureLayout);
 
-	m_pStructureTable = new QTreeView();
-	pStructureLayout->addWidget(m_pStructureTable);
+	QTreeView* pStructureTable = new QTreeView();
+	pStructureLayout->addWidget(pStructureTable);
 	m_pStructureModel = new QStandardItemModel();
 
 	//Setting the header
@@ -66,7 +68,8 @@ QWidget* QDatabaseTableView::makeStructureTab()
 	m_pStructureModel->setHorizontalHeaderItem(4, pHeader5);
 
 	//Setting the model
-	m_pStructureTable->setModel(m_pStructureModel);
+	pStructureTable->setModel(m_pStructureModel);
+
 
 	return pTableTab1;
 }
@@ -78,6 +81,7 @@ QWidget* QDatabaseTableView::makeDataTab()
 	QWidget *pTableTab2 = new QWidget();
 	pTableTab2->setLayout(pDataLayout);
 
+	//Creation of a horizontal layout for refresh button, QLabel, Filter field and clear button
 	QHBoxLayout *pHorizontalLayout = new QHBoxLayout();
 	pDataLayout->addLayout(pHorizontalLayout);
 
@@ -94,19 +98,28 @@ QWidget* QDatabaseTableView::makeDataTab()
 	QPushButton *pClearButton = new QPushButton(tr("Clear"));
 	pHorizontalLayout->addWidget(pClearButton);
 
+	//Creation of a tab widget
 	QTabWidget *pQueryResults = new QTabWidget();
 	pQueryResults->setTabPosition(QTabWidget::East);
 	pDataLayout->addWidget(pQueryResults);
 
+	//Adds the result tabs
 	QWidget *pQueryResultsTab1 = new QWidget();
 	pQueryResults->addTab(pQueryResultsTab1, "Results");
 
 	QVBoxLayout *pResultsLayout = new QVBoxLayout();
 	pQueryResultsTab1->setLayout(pResultsLayout);
 
-	QTableView *pResultsTable = new QTableView();
-	pResultsLayout->addWidget(pResultsTable); //TODO Improve table
+	//Creation of a tree view and model for results tabs
+	QTreeView *pResultsTable = new QTreeView();
+	pResultsLayout->addWidget(pResultsTable);
 
+	m_pDataResultsModel = new QStandardItemModel();
+	pResultsTable->setModel(m_pDataResultsModel);
+	//QStandardItem* pRowIdHeader = new QStandardItem("rowid");
+	//m_pDataResultsModel->setHorizontalHeaderItem(0, pRowIdHeader);
+
+	//Adds the console Tab
 	QWidget *pQueryResultsTab2 = new QWidget();
 	pQueryResults->addTab(pQueryResultsTab2, "Console");
 
@@ -137,9 +150,8 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 	return m_pStructureModel;
 }
 
-
-QTreeView* QDatabaseTableView::getStructureTable() const
+QStandardItemModel* QDatabaseTableView::getDataResultsModel() const
 {
-	return m_pStructureTable;
+	return m_pDataResultsModel;
 }
 

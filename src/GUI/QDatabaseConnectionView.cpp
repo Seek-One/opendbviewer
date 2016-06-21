@@ -30,6 +30,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 
 	QWidget *pVertConnectionPanel = new QWidget;
 	pVertConnectionPanel = makeVerticalConnectionPanel();
+	pVertConnectionPanel->setMaximumWidth(300);
 	pDatabaseConnectionSplitter->addWidget(pVertConnectionPanel);
 
 	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
@@ -118,9 +119,7 @@ void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)
 	m_pViewItem = new QStandardItem("Views");
 	m_pViewItem->setEditable(false);
 	pModel->appendRow(m_pViewItem);
-	//m_pTableTreeView->header()->hide();
 	m_pTableTreeView->expandAll();
-
 }
 
 QPushButton* QDatabaseConnectionView::getNewWorksheetButton() const

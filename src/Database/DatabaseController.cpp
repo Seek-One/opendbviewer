@@ -140,15 +140,14 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	QString columnNamesString = pColumnName.join(", ");
 
 	//Using the string in the query
-	QSqlQuery tableDataQuery("SELECT rowid as rowid, "+columnNamesString+" FROM "+szTableName);
+	QSqlQuery tableDataQuery;
+	QString szQuery = "SELECT rowid as rowid, "+columnNamesString+" FROM "+szTableName;
 
-	if(szFilter == "")//If there is no filter, execute query
+	if(!szFilter.isEmpty())//If there is no filter, execute query
 	{
-		tableDataQuery.exec();
+		szQuery += " WHERE "+szFilter;
 	}
-	else//Otherwise, add "where" + filter to the query and execute
-		tableDataQuery = ("SELECT rowid as rowid, "+columnNamesString+" FROM "+szTableName+" WHERE "+szFilter);
-		tableDataQuery.exec();
+	tableDataQuery.exec(szQuery);
 
 	/*if there is no data to get, get both pColumnName and empty pRowData for setting the header,
 	 * and set the position back to the first record*/

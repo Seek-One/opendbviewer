@@ -20,6 +20,7 @@
 #include <QToolBar>
 #include <QLabel>
 #include <QAction>
+#include <QLineEdit>
 
 class QDatabaseSelectionView : public QWidget
 {
@@ -30,6 +31,7 @@ public:
 	QPushButton* getFileSelectionButton() const;
 	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
+	QLineEdit* getFilePathField() const;
 
 private:
 	QWidget* makeTab();
@@ -38,6 +40,7 @@ private:
 	QPushButton* m_pFileSelectionButton;
 	QPushButton* m_pOKButton;
 	QPushButton* m_pCancelButton;
+	QLineEdit* m_pFilePathField;
 };
 
 #endif /* SRC_GUI_QDATABASESELECTIONVIEW_H_ */

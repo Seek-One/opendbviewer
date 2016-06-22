@@ -8,18 +8,28 @@
 #ifndef SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_
 
-#include <GUI/QDatabaseTableView.h>
+#include "GUI/QDatabaseTableView.h"
 #include "Database/DatabaseController.h"
+#include <QObject>
+
 
 class QDatabaseTableView;
 
-class QDatabaseTableViewController
+class QDatabaseTableViewController : public QWidget
 {
+	Q_OBJECT
 public:
 	QDatabaseTableViewController();
 	virtual ~QDatabaseTableViewController();
 
 	void init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController);
+	void showQueryInformation();
+
+public slots:
+	void updateView();
+	void clearFilterField();
+
+
 private:
 	static void onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 	static void onDbLoadTableData(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
@@ -28,6 +38,7 @@ private:
 	QString m_szTableName;
 	DatabaseController* m_pDatabaseController;
 	QString m_szFieldName;
+	QString m_szFilter;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_ */

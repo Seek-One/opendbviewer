@@ -85,18 +85,18 @@ QWidget* QDatabaseTableView::makeDataTab()
 	QHBoxLayout *pHorizontalLayout = new QHBoxLayout();
 	pDataLayout->addLayout(pHorizontalLayout);
 
-	QPushButton *pRefreshButton = new QPushButton(tr("Refresh"));
-	pHorizontalLayout->addWidget(pRefreshButton);
+	m_pRefreshButton = new QPushButton(tr("Refresh"));
+	pHorizontalLayout->addWidget(m_pRefreshButton);
 
 	QLabel *filterLabel = new QLabel();
 	filterLabel->setText(tr("Filter:"));
 	pHorizontalLayout->addWidget(filterLabel);
 
-	QLineEdit *pEntryFilter = new QLineEdit();
-	pHorizontalLayout->addWidget(pEntryFilter);
+	m_pFilterLine = new QLineEdit();
+	pHorizontalLayout->addWidget(m_pFilterLine);
 
-	QPushButton *pClearButton = new QPushButton(tr("Clear"));
-	pHorizontalLayout->addWidget(pClearButton);
+	m_pClearButton = new QPushButton(tr("Clear"));
+	pHorizontalLayout->addWidget(m_pClearButton);
 
 	//Creation of a tab widget
 	QTabWidget *pQueryResults = new QTabWidget();
@@ -116,8 +116,6 @@ QWidget* QDatabaseTableView::makeDataTab()
 
 	m_pDataResultsModel = new QStandardItemModel();
 	pResultsTable->setModel(m_pDataResultsModel);
-	//QStandardItem* pRowIdHeader = new QStandardItem("rowid");
-	//m_pDataResultsModel->setHorizontalHeaderItem(0, pRowIdHeader);
 
 	//Adds the console Tab
 	QWidget *pQueryResultsTab2 = new QWidget();
@@ -126,8 +124,9 @@ QWidget* QDatabaseTableView::makeDataTab()
 	QVBoxLayout *pConsoleLayout = new QVBoxLayout();
 	pQueryResultsTab2->setLayout(pConsoleLayout);
 
-	QTextEdit *pConsoleTextView = new QTextEdit();
-	pConsoleLayout->addWidget(pConsoleTextView);
+	m_pConsoleTextEdit = new QTextEdit;
+	m_pConsoleTextEdit->setReadOnly(true);
+	pConsoleLayout->addWidget(m_pConsoleTextEdit);
 
 	return pTableTab2;
 }
@@ -155,3 +154,22 @@ QStandardItemModel* QDatabaseTableView::getDataResultsModel() const
 	return m_pDataResultsModel;
 }
 
+QPushButton* QDatabaseTableView::getRefreshButton() const
+{
+	return m_pRefreshButton;
+}
+
+QLineEdit* QDatabaseTableView::getFilterLine() const
+{
+	return m_pFilterLine;
+}
+
+QPushButton* QDatabaseTableView::getClearButton() const
+{
+	return m_pClearButton;
+}
+
+QTextEdit* QDatabaseTableView::getConsoleTextEdit() const
+{
+	return m_pConsoleTextEdit;
+}

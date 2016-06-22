@@ -67,6 +67,10 @@ QWidget* QDatabaseSelectionView::makeTab()
 	QLabel *pFileLabel = new QLabel("File:");
 	pToolBar->addWidget(pFileLabel);
 
+	m_pFilePathField = new QLineEdit();
+	m_pFilePathField->setReadOnly(true);
+	pToolBar->addWidget(m_pFilePathField);
+
 	m_pFileSelectionButton = new QPushButton(tr("(None)"), this);
 	pToolBar->addWidget(m_pFileSelectionButton);
 
@@ -86,4 +90,9 @@ QPushButton* QDatabaseSelectionView::getCancelButton() const
 QPushButton* QDatabaseSelectionView::getOKButton() const
 {
 	return m_pOKButton;
+}
+
+QLineEdit* QDatabaseSelectionView::getFilePathField() const
+{
+	return m_pFilePathField;
 }

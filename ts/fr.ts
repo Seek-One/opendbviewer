@@ -17,7 +17,7 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="51"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="50"/>
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -25,7 +25,7 @@
 <context>
     <name>QDatabaseSelectionView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="70"/>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="74"/>
         <source>(None)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -33,17 +33,17 @@
 <context>
     <name>QDatabaseSelectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="62"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="63"/>
         <source>No file selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="62"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="63"/>
         <source>Please choose a file to open.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="67"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="68"/>
         <source>new tab</source>
         <translation type="unfinished"></translation>
     </message>

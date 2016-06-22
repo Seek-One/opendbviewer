@@ -46,7 +46,8 @@ void QDatabaseSelectionViewController::openFileDialog()
 	{
 		return;
 	}
-	m_pDatabaseSelectionView->getFileSelectionButton()->setText(m_fileName);
+	m_pDatabaseSelectionView->getFilePathField()->setText(m_fileName);
+	m_pDatabaseSelectionView->getFileSelectionButton()->setText("choose another file"); //TODO image rather than text
 }
 
 void QDatabaseSelectionViewController::closeSelectionWindow()

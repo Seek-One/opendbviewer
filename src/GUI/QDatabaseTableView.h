@@ -30,6 +30,11 @@ public:
 	virtual ~QDatabaseTableView();
 	QStandardItemModel* getStructureModel() const;
 	QStandardItemModel* getDataResultsModel() const;
+	QPushButton* getRefreshButton() const;
+	QPushButton* getClearButton() const;
+	QLineEdit* getFilterLine() const;
+	QTextEdit* getConsoleTextEdit() const;
+
 
 private:
 	QWidget* makeDataTab();
@@ -39,6 +44,10 @@ private:
 private:
 	QStandardItemModel* m_pDataResultsModel;
 	QStandardItemModel* m_pStructureModel;
+	QPushButton *m_pRefreshButton;
+	QPushButton *m_pClearButton;
+	QLineEdit* m_pFilterLine;
+	QTextEdit* m_pConsoleTextEdit;
 };
 
 

@@ -41,7 +41,6 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 	connect(m_pDatabaseConnectionView->getTableTreeView(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openTableTab(const QModelIndex&)));
 	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
-
 	openWorksheet();
 }
 
@@ -58,7 +57,8 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 {
 	if (index == m_pDatabaseConnectionView->getTableItem()->index() || index == m_pDatabaseConnectionView->getStructureTableItem()->index() || index == m_pDatabaseConnectionView->getViewTableItem()->index())
 	{
-		return; //Prevents the tab from opening if the user clicks on the "tables", "system tables" or "views" items
+		return; /*Prevents the tab from opening if the user clicks on the "tables",
+				"system tables" or "views" item */
 	}
 
 	QStandardItem *pTableItem = m_pListTableModel->itemFromIndex(index);

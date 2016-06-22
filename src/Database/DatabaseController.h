@@ -26,12 +26,19 @@ public:
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
-	bool loadTableData(const QString& szTableName, DbLoadTableData func, void* user_data);
+	bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
+	QString getQueryResultString() const;
+
+private:
+	QString makeStringNumberOfRows(QSqlQuery query);
+	QString makeQueryResultString(QSqlQuery query);
+	QStringList listColumnNames(QString szTableName);
 
 private:
 	QString m_szFilename;
 	QSqlDatabase m_db;
 	QStringList m_szListColumnName;
+	QString m_szResultString;
 
 	bool openDatabase();
 	void closeDataBase();

@@ -42,7 +42,6 @@ private:
 private:
 	QString m_szFileName;
 	QDatabaseConnectionView* m_pDatabaseConnectionView;
-	QString m_szTableName;
 	QStandardItemModel* m_pListTableModel;
 	DatabaseController* m_pDatabaseController;
 };

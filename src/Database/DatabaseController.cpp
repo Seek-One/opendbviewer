@@ -20,6 +20,8 @@
 #include <QStandardItem>
 #include <QStringList>
 #include <QTime>
+#include <QSqlRecord>
+#include <QSqlField>
 
 DatabaseController::DatabaseController(const QString& szFilename)
 {
@@ -47,9 +49,9 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 {
 	if(openDatabase()){
 
-		QList<QString> m_tableList = m_db.tables();
-		QList<QString>::const_iterator iter = m_tableList.begin();
-		while(iter != m_tableList.end())
+		QList<QString> szTableList = m_db.tables();
+		QList<QString>::const_iterator iter = szTableList.begin();
+		while(iter != szTableList.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -67,10 +69,10 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 {
 	if(openDatabase()){
 
-		QList<QString> m_tableList = m_db.tables(QSql::SystemTables);
+		QList<QString> szTableList = m_db.tables(QSql::SystemTables);
 
-		QList<QString>::const_iterator iter = m_tableList.begin();
-		while(iter != m_tableList.end())
+		QList<QString>::const_iterator iter = szTableList.begin();
+		while(iter != szTableList.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -88,9 +90,9 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 {
 	if(openDatabase()){
 
-			QList<QString> tableList = m_db.tables(QSql::Views);
-			QList<QString>::const_iterator iter = tableList.begin();
-			while(iter != tableList.end())
+			QList<QString> szTableList = m_db.tables(QSql::Views);
+			QList<QString>::const_iterator iter = szTableList.begin();
+			while(iter != szTableList.end())
 			{
 				if(func){
 					func(*iter, user_data);
@@ -106,7 +108,6 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoadTableDescription func, void* user_data)
 {
 	openDatabase();
-	QStringList szListColumnName;
 
 	QSqlQuery tableInfoQuery("PRAGMA table_info("+szTableName+");");
 	tableInfoQuery.exec();
@@ -173,6 +174,70 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	return true;
 }
 
+bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)
+{
+	openDatabase();
+	QString szCreationScriptString;
+	if(szTableName == "sqlite_master")
+		{
+			func(szCreationScriptString, user_data);
+		}
+
+	QSqlQuery tableCreationScriptQuery("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = '"+szTableName+"';");
+	tableCreationScriptQuery.exec();
+
+	while(tableCreationScriptQuery.next())
+	{
+		szCreationScriptString = tableCreationScriptQuery.value(0).toString();
+		func(szCreationScriptString, user_data);
+	}
+
+	closeDataBase();
+
+	return true;
+}
+
+bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data)
+{
+	openDatabase();
+
+	//Creates a query from the data given in the worksheet text edit
+	QSqlQuery worksheetQuery(szWorksheetQuery);
+	worksheetQuery.exec();
+
+	QList<QString> pRowData;
+	QList<QString> pColumnNameList;
+
+	int currentColumnNumber;
+	//appending column names to columnNameList
+	for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+	{
+		QSqlField field = worksheetQuery.record().field(currentColumnNumber);
+		pColumnNameList << field.name();
+	}
+
+	while(worksheetQuery.next())
+	{
+		int currentColumnNumber;
+		for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+		{
+			pRowData << worksheetQuery.value(currentColumnNumber).toString();
+		}
+
+		func(pColumnNameList, pRowData, user_data);
+		//Clearing pRowData to have an empty list when starting the while loop again
+		pRowData.clear();
+	}
+
+
+
+	m_szResultString = makeQueryResultString(worksheetQuery);
+
+	closeDataBase();
+
+	return true;
+}
+
 QString DatabaseController::makeQueryResultString(QSqlQuery query)
 {
 	QString szResultString("");//Creates an empty string
@@ -203,18 +268,19 @@ QString DatabaseController::makeStringNumberOfRows(QSqlQuery query)
 
 QStringList DatabaseController::listColumnNames(QString szTableName)
 {
-	m_szListColumnName.clear(); //Makes sure the list is empty
+	QStringList szListColumnName;
 	QSqlQuery tableInfoQuery("PRAGMA table_info("+szTableName+");");
 	tableInfoQuery.exec();
 	while (tableInfoQuery.next())
 	   {
 		QString szName = tableInfoQuery.value(1).toString();
-		m_szListColumnName += szName;
+		szListColumnName += szName;
 	   }
-	return m_szListColumnName;
+	return szListColumnName;
 }
 
 QString DatabaseController::getQueryResultString() const
 {
 	return m_szResultString;
 }
+

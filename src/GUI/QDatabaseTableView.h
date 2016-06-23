@@ -34,6 +34,8 @@ public:
 	QPushButton* getClearButton() const;
 	QLineEdit* getFilterLine() const;
 	QTextEdit* getConsoleTextEdit() const;
+	QTextEdit* getCreationScriptTextEdit() const;
+
 
 
 private:
@@ -48,6 +50,7 @@ private:
 	QPushButton *m_pClearButton;
 	QLineEdit* m_pFilterLine;
 	QTextEdit* m_pConsoleTextEdit;
+	QTextEdit* m_pCreationScriptTextEdit;
 };
 
 

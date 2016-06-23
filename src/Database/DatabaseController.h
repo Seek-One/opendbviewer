@@ -15,6 +15,9 @@
 typedef void (*DbLoadTableCB)(const QString& szTable, void* user_data);
 typedef void (*DbLoadTableDescription)(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 typedef void (*DbLoadTableData)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
+typedef void (*DbLoadTableCreationScript)(const QString& szCreationScriptString, void* user_data);
+typedef void (*DbLoadWorksheetQueryResults)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
+
 
 class DatabaseController
 {
@@ -27,6 +30,8 @@ public:
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 	bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
+	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
+	bool loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data);
 	QString getQueryResultString() const;
 
 private:
@@ -37,7 +42,6 @@ private:
 private:
 	QString m_szFilename;
 	QSqlDatabase m_db;
-	QStringList m_szListColumnName;
 	QString m_szResultString;
 
 	bool openDatabase();

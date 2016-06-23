@@ -36,11 +36,14 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 {
 	m_pDatabaseConnectionView = pDatabaseConnectionView;
 
+	m_pDatabaseController = new DatabaseController(m_szFileName);
+
 	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 	connect(m_pDatabaseConnectionView->getTableTreeView(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openTableTab(const QModelIndex&)));
 	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
+	updateTables();
 	openWorksheet();
 }
 
@@ -50,7 +53,7 @@ void QDatabaseConnectionViewController::openWorksheet()
 	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("worksheet"));
 
 	QDatabaseWorksheetViewController* pDatabaseWorksheetViewController = new QDatabaseWorksheetViewController;
-	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView);
+	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_szFileName, m_pDatabaseController);
 }
 
 void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
@@ -62,26 +65,19 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 	}
 
 	QStandardItem *pTableItem = m_pListTableModel->itemFromIndex(index);
-	QString szTabName;
-	szTabName = pTableItem->text();
-	m_szTableName = szTabName;
+	QString szTableName = pTableItem->text();
 
 	QDatabaseTableView* pDatabaseTableView = new QDatabaseTableView();
-	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTabName);
+	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTableName);
 
 	QDatabaseTableViewController* pDatabaseTableViewController = new QDatabaseTableViewController();
-	pDatabaseTableViewController->init(pDatabaseTableView, m_szTableName, m_pDatabaseController);
+	pDatabaseTableViewController->init(pDatabaseTableView, szTableName, m_pDatabaseController);
 }
 
 
 
 void QDatabaseConnectionViewController::closeTab(const int& index)
 {
-	if(m_pDatabaseConnectionView->getTabsInConnection()->count() < 2)
-	{
-		return;
-	}
-
 	QWidget* tabItem = m_pDatabaseConnectionView->getTabsInConnection()->widget(index);
 	m_pDatabaseConnectionView->getTabsInConnection()->removeTab(index);
 
@@ -91,7 +87,6 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 
 void QDatabaseConnectionViewController::updateTables()
 {
-	m_pDatabaseController = new DatabaseController(m_szFileName);
 	m_pDatabaseController->loadTables(onDbLoadTables, this);
 	m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this);
 	m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this);

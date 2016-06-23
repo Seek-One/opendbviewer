@@ -70,8 +70,6 @@ void QDatabaseSelectionViewController::loadDatabase()
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName);
 	pDatabaseConnectionViewController->init(pConnectionView);
 
-	pDatabaseConnectionViewController->updateTables();
-
 	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
 
 	closeSelectionWindow();

@@ -12,6 +12,8 @@
 #include <QToolBar>
 #include <QTextEdit>
 #include <QTableView>
+#include <QPlainTextEdit>
+#include <QStandardItemModel>
 
 #include "QDatabaseTableView.h"
 
@@ -20,11 +22,23 @@ class QDatabaseWorksheetView : public QWidget
 public:
 	QDatabaseWorksheetView(QWidget* parent = 0);
 	virtual ~QDatabaseWorksheetView();
+	QPushButton* getExecuteButton() const;
+	QPushButton* getReformatButton() const;
+	QPushButton* getClearTextButton() const;
+	QTextEdit* getWorksheetTextEdit() const;
+	QTextEdit* getWorksheetConsoleTextEdit() const;
+	QStandardItemModel* getWorksheetResultsModel() const;
 
 private:
 	QToolBar* makeWorksheetToolbar();
 
-
+private:
+	QPushButton *m_pExecuteButton;
+	QPushButton *m_pReformatButton;
+	QPushButton *m_pClearTextButton;
+	QTextEdit* m_pWorksheetTextEdit;
+	QTextEdit* m_pWorksheetConsoleTextEdit;
+	QStandardItemModel* m_pWorksheetResultsModel;
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

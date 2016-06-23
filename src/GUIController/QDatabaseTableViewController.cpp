@@ -17,7 +17,6 @@ QDatabaseTableViewController::QDatabaseTableViewController()
 	m_pDatabaseTableView = NULL;
 	m_szTableName = "";
 	m_pDatabaseController = NULL;
-	m_szFilter = "";
 }
 
 QDatabaseTableViewController::~QDatabaseTableViewController()
@@ -36,17 +35,18 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 
 	m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
 	showQueryInformation();
-	m_pDatabaseController->loadTableData(m_szTableName, m_szFilter, onDbLoadTableData, this);
+	updateView();
 	showQueryInformation();
+	m_pDatabaseController->loadTableCreationScript(m_szTableName, onDbLoadTableCreationScript, this);
 }
 
 
 void QDatabaseTableViewController::updateView()
 {
-	m_szFilter = m_pDatabaseTableView->getFilterLine()->text();
+	QString szFilter = m_pDatabaseTableView->getFilterLine()->text();
 	m_pDatabaseTableView->getDataResultsModel()->clear();//Clear the table
 
-	m_pDatabaseController->loadTableData(m_szTableName, m_szFilter, onDbLoadTableData, this);//Load the data again
+	m_pDatabaseController->loadTableData(m_szTableName, szFilter, onDbLoadTableData, this);//Load the data again
 	showQueryInformation();
 }
 void QDatabaseTableViewController::clearFilterField()
@@ -57,13 +57,11 @@ void QDatabaseTableViewController::clearFilterField()
 
 void QDatabaseTableViewController::showQueryInformation()
 {
-
 	QString szQueryInformation = m_pDatabaseController->getQueryResultString();
 	QTextCursor cursor(m_pDatabaseTableView->getConsoleTextEdit()->textCursor());//Creates a cursor
 	cursor.movePosition(QTextCursor::Start);//Moves the cursor to the start
 	m_pDatabaseTableView->getConsoleTextEdit()->setTextCursor(cursor);//Sets the cursor position
 	m_pDatabaseTableView->getConsoleTextEdit()->insertPlainText(szQueryInformation);//insert text at the cursor position
-
 }
 
 void QDatabaseTableViewController::onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data)
@@ -122,6 +120,13 @@ void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& pColu
 		pRowDataItemList.append(pDataItem);
 		iter++;
 	}
+
 	//Appending the row with the QList<QStandardItem>
 	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->appendRow(pRowDataItemList);
+}
+
+void QDatabaseTableViewController::onDbLoadTableCreationScript(const QString& szCreationScriptString, void* user_data)
+{
+	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
+	pDatabaseTableViewController->m_pDatabaseTableView->getCreationScriptTextEdit()->append(szCreationScriptString);
 }

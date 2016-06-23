@@ -173,6 +173,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUIController/QDatabaseConnectionViewController.h
 	src/GUIController/QDatabaseSelectionViewController.h
 	src/GUIController/QDatabaseTableViewController.h
+	src/GUIController/QDatabaseWorksheetViewController.h
 )
 qt_wrap_cpp(
 	APPLICATION_MOC_OUTFILES

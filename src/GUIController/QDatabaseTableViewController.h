@@ -33,12 +33,12 @@ public slots:
 private:
 	static void onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 	static void onDbLoadTableData(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
+	static void onDbLoadTableCreationScript(const QString& szCreationScriptString, void* user_data);
 private:
 	QDatabaseTableView* m_pDatabaseTableView;
 	QString m_szTableName;
 	DatabaseController* m_pDatabaseController;
 	QString m_szFieldName;
-	QString m_szFilter;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_ */

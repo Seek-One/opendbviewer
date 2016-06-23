@@ -11,7 +11,6 @@
 #include <QHeaderView>
 #include <QTreeView>
 #include <QTableView>
-#include <QModelIndex>
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -138,8 +137,9 @@ QWidget* QDatabaseTableView::makeCreationScriptTab()
 	QWidget *pTableTab3 = new QWidget();
 	pTableTab3->setLayout(pCreationScriptLayout);
 
-	QTextEdit *pCreationScriptTextView = new QTextEdit();
-	pCreationScriptLayout->addWidget(pCreationScriptTextView);
+	m_pCreationScriptTextEdit = new QTextEdit();
+	m_pCreationScriptTextEdit->setReadOnly(true);
+	pCreationScriptLayout->addWidget(m_pCreationScriptTextEdit);
 
 	return pTableTab3;
 }
@@ -172,4 +172,9 @@ QPushButton* QDatabaseTableView::getClearButton() const
 QTextEdit* QDatabaseTableView::getConsoleTextEdit() const
 {
 	return m_pConsoleTextEdit;
+}
+
+QTextEdit* QDatabaseTableView::getCreationScriptTextEdit() const
+{
+	return m_pCreationScriptTextEdit;
 }

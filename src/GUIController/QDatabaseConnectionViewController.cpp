@@ -17,13 +17,13 @@
 #include "GUI/QDatabaseTableView.h"
 
 #include "Database/DatabaseController.h"
+#include "Database/DatabaseControllerSqlite.h"
 
 QDatabaseConnectionViewController::QDatabaseConnectionViewController(const QString& szFileName)
 {
 	m_szFileName = szFileName;
 	m_pDatabaseConnectionView = NULL;
 	m_pDatabaseController = NULL;
-
 	m_pListTableModel = new QStandardItemModel();
 }
 
@@ -35,15 +35,14 @@ QDatabaseConnectionViewController::~QDatabaseConnectionViewController()
 void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseConnectionView)
 {
 	m_pDatabaseConnectionView = pDatabaseConnectionView;
-
-	m_pDatabaseController = new DatabaseController(m_szFileName);
+	m_pDatabaseController = new DatabaseControllerSqlite(m_szFileName);
 
 	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
+	connect(m_pDatabaseConnectionView->getRefreshTableListButton(), SIGNAL(clicked()), this, SLOT(refreshList()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 	connect(m_pDatabaseConnectionView->getTableTreeView(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openTableTab(const QModelIndex&)));
 	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
-	updateTables();
 	openWorksheet();
 }
 
@@ -54,6 +53,12 @@ void QDatabaseConnectionViewController::openWorksheet()
 
 	QDatabaseWorksheetViewController* pDatabaseWorksheetViewController = new QDatabaseWorksheetViewController;
 	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_szFileName, m_pDatabaseController);
+}
+
+void QDatabaseConnectionViewController::refreshList()
+{
+	//updateTables();
+	qDebug() << "refresh table list";
 }
 
 void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
@@ -74,8 +79,6 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 	pDatabaseTableViewController->init(pDatabaseTableView, szTableName, m_pDatabaseController);
 }
 
-
-
 void QDatabaseConnectionViewController::closeTab(const int& index)
 {
 	QWidget* tabItem = m_pDatabaseConnectionView->getTabsInConnection()->widget(index);
@@ -84,13 +87,11 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 	delete(tabItem);
 }
 
-
 void QDatabaseConnectionViewController::updateTables()
 {
 	m_pDatabaseController->loadTables(onDbLoadTables, this);
 	m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this);
 	m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this);
-
 }
 
 void QDatabaseConnectionViewController::onDbLoadTables(const QString& szTable, void* user_data)
@@ -121,4 +122,3 @@ void QDatabaseConnectionViewController::onDbLoadViewsTables(const QString& szTab
 	pViewTableItem->setEditable(false);
 	pViewTableItem->setSelectable(true);
 }
-

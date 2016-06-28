@@ -71,7 +71,7 @@ QWidget* QDatabaseSelectionView::makeTab()
 	m_pFilePathField->setReadOnly(true);
 	pToolBar->addWidget(m_pFilePathField);
 
-	m_pFileSelectionButton = new QPushButton(tr("(None)"), this);
+	m_pFileSelectionButton = new QPushButton(tr("select a file"), this);
 	pToolBar->addWidget(m_pFileSelectionButton);
 
 	return pTab;

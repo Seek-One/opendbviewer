@@ -8,14 +8,12 @@
 #ifndef SRC_GUI_QDATABASEWORKSHEETVIEW_H_
 #define SRC_GUI_QDATABASEWORKSHEETVIEW_H_
 
+#include "QDatabaseTableView.h"
+
 #include <QPushButton>
 #include <QToolBar>
 #include <QTextEdit>
-#include <QTableView>
-#include <QPlainTextEdit>
 #include <QStandardItemModel>
-
-#include "QDatabaseTableView.h"
 
 class QDatabaseWorksheetView : public QWidget
 {

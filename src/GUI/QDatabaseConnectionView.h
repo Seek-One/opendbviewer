@@ -36,6 +36,7 @@ public:
 
 	QPushButton* getNewWorksheetButton() const;
 	QAction* getNewWorksheetAction() const;
+	QPushButton* getRefreshTableListButton() const;
 	QTabWidget* getTabsInConnection() const;
 	QWidget* getWorksheetTab() const;
 	QTreeView *getTableTreeView() const;
@@ -55,6 +56,7 @@ private:
 private:
 	QWidget *m_pTab1;
 	QPushButton *m_pNewWorksheetButton;
+	QPushButton *m_pRefreshTableListButton;
 	QAction* m_pNewWorksheetAction;
 	QTabWidget *m_pTabsInConnection;
 	QTreeView *m_pTableTreeView;

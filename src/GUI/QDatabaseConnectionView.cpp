@@ -89,8 +89,8 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
 {
 	QToolBar *pOptionButtonsToolbar = new QToolBar;
 
-	QPushButton *pRefresh = new QPushButton("Refresh", this); //TODO needs image rather than text
-	pOptionButtonsToolbar->addWidget(pRefresh);
+	m_pRefreshTableListButton = new QPushButton("Refresh", this); //TODO needs image rather than text
+	pOptionButtonsToolbar->addWidget(m_pRefreshTableListButton);
 
 	m_pNewWorksheetButton= new QPushButton("New", this);//TODO needs image rather than text
 	pOptionButtonsToolbar->addWidget(m_pNewWorksheetButton);
@@ -125,6 +125,11 @@ void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)
 QPushButton* QDatabaseConnectionView::getNewWorksheetButton() const
 {
 	return m_pNewWorksheetButton;
+}
+
+QPushButton* QDatabaseConnectionView::getRefreshTableListButton() const
+{
+	return m_pRefreshTableListButton;
 }
 
 QAction* QDatabaseConnectionView::getNewWorksheetAction() const

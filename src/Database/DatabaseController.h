@@ -9,8 +9,6 @@
 #define SRC_DATABASE_DATABASECONTROLLER_H_
 
 #include <QSqlDatabase>
-#include <QListView>
-#include <QStandardItem>
 
 typedef void (*DbLoadTableCB)(const QString& szTable, void* user_data);
 typedef void (*DbLoadTableDescription)(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
@@ -18,25 +16,27 @@ typedef void (*DbLoadTableData)(const QList<QString>& pColumnName, const QList<Q
 typedef void (*DbLoadTableCreationScript)(const QString& szCreationScriptString, void* user_data);
 typedef void (*DbLoadWorksheetQueryResults)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
 
-
 class DatabaseController
 {
 public:
 	DatabaseController(const QString& szFilename);
 	virtual ~DatabaseController();
 
-	bool loadTables(DbLoadTableCB func, void* user_data);
-	bool loadSystemTables(DbLoadTableCB func, void* user_data);
-	bool loadViewsTables(DbLoadTableCB func, void* user_data);
-	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
-	bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
-	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
-	bool loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data);
+	virtual bool loadTables(DbLoadTableCB func, void* user_data);
+	virtual bool loadSystemTables(DbLoadTableCB func, void* user_data);
+	virtual bool loadViewsTables(DbLoadTableCB func, void* user_data);
+	virtual bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
+	virtual bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
+	virtual bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
+	virtual bool loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data);
 	QString getQueryResultString() const;
+
+protected:
+	virtual QString loadTableDescriptionQuery(const QString& szTableName) = 0;
 
 private:
 	QString makeStringNumberOfRows(QSqlQuery query);
-	QString makeQueryResultString(QSqlQuery query);
+	QString makeQueryResultString(QSqlQuery query, QString& szQueryOutput);
 	QStringList listColumnNames(QString szTableName);
 
 private:

@@ -71,7 +71,6 @@ void QWindowMain::createMenu()
     m_pQuitAction = new QAction(tr("&Quit"), this);
     pFileMenu->addAction(m_pQuitAction);
 
-
     QMenu *pEditMenu = menuBar()->addMenu(tr("&Edit"));
     pAction = new QAction(tr("&Cut"), this);
     pEditMenu->addAction(pAction);

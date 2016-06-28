@@ -8,6 +8,10 @@
 #ifndef SRC_MAINWINDOW_H_
 #define SRC_MAINWINDOW_H_
 
+#include "QDatabaseTableView.h"
+#include "QDatabaseConnectionView.h"
+#include "QDatabaseWorksheetView.h"
+
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
@@ -17,10 +21,6 @@
 #include <QAction>
 #include <QApplication>
 #include <QMessageBox>
-
-#include "QDatabaseTableView.h"
-#include "QDatabaseConnectionView.h"
-#include "QDatabaseWorksheetView.h"
 
 class QWindowMain : public QMainWindow
 {

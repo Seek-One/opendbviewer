@@ -6,11 +6,9 @@
  */
 
 #include "QDatabaseTableView.h"
-#include <QSqlQueryModel>
-#include <QDebug>
 #include <QHeaderView>
 #include <QTreeView>
-#include <QTableView>
+#include <QDebug>
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)

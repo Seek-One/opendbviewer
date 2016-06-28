@@ -15,10 +15,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>
-#include <QTableView>
 #include <QTextEdit>
-#include <QTableView>
-#include <QSqlQueryModel>
 #include <QStandardItemModel>
 #include <QTreeView>
 

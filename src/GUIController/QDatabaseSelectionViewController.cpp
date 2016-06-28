@@ -42,12 +42,8 @@ void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QDatabaseS
 void QDatabaseSelectionViewController::openFileDialog()
 {
 	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Open a file", QString(), "Sqlite files (*.sqlite)");
-	if(m_fileName == "")
-	{
-		return;
-	}
+
 	m_pDatabaseSelectionView->getFilePathField()->setText(m_fileName);
-	m_pDatabaseSelectionView->getFileSelectionButton()->setText("choose another file"); //TODO image rather than text
 }
 
 void QDatabaseSelectionViewController::closeSelectionWindow()
@@ -64,14 +60,16 @@ void QDatabaseSelectionViewController::loadDatabase()
 		return;
 	}
 
+	//Creating a string to be used to set the tab name
+	QString szTabFileName =	m_fileName.section('/', -1);
+
 	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
-	m_pMainWindow->addDatabaseConnectionView(pConnectionView, tr("new tab"));
+	m_pMainWindow->addDatabaseConnectionView(pConnectionView, szTabFileName);
 
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName);
 	pDatabaseConnectionViewController->init(pConnectionView);
-
+	pDatabaseConnectionViewController->updateTables();
 	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
-
 	closeSelectionWindow();
 }
 

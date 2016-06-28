@@ -17,7 +17,7 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="53"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="52"/>
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -26,86 +26,63 @@
     <name>QDatabaseSelectionView</name>
     <message>
         <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="74"/>
-        <source>(None)</source>
+        <source>select a file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QDatabaseSelectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="63"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="59"/>
         <source>No file selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="63"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="59"/>
         <source>Please choose a file to open.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="68"/>
-        <source>new tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="58"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="56"/>
         <source>Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="60"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="58"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="62"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="60"/>
         <source>Not null</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="64"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="62"/>
         <source>Default value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="66"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="64"/>
         <source>Primary key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="87"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="85"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="91"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="89"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="97"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="95"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QDatabaseWorksheetView</name>
-    <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="71"/>
-        <source>Execute the selected query</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="75"/>
-        <source>Reformat SQL text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="79"/>
-        <source>Clear the text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -127,42 +104,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="75"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="74"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="76"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="75"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="78"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="77"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="80"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="79"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="82"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="81"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="85"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="84"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="87"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="86"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="88"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="87"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>

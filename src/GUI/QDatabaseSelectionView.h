@@ -14,7 +14,6 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <QToolButton>
 #include <QFileDialog>
 #include <QString>
 #include <QToolBar>

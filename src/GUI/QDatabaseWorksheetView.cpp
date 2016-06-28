@@ -6,7 +6,6 @@
  */
 
 #include "QDatabaseWorksheetView.h"
-#include <QPlainTextEdit>
 
 QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 		: QWidget(parent)
@@ -68,15 +67,15 @@ QToolBar* QDatabaseWorksheetView::makeWorksheetToolbar()
 
 	m_pExecuteButton = new QPushButton("Execute");
 	pWorksheetToolbar->addWidget(m_pExecuteButton);
-	m_pExecuteButton->setToolTip(tr("Execute the selected query"));
+	//m_pExecuteButton->setToolTip(tr("Execute the selected query"));
 
 	m_pReformatButton = new QPushButton("Reformat");
 	pWorksheetToolbar->addWidget(m_pReformatButton);
-	m_pReformatButton->setToolTip(tr("Reformat SQL text"));
+	//m_pReformatButton->setToolTip(tr("Reformat SQL text"));
 
 	m_pClearTextButton = new QPushButton("Clear");
 	pWorksheetToolbar->addWidget(m_pClearTextButton);
-	m_pClearTextButton->setToolTip(tr("Clear the text"));
+	//m_pClearTextButton->setToolTip(tr("Clear the text"));
 
 	return pWorksheetToolbar;
 }

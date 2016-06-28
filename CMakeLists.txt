@@ -162,6 +162,10 @@ set(APPLICATION_SOURCES
 	src/GUIController/QDatabaseTableViewController.h
 	src/Database/DatabaseController.cpp
 	src/Database/DatabaseController.h
+	src/Database/DatabaseControllerMysql.cpp
+	src/Database/DatabaseControllerMysql.h
+	src/Database/DatabaseControllerSqlite.cpp
+	src/Database/DatabaseControllerSqlite.h
 )
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro

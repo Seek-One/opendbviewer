@@ -8,7 +8,7 @@
 #ifndef SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 
-#include <GUI/QDatabaseWorksheetView.h>
+#include "GUI/QDatabaseWorksheetView.h"
 #include "Database/DatabaseController.h"
 
 class QDatabaseWorksheetView;

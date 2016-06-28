@@ -12,6 +12,7 @@
 #include <QStandardItemModel>
 
 #include "Database/DatabaseController.h"
+#include "Database/DatabaseControllerSqlite.h"
 
 #include "GUI/QDatabaseConnectionView.h"
 
@@ -28,6 +29,7 @@ public:
 
 public slots:
 	void openWorksheet();
+	void refreshList();
 	void openTableTab(const QModelIndex& index);
 	void closeTab(const int& index);
 
@@ -43,7 +45,7 @@ private:
 	QString m_szFileName;
 	QDatabaseConnectionView* m_pDatabaseConnectionView;
 	QStandardItemModel* m_pListTableModel;
-	DatabaseController* m_pDatabaseController;
+	DatabaseControllerSqlite* m_pDatabaseController;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASECONNECTIONVIEWCONTROLLER_H_ */

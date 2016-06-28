@@ -33,7 +33,6 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 	connect(m_pDatabaseWorksheetView->getExecuteButton(), SIGNAL(clicked()), this, SLOT(executeQuery()));
 	connect(m_pDatabaseWorksheetView->getReformatButton(), SIGNAL(clicked()), this, SLOT(reformatSqlText()));
 	connect(m_pDatabaseWorksheetView->getClearTextButton(), SIGNAL(clicked()), this, SLOT(clearWorksheetText()));
-
 }
 
 void QDatabaseWorksheetViewController::executeQuery()

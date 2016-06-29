@@ -31,15 +31,28 @@ public:
 	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
 	QLineEdit* getFilePathField() const;
+	QLineEdit* getHostField() const;
+	QLineEdit* getPortField() const;
+	QLineEdit* getUsernameField() const;
+	QLineEdit* getPasswordField() const;
+	QLineEdit* getDatabaseField() const;
+	QTabWidget* getFileSelectionTabWidget() const;
 
 private:
-	QWidget* makeTab();
+	QWidget* makeSqliteTab();
+	QWidget* makeMySqlTab();
 
 private:
 	QPushButton* m_pFileSelectionButton;
 	QPushButton* m_pOKButton;
 	QPushButton* m_pCancelButton;
 	QLineEdit* m_pFilePathField;
+	QLineEdit* m_pHostField;
+	QLineEdit* m_pPortField;
+	QLineEdit* m_pUsernameField;
+	QLineEdit* m_pPasswordField;
+	QLineEdit* m_pDatabaseField;
+	QTabWidget* m_pFileSelectionTabWidget;
 };
 
 #endif /* SRC_GUI_QDATABASESELECTIONVIEW_H_ */

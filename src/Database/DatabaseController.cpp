@@ -24,10 +24,6 @@
 DatabaseController::DatabaseController(const QString& szFilename)
 {
 	m_szFilename = szFilename;
-	//if(m_szFilename.endsWith("sqlite"))
-	m_db = QSqlDatabase::addDatabase("QSQLITE", m_szFilename);
-
-	m_db.setDatabaseName(m_szFilename);
 }
 
 DatabaseController::~DatabaseController()
@@ -50,6 +46,8 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 	if(openDatabase()){
 
 		QList<QString> szTableList = m_db.tables();
+		qDebug() << "tables szTableList" << szTableList;
+
 		QList<QString>::const_iterator iter = szTableList.begin();
 		while(iter != szTableList.end())
 		{
@@ -70,6 +68,7 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 	if(openDatabase()){
 
 		QList<QString> szTableList = m_db.tables(QSql::SystemTables);
+		qDebug() << " system tables szTableList" << szTableList;
 
 		QList<QString>::const_iterator iter = szTableList.begin();
 		while(iter != szTableList.end())
@@ -79,7 +78,6 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 			}
 			iter++;
 		}
-
 		closeDataBase();
 	}
 
@@ -91,6 +89,7 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 	if(openDatabase())
 	{
 		QList<QString> szTableList = m_db.tables(QSql::Views);
+		qDebug() << "views szTableList" << szTableList;
 		QList<QString>::const_iterator iter = szTableList.begin();
 		while(iter != szTableList.end())
 		{
@@ -99,7 +98,6 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 			}
 			iter++;
 		}
-
 		closeDataBase();
 	}
 	return true;
@@ -108,18 +106,19 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoadTableDescription func, void* user_data)
 {
 	openDatabase();
-
 	QSqlQuery tableInfoQuery(m_db);
-	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));
+	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));//loading the query according to the type of database used
+	QStringList pColumnName = loadTableDescriptionColumnNames(tableInfoQuery);
+
+	QStringList pRowData;
+
 	while (tableInfoQuery.next())
     {
-		QString szName = tableInfoQuery.value(1).toString();
-		QString szType = tableInfoQuery.value(2).toString();
-		bool bNotNull = tableInfoQuery.value(3).toBool();
-		QString szDefaultValue = tableInfoQuery.value(4).toString();
-		QString szPk = tableInfoQuery.value(5).toString();
-		func(szName, szType, bNotNull, szDefaultValue, szPk, user_data);
+		pRowData = loadTableDescriptionResult(tableInfoQuery); //Loading results depending on type of database
+		func(pColumnName, pRowData, user_data);
+		pRowData.clear();//Clearing pRowData to have an empty list when starting the while loop again
     }
+
 	QString szQueryOutput("Query executed successfully");
 	m_szResultString = makeQueryResultString(tableInfoQuery, szQueryOutput);
 	tableInfoQuery.finish();
@@ -143,7 +142,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 	//Using the string in the query
 	QSqlQuery tableDataQuery(m_db);
-	QString szQuery = "SELECT rowid as rowid, "+columnNamesString+" FROM "+szTableName;
+	QString szQuery = "SELECT "+columnNamesString+" FROM "+szTableName;
 	QString szQueryOutput;
 	try
 		{
@@ -171,7 +170,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	while(tableDataQuery.next())
 	{
 		int currentColumnNumber;
-		for (currentColumnNumber = 0; currentColumnNumber <= pColumnName.size(); currentColumnNumber++)
+		for (currentColumnNumber = 0; currentColumnNumber <= (pColumnName.size() - 1); currentColumnNumber++)
 		{
 			pRowData << tableDataQuery.value(currentColumnNumber).toString();
 		}
@@ -288,19 +287,6 @@ QString DatabaseController::makeStringNumberOfRows(QSqlQuery query)
 	QString szNumberOfRows = QString::number(numberOfRows);
 
 	return szNumberOfRows;
-}
-
-QStringList DatabaseController::listColumnNames(QString szTableName)
-{
-	QStringList szListColumnName;
-	QSqlQuery tableInfoQuery(m_db);
-	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));
-	while (tableInfoQuery.next())
-	   {
-		QString szName = tableInfoQuery.value(1).toString();
-		szListColumnName += szName;
-	   }
-	return szListColumnName;
 }
 
 QString DatabaseController::getQueryResultString() const

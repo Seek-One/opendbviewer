@@ -42,7 +42,7 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
-
+    newDatabaseConnection();
 }
 
 void QWindowMainController::newDatabaseConnection()

@@ -11,7 +11,7 @@
 #include <QSqlDatabase>
 
 typedef void (*DbLoadTableCB)(const QString& szTable, void* user_data);
-typedef void (*DbLoadTableDescription)(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
+typedef void (*DbLoadTableDescription)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
 typedef void (*DbLoadTableData)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
 typedef void (*DbLoadTableCreationScript)(const QString& szCreationScriptString, void* user_data);
 typedef void (*DbLoadWorksheetQueryResults)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
@@ -33,13 +33,16 @@ public:
 
 protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName) = 0;
+	virtual QStringList loadTableDescriptionResult(const QSqlQuery query) = 0;
+	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query) = 0;
+	virtual QStringList listColumnNames(QString szTableName) = 0;
+
 
 private:
 	QString makeStringNumberOfRows(QSqlQuery query);
 	QString makeQueryResultString(QSqlQuery query, QString& szQueryOutput);
-	QStringList listColumnNames(QString szTableName);
 
-private:
+protected:
 	QString m_szFilename;
 	QSqlDatabase m_db;
 	QString m_szResultString;

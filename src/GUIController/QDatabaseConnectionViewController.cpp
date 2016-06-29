@@ -7,8 +7,10 @@
 
 #include <QStandardItem>
 #include <QDebug>
+#include <QStringList>
 
 #include "QDatabaseConnectionViewController.h"
+#include "QDatabaseSelectionViewController.h"
 #include "QDatabaseTableViewController.h"
 #include "QDatabaseWorksheetViewController.h"
 
@@ -18,6 +20,7 @@
 
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerSqlite.h"
+#include "Database/DatabaseControllerMysql.h"
 
 QDatabaseConnectionViewController::QDatabaseConnectionViewController(const QString& szFileName)
 {
@@ -32,15 +35,20 @@ QDatabaseConnectionViewController::~QDatabaseConnectionViewController()
 
 }
 
-void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseConnectionView)
+void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList)
 {
 	m_pDatabaseConnectionView = pDatabaseConnectionView;
-	m_pDatabaseController = new DatabaseControllerSqlite(m_szFileName);
+
+	if(szDatabaseInfoList.isEmpty())//if the list is empty, the user has not provided connection information in the mysql tab
+		m_pDatabaseController = new DatabaseControllerSqlite(m_szFileName);//we can deduce the sqlite database controller has to be used
+	else
+		m_pDatabaseController = new DatabaseControllerMysql(m_szFileName, szDatabaseInfoList);//otherwise, we use the mysql database controller
 
 	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
 	connect(m_pDatabaseConnectionView->getRefreshTableListButton(), SIGNAL(clicked()), this, SLOT(refreshList()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 	connect(m_pDatabaseConnectionView->getTableTreeView(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openTableTab(const QModelIndex&)));
+
 	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
 	openWorksheet();
@@ -57,7 +65,11 @@ void QDatabaseConnectionViewController::openWorksheet()
 
 void QDatabaseConnectionViewController::refreshList()
 {
-	//updateTables();
+	m_pDatabaseConnectionView->getTableItem()->removeRows(0, m_pDatabaseConnectionView->getTableItem()->rowCount());
+	m_pDatabaseConnectionView->getStructureTableItem()->removeRows(0, m_pDatabaseConnectionView->getStructureTableItem()->rowCount());
+	m_pDatabaseConnectionView->getViewTableItem()->removeRows(0, m_pDatabaseConnectionView->getViewTableItem()->rowCount());
+
+	updateTables();
 	qDebug() << "refresh table list";
 }
 
@@ -116,7 +128,6 @@ void QDatabaseConnectionViewController::onDbLoadSystemTables(const QString& szTa
 void QDatabaseConnectionViewController::onDbLoadViewsTables(const QString& szTable, void* user_data)
 {
 	QDatabaseConnectionViewController* pController = (QDatabaseConnectionViewController*)(user_data);
-
 	QStandardItem *pViewTableItem = new QStandardItem(szTable);
 	pController->m_pDatabaseConnectionView->getViewTableItem()->appendRow(pViewTableItem);
 	pViewTableItem->setEditable(false);

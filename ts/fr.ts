@@ -17,7 +17,7 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="52"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="60"/>
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -25,21 +25,57 @@
 <context>
     <name>QDatabaseSelectionView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="74"/>
-        <source>select a file</source>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="94"/>
+        <source>Host</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="98"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="100"/>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="103"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="105"/>
+        <source>Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="77"/>
+        <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QDatabaseSelectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="59"/>
-        <source>No file selected</source>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="76"/>
+        <source>Information missing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="59"/>
-        <source>Please choose a file to open.</source>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="76"/>
+        <source>Some information is missing.
+Please, make sure you have provided the necessary information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
+        <source>No connection selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
+        <source>Please select a connection.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

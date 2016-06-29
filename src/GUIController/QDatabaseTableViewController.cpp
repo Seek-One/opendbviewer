@@ -64,40 +64,29 @@ void QDatabaseTableViewController::showQueryInformation()
 	m_pDatabaseTableView->getConsoleTextEdit()->insertPlainText(szQueryInformation);//insert text at the cursor position
 }
 
-void QDatabaseTableViewController::onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data)
+void QDatabaseTableViewController::onDbLoadTableDescription(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data)
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
 
-	//Creates the items that are to go into the different columns
-	QStandardItem *pNameItem = new QStandardItem(szName);
-	pNameItem->setEditable(false);
-	QStandardItem *pTypeItem = new QStandardItem(szType);
-	pTypeItem->setEditable(false);
+	QList<QString> pHeader;
+	pHeader << pColumnName;
+	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->setHorizontalHeaderLabels(pHeader);
+	QStandardItem* tableItemList;
 
-	//Workaround for bNotNull not being displayed in table
-	QString bNotNullString;
-	if (bNotNull == false)
+	//Creating a QList<QStandardItem> in order to append a row to the model
+	QList<QStandardItem*> pRowDataItemList;
+	QList<QString>::const_iterator iter = pRowData.begin();
+	while(iter != pRowData.end())
 	{
-		bNotNullString = "false";
+		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
+		tableItemList = new QStandardItem(*iter);
+		tableItemList->setEditable(false);
+		pRowDataItemList.append(tableItemList);
+		iter++;
 	}
-	else
-	{
-		bNotNullString = "true";
-	}//end of workaround
-
-	QStandardItem *pNotNullItem = new QStandardItem(bNotNullString);
-	pNotNullItem->setEditable(false);
-	QStandardItem *pDefaultValue = new QStandardItem(szDefaultValue);
-	pDefaultValue->setEditable(false);
-	QStandardItem *pPkItem = new QStandardItem(szPk);
-	pPkItem->setEditable(false);
-
-	//Creates a list of QStandardItems to be given to the structure model
-	QList<QStandardItem*> tableItemList;
-	tableItemList << pNameItem << pTypeItem << pNotNullItem << pDefaultValue << pPkItem;
 
 	//Adds a row to the table
-	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(tableItemList);
+	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(pRowDataItemList);
 }
 
 void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data)
@@ -106,7 +95,7 @@ void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& pColu
 	QList<QString> pHeader;
 
 	//Adds rowid column to the header
-	pHeader << "rowid" << pColumnName;
+	pHeader << pColumnName;
 	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(pHeader);
 
 	//Creating a QList<QStandardItem> in order to append a row to the model

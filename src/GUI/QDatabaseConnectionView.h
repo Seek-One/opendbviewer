@@ -50,7 +50,7 @@ public:
 
 private:
 	QWidget* makeWorksheetTab();
-	QWidget* makeVerticalConnectionPanel();
+	QWidget* makeConnectionVerticalPanel();
 	QToolBar* makeOptionButtonsToolBar();
 
 private:

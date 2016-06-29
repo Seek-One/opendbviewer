@@ -29,7 +29,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	pDatabaseConnectionLayout->addWidget(pDatabaseConnectionSplitter);
 
 	QWidget *pVertConnectionPanel = new QWidget;
-	pVertConnectionPanel = makeVerticalConnectionPanel();
+	pVertConnectionPanel = makeConnectionVerticalPanel();
 	pVertConnectionPanel->setMaximumWidth(300);
 	pDatabaseConnectionSplitter->addWidget(pVertConnectionPanel);
 
@@ -68,7 +68,7 @@ QWidget* QDatabaseConnectionView::makeWorksheetTab()
 }
 
 
-QWidget* QDatabaseConnectionView::makeVerticalConnectionPanel()
+QWidget* QDatabaseConnectionView::makeConnectionVerticalPanel()
 {
 	QWidget *pVertConnectionPanel = new QWidget;
 

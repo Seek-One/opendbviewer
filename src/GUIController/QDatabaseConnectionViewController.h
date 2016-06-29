@@ -25,7 +25,7 @@ public:
 	QDatabaseConnectionViewController(const QString& szFileName);
 	virtual ~QDatabaseConnectionViewController();
 
-	void init(QDatabaseConnectionView* pDatabaseConnectionView);
+	void init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList);
 
 public slots:
 	void openWorksheet();
@@ -39,13 +39,12 @@ private:
 	static void onDbLoadTables(const QString& szTable, void* user_data);
 	static void onDbLoadSystemTables(const QString& szTable, void* user_data);
 	static void onDbLoadViewsTables(const QString& szTable, void* user_data);
-	static void onDbLoadTableDescription(const QString& szName, const QString& szType, bool bNotNull, const QString& szDefaultValue, const QString& szPk, void* user_data);
 
 private:
 	QString m_szFileName;
 	QDatabaseConnectionView* m_pDatabaseConnectionView;
 	QStandardItemModel* m_pListTableModel;
-	DatabaseControllerSqlite* m_pDatabaseController;
+	DatabaseController* m_pDatabaseController;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASECONNECTIONVIEWCONTROLLER_H_ */

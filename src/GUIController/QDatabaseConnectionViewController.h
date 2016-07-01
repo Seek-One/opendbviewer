@@ -8,13 +8,16 @@
 #ifndef SRC_GUICONTROLLER_QDATABASECONNECTIONVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASECONNECTIONVIEWCONTROLLER_H_
 
-#include <QWidget>
-#include <QStandardItemModel>
-
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerSqlite.h"
-
 #include "GUI/QDatabaseConnectionView.h"
+
+#include <QWidget>
+#include <QStandardItemModel>
+#include <QStandardItem>
+#include <QDebug>
+#include <QStringList>
+#include <QMessageBox>
 
 class QDatabaseConnectionView;
 
@@ -22,7 +25,7 @@ class QDatabaseConnectionViewController : public QWidget
 {
 	Q_OBJECT
 public:
-	QDatabaseConnectionViewController(const QString& szFileName);
+	QDatabaseConnectionViewController(const QString& szFileName, DatabaseController* pDatabaseController);
 	virtual ~QDatabaseConnectionViewController();
 
 	void init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList);

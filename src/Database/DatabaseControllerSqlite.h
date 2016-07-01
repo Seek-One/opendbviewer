@@ -9,10 +9,14 @@
 #define SRC_DATABASE_DATABASECONTROLLERSQLITE_H_
 
 #include "DatabaseController.h"
-#include <QString>
-#include <QSqlDatabase>
-#include <QStringList>
 
+#include <QString>
+#include <QStringList>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlField>
+#include <QSqlRecord>
+#include <QDebug>
 
 class DatabaseControllerSqlite : public DatabaseController
 {
@@ -25,6 +29,9 @@ protected:
 	virtual QStringList loadTableDescriptionResult(const QSqlQuery query);
 	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query);
 	virtual QStringList listColumnNames(QString szTableName);
+	virtual QString loadTableCreationScriptQuery(const QString& szTableName);
+	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
+
 };
 
 #endif /* SRC_DATABASE_DATABASECONTROLLERSQLITE_H_ */

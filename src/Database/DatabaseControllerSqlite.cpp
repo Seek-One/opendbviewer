@@ -7,14 +7,6 @@
 
 #include "DatabaseControllerSqlite.h"
 #include "DatabaseController.h"
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QDebug>
-#include <QStringList>
-#include <QString>
-#include <QSqlField>
-#include <QSqlRecord>
-
 
 DatabaseControllerSqlite::DatabaseControllerSqlite(const QString& szFileName) : DatabaseController(szFileName)
 {
@@ -56,6 +48,16 @@ QStringList DatabaseControllerSqlite::loadTableDescriptionColumnNames(const QSql
 	QStringList pColumnNames;
 	pColumnNames << "Field" << "Type" << "Not null" << "Default value" << "Primary key";
 	return pColumnNames;
+}
+
+QString DatabaseControllerSqlite::loadTableCreationScriptQuery(const QString& szTableName)
+{
+	return QString("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = '"+szTableName+"';");
+}
+
+QString DatabaseControllerSqlite::makeTableCreationScriptQueryResult(const QSqlQuery query)
+{
+	return QString(query.value(0).toString());
 }
 
 QStringList DatabaseControllerSqlite::listColumnNames(QString szTableName)

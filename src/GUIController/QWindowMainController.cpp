@@ -5,23 +5,12 @@
  *      Author: echopin
  */
 
-#include <QMessageBox>
-#include <QDialog>
-#include <QTabWidget>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QFileDialog>
-#include <QString>
-
 #include "QWindowMainController.h"
 #include "QDatabaseConnectionViewController.h"
 #include "QDatabaseSelectionViewController.h"
-
-
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QDatabaseSelectionView.h"
-
 #include "Database/DatabaseController.h"
 
 QWindowMainController::QWindowMainController()

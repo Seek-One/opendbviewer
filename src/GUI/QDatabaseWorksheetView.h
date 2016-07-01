@@ -9,6 +9,7 @@
 #define SRC_GUI_QDATABASEWORKSHEETVIEW_H_
 
 #include "QDatabaseTableView.h"
+#include "QSqlSourceView.h"
 
 #include <QPushButton>
 #include <QToolBar>
@@ -23,7 +24,7 @@ public:
 	QPushButton* getExecuteButton() const;
 	QPushButton* getReformatButton() const;
 	QPushButton* getClearTextButton() const;
-	QTextEdit* getWorksheetTextEdit() const;
+	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 	QStandardItemModel* getWorksheetResultsModel() const;
 
@@ -34,7 +35,7 @@ private:
 	QPushButton *m_pExecuteButton;
 	QPushButton *m_pReformatButton;
 	QPushButton *m_pClearTextButton;
-	QTextEdit* m_pWorksheetTextEdit;
+	QSqlSourceView* m_pWorksheetTextEdit;
 	QTextEdit* m_pWorksheetConsoleTextEdit;
 	QStandardItemModel* m_pWorksheetResultsModel;
 };

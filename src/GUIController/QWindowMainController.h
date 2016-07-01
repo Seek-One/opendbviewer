@@ -8,13 +8,19 @@
 #ifndef SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_
 #define SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_
 
-#include <QObject>
-
 #include "QWindowMainController.h"
-
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QDatabaseSelectionView.h"
+
+#include <QMessageBox>
+#include <QDialog>
+#include <QFileDialog>
+#include <QTabWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QString>
+#include <QObject>
 
 class QWindowMain;
 

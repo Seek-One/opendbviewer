@@ -11,6 +11,9 @@
 #include "GUI/QDatabaseWorksheetView.h"
 #include "Database/DatabaseController.h"
 
+#include <QDebug>
+#include <QTextCursor>
+
 class QDatabaseWorksheetView;
 
 class QDatabaseWorksheetViewController : public QWidget

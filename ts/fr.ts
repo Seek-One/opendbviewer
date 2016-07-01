@@ -17,7 +17,7 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="60"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="49"/>
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -58,66 +58,41 @@
 <context>
     <name>QDatabaseSelectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="76"/>
-        <source>Information missing</source>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="82"/>
+        <source>Connection impossible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="76"/>
-        <source>Some information is missing.
-Please, make sure you have provided the necessary information.</source>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="82"/>
+        <source>Unable to connect to database.
+Please, make sure the information you have provided is correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="95"/>
         <source>No connection selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
-        <source>Please select a connection.</source>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="95"/>
+        <source>Please enter the necessary information.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="56"/>
-        <source>Field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="58"/>
-        <source>Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="60"/>
-        <source>Not null</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="62"/>
-        <source>Default value</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="64"/>
-        <source>Primary key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="85"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="70"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="89"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="74"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="95"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="80"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -125,57 +100,57 @@ Please, make sure you have provided the necessary information.</source>
 <context>
     <name>QWindowMain</name>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="67"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="46"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="68"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="47"/>
         <source>&amp;New connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="71"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="50"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="74"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="53"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="75"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="54"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="77"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="56"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="79"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="58"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="81"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="60"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="84"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="63"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="86"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="65"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="87"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="66"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -183,12 +158,12 @@ Please, make sure you have provided the necessary information.</source>
 <context>
     <name>QWindowMainController</name>
     <message>
-        <location filename="../src/GUIController/QWindowMainController.cpp" line="57"/>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="46"/>
         <source>About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QWindowMainController.cpp" line="57"/>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="46"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>

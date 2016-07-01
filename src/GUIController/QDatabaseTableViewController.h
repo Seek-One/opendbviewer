@@ -11,7 +11,8 @@
 #include "GUI/QDatabaseTableView.h"
 #include "Database/DatabaseController.h"
 #include <QObject>
-
+#include <QTextCursor>
+#include <QDebug>
 
 class QDatabaseTableView;
 
@@ -24,7 +25,7 @@ public:
 
 	void init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController);
 	void showQueryInformation();
-
+	QList<QStandardItem*> makeStandardItemListFromStringList(const QList<QString>& szStringList);
 public slots:
 	void updateView();
 	void clearFilterField();

@@ -6,9 +6,6 @@
  */
 
 #include "QDatabaseTableView.h"
-#include <QHeaderView>
-#include <QTreeView>
-#include <QDebug>
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -51,18 +48,6 @@ QWidget* QDatabaseTableView::makeStructureTab()
 	QTreeView* pStructureTable = new QTreeView();
 	pStructureLayout->addWidget(pStructureTable);
 	m_pStructureModel = new QStandardItemModel();
-
-	//Setting the header
-	QStandardItem *pHeader1 = new QStandardItem(tr("Field"));
-	m_pStructureModel->setHorizontalHeaderItem(0, pHeader1);
-	QStandardItem *pHeader2 = new QStandardItem(tr("Type"));
-	m_pStructureModel->setHorizontalHeaderItem(1, pHeader2);
-	QStandardItem *pHeader3 = new QStandardItem(tr("Not null"));
-	m_pStructureModel->setHorizontalHeaderItem(2, pHeader3);
-	QStandardItem *pHeader4 = new QStandardItem(tr("Default value"));
-	m_pStructureModel->setHorizontalHeaderItem(3, pHeader4);
-	QStandardItem *pHeader5 = new QStandardItem(tr("Primary key"));
-	m_pStructureModel->setHorizontalHeaderItem(4, pHeader5);
 
 	//Setting the model
 	pStructureTable->setModel(m_pStructureModel);

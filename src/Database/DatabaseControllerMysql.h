@@ -12,6 +12,11 @@
 
 #include <QString>
 #include <QStringList>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlField>
+#include <QSqlRecord>
+#include <QDebug>
 
 class DatabaseControllerMysql : public DatabaseController
 {
@@ -24,6 +29,8 @@ protected:
 	virtual QStringList loadTableDescriptionResult(const QSqlQuery query);
 	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query);
 	virtual QStringList listColumnNames(QString szTableName);
+	virtual QString loadTableCreationScriptQuery(const QString& szTableName);
+	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
 
 private:
 	void splitDatabaseInfoList(QStringList& szDatabaseInfoList);

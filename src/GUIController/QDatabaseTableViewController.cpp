@@ -5,12 +5,9 @@
  *      Author: echopin
  */
 
-#include <GUIController/QDatabaseTableViewController.h>
-#include <GUI/QDatabaseTableView.h>
+#include "GUIController/QDatabaseTableViewController.h"
+#include "GUI/QDatabaseTableView.h"
 #include "Database/DatabaseController.h"
-#include <QDebug>
-#include <QObject>
-#include <QTextCursor>
 
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
@@ -55,6 +52,21 @@ void QDatabaseTableViewController::clearFilterField()
 	updateView();
 }
 
+QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStringList(const QList<QString>& szStringList)
+{
+	QList<QStandardItem*> pStandardItemList;
+	QList<QString>::const_iterator iter = szStringList.begin();
+	while(iter != szStringList.end())
+	{
+		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
+		QStandardItem* pTableItemList = new QStandardItem(*iter);
+		pTableItemList->setEditable(false);
+		pStandardItemList.append(pTableItemList);
+		iter++;
+	}
+	return pStandardItemList;
+}
+
 void QDatabaseTableViewController::showQueryInformation()
 {
 	QString szQueryInformation = m_pDatabaseController->getQueryResultString();
@@ -67,23 +79,11 @@ void QDatabaseTableViewController::showQueryInformation()
 void QDatabaseTableViewController::onDbLoadTableDescription(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data)
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
-
-	QList<QString> pHeader;
-	pHeader << pColumnName;
-	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->setHorizontalHeaderLabels(pHeader);
-	QStandardItem* tableItemList;
+	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->setHorizontalHeaderLabels(pColumnName);
 
 	//Creating a QList<QStandardItem> in order to append a row to the model
 	QList<QStandardItem*> pRowDataItemList;
-	QList<QString>::const_iterator iter = pRowData.begin();
-	while(iter != pRowData.end())
-	{
-		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
-		tableItemList = new QStandardItem(*iter);
-		tableItemList->setEditable(false);
-		pRowDataItemList.append(tableItemList);
-		iter++;
-	}
+	pRowDataItemList = pDatabaseTableViewController->makeStandardItemListFromStringList(pRowData);
 
 	//Adds a row to the table
 	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(pRowDataItemList);
@@ -92,23 +92,11 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QList<QString>
 void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data)
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
-	QList<QString> pHeader;
-
-	//Adds rowid column to the header
-	pHeader << pColumnName;
-	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(pHeader);
+	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(pColumnName);
 
 	//Creating a QList<QStandardItem> in order to append a row to the model
 	QList<QStandardItem*> pRowDataItemList;
-	QList<QString>::const_iterator iter = pRowData.begin();
-	while(iter != pRowData.end())
-	{
-		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
-		QStandardItem* pDataItem = new QStandardItem(*iter);
-		pDataItem->setEditable(false);
-		pRowDataItemList.append(pDataItem);
-		iter++;
-	}
+	pRowDataItemList = pDatabaseTableViewController->makeStandardItemListFromStringList(pRowData);
 
 	//Appending the row with the QList<QStandardItem>
 	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->appendRow(pRowDataItemList);

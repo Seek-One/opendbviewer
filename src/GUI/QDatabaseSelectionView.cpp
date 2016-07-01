@@ -77,7 +77,7 @@ QWidget* QDatabaseSelectionView::makeSqliteTab()
 	m_pFileSelectionButton = new QPushButton(tr("Browse"), this);
 	pToolBar->addWidget(m_pFileSelectionButton);
 
-	pTabLayout->addSpacing(60);
+	pTabLayout->addSpacing(70);
 
 	return pSqliteTab;
 }

@@ -150,6 +150,9 @@ set(APPLICATION_SOURCES
 	src/GUI/QDatabaseWorksheetView.h
 	src/GUI/QDatabaseSelectionView.cpp
 	src/GUI/QDatabaseSelectionView.h
+	src/GUI/QSqlSourceView.cpp
+	src/GUI/QSqlSourceView.h
+	src/GUI/QLineNumberAreaView.h
 	src/GUIController/QWindowMainController.cpp
 	src/GUIController/QWindowMainController.h
 	src/GUIController/QDatabaseConnectionViewController.cpp
@@ -160,6 +163,8 @@ set(APPLICATION_SOURCES
 	src/GUIController/QDatabaseSelectionViewController.h
 	src/GUIController/QDatabaseTableViewController.cpp
 	src/GUIController/QDatabaseTableViewController.h
+	src/GUIController/QSqlHighlighterController.cpp
+	src/GUIController/QSqlHighlighterController.h
 	src/Database/DatabaseController.cpp
 	src/Database/DatabaseController.h
 	src/Database/DatabaseControllerMysql.cpp
@@ -173,11 +178,13 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QDatabaseSelectionView.h
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QWindowMain.h
+	src/GUI/QSqlSourceView.h
 	src/GUIController/QWindowMainController.h
 	src/GUIController/QDatabaseConnectionViewController.h
 	src/GUIController/QDatabaseSelectionViewController.h
 	src/GUIController/QDatabaseTableViewController.h
 	src/GUIController/QDatabaseWorksheetViewController.h
+	src/GUIController/QSqlHighlighterController.h
 )
 qt_wrap_cpp(
 	APPLICATION_MOC_OUTFILES

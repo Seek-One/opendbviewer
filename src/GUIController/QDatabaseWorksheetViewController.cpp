@@ -9,8 +9,7 @@
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUI/QDatabaseWorksheetView.h"
 #include "Database/DatabaseController.h"
-#include <QDebug>
-#include <QTextCursor>
+
 
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 {
@@ -45,6 +44,7 @@ void QDatabaseWorksheetViewController::executeQuery()
 
 void QDatabaseWorksheetViewController::reformatSqlText()
 {
+
 	qDebug() << "Test reformat button";
 }
 

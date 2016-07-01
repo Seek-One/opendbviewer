@@ -5,22 +5,14 @@
  *      Author: echopin
  */
 
-#include <Database/DatabaseControllerMysql.h>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QStringList>
-#include <QString>
-#include <QDebug>
-#include <QSqlField>
-#include <QSqlRecord>
+#include "Database/DatabaseControllerMysql.h"
 
 DatabaseControllerMysql::DatabaseControllerMysql(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
 {
 	m_szDatabaseInfoList = szDatabaseInfoList;
 	splitDatabaseInfoList(m_szDatabaseInfoList);
 
-	qDebug() << szDatabaseInfoList;
-    m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
+	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
     m_db.setHostName(m_szHostName);
     m_db.setPort(m_port);
     m_db.setDatabaseName(m_szDatabaseName);
@@ -34,8 +26,7 @@ DatabaseControllerMysql::~DatabaseControllerMysql()
 
 QString DatabaseControllerMysql::loadTableDescriptionQuery(const QString& szTableName)
 {
-	qDebug() << "load table description query";
-	return QString("DESCRIBE "+szTableName+";");
+	return QString("DESCRIBE %0;").arg(szTableName);
 }
 
 QStringList DatabaseControllerMysql::loadTableDescriptionResult(const QSqlQuery query)
@@ -76,6 +67,16 @@ QStringList DatabaseControllerMysql::listColumnNames(QString szTableName)
 		szListColumnName += szName;
 	   }
 	return szListColumnName;
+}
+
+QString DatabaseControllerMysql::loadTableCreationScriptQuery(const QString& szTableName)
+{
+	return QString("SHOW CREATE TABLE %0;").arg(szTableName);
+}
+
+QString DatabaseControllerMysql::makeTableCreationScriptQueryResult(const QSqlQuery query)
+{
+	return QString(query.value(1).toString());
 }
 
 void DatabaseControllerMysql::splitDatabaseInfoList(QStringList& szDatabaseInfoList)

@@ -10,16 +10,16 @@
 #include "GUI/QDatabaseSelectionView.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QWindowMain.h"
-
-#include <QMessageBox>
-#include <QString>
-#include <QFileDialog>
-#include <QDebug>
+#include "Database/DatabaseController.h"
+#include "Database/DatabaseControllerMysql.h"
+#include "Database/DatabaseControllerSqlite.h"
 
 QDatabaseSelectionViewController::QDatabaseSelectionViewController()
 {
 	m_pDatabaseSelectionView = NULL;
 	m_pMainWindow = NULL;
+	m_pDatabaseController = NULL;
+	m_pDatabaseConnectionViewController = NULL;
 }
 
 
@@ -61,41 +61,48 @@ void QDatabaseSelectionViewController::loadDatabase()
 	szDatabaseInfoList.clear(); //Makes sure the list is empty
 	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
 
-	if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
 	//If the current tab is the sqlite tab and a file path is given
+	if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
 	{
 		szTabFileName =	m_fileName.section('/', -1);//Get the last part of the file path to get the name for the tab
+		m_pDatabaseController = new DatabaseControllerSqlite(m_fileName);
+		m_pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, m_pDatabaseController);
+		m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 	}
-	else if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 1 && m_pDatabaseSelectionView->getHostField()->text().isEmpty() == false)
 	//If the current tab is the mysql tab and databaseinfolist is not empty
+	else if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 1 && m_pDatabaseSelectionView->getHostField()->text().isEmpty() == false)
 	{
 		//Creating a list containing the user input information
 		szDatabaseInfoList = makeDatabaseInfoList();
-			if(szDatabaseInfoList.contains(""))//If the user has not entered all the information
-			{
-				QMessageBox::warning(m_pDatabaseSelectionView, tr("Information missing"),tr("Some information is missing.\nPlease, make sure you have provided the necessary information."));
-				return;
-			}
-			else
-				szTabFileName = m_pDatabaseSelectionView->getDatabaseField()->text(); //Setting the tab name to the database name
+		m_pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
+
+		//Testing the connection, if it fails, give a warning
+		if(m_pDatabaseController->openDatabase() == false)
+		{
+			QMessageBox::warning(m_pDatabaseSelectionView, tr("Connection impossible"),tr("Unable to connect to database.\nPlease, make sure the information you have provided is correct."));
+			return;
+		}
+		else
+		{
+			szTabFileName = m_pDatabaseSelectionView->getDatabaseField()->text();
+			m_pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, m_pDatabaseController);
+			m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
+		}
 	}
+	//if no information is provided in either tab, open a message box asking to select a connection
 	else
-	//otherwise, open a message box asking to select a connection
 	{
-		QMessageBox::warning(m_pDatabaseSelectionView, tr("No connection selected"),tr("Please select a connection."));
+		QMessageBox::warning(m_pDatabaseSelectionView, tr("No connection selected"),tr("Please enter the necessary information."));
 		return;
 	}
-
-	QDatabaseConnectionViewController* pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName);
-	pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 
 	//Adding DatabaseConnectionView to the main window
 	m_pMainWindow->addDatabaseConnectionView(pConnectionView, szTabFileName);
 
 	//Updating tables
-	pDatabaseConnectionViewController->updateTables();
+	m_pDatabaseConnectionViewController->updateTables();
 
-	connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
+	connect(pConnectionView, SIGNAL(destroyed(QObject*)), m_pDatabaseConnectionViewController, SLOT(deleteLater()));
 
 	closeSelectionWindow();
 }

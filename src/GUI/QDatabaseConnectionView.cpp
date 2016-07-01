@@ -67,7 +67,6 @@ QWidget* QDatabaseConnectionView::makeWorksheetTab()
 	return m_pTab1;
 }
 
-
 QWidget* QDatabaseConnectionView::makeConnectionVerticalPanel()
 {
 	QWidget *pVertConnectionPanel = new QWidget;

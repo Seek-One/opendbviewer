@@ -34,27 +34,6 @@ QWindowMain::~QWindowMain()
 {
 
 }
-
-QAction* QWindowMain::getNewConnectionAction() const
-{
-	return m_pNewConnectionAction;
-}
-
-QAction* QWindowMain::getQuitAction() const
-{
-	return m_pQuitAction;
-}
-
-QAction* QWindowMain::getAboutAction() const
-{
-	return m_pAboutAction;
-}
-
-QTabWidget* QWindowMain::getDatabaseConnectionTab() const
-{
-	return m_pDatabaseConnectionTab;
-}
-
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
@@ -86,6 +65,24 @@ void QWindowMain::createMenu()
     QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
     m_pAboutAction = new QAction(tr("&About"), this);
     pHelpMenu->addAction(m_pAboutAction);
-
 }
 
+QAction* QWindowMain::getNewConnectionAction() const
+{
+	return m_pNewConnectionAction;
+}
+
+QAction* QWindowMain::getQuitAction() const
+{
+	return m_pQuitAction;
+}
+
+QAction* QWindowMain::getAboutAction() const
+{
+	return m_pAboutAction;
+}
+
+QTabWidget* QWindowMain::getDatabaseConnectionTab() const
+{
+	return m_pDatabaseConnectionTab;
+}

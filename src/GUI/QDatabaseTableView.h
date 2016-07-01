@@ -17,7 +17,9 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QStandardItemModel>
+#include <QHeaderView>
 #include <QTreeView>
+#include <QDebug>
 
 class QDatabaseTableView : public QWidget
 {

@@ -6,6 +6,8 @@
  */
 
 #include "QDatabaseWorksheetView.h"
+#include "QSqlSourceView.h"
+#include "GUIController/QSqlHighlighterController.h"
 
 QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 		: QWidget(parent)
@@ -19,7 +21,11 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	pWorksheetViewLayout->addWidget(pWorksheetToolbar);
 
 	//Creating a text edit area
-	m_pWorksheetTextEdit = new QTextEdit();
+	//m_pWorksheetTextEdit = new QTextEdit();
+	//pWorksheetViewLayout->addWidget(m_pWorksheetTextEdit);
+
+	m_pWorksheetTextEdit = new QSqlSourceView(this);
+	QSqlHighlighterController *pSqlHighlighter = new QSqlHighlighterController(m_pWorksheetTextEdit->document());
 	pWorksheetViewLayout->addWidget(m_pWorksheetTextEdit);
 
 	//Creation of a tab widget for query results and console
@@ -52,6 +58,7 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	//Creating a text edit area for the console tab
 	m_pWorksheetConsoleTextEdit = new QTextEdit;
 	m_pWorksheetConsoleTextEdit->setReadOnly(true);
+
 	pConsoleLayout->addWidget(m_pWorksheetConsoleTextEdit);
 }
 
@@ -95,7 +102,7 @@ QPushButton* QDatabaseWorksheetView::getClearTextButton() const
 	return m_pClearTextButton;
 }
 
-QTextEdit* QDatabaseWorksheetView::getWorksheetTextEdit() const
+QSqlSourceView* QDatabaseWorksheetView::getWorksheetTextEdit() const
 {
 	return m_pWorksheetTextEdit;
 }

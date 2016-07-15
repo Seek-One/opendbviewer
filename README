@@ -1,0 +1,4 @@
+
+# Require Qt5
+./build.sh regen
+make

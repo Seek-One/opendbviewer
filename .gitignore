@@ -1,0 +1,15 @@
+.project
+.cproject
+CMakeFiles
+Makefile
+CMakeCache.txt
+*.cmake
+*.qm
+qrc_*.c*
+*.qrc.depends
+ts.qrc
+.settings
+config.h
+version.h
+opendbviewer
+moc_*.c*

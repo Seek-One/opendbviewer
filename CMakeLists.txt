@@ -28,6 +28,11 @@ project (opendbviewer CXX C)
 
 #set (CMAKE_VERBOSE_MAKEFILE OFF)
 
+if(WIN32)
+	set(AUTO_NEWLINE_STYLE WIN32)
+else()
+	set(AUTO_NEWLINE_STYLE UNIX)
+endif()
 if(CMAKE_HOST_SYSTEM MATCHES Windows)
 	set(HOST_WIN32 TRUE)
 else()

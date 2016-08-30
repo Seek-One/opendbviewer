@@ -113,6 +113,7 @@ set(WITH_QT ON CACHE BOOL "Enable build with qt library")
 set(QT4_COMPONENTS QtCore QtGui QtNetwork QtSql QtTest)
 set(QT5_COMPONENTS Core Gui Widgets Network Sql Test)
 set(QT_IMAGEFORMATS_COMPONENTS qjpeg)
+set(QT_SQL_COMPONENTS qsqlite qsqlmysql)
 
 # Define output variable
 set (PACKAGE_DEPS)

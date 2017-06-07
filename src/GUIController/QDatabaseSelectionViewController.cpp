@@ -42,7 +42,7 @@ void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QDatabaseS
 
 void QDatabaseSelectionViewController::openFileDialog()
 {
-	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Select a file", QString(), "Sqlite files (*.sqlite)");
+	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Select a file", QString(), "Sqlite files (*.sqlite *.db)");
 
 	m_pDatabaseSelectionView->getFilePathField()->setText(m_fileName);
 }

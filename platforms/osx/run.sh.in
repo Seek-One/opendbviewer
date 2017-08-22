@@ -1,0 +1,12 @@
+#!/bin/sh
+
+APP_BUNDLE="`echo "$0" | sed -e 's/\/Contents\/MacOS\/@APPLICATION_NAME@//'`"
+APP_LIBS="$APP_BUNDLE/Contents/lib"
+APP_RESOURCES="$APP_BUNDLE/Contents/Resources"
+APP_FRAMEWORKS="$APP_BUNDLE/Contents/Frameworks"
+APP_PLUGINS="$APP_BUNDLE/Contents/plugins"
+
+export "DYLD_LIBRARY_PATH=$APP_LIBS"
+export "DYLD_FRAMEWORK_PATH=$APP_FRAMEWORKS/"
+export "QT_PLUGIN_PATH=$APP_PLUGINS"
+exec "$APP_RESOURCES/@APPLICATION_PACKAGE_NAME@" $*

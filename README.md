@@ -10,7 +10,7 @@ OpenDBViewer is a simple database explorer for Windows, Linux and Max OS X.
 Features
 --------
 - Compatibility with SQLITE and MySQL database.
-- SQL syntax highlithings
+- SQL syntax highlightings
 - Multi database, table and worksheet view
 
 License

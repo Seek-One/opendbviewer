@@ -13,7 +13,10 @@ Features
 - SQL syntax highlithings
 - Multi database, table and worksheet view
 
-This program is licenced under the GNU GENERAL PUBLIC LICENSE Version 3.
+License
+-------
+
+This program is licenced under the terms of the GNU GENERAL PUBLIC LICENSE Version 3.
 
 Requirements
 ------------
@@ -39,3 +42,8 @@ Compile:
 Run:
 
     ./opendbviewer
+
+Screenshot
+----------
+
+![alt text](https://raw.githubusercontent.com/Jet1oeil/opendbviewer/master/doc/opendbviewer-screenshot.png)

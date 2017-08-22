@@ -13,3 +13,4 @@ config.h
 version.h
 opendbviewer
 moc_*.c*
+*.sqlite

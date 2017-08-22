@@ -17,27 +17,20 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	setLayout(pMainLayout);
 
-	//Creation of the connection tab widget
-	QTabWidget *pPage1 = new QTabWidget(this);
-	pMainLayout->addWidget(pPage1);
+	// Spliter
+	QSplitter *pSplitter = new QSplitter();
+	pSplitter->setChildrenCollapsible(false);
+	pMainLayout->addWidget(pSplitter);
 
-	QHBoxLayout *pDatabaseConnectionLayout = new QHBoxLayout(); //Creates a layout to be used for widgets in the connection tab
-	pPage1->setLayout(pDatabaseConnectionLayout);
-
-	QSplitter *pDatabaseConnectionSplitter = new QSplitter();
-	pDatabaseConnectionSplitter->setChildrenCollapsible(false);
-	pDatabaseConnectionLayout->addWidget(pDatabaseConnectionSplitter);
-
-	QWidget *pVertConnectionPanel = new QWidget;
-	pVertConnectionPanel = makeConnectionVerticalPanel();
+	// Create left panel
+	QWidget* pVertConnectionPanel = makeConnectionVerticalPanel(pSplitter);
 	pVertConnectionPanel->setMaximumWidth(300);
-	pDatabaseConnectionSplitter->addWidget(pVertConnectionPanel);
+	pSplitter->addWidget(pVertConnectionPanel);
 
+	// Create left panel
 	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
-	m_pTabsInConnection->setMinimumSize(600, 400);
-
-	pDatabaseConnectionSplitter->addWidget(m_pTabsInConnection);
+	pSplitter->addWidget(m_pTabsInConnection);
 }
 
 QDatabaseConnectionView::~QDatabaseConnectionView()
@@ -67,34 +60,34 @@ QWidget* QDatabaseConnectionView::makeWorksheetTab()
 	return m_pTab1;
 }
 
-QWidget* QDatabaseConnectionView::makeConnectionVerticalPanel()
+QWidget* QDatabaseConnectionView::makeConnectionVerticalPanel(QWidget* pParent)
 {
-	QWidget *pVertConnectionPanel = new QWidget;
+	QWidget *pWidget = new QWidget(pParent);
 
-	QVBoxLayout *pVertConnectionPanelLayout = new QVBoxLayout;
-	pVertConnectionPanel->setLayout(pVertConnectionPanelLayout);
+	QVBoxLayout *pLayout = new QVBoxLayout();
+	pLayout->setContentsMargins(0, 0, 0, 0);
+	pWidget->setLayout(pLayout);
 
-	QToolBar *pOptionButtonsToolbar = new QToolBar();
-	pOptionButtonsToolbar = makeOptionButtonsToolBar();
-	pVertConnectionPanelLayout->addWidget(pOptionButtonsToolbar);
+	QToolBar* pToolbar = makeOptionButtonsToolBar(pWidget);
+	pLayout->addWidget(pToolbar);
 
 	m_pTableTreeView = new QTreeView();
-	pVertConnectionPanelLayout->addWidget(m_pTableTreeView);
+	pLayout->addWidget(m_pTableTreeView);
 
-	return pVertConnectionPanel;
+	return pWidget;
 }
 
-QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar()
+QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar(QWidget* pParent)
 {
-	QToolBar *pOptionButtonsToolbar = new QToolBar;
+	QToolBar *pToolbar = new QToolBar(pParent);
 
-	m_pRefreshTableListButton = new QPushButton("Refresh", this); //TODO needs image rather than text
-	pOptionButtonsToolbar->addWidget(m_pRefreshTableListButton);
+	m_pRefreshTableListButton = new QPushButton(QIcon::fromTheme("document-refresh"), tr("Refresh"), pToolbar); //TODO needs image rather than text
+	pToolbar->addWidget(m_pRefreshTableListButton);
 
-	m_pNewWorksheetButton= new QPushButton("New", this);//TODO needs image rather than text
-	pOptionButtonsToolbar->addWidget(m_pNewWorksheetButton);
+	m_pNewWorksheetButton= new QPushButton(QIcon::fromTheme("document-new"), tr("New"), pToolbar);//TODO needs image rather than text
+	pToolbar->addWidget(m_pNewWorksheetButton);
 
-	return pOptionButtonsToolbar;
+	return pToolbar;
 }
 
 void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)

@@ -60,7 +60,7 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 	{
 		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
 		QStandardItem* pTableItemList = new QStandardItem(*iter);
-		pTableItemList->setEditable(false);
+		pTableItemList->setEditable(true);
 		pStandardItemList.append(pTableItemList);
 		iter++;
 	}

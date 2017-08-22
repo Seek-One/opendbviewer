@@ -30,6 +30,7 @@
 
 class QDatabaseConnectionView : public QWidget
 {
+	Q_OBJECT
 public:
 	QDatabaseConnectionView(QWidget* parent = 0);
 	virtual ~QDatabaseConnectionView();
@@ -50,8 +51,8 @@ public:
 
 private:
 	QWidget* makeWorksheetTab();
-	QWidget* makeConnectionVerticalPanel();
-	QToolBar* makeOptionButtonsToolBar();
+	QWidget* makeConnectionVerticalPanel(QWidget* pParent);
+	QToolBar* makeOptionButtonsToolBar(QWidget* pParent);
 
 private:
 	QWidget *m_pTab1;

@@ -12,20 +12,19 @@
 #include <QValidator>
 
 QDatabaseSelectionView::QDatabaseSelectionView(QWidget* parent)
-		: QWidget(parent)
+		: QDialog(parent)
 {
 	//Creation of the dialog box for opening the files
-	QDialog *pNewConnectionFileSelection = new QDialog(this);
-	pNewConnectionFileSelection->setMinimumSize(450, 100);
-	QVBoxLayout *pMainFileSelectionLayout = new QVBoxLayout(pNewConnectionFileSelection);
-	pNewConnectionFileSelection->setLayout(pMainFileSelectionLayout);
+	setMinimumSize(450, 100);
 
-	m_pFileSelectionTabWidget = new QTabWidget();
+	QVBoxLayout *pMainFileSelectionLayout = new QVBoxLayout();
+	setLayout(pMainFileSelectionLayout);
+
+	m_pFileSelectionTabWidget = new QTabWidget(this);
 	pMainFileSelectionLayout->addWidget(m_pFileSelectionTabWidget);
 
 	//Adding an SQlite tab to the selection window
-	QWidget *pSQLiteTab = new QWidget;
-	pSQLiteTab = makeSqliteTab();
+	QWidget *pSQLiteTab = makeSqliteTab();
 	m_pFileSelectionTabWidget->addTab(pSQLiteTab, "Sqlite");
 
 	//Bottom buttons
@@ -38,19 +37,16 @@ QDatabaseSelectionView::QDatabaseSelectionView(QWidget* parent)
 	pBottomButtonsLayout->addWidget(m_pOKButton);
 
 	//Adding a mysql tab to the selection window
-	QWidget *pMySqlTab = new QWidget;
-	pMySqlTab = makeMySqlTab();
+	QWidget *pMySqlTab = makeMySqlTab();
 	m_pFileSelectionTabWidget->addTab(pMySqlTab, "MySQL");
-
-	pNewConnectionFileSelection->show();
 }
 
 
 
 QDatabaseSelectionView::~QDatabaseSelectionView()
 {
-}
 
+}
 
 QWidget* QDatabaseSelectionView::makeSqliteTab()
 {

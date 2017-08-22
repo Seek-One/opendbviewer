@@ -181,6 +181,7 @@ set(APPLICATION_SOURCES
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
+	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseSelectionView.h
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QWindowMain.h

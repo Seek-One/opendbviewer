@@ -78,7 +78,7 @@ void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QList
 	{
 		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
 		QStandardItem* pDataItem = new QStandardItem(*iter);
-		pDataItem->setEditable(false);
+		pDataItem->setEditable(true);
 		pRowDataItemList.append(pDataItem);
 		iter++;
 	}

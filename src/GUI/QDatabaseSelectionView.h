@@ -21,7 +21,7 @@
 #include <QAction>
 #include <QLineEdit>
 
-class QDatabaseSelectionView : public QWidget
+class QDatabaseSelectionView : public QDialog
 {
 	Q_OBJECT
 public:

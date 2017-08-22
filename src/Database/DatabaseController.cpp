@@ -194,57 +194,51 @@ bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbL
 
 bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data)
 {
-	openDatabase();
+	bool bRes = false;
+	bRes = openDatabase();
+	if(bRes){
+		//Creates a query from the data given in the worksheet text edit
+		QSqlQuery worksheetQuery(m_db);
 
-	//Creates a query from the data given in the worksheet text edit
-	QSqlQuery worksheetQuery(m_db);
+		//Creating a string giving information about the success or failure of query
+		QString szQueryOutput;
 
-	//Creating a string giving information about the success or failure of query
-	QString szQueryOutput;
+		bRes = worksheetQuery.exec(szWorksheetQuery);
+		if(bRes){
+			QList<QString> pRowData;
+			QList<QString> pColumnNameList;
 
-	try
-	{
-		worksheetQuery.exec(szWorksheetQuery);
+			int currentColumnNumber;
+			//appending column names to columnNameList
+			for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+			{
+				QSqlField field = worksheetQuery.record().field(currentColumnNumber);
+				pColumnNameList << field.name();
+			}
 
-		if(szWorksheetQuery == "") //If the query is empty
-			throw QString("Query executed with error");
-	}
-	catch(QString& szErrorString)
-	{
-		szQueryOutput = "Query executed with error(s): query is empty";
-		m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
-		return false;
-	}
+			while(worksheetQuery.next())
+			{
+				int currentColumnNumber;
+				for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+				{
+					pRowData << worksheetQuery.value(currentColumnNumber).toString();
+				}
 
-	QList<QString> pRowData;
-	QList<QString> pColumnNameList;
-
-	int currentColumnNumber;
-	//appending column names to columnNameList
-	for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
-	{
-		QSqlField field = worksheetQuery.record().field(currentColumnNumber);
-		pColumnNameList << field.name();
-	}
-
-	while(worksheetQuery.next())
-	{
-		int currentColumnNumber;
-		for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
-		{
-			pRowData << worksheetQuery.value(currentColumnNumber).toString();
+				func(pColumnNameList, pRowData, user_data);
+				//Clearing pRowData to have an empty list when starting the while loop again
+				pRowData.clear();
+			}
+			szQueryOutput = ("Query executed successfully");
+			m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
+		}else{
+			szQueryOutput = "Query executed with error(s): %s" + worksheetQuery.lastError().text();
+			m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
 		}
 
-		func(pColumnNameList, pRowData, user_data);
-		//Clearing pRowData to have an empty list when starting the while loop again
-		pRowData.clear();
+		closeDataBase();
 	}
-	szQueryOutput = ("Query executed successfully");
-	m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
 
-	closeDataBase();
-
-	return true;
+	return bRes;
 }
 
 QString DatabaseController::makeQueryResultString(QSqlQuery query, QString& szQueryOutput)

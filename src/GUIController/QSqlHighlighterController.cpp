@@ -91,6 +91,6 @@ QStringList QSqlHighlighterController::makeKeywordList()
 	QStringList szKeywordList;
 	//Words are sorted alphabetically
 	szKeywordList 	<< "\\balter\\b" << "\\bcreate\\b" << "\\bfrom\\b" //TODO add more keywords to the list
-					<< "\\bdrop\\b" << "\\bselect\\b" << "\\btable\\b";
+					<< "\\bdrop\\b" << "\\bselect\\b" << "\\btable\\b" << "\\bwhere\\b";
 	return szKeywordList;
 }

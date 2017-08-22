@@ -31,14 +31,16 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
+
     newDatabaseConnection();
 }
 
 void QWindowMainController::newDatabaseConnection()
 {
-	QDatabaseSelectionView* pSelectionView = new QDatabaseSelectionView;
+	QDatabaseSelectionView* pSelectionView = new QDatabaseSelectionView(m_pMainWindow);
 	QDatabaseSelectionViewController* pSelectionViewController = new QDatabaseSelectionViewController();
 	pSelectionViewController->init(m_pMainWindow, pSelectionView);
+	pSelectionView->exec();
 }
 
 void QWindowMainController::about()
@@ -53,4 +55,3 @@ void QWindowMainController::closeConnectionTab(const int& index)
 
 	delete(tabItem);
 }
-

@@ -304,15 +304,23 @@ configure_file(${PROJECT_SOURCE_DIR}/CPackOptions.cmake.in
     @ONLY)
 set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_BINARY_DIR}/CPackOptions.cmake)
 
-IF(WIN32)
-	if(CMAKE_BUILD_TYPE MATCHES Debug)
-		SET(CPACK_GENERATOR ZIP)
-	else()
-		SET(CPACK_GENERATOR NSIS)
-	endif()
-ELSE(WIN32)
-	SET(CPACK_GENERATOR TGZ DEB)
-ENDIF(WIN32)
+if(WIN32)
+    if(CMAKE_BUILD_TYPE MATCHES Debug)
+        SET(CPACK_GENERATOR ZIP)
+    else()
+        SET(CPACK_GENERATOR ZIP NSIS)
+    endif()
+elseif(APPLE)
+    configure_file(${PROJECT_SOURCE_DIR}/platforms/osx/Info.plist.in
+        ${PROJECT_BINARY_DIR}/platforms/osx/Info.plist
+        @ONLY)
+    configure_file(${PROJECT_SOURCE_DIR}/platforms/osx/run.sh.in
+        ${PROJECT_BINARY_DIR}/platforms/osx/${APPLICATION_NAME}
+        @ONLY)
+    SET(CPACK_GENERATOR Bundle)
+else()
+    SET(CPACK_GENERATOR TGZ DEB)
+endif(WIN32)
 
 SET(CPACK_PACKAGE_NAME ${APPLICATION_PACKAGE_NAME})
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${APPLICATION_DESCRIPTION_SUMMARY})

@@ -5,13 +5,16 @@
  *      Author: echopin
  */
 
-#include "QWindowMainController.h"
-#include "QDatabaseConnectionViewController.h"
-#include "QDatabaseSelectionViewController.h"
+#include "Database/DatabaseController.h"
+
+#include "GUI/QAboutDialog.h"
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QDatabaseSelectionView.h"
-#include "Database/DatabaseController.h"
+
+#include "QWindowMainController.h"
+#include "QDatabaseConnectionViewController.h"
+#include "QDatabaseSelectionViewController.h"
 
 QWindowMainController::QWindowMainController()
 {
@@ -45,7 +48,8 @@ void QWindowMainController::newDatabaseConnection()
 
 void QWindowMainController::about()
 {
-	QMessageBox::information(m_pMainWindow, tr("About..."), tr("Text"));
+	QAboutDialog aboutDialog(m_pMainWindow);
+	aboutDialog.exec();
 }
 
 void QWindowMainController::closeConnectionTab(const int& index)

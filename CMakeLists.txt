@@ -153,8 +153,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src)
 
 set(APPLICATION_SOURCES
 	src/main.cpp
-	src/GUI/QWindowMain.cpp
-	src/GUI/QWindowMain.h
+	src/GUI/QAboutDialog.cpp
+	src/GUI/QAboutDialog.h
 	src/GUI/QDatabaseTableView.cpp
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QDatabaseConnectionView.cpp
@@ -165,6 +165,8 @@ set(APPLICATION_SOURCES
 	src/GUI/QDatabaseSelectionView.h
 	src/GUI/QSqlSourceView.cpp
 	src/GUI/QSqlSourceView.h
+	src/GUI/QWindowMain.cpp
+	src/GUI/QWindowMain.h
 	src/GUI/QLineNumberAreaView.h
 	src/GUIController/QWindowMainController.cpp
 	src/GUIController/QWindowMainController.h
@@ -188,6 +190,7 @@ set(APPLICATION_SOURCES
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
+	src/GUI/QAboutDialog.h
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseSelectionView.h
 	src/GUI/QDatabaseTableView.h
@@ -211,6 +214,7 @@ qt_wrap_cpp(
 
 set (I18N_FILES
 	src/main.cpp
+	src/GUI/QAboutDialog.cpp
 	src/GUI/QDatabaseConnectionView.cpp
 	src/GUI/QDatabaseSelectionView.cpp
 	src/GUI/QDatabaseTableView.cpp
@@ -246,9 +250,18 @@ configure_file (
 )
 
 # Resources
+configure_file (
+  "${PROJECT_SOURCE_DIR}/data/logos/icon.rc.in"
+  "${PROJECT_BINARY_DIR}/data/logos/icon.rc"
+)
+configure_file (
+  "${PROJECT_SOURCE_DIR}/data/app.qrc.in"
+  "${PROJECT_BINARY_DIR}/data/app.qrc"
+)
+
 set (QRC_FILES
 	${PROJECT_BINARY_DIR}/ts.qrc
-	data/app.qrc
+	${PROJECT_BINARY_DIR}/data/app.qrc
 )
 QT_ADD_RESOURCES(RCS_OUTFILES ${QRC_FILES})
 
@@ -259,6 +272,7 @@ QT_ADD_RESOURCES(RCS_OUTFILES ${QRC_FILES})
 add_executable (${APPLICATION_EXE_NAME}
 	${APPLICATION_SOURCES}
 	${APPLICATION_MOC_OUTFILES}
+    ${RCS_OUTFILES}
 	${qm_FILES}
 )
 target_link_libraries (${APPLICATION_EXE_NAME}
@@ -290,7 +304,18 @@ configure_file (
   "${PROJECT_BINARY_DIR}/COPYING${DOCFILES_EXT}"
   NEWLINE_STYLE ${AUTO_NEWLINE_STYLE}
 )
+# ChangeLog file
+set(CHANGELOG "ChangeLog")
+install(FILES "${PROJECT_SOURCE_DIR}/${CHANGELOG}" DESTINATION ${INSTALL_PATH_DOC} RENAME ChangeLog${DOCFILES_EXT})
 
+# Desktop file
+configure_file (
+  "${PROJECT_SOURCE_DIR}/data/desktop.in"
+  "${PROJECT_BINARY_DIR}/data/${APPLICATION_PACKAGE_NAME}.desktop"
+)
+if(UNIX AND NOT WIN32)
+    install(FILES ${PROJECT_BINARY_DIR}/data/${APPLICATION_PACKAGE_NAME}.desktop DESTINATION ${INSTALL_PATH_APPLICATIONS})
+endif(UNIX AND NOT WIN32)
 
 #################
 # Build package

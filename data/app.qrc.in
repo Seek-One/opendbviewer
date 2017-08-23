@@ -1,0 +1,8 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+<qresource>
+	<file alias="@APPLICATION_PACKAGE_NAME@.png">logos/@APPLICATION_PACKAGE_NAME@.png</file>
+	<file alias="logos/logo-about.jpg">@LOGOABOUT_FILE@</file>
+	<file>logos/qt-logo.png</file>
+</qresource>
+</RCC>

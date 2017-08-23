@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=@APPLICATION_NAME@ 
+GenericName=@APPLICATION_NAME@
+X-GNOME-FullName=@APPLICATION_NAME@
+Comment=Open database viewer.
+Name[fr]=@APPLICATION_NAME@
+GenericName[fr]=@APPLICATION_NAME@
+X-GNOME-FullName[fr]=@APPLICATION_NAME@
+Comment[fr]=Visualiseur de base de donnée open source.
+Categories=Development;Database;
+Icon=@APPLICATION_PACKAGE_NAME@
+Exec=@APPLICATION_PACKAGE_NAME@
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+X-DCOP-ServiceType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

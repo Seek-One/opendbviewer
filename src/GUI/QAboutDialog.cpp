@@ -21,6 +21,9 @@
 #include <QToolButton>
 #include <QPushButton>
 
+#include <QFile>
+
+
 QAboutDialog::QAboutDialog(QWidget * parent)
 {
 	QLayout* pMainLayout = new QVBoxLayout();
@@ -28,6 +31,11 @@ QAboutDialog::QAboutDialog(QWidget * parent)
 
 	QString szTmp;
 	QLabel* pLabel;
+
+	QFile fileExits(":/logos/logo-about.jpg");
+	if(fileExits.exists()){
+		szTmp = "tri";
+	}
 
 	QImage image(":/logos/logo-about.jpg");
 
@@ -39,18 +47,15 @@ QAboutDialog::QAboutDialog(QWidget * parent)
 	// Global information
 	szTmp = "<b>%1 %2</b><br>";
 	szTmp += "<br>";
-	szTmp += tr("Copyright 2012-2016 - All rights reserved.") + "<br>";
-#ifndef ORGANIZATION_ABOUT_HIDDEN
-	szTmp += tr("%1 is a product %3: <a href=\"http://%4\">%4</a>") + "<br>";
-#endif
+	szTmp += tr("This program is distributed under the terms of the <a href=\"https://www.gnu.org/licenses/gpl-3.0.fr.html\">GNU GPL version 3</a>.") + "<br><br>";
+	szTmp += tr("%1 is a product originally created by Eric Beuque in Python.") + "<br/>";
+	szTmp += tr("It has been rewritten in C++ and sponsored by %3: <a href=\"http://%4\">%4</a>");
 	szTmp += "<br><br>";
-	szTmp += tr("This product uses open source softwares allowing commercial use:") + "<br/>";
+	szTmp += tr("This product uses open source softwares:") + "<br/>";
 	szTmp = szTmp.arg(QApplication::applicationName());
 	szTmp = szTmp.arg(QApplication::applicationVersion());
-#ifndef ORGANIZATION_ABOUT_HIDDEN
 	szTmp = szTmp.arg(QApplication::organizationName());
 	szTmp = szTmp.arg(QApplication::organizationDomain());
-#endif
 	pLabel = new QLabel(szTmp, this);
 	pMainLayout->addWidget(pLabel);
 
@@ -63,10 +68,6 @@ QAboutDialog::QAboutDialog(QWidget * parent)
 	QAbstractButton* pButton;
 	pButton = addLibraryButton(pLayout, pFrame, ":/logos/qt-logo.png", "Qt");
 	connect(pButton, SIGNAL(clicked()), this, SLOT(menuAboutQtClicked()));
-	pButton = addLibraryButton(pLayout, pFrame, ":/logos/ffmpeg-logo.png", "FFmpeg");
-	connect(pButton, SIGNAL(clicked()), this, SLOT(menuAboutFFmpegClicked()));
-	pButton = addLibraryButton(pLayout, pFrame, ":/logos/libcurl-logo.png", "libcurl");
-	connect(pButton, SIGNAL(clicked()), this, SLOT(menuAboutLibcurlClicked()));
 
 	// Separator
     QFrame* pLine = new QFrame(this);
@@ -110,25 +111,4 @@ QAbstractButton* QAboutDialog::addLibraryButton(QLayout* pLayout, QWidget* pPare
 void QAboutDialog::menuAboutQtClicked()
 {
 	QMessageBox::aboutQt(this, tr("About Qt"));
-}
-
-void QAboutDialog::menuAboutFFmpegClicked()
-{
-	QString szTmp;
-	szTmp = "<b>" + tr("About FFmpeg") + "</b><br/><br/>";
-	szTmp += tr("This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under the <a href=http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>LGPLv2.1</a> and its source can be downloaded <a href=link_to_your_sources>here</a>.")+"<br/><br/>";
-
-	szTmp += tr("FFmpeg libraries used by this program have been built with the following options:") + "<br/>";
-	szTmp += "- <u>"+ tr("Windows 32bits version:") + "</u> </li></ul><i>--enable-memalign-hack --arch=x86 --target-os=mingw32 --cross-prefix=i686-w64-mingw32- --enable-shared --pkg-config=pkg-config</i>";
-
-	QMessageBox::about(this, tr("About FFmpeg"), szTmp);
-}
-
-void QAboutDialog::menuAboutLibcurlClicked()
-{
-	QString szTmp;
-	szTmp = "<b>" + tr("About libcurl") + "</b><br/><br/>";
-	szTmp += tr("This software uses code of <a href=http://curl.haxx.se/libcurl/>libcurl</a> licensed under a <a href=http://curl.haxx.se/docs/copyright.html>MIT/X derivate license</a> and its source can be downloaded <a href=link_to_your_sources>here</a>.")+"<br/><br/>";
-
-	QMessageBox::about(this, tr("About libcurl"), szTmp);
 }

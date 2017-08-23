@@ -24,8 +24,6 @@ public:
 
 public slots:
 	void menuAboutQtClicked();
-	void menuAboutFFmpegClicked();
-	void menuAboutLibcurlClicked();
 
 private:
 	QAbstractButton* addLibraryButton(QLayout* pLayout, QWidget* pParent, const QString& szIconFile, const QString& szName);

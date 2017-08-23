@@ -152,8 +152,8 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	 * and set the position back to the first record*/
 	if (tableDataQuery.next() == false){
 		func(pColumnName, pRowData, user_data);
-		tableDataQuery.previous();
 	}
+	tableDataQuery.previous();
 
 	while(tableDataQuery.next())
 	{

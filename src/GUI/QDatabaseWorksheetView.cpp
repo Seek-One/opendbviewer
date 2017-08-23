@@ -7,7 +7,6 @@
 
 #include "QDatabaseWorksheetView.h"
 #include "QSqlSourceView.h"
-#include "GUIController/QSqlHighlighterController.h"
 
 QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 		: QWidget(parent)
@@ -25,7 +24,6 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	//pWorksheetViewLayout->addWidget(m_pWorksheetTextEdit);
 
 	m_pWorksheetTextEdit = new QSqlSourceView(this);
-	QSqlHighlighterController *pSqlHighlighter = new QSqlHighlighterController(m_pWorksheetTextEdit->document());
 	pWorksheetViewLayout->addWidget(m_pWorksheetTextEdit);
 
 	//Creation of a tab widget for query results and console

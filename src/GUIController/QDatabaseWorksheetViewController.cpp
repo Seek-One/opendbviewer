@@ -16,11 +16,15 @@ QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 	m_pDatabaseWorksheetView = NULL;
 	m_szFileName = "";
 	m_pDatabaseController = NULL;
+	m_pSqlHighlighterController = NULL;
 }
 
 QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
 {
-
+	if(m_pSqlHighlighterController){
+		delete m_pSqlHighlighterController;
+		m_pSqlHighlighterController = NULL;
+	}
 }
 
 void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWorksheetView, QString& szFileName, DatabaseController* pDatabaseController)
@@ -28,6 +32,8 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 	m_pDatabaseWorksheetView = pDatabaseWorksheetView;
 	m_szFileName = szFileName;
 	m_pDatabaseController = pDatabaseController;
+
+	m_pSqlHighlighterController = new QSqlHighlighterController(m_pDatabaseWorksheetView->getWorksheetTextEdit()->document());
 
 	connect(m_pDatabaseWorksheetView->getExecuteButton(), SIGNAL(clicked()), this, SLOT(executeQuery()));
 	connect(m_pDatabaseWorksheetView->getReformatButton(), SIGNAL(clicked()), this, SLOT(reformatSqlText()));

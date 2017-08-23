@@ -150,9 +150,10 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 	/*if there is no data to get, get both pColumnName and empty pRowData for setting the header,
 	 * and set the position back to the first record*/
-	if (tableDataQuery.next() == false)
+	if (tableDataQuery.next() == false){
 		func(pColumnName, pRowData, user_data);
 		tableDataQuery.previous();
+	}
 
 	while(tableDataQuery.next())
 	{

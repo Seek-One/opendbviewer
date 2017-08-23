@@ -38,6 +38,7 @@ private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	QString m_szFileName;
 	DatabaseController* m_pDatabaseController;
+	QSqlHighlighterController* m_pSqlHighlighterController;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

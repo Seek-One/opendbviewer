@@ -41,8 +41,6 @@ void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseCo
 
 void QWindowMain::createMenu()
 {
-	QAction *pAction;
-
     QMenu *pFileMenu = menuBar()->addMenu(tr("&File"));
     m_pNewConnectionAction = new QAction(tr("&New connection"), this);
     pFileMenu->addAction(m_pNewConnectionAction);
@@ -50,6 +48,8 @@ void QWindowMain::createMenu()
     m_pQuitAction = new QAction(tr("&Quit"), this);
     pFileMenu->addAction(m_pQuitAction);
 
+    /*
+	QAction *pAction;
     QMenu *pEditMenu = menuBar()->addMenu(tr("&Edit"));
     pAction = new QAction(tr("&Cut"), this);
     pEditMenu->addAction(pAction);
@@ -61,6 +61,7 @@ void QWindowMain::createMenu()
     pEditMenu->addAction(pAction);
 
     QMenu *pViewMenu = menuBar()->addMenu(tr("&View"));
+    */
 
     QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
     m_pAboutAction = new QAction(tr("&About"), this);

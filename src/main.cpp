@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationVersion(APPLICATION_VERSION);
 	QApplication::setOrganizationName(APPLICATION_VENDOR_NAME);
 	QApplication::setOrganizationDomain(APPLICATION_VENDOR_DOMAIN);
-	//QApplication::setWindowIcon(QIcon(":/"APPLICATION_PACKAGE_NAME".png"));
+	QApplication::setWindowIcon(QIcon(":/"APPLICATION_PACKAGE_NAME".png"));
 
 	qDebug("[Main] Starting application");
 
@@ -63,13 +63,11 @@ int main(int argc, char *argv[])
 	if(bGoOn && pWindowMain){
 		qDebug("[Main] Show application");
 		pWindowMain->show();
-		/*
 #ifdef WIN32
 		pWindowMain->setWindowIcon(QIcon(":/"APPLICATION_PACKAGE_NAME".png"));
 #else
 		pWindowMain->setWindowIconText(APPLICATION_PACKAGE_NAME);
 #endif
-		 */
 	}
 
 	// Run the event loop

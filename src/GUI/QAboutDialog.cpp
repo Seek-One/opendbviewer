@@ -32,11 +32,6 @@ QAboutDialog::QAboutDialog(QWidget * parent)
 	QString szTmp;
 	QLabel* pLabel;
 
-	QFile fileExits(":/logos/logo-about.jpg");
-	if(fileExits.exists()){
-		szTmp = "tri";
-	}
-
 	QImage image(":/logos/logo-about.jpg");
 
 	// Add the logo image

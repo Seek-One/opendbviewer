@@ -278,35 +278,27 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 	return bRes;
 }
 
-QString DatabaseController::makeQueryResultString(QSqlQuery query, QString& szQueryOutput)
+QString DatabaseController::makeQueryResultString(const QSqlQuery& query, const QString& szQueryOutput)
 {
-	QString szResultString("");//Creates an empty string
-	QString szNumberOfRows = makeStringNumberOfRows(query);//Gets the number of lines in the query and converts it to string
+	QString szResultString;
 	QTime time;
-	//Creating the result string with query information
-	if(query.lastQuery().isEmpty())//If the query is empty, do not append it to szResultString
-		szResultString.append(time.currentTime().toString()+"=> "+szQueryOutput+": "+szNumberOfRows+" row(s) selected/affected\n\n");
-	else
-		szResultString.append(time.currentTime().toString()+"=> "+szQueryOutput+": "+szNumberOfRows+" row(s) selected/affected \n   "+query.lastQuery()+"\n\n");
+
+	int iNbRow = 0;
+	if(query.isSelect()){
+		iNbRow = query.size();
+	}else{
+		iNbRow = query.numRowsAffected();
+	}
+
+	szResultString += time.currentTime().toString()+" => ";
+	szResultString += szQueryOutput+": ";
+	szResultString += QString::number(iNbRow)+" row(s) selected/affected\n";
+	if(!query.lastQuery().isEmpty()){
+		szResultString+="   "+query.lastQuery()+"\n";
+	}
+	szResultString+="\n";
 
 	return szResultString;
-}
-
-QString DatabaseController::makeStringNumberOfRows(QSqlQuery query)
-{
-	//Gets the number of rows as numRowsAffected() does not seem to be working
-	int numberOfRows = 0;
-
-		if(query.last())
-		{
-		    numberOfRows =  query.at() + 1;
-		    query.first();
-		    query.previous();
-		}
-	//Converts the number to a string
-	QString szNumberOfRows = QString::number(numberOfRows);
-
-	return szNumberOfRows;
 }
 
 QString DatabaseController::getQueryResultString() const

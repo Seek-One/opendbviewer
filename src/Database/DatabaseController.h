@@ -51,8 +51,7 @@ protected:
 
 
 private:
-	QString makeStringNumberOfRows(QSqlQuery query);
-	QString makeQueryResultString(QSqlQuery query, QString& szQueryOutput);
+	QString makeQueryResultString(const QSqlQuery& query, const QString& szQueryOutput);
 
 
 protected:

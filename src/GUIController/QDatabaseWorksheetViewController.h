@@ -32,7 +32,7 @@ public slots:
 	void clearWorksheetText();
 
 private:
-	static void onDbLoadWorksheetQueryResults(const QList<QString>& pColumnNameList, const QList<QString>& pRowData, void* user_data);
+	static void onDbLoadWorksheetQueryResults(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data);
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;

@@ -203,18 +203,19 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 
 		//Creating a string giving information about the success or failure of query
 		QString szQueryOutput;
+		QVariant variant;
 
 		bRes = worksheetQuery.exec(szWorksheetQuery);
 		if(bRes){
-			QList<QString> pRowData;
-			QList<QString> pColumnNameList;
+			QList<QString> listColumnNameList;
+			QList<QString> listRowData;
 
 			int currentColumnNumber;
 			//appending column names to columnNameList
 			for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
 			{
 				QSqlField field = worksheetQuery.record().field(currentColumnNumber);
-				pColumnNameList << field.name();
+				listColumnNameList << field.name();
 			}
 
 			while(worksheetQuery.next())
@@ -222,12 +223,17 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 				int currentColumnNumber;
 				for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
 				{
-					pRowData << worksheetQuery.value(currentColumnNumber).toString();
+					variant = worksheetQuery.value(currentColumnNumber);
+					if(variant.isNull()){
+						listRowData << QString();
+					}else{
+						listRowData << variant.toString();
+					}
 				}
 
-				func(pColumnNameList, pRowData, user_data);
+				func(listColumnNameList, listRowData, user_data);
 				//Clearing pRowData to have an empty list when starting the while loop again
-				pRowData.clear();
+				listRowData.clear();
 			}
 			szQueryOutput = ("Query executed successfully");
 			m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);

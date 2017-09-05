@@ -56,17 +56,17 @@ QStringList DatabaseControllerMysql::loadTableDescriptionColumnNames(const QSqlQ
 	return pColumnNames;
 }
 
-QStringList DatabaseControllerMysql::listColumnNames(QString szTableName)
+QStringList DatabaseControllerMysql::listColumnNames(const QString& szTableName)
 {
-	QStringList szListColumnName;
+	QStringList listColumnName;
 	QSqlQuery tableInfoQuery(m_db);
 	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));
 	while (tableInfoQuery.next())
 	   {
 		QString szName = tableInfoQuery.value(0).toString();
-		szListColumnName += szName;
+		listColumnName += szName;
 	   }
-	return szListColumnName;
+	return listColumnName;
 }
 
 QString DatabaseControllerMysql::loadTableCreationScriptQuery(const QString& szTableName)

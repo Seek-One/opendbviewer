@@ -45,7 +45,7 @@ protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName) = 0;
 	virtual QStringList loadTableDescriptionResult(const QSqlQuery query) = 0;
 	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query) = 0;
-	virtual QStringList listColumnNames(QString szTableName) = 0;
+	virtual QStringList listColumnNames(const QString& szTableName) = 0;
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName) = 0;
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query) = 0;
 

@@ -26,7 +26,7 @@ QString DatabaseControllerSqlite::loadTableDescriptionQuery(const QString& szTab
 
 QStringList DatabaseControllerSqlite::loadTableDescriptionResult(const QSqlQuery query)
 {
-	QStringList pRowData;
+	QStringList listRowData;
 	QString szNotNull;
 
 	QString szName = query.value(1).toString();
@@ -38,16 +38,16 @@ QStringList DatabaseControllerSqlite::loadTableDescriptionResult(const QSqlQuery
 		szNotNull = "true";//end of workaround
 	QString szDefaultValue = query.value(4).toString();
 	QString szPk = query.value(5).toString();
-	pRowData << szName << szType << szNotNull << szDefaultValue << szPk;
+	listRowData << szName << szType << szNotNull << szDefaultValue << szPk;
 
-	return pRowData;
+	return listRowData;
 }
 
 QStringList DatabaseControllerSqlite::loadTableDescriptionColumnNames(const QSqlQuery query)
 {
-	QStringList pColumnNames;
-	pColumnNames << "Field" << "Type" << "Not null" << "Default value" << "Primary key";
-	return pColumnNames;
+	QStringList listColumnName;
+	listColumnName << "Field" << "Type" << "Not null" << "Default value" << "Primary key";
+	return listColumnName;
 }
 
 QString DatabaseControllerSqlite::loadTableCreationScriptQuery(const QString& szTableName)
@@ -60,7 +60,7 @@ QString DatabaseControllerSqlite::makeTableCreationScriptQueryResult(const QSqlQ
 	return QString(query.value(0).toString());
 }
 
-QStringList DatabaseControllerSqlite::listColumnNames(QString szTableName)
+QStringList DatabaseControllerSqlite::listColumnNames(const QString& szTableName)
 {
 	QStringList szListColumnName;
 	szListColumnName << "rowid";//appending rowid to the list

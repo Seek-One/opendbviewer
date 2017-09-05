@@ -33,12 +33,16 @@ void DatabaseController::closeDataBase()
 
 bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 {
-	if(openDatabase()){
+	bool bRes;
 
-		QList<QString> szTableList = m_db.tables();
+	bRes = openDatabase();
+	if(bRes){
 
-		QList<QString>::const_iterator iter = szTableList.begin();
-		while(iter != szTableList.end())
+		QStringList listTable = m_db.tables();
+		listTable.sort();
+
+		QList<QString>::const_iterator iter = listTable.begin();
+		while(iter != listTable.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -47,72 +51,98 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 		}
 
 		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for views loading");
 	}
-
-	return true;
+	return bRes;
 }
 
 bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 {
-	if(openDatabase()){
+	bool bRes;
 
-		QList<QString> szTableList = m_db.tables(QSql::SystemTables);
+	bRes = openDatabase();
+	if(bRes){
 
-		QList<QString>::const_iterator iter = szTableList.begin();
-		while(iter != szTableList.end())
+		QStringList listTable = m_db.tables(QSql::SystemTables);
+		listTable.sort();
+
+		QList<QString>::const_iterator iter = listTable.begin();
+		while(iter != listTable.end())
 		{
 			if(func){
 				func(*iter, user_data);
 			}
 			iter++;
 		}
-		closeDataBase();
-	}
 
-	return true;
+		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for views loading");
+	}
+	return bRes;
 }
 
 bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 {
-	if(openDatabase())
-	{
-		QList<QString> szTableList = m_db.tables(QSql::Views);
-		QList<QString>::const_iterator iter = szTableList.begin();
-		while(iter != szTableList.end())
+	bool bRes;
+
+	bRes = openDatabase();
+	if(bRes){
+		QStringList listTable = m_db.tables(QSql::Views);
+		listTable.sort();
+
+		QList<QString>::const_iterator iter = listTable.begin();
+		while(iter != listTable.end())
 		{
 			if(func){
 				func(*iter, user_data);
 			}
 			iter++;
 		}
+
 		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for views loading");
 	}
-	return true;
+	return bRes;
 }
 
 bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoadTableDescription func, void* user_data)
 {
-	openDatabase();
-	QSqlQuery tableInfoQuery(m_db);
-	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));//loading the query according to the type of database used
-	QStringList pColumnName = loadTableDescriptionColumnNames(tableInfoQuery);
+	bool bRes;
 
-	QStringList pRowData;
+	bRes = openDatabase();
+	if(bRes){
+		QString szQuery = loadTableDescriptionQuery(szTableName);
 
-	while (tableInfoQuery.next())
-    {
-		pRowData = loadTableDescriptionResult(tableInfoQuery); //Loading results depending on type of database
-		func(pColumnName, pRowData, user_data);
-		pRowData.clear();//Clearing pRowData to have an empty list when starting the while loop again
-    }
+		QSqlQuery query(m_db);
+		bRes = query.exec(szQuery);//loading the query according to the type of database used
+		if(bRes){
+			QStringList listRowHeader = loadTableDescriptionColumnNames(query);
+			QStringList listRowData;
 
-	QString szQueryOutput("Query executed successfully");
-	m_szResultString = makeQueryResultString(tableInfoQuery, szQueryOutput);
-	tableInfoQuery.finish();
+			while (query.next())
+			{
+				listRowData = loadTableDescriptionResult(query); //Loading results depending on type of database
+				func(listRowHeader, listRowData, user_data);
+				listRowData.clear();//Clearing pRowData to have an empty list when starting the while loop again
+			}
 
-	closeDataBase();
+			QString szQueryOutput("Query executed successfully");
+			m_szResultString = makeQueryResultString(query, szQueryOutput);
 
-	return true;
+			query.finish();
+		}else{
+			qCritical("[DatabaseController] Cannot execute query for table description loading");
+		}
+
+		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for table description loading");
+	}
+
+	return bRes;
 }
 
 bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data)

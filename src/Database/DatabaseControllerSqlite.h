@@ -28,7 +28,7 @@ protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName);
 	virtual QStringList loadTableDescriptionResult(const QSqlQuery query);
 	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query);
-	virtual QStringList listColumnNames(QString szTableName);
+	virtual QStringList listColumnNames(const QString& szTableName);
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName);
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
 

@@ -37,12 +37,13 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 
 	bRes = openDatabase();
 	if(bRes){
+		QStringList listItem = m_db.tables();
 
-		QStringList listTable = m_db.tables();
-		listTable.sort();
+		// Sort by name
+		listItem.sort();
 
-		QList<QString>::const_iterator iter = listTable.begin();
-		while(iter != listTable.end())
+		QList<QString>::const_iterator iter = listItem.begin();
+		while(iter != listItem.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -54,6 +55,7 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 	}else{
 		qCritical("[DatabaseController] Cannot open database for table loading");
 	}
+
 	return bRes;
 }
 
@@ -63,12 +65,13 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 
 	bRes = openDatabase();
 	if(bRes){
+		QStringList listItem = m_db.tables(QSql::SystemTables);
 
-		QStringList listTable = m_db.tables(QSql::SystemTables);
-		listTable.sort();
+		// Sort by name
+		listItem.sort();
 
-		QList<QString>::const_iterator iter = listTable.begin();
-		while(iter != listTable.end())
+		QList<QString>::const_iterator iter = listItem.begin();
+		while(iter != listItem.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -80,6 +83,7 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 	}else{
 		qCritical("[DatabaseController] Cannot open database for system table loading");
 	}
+
 	return bRes;
 }
 
@@ -89,11 +93,13 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 
 	bRes = openDatabase();
 	if(bRes){
-		QStringList listTable = m_db.tables(QSql::Views);
-		listTable.sort();
+		QStringList listItem = m_db.tables(QSql::Views);
 
-		QList<QString>::const_iterator iter = listTable.begin();
-		while(iter != listTable.end())
+		// Sort by name
+		listItem.sort();
+
+		QList<QString>::const_iterator iter = listItem.begin();
+		while(iter != listItem.end())
 		{
 			if(func){
 				func(*iter, user_data);
@@ -105,6 +111,7 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 	}else{
 		qCritical("[DatabaseController] Cannot open database for views loading");
 	}
+
 	return bRes;
 }
 
@@ -115,6 +122,8 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	bRes = openDatabase();
 	if(bRes){
 		QString szQuery = loadTableDescriptionQuery(szTableName);
+
+		int iCount = 0;
 
 		QSqlQuery query(m_db);
 		bRes = query.exec(szQuery);//loading the query according to the type of database used
@@ -127,15 +136,15 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 				listRowData = loadTableDescriptionResult(query); //Loading results depending on type of database
 				func(listRowHeader, listRowData, user_data);
 				listRowData.clear();//Clearing pRowData to have an empty list when starting the while loop again
+
+				iCount++;
 			}
-
-			QString szQueryOutput("Query executed successfully");
-			m_szResultString = makeQueryResultString(query, szQueryOutput);
-
-			query.finish();
 		}else{
 			qCritical("[DatabaseController] Cannot execute query for table description loading");
 		}
+
+		QString szQueryOutput("Query executed successfully");
+		m_szResultString = makeQueryResultString(query, iCount);
 
 		closeDataBase();
 	}else{
@@ -147,60 +156,57 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 
 bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data)
 {
-	openDatabase();
+	bool bRes;
 
-	QList<QString> pRowData;
+	bRes = openDatabase();
+	if(bRes){
+		// Get the list of column names from the table
+		QStringList listRowHeader = listColumnNames(szTableName);
+		QStringList listRowData;
 
-	//Get the list of column names from the table
-	QStringList pColumnName = listColumnNames(szTableName);
-
-	//Creating a string from a list
-	QString columnNamesString = pColumnName.join(", ");
-
-	//Using the string in the query
-	QSqlQuery tableDataQuery(m_db);
-	QString szQuery = "SELECT "+columnNamesString+" FROM "+szTableName;
-	QString szQueryOutput;
-	try
-		{
-		if(szFilter.isEmpty() == false)//If there is no filter, execute query
-		{
+		// Select with all column
+		QString szHeaders = listRowHeader.join(", ");
+		QString szQuery = "SELECT "+szHeaders+" FROM "+szTableName;
+		// Add filter if any
+		if(szFilter.isEmpty() == false){
 			szQuery += " WHERE "+szFilter;
 		}
-		tableDataQuery.exec(szQuery);
-		if(tableDataQuery.exec(szQuery) == false) //If the query is not right, throw
-			throw QString("Query executed with error");
-		else
-			szQueryOutput = "Query executed successfully";
-	}
-	catch(QString& szErrorString)
-	{
-		szQueryOutput = "Query executed with error(s)";
-	}
 
-	/*if there is no data to get, get both pColumnName and empty pRowData for setting the header,
-	 * and set the position back to the first record*/
-	if (tableDataQuery.next() == false){
-		func(pColumnName, pRowData, user_data);
-	}
-	tableDataQuery.previous();
+		int iCount = 0;
 
-	while(tableDataQuery.next())
-	{
-		int currentColumnNumber;
-		for (currentColumnNumber = 0; currentColumnNumber <= (pColumnName.size() - 1); currentColumnNumber++)
-		{
-			pRowData << tableDataQuery.value(currentColumnNumber).toString();
+		int iColumnCount;
+
+		// Execute the query
+		QSqlQuery query(m_db);
+		bRes = query.exec(szQuery);
+		if(bRes){
+			QVariant variant;
+
+			while(query.next())
+			{
+				for (iColumnCount = 0; iColumnCount <= (listRowHeader.size() - 1); iColumnCount++)
+				{
+					variant = query.value(iColumnCount);
+					listRowData << variant.toString();
+				}
+				func(listRowHeader, listRowData, user_data);
+				listRowData.clear();
+				iCount++;
+			}
+
+			if(iCount == 0){
+				func(listRowHeader, listRowData, user_data);
+			}
 		}
-		func(pColumnName, pRowData, user_data);
-		//Clearing pRowData to have an empty list when starting the while loop again
-		pRowData.clear();
-	}
-	m_szResultString = makeQueryResultString(tableDataQuery, szQueryOutput);
-	tableDataQuery.finish();
-	closeDataBase();
 
-	return true;
+		m_szResultString = makeQueryResultString(query, iCount);
+
+		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for table description loading");
+	}
+
+	return bRes;
 }
 
 bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)
@@ -228,49 +234,41 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 	bool bRes = false;
 	bRes = openDatabase();
 	if(bRes){
-		//Creates a query from the data given in the worksheet text edit
-		QSqlQuery worksheetQuery(m_db);
 
-		//Creating a string giving information about the success or failure of query
-		QString szQueryOutput;
-		QVariant variant;
+		int iCount = 0;
 
-		bRes = worksheetQuery.exec(szWorksheetQuery);
+		QSqlQuery query(m_db);
+		bRes = query.exec(szWorksheetQuery);
 		if(bRes){
-			QList<QString> listColumnNameList;
-			QList<QString> listRowData;
+			QVariant variant;
+
+			QStringList listRowHeader;
+			QStringList listRowData;
 
 			int currentColumnNumber;
 			//appending column names to columnNameList
-			for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+			for (currentColumnNumber = 0; currentColumnNumber < query.record().count(); currentColumnNumber++)
 			{
-				QSqlField field = worksheetQuery.record().field(currentColumnNumber);
-				listColumnNameList << field.name();
+				QSqlField field = query.record().field(currentColumnNumber);
+				listRowHeader << field.name();
 			}
 
-			while(worksheetQuery.next())
+			while(query.next())
 			{
 				int currentColumnNumber;
-				for (currentColumnNumber = 0; currentColumnNumber < worksheetQuery.record().count(); currentColumnNumber++)
+				for (currentColumnNumber = 0; currentColumnNumber < query.record().count(); currentColumnNumber++)
 				{
-					variant = worksheetQuery.value(currentColumnNumber);
-					if(variant.isNull()){
-						listRowData << QString();
-					}else{
-						listRowData << variant.toString();
-					}
+					variant = query.value(currentColumnNumber);
+					listRowData << variant.toString();
 				}
 
-				func(listColumnNameList, listRowData, user_data);
+				func(listRowHeader, listRowData, user_data);
 				//Clearing pRowData to have an empty list when starting the while loop again
 				listRowData.clear();
+				iCount++;
 			}
-			szQueryOutput = ("Query executed successfully");
-			m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
-		}else{
-			szQueryOutput = "Query executed with error(s): %s" + worksheetQuery.lastError().text();
-			m_szResultString = makeQueryResultString(worksheetQuery, szQueryOutput);
 		}
+		m_szResultString = makeQueryResultString(query, iCount);
 
 		closeDataBase();
 	}
@@ -278,7 +276,7 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 	return bRes;
 }
 
-QString DatabaseController::makeQueryResultString(const QSqlQuery& query, const QString& szQueryOutput)
+QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected)
 {
 	QString szResultString;
 	QTime time;
@@ -286,13 +284,24 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, const 
 	int iNbRow = 0;
 	if(query.isSelect()){
 		iNbRow = query.size();
+		if(iNbRow == -1){
+			iNbRow = iNbRowsSelected;
+		}
 	}else{
 		iNbRow = query.numRowsAffected();
 	}
 
+	// Write the time
 	szResultString += time.currentTime().toString()+" => ";
-	szResultString += szQueryOutput+": ";
+	// Write sql error
+	if(query.lastError().isValid()){
+		szResultString += "Query executed with error(s) (" + query.lastError().text() + "): ";
+	}else{
+		szResultString += "Query executed successfully: ";
+	}
+	// Write number of rows
 	szResultString += QString::number(iNbRow)+" row(s) selected/affected\n";
+	// Write query
 	if(!query.lastQuery().isEmpty()){
 		szResultString+="   "+query.lastQuery()+"\n";
 	}

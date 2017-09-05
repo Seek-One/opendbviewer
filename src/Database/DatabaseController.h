@@ -51,7 +51,7 @@ protected:
 
 
 private:
-	QString makeQueryResultString(const QSqlQuery& query, const QString& szQueryOutput);
+	QString makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected);
 
 
 protected:

@@ -52,7 +52,7 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 
 		closeDataBase();
 	}else{
-		qCritical("[DatabaseController] Cannot open database for views loading");
+		qCritical("[DatabaseController] Cannot open database for table loading");
 	}
 	return bRes;
 }
@@ -78,7 +78,7 @@ bool DatabaseController::loadSystemTables(DbLoadTableCB func, void* user_data)
 
 		closeDataBase();
 	}else{
-		qCritical("[DatabaseController] Cannot open database for views loading");
+		qCritical("[DatabaseController] Cannot open database for system table loading");
 	}
 	return bRes;
 }

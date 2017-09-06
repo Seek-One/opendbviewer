@@ -18,8 +18,9 @@
 #include <QTextEdit>
 #include <QStandardItemModel>
 #include <QHeaderView>
-#include <QTreeView>
 #include <QDebug>
+
+class QTreeView;
 
 class QDatabaseTableView : public QWidget
 {
@@ -27,15 +28,21 @@ class QDatabaseTableView : public QWidget
 public:
 	QDatabaseTableView(QWidget* parent = 0);
 	virtual ~QDatabaseTableView();
+
+	// Structure tab
+	QTreeView* getStructureTreeView() const;
 	QStandardItemModel* getStructureModel() const;
+
+	// Data tab
+	QTreeView* getDataTreeView() const;
 	QStandardItemModel* getDataResultsModel() const;
 	QPushButton* getRefreshButton() const;
 	QPushButton* getClearButton() const;
 	QLineEdit* getFilterLine() const;
 	QTextEdit* getConsoleTextEdit() const;
+
+	// Creation script tab
 	QTextEdit* getCreationScriptTextEdit() const;
-
-
 
 private:
 	QWidget* makeDataTab();
@@ -43,8 +50,11 @@ private:
 	QWidget* makeCreationScriptTab();
 
 private:
-	QStandardItemModel* m_pDataResultsModel;
 	QStandardItemModel* m_pStructureModel;
+	QTreeView* m_pStructureTreeView;
+
+	QTreeView* m_pDataTreeView;
+	QStandardItemModel* m_pDataResultsModel;
 	QPushButton *m_pRefreshButton;
 	QPushButton *m_pClearButton;
 	QLineEdit* m_pFilterLine;

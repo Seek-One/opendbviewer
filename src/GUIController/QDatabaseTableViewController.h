@@ -8,13 +8,14 @@
 #ifndef SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_
 
-#include "GUI/QDatabaseTableView.h"
-#include "Database/DatabaseController.h"
-#include <QObject>
-#include <QTextCursor>
-#include <QDebug>
+#include <QWidget>
+#include <QList>
 
+#include "Database/DatabaseCallback.h"
+
+class QStandardItem;
 class QDatabaseTableView;
+class DatabaseController;
 
 class QDatabaseTableViewController : public QWidget
 {
@@ -25,15 +26,17 @@ public:
 
 	void init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController);
 	void showQueryInformation();
-	QList<QStandardItem*> makeStandardItemListFromStringList(const QList<QString>& szStringList);
+
 public slots:
 	void updateView();
 	void clearFilterField();
 
 private:
-	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
-	static void onDbLoadTableData(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
+	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);
+	static void onDbLoadTableData(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);
 	static void onDbLoadTableCreationScript(const QString& szCreationScriptString, void* user_data);
+
+	QList<QStandardItem*> makeStandardItemListFromStringList(const QList<QString>& szStringList);
 
 private:
 	QDatabaseTableView* m_pDatabaseTableView;

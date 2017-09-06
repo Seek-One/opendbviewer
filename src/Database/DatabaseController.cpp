@@ -119,6 +119,9 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 {
 	bool bRes;
 
+	QStringList listRowHeader;
+	QStringList listRowData;
+
 	bRes = openDatabase();
 	if(bRes){
 		QString szQuery = loadTableDescriptionQuery(szTableName);
@@ -128,17 +131,22 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 		QSqlQuery query(m_db);
 		bRes = query.exec(szQuery);//loading the query according to the type of database used
 		if(bRes){
-			QStringList listRowHeader = loadTableDescriptionColumnNames(query);
-			QStringList listRowData;
+			// Get headers
+			listRowHeader = loadTableDescriptionColumnNames(query);
+			func(listRowHeader, listRowData, DBQueryStepStart, user_data);
 
+			// Get rows
 			while (query.next())
 			{
-				listRowData = loadTableDescriptionResult(query); //Loading results depending on type of database
-				func(listRowHeader, listRowData, user_data);
-				listRowData.clear();//Clearing pRowData to have an empty list when starting the while loop again
+				listRowData = loadTableDescriptionResult(query);
+				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
+				listRowData.clear();
 
 				iCount++;
 			}
+
+			// Tell all data are read
+			func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
 		}else{
 			qCritical("[DatabaseController] Cannot execute query for table description loading");
 		}
@@ -158,11 +166,14 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 {
 	bool bRes;
 
+	QStringList listRowHeader;
+	QStringList listRowData;
+
 	bRes = openDatabase();
 	if(bRes){
 		// Get the list of column names from the table
-		QStringList listRowHeader = listColumnNames(szTableName);
-		QStringList listRowData;
+		listRowHeader = listColumnNames(szTableName);
+		func(listRowHeader, listRowData, DBQueryStepStart, user_data);
 
 		// Select with all column
 		QString szHeaders = listRowHeader.join(", ");
@@ -174,7 +185,8 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 		int iCount = 0;
 
-		int iColumnCount;
+		int iColumnCount = listRowHeader.size();
+		int col;
 
 		// Execute the query
 		QSqlQuery query(m_db);
@@ -182,24 +194,23 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 		if(bRes){
 			QVariant variant;
 
+			// Get rows
 			while(query.next())
 			{
-				for (iColumnCount = 0; iColumnCount <= (listRowHeader.size() - 1); iColumnCount++)
+				for (col=0; col<iColumnCount; col++)
 				{
-					variant = query.value(iColumnCount);
+					variant = query.value(col);
 					listRowData << variant.toString();
 				}
-				func(listRowHeader, listRowData, user_data);
+				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
 				listRowData.clear();
 				iCount++;
-			}
-
-			if(iCount == 0){
-				func(listRowHeader, listRowData, user_data);
 			}
 		}
 
 		m_szResultString = makeQueryResultString(query, iCount);
+
+		func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
 
 		closeDataBase();
 	}else{
@@ -211,27 +222,39 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)
 {
-	openDatabase();
+	bool bRes;
 
-	QString szCreationScriptString;
+	bRes = openDatabase();
+	if(bRes){
 
-	QSqlQuery tableCreationScriptQuery(m_db);
-	tableCreationScriptQuery.exec(loadTableCreationScriptQuery(szTableName));//Loading the query according to the database
+		QString szQuery = loadTableCreationScriptQuery(szTableName);
 
-	while(tableCreationScriptQuery.next())
-	{
-		szCreationScriptString = makeTableCreationScriptQueryResult(tableCreationScriptQuery);//Getting the result according to the database
-		func(szCreationScriptString, user_data);
+		QSqlQuery query(m_db);
+		bRes = query.exec(szQuery);
+
+		QString szTmp;
+
+		while(query.next())
+		{
+			szTmp = makeTableCreationScriptQueryResult(query);
+			func(szTmp, user_data);
+		}
+
+		closeDataBase();
+	}else{
+		qCritical("[DatabaseController] Cannot open database for table creation script loading");
 	}
 
-	closeDataBase();
-
-	return true;
+	return bRes;
 }
 
 bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data)
 {
-	bool bRes = false;
+	bool bRes;
+
+	QStringList listRowHeader;
+	QStringList listRowData;
+
 	bRes = openDatabase();
 	if(bRes){
 

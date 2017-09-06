@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QTreeView>
+
 #include "QDatabaseWorksheetView.h"
 #include "QSqlSourceView.h"
 

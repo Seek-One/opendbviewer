@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QTreeView>
+
 #include "QDatabaseTableView.h"
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
@@ -40,18 +42,17 @@ QDatabaseTableView::~QDatabaseTableView()
 
 QWidget* QDatabaseTableView::makeStructureTab()
 {
-	//Sets the layout for the structure tab
+	// Sets the layout for the structure tab
 	QVBoxLayout *pStructureLayout = new QVBoxLayout();
 	QWidget *pTableTab1 = new QWidget;
 	pTableTab1->setLayout(pStructureLayout);
 
-	QTreeView* pStructureTable = new QTreeView();
-	pStructureLayout->addWidget(pStructureTable);
+	m_pStructureTreeView = new QTreeView();
+	pStructureLayout->addWidget(m_pStructureTreeView);
 	m_pStructureModel = new QStandardItemModel();
 
-	//Setting the model
-	pStructureTable->setModel(m_pStructureModel);
-
+	// Setting the model
+	m_pStructureTreeView->setModel(m_pStructureModel);
 
 	return pTableTab1;
 }
@@ -87,21 +88,21 @@ QWidget* QDatabaseTableView::makeDataTab()
 
 	//Adds the result tabs
 	QWidget *pQueryResultsTab1 = new QWidget();
-	pQueryResults->addTab(pQueryResultsTab1, "Results");
+	pQueryResults->addTab(pQueryResultsTab1, tr("Results"));
 
 	QVBoxLayout *pResultsLayout = new QVBoxLayout();
 	pQueryResultsTab1->setLayout(pResultsLayout);
 
 	//Creation of a tree view and model for results tabs
-	QTreeView *pResultsTable = new QTreeView();
-	pResultsLayout->addWidget(pResultsTable);
+	m_pDataTreeView = new QTreeView();
+	pResultsLayout->addWidget(m_pDataTreeView);
 
 	m_pDataResultsModel = new QStandardItemModel();
-	pResultsTable->setModel(m_pDataResultsModel);
+	m_pDataTreeView->setModel(m_pDataResultsModel);
 
 	//Adds the console Tab
 	QWidget *pQueryResultsTab2 = new QWidget();
-	pQueryResults->addTab(pQueryResultsTab2, "Console");
+	pQueryResults->addTab(pQueryResultsTab2, tr("Console"));
 
 	QVBoxLayout *pConsoleLayout = new QVBoxLayout();
 	pQueryResultsTab2->setLayout(pConsoleLayout);
@@ -127,9 +128,19 @@ QWidget* QDatabaseTableView::makeCreationScriptTab()
 	return pTableTab3;
 }
 
+QTreeView* QDatabaseTableView::getStructureTreeView() const
+{
+	return m_pStructureTreeView;
+}
+
 QStandardItemModel* QDatabaseTableView::getStructureModel() const
 {
 	return m_pStructureModel;
+}
+
+QTreeView* QDatabaseTableView::getDataTreeView() const
+{
+	return m_pDataTreeView;
 }
 
 QStandardItemModel* QDatabaseTableView::getDataResultsModel() const

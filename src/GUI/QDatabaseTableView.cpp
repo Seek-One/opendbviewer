@@ -48,6 +48,7 @@ QWidget* QDatabaseTableView::makeStructureTab()
 	pTableTab1->setLayout(pStructureLayout);
 
 	m_pStructureTreeView = new QTreeView();
+	m_pStructureTreeView->setRootIsDecorated(false);
 	pStructureLayout->addWidget(m_pStructureTreeView);
 	m_pStructureModel = new QStandardItemModel();
 
@@ -95,6 +96,7 @@ QWidget* QDatabaseTableView::makeDataTab()
 
 	//Creation of a tree view and model for results tabs
 	m_pDataTreeView = new QTreeView();
+	m_pDataTreeView->setRootIsDecorated(false);
 	pResultsLayout->addWidget(m_pDataTreeView);
 
 	m_pDataResultsModel = new QStandardItemModel();

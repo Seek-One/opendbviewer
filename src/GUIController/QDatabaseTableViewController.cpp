@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QApplication>
+#include <QPalette>
 #include <QTreeView>
 
 #include "GUIController/QDatabaseTableViewController.h"
@@ -67,6 +69,9 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 	QStandardItem* pStandardItem;
 	QFont font;
 
+	QPalette palette = QApplication::palette(m_pDatabaseTableView);
+	QBrush nullbrush = palette.brush(QPalette::Disabled, QPalette::Text);
+
 	QList<QString>::const_iterator iter = szStringList.begin();
 	while(iter != szStringList.end())
 	{
@@ -76,6 +81,7 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 			font = pStandardItem->font();
 			font.setItalic(true);
 			pStandardItem->setFont(font);
+			pStandardItem->setForeground(nullbrush);
 		}else{
 			pStandardItem = new QStandardItem(*iter);
 		}
@@ -114,7 +120,7 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QStringList& l
 	}
 
 	if(step == DBQueryStepEnd){
-
+		pDatabaseTableViewController->m_pDatabaseTableView->getStructureTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
 	}
 }
 

@@ -42,10 +42,10 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	pWorksheetQueryResultsTab->setLayout(pResultsLayout);
 
 	//Creation of a tree view and model for results tabs
-	QTreeView *pWorksheetResultsTable = new QTreeView();
-	pResultsLayout->addWidget(pWorksheetResultsTable);
+	m_pWorksheetTreeview = new QTreeView();
+	pResultsLayout->addWidget(m_pWorksheetTreeview);
 	m_pWorksheetResultsModel = new QStandardItemModel();
-	pWorksheetResultsTable->setModel(m_pWorksheetResultsModel);
+	m_pWorksheetTreeview->setModel(m_pWorksheetResultsModel);
 
 	//Adds the console Tab
 	QWidget *pWorksheetQueryConsoleTab = new QWidget();
@@ -115,4 +115,9 @@ QTextEdit* QDatabaseWorksheetView::getWorksheetConsoleTextEdit() const
 QStandardItemModel* QDatabaseWorksheetView::getWorksheetResultsModel() const
 {
 	return m_pWorksheetResultsModel;
+}
+
+QTreeView* QDatabaseWorksheetView::getWorksheetTreeView() const
+{
+	return m_pWorksheetTreeview;
 }

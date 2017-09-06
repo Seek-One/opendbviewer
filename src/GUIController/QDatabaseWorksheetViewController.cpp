@@ -5,6 +5,10 @@
  *      Author: echopin
  */
 
+#include <QApplication>
+#include <QPalette>
+#include <QTreeView>
+
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUI/QDatabaseWorksheetView.h"
@@ -69,34 +73,43 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 }
 
 
-void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data)
+void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data)
 {
 	QDatabaseWorksheetViewController* pWorksheetController = (QDatabaseWorksheetViewController*) (user_data);
 
-	pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->setHorizontalHeaderLabels(listRowHeader);
+	if(step == DBQueryStepStart){
+		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->setHorizontalHeaderLabels(listRowHeader);
+		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
+	}
 
 	//Creating a QList<QStandardItem> in order to append a row to the model
-	QList<QStandardItem*> listRowDataItemList;
-	QList<QString>::const_iterator iter = listRowData.begin();
+	if(step == DBQueryStepRow){
+		QList<QStandardItem*> listRowDataItemList;
+		QList<QString>::const_iterator iter = listRowData.begin();
 
-	QStandardItem* pStandardItem;
-	QFont font;
+		QStandardItem* pStandardItem;
+		QFont font;
 
-	while(iter != listRowData.end())
-	{
-		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
-		if((*iter).isNull()){
-			pStandardItem = new QStandardItem(QString("NULL"));
-			font = pStandardItem->font();
-			font.setItalic(true);
-			pStandardItem->setFont(font);
-		}else{
-			pStandardItem = new QStandardItem(*iter);
+		QPalette palette = QApplication::palette(pWorksheetController->m_pDatabaseWorksheetView);
+		QBrush nullbrush = palette.brush(QPalette::Disabled, QPalette::Text);
+
+		while(iter != listRowData.end())
+		{
+			//Getting an item from QList<QString> to add it to a QList<QStandardItem>
+			if((*iter).isNull()){
+				pStandardItem = new QStandardItem(QString("NULL"));
+				font = pStandardItem->font();
+				font.setItalic(true);
+				pStandardItem->setFont(font);
+				pStandardItem->setForeground(nullbrush);
+			}else{
+				pStandardItem = new QStandardItem(*iter);
+			}
+			pStandardItem->setEditable(true);
+			listRowDataItemList.append(pStandardItem);
+			iter++;
 		}
-		pStandardItem->setEditable(true);
-		listRowDataItemList.append(pStandardItem);
-		iter++;
+		//Appending the row with the QList<QStandardItem>
+		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->appendRow(listRowDataItemList);
 	}
-	//Appending the row with the QList<QStandardItem>
-	pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->appendRow(listRowDataItemList);
 }

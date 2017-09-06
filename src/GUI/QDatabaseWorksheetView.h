@@ -27,6 +27,7 @@ public:
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 	QStandardItemModel* getWorksheetResultsModel() const;
+	QTreeView* getWorksheetTreeView() const;
 
 private:
 	QToolBar* makeWorksheetToolbar();
@@ -38,6 +39,7 @@ private:
 	QSqlSourceView* m_pWorksheetTextEdit;
 	QTextEdit* m_pWorksheetConsoleTextEdit;
 	QStandardItemModel* m_pWorksheetResultsModel;
+	QTreeView* m_pWorksheetTreeview;
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

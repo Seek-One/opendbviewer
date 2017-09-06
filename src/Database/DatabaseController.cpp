@@ -208,9 +208,9 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 			}
 		}
 
-		m_szResultString = makeQueryResultString(query, iCount);
-
 		func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
+
+		m_szResultString = makeQueryResultString(query, iCount);
 
 		closeDataBase();
 	}else{
@@ -276,6 +276,8 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 				listRowHeader << field.name();
 			}
 
+			func(listRowHeader, listRowData, DBQueryStepStart, user_data);
+
 			while(query.next())
 			{
 				int currentColumnNumber;
@@ -285,11 +287,13 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, Db
 					listRowData << variant.toString();
 				}
 
-				func(listRowHeader, listRowData, user_data);
+				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
 				//Clearing pRowData to have an empty list when starting the while loop again
 				listRowData.clear();
 				iCount++;
 			}
+
+			func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
 		}
 		m_szResultString = makeQueryResultString(query, iCount);
 

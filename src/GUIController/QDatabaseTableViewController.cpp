@@ -86,7 +86,7 @@ void QDatabaseTableViewController::showQueryInformation()
 	m_pDatabaseTableView->getConsoleTextEdit()->insertPlainText(szQueryInformation);//insert text at the cursor position
 }
 
-void QDatabaseTableViewController::onDbLoadTableDescription(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data)
+void QDatabaseTableViewController::onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data)
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
 	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->setHorizontalHeaderLabels(listRowHeader);
@@ -99,7 +99,7 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QList<QString>
 	pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(listRowDataItem);
 }
 
-void QDatabaseTableViewController::onDbLoadTableData(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data)
+void QDatabaseTableViewController::onDbLoadTableData(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data)
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
 	pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(listRowHeader);

@@ -19,10 +19,10 @@
 #include <QDebug>
 
 typedef void (*DbLoadTableCB)(const QString& szTable, void* user_data);
-typedef void (*DbLoadTableDescription)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
-typedef void (*DbLoadTableData)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
+typedef void (*DbLoadTableDescription)(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
+typedef void (*DbLoadTableData)(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
 typedef void (*DbLoadTableCreationScript)(const QString& szCreationScriptString, void* user_data);
-typedef void (*DbLoadWorksheetQueryResults)(const QList<QString>& pColumnName, const QList<QString>& pRowData, void* user_data);
+typedef void (*DbLoadWorksheetQueryResults)(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
 
 class DatabaseController
 {

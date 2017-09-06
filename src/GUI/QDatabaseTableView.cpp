@@ -20,17 +20,17 @@ QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	//Adds the first tab "Structure" to the widget
 	QWidget *pTableTab1 = new QWidget();
 	pTableTab1 = makeStructureTab();
-	pTablePanelTabs->addTab(pTableTab1, "Structure");
+	pTablePanelTabs->addTab(pTableTab1, tr("Structure"));
 
 	//Adds the second tab "Data" to the widget
 	QWidget *pTableTab2 = new QWidget();
 	pTableTab2 = makeDataTab();
-	pTablePanelTabs->addTab(pTableTab2, "Data");
+	pTablePanelTabs->addTab(pTableTab2, tr("Data"));
 
 	//Adds the third tab "SQL creation script" to the widget
 	QWidget *pTableTab3 = new QWidget();
 	pTableTab3 = makeCreationScriptTab();
-	pTablePanelTabs->addTab(pTableTab3, "Original SQL creation script");
+	pTablePanelTabs->addTab(pTableTab3, tr("Original SQL creation script"));
 }
 
 QDatabaseTableView::~QDatabaseTableView()

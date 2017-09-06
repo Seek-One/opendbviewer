@@ -31,8 +31,8 @@ public slots:
 	void clearFilterField();
 
 private:
-	static void onDbLoadTableDescription(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data);
-	static void onDbLoadTableData(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data);
+	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
+	static void onDbLoadTableData(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data);
 	static void onDbLoadTableCreationScript(const QString& szCreationScriptString, void* user_data);
 
 private:

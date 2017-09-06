@@ -69,7 +69,7 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 }
 
 
-void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QList<QString>& listRowHeader, const QList<QString>& listRowData, void* user_data)
+void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QStringList& listRowHeader, const QStringList& listRowData, void* user_data)
 {
 	QDatabaseWorksheetViewController* pWorksheetController = (QDatabaseWorksheetViewController*) (user_data);
 

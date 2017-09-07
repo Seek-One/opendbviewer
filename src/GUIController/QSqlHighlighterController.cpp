@@ -54,6 +54,7 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 	foreach (const HighlightingRule &rule, highlightingRules)
 	{
 		QRegExp expression(rule.m_pattern);
+		expression.setCaseSensitivity(Qt::CaseInsensitive);
 		int index = expression.indexIn(szText);
 		while (index >= 0)
 		{
@@ -90,7 +91,27 @@ QStringList QSqlHighlighterController::makeKeywordList()
 	//Defining the list of keywords here, could maybe be defined in a text file
 	QStringList szKeywordList;
 	//Words are sorted alphabetically
-	szKeywordList 	<< "\\balter\\b" << "\\bcreate\\b" << "\\bfrom\\b" //TODO add more keywords to the list
-					<< "\\bdrop\\b" << "\\bselect\\b" << "\\btable\\b" << "\\bwhere\\b";
+	szKeywordList 	<< "\\bABORT\\b" << "\\bACTION\\b" << "\\bADD\\b" << "\\bAFTER\\b" << "\\bALL\\b" << "\\bALTER\\b"
+					<< "\\bANALYZE\\b" << "\\bAND\\b" << "\\bAS\\b" << "\\bASC\\b" << "\\bATTACH\\b" << "\\bAUTOINCREMENT\\b" << "\\bBEFORE\\b"
+					<< "\\bBEGIN\\b" << "\\bBETWEEN\\b" << "\\bBY\\b" << "\\bCASCADE\\b" << "\\bCASE\\b" << "\\bCAST\\b" << "\\bCHECK\\b" << "\\bCOLLATE\\b"
+					<< "\\bCOLUMN\\b" << "\\bCOMMIT\\b" << "\\bCONFLICT\\b" << "\\bCONSTRAINT\\b" << "\\bCREATE\\b" << "\\bCROSS\\b"
+					<< "\\bCURRENT_DATE\\b" << "\\bCURRENT_TIME\\b" << "\\bCURRENT_TIMESTAMP\\b" << "\\bDATABASE\\b"
+					<< "\\bDEFAULT\\b" << "\\bDEFERRABLE\\b" << "\\bDEFERRED\\b" << "\\bDELETE\\b" << "\\bDESC\\b" << "\\bDETACH\\b"
+					<< "\\bDISTINCT\\b" << "\\bDROP\\b" << "\\bEACH\\b" << "\\bELSE\\b" << "\\bEND\\b" << "\\bESCAPE\\b" << "\\bEXCEPT\\b"
+					<< "\\bEXCLUSIVE\\b" << "\\bEXISTS\\b" << "\\bEXPLAIN\\b" << "\\bFAIL\\b" << "\\bFOR\\b" << "\\bFOREIGN\\b" << "\\bFROM\\b"
+					<< "\\bFULL\\b" << "\\bGLOB\\b" << "\\bGROUP\\b" << "\\bHAVING\\b" << "\\bIF\\b" << "\\bIGNORE\\b" << "\\bIMMEDIATE\\b" << "\\bIN\\b"
+					<< "\\bINDEX\\b" << "\\bINDEXED" << "INITIALLY" << "INNER" << "INSERT" << "INSTEAD\\b"
+					<< "\\bINTERSECT\\b" << "\\bINTO\\b" << "\\bIS\\b" << "\\bISNULL\\b" << "\\bJOIN\\b" << "\\bKEY\\b" << "\\bLEFT\\b" << "\\bLIKE\\b"
+					<< "\\bLIMIT\\b" << "\\bMATCH" << "NATURAL" << "NO" << "NOT" << "NOTNULL" << "NULL" << "OF\\b"
+					<< "\\bOFFSET\\b" << "\\bON" << "OR" << "ORDER" << "OUTER" << "PLAN" << "PRAGMA" << "PRIMARY\\b"
+					<< "\\bQUERY\\b" << "\\bRAISE" << "RECURSIVE" << "REFERENCES" << "REGEXP" << "REINDEX\\b"
+					<< "\\bRELEASE\\b" << "\\bRENAME" << "REPLACE" << "RESTRICT" << "RIGHT" << "ROLLBACK\\b" << "\\bROW\\b"
+					<< "\\bSAVEPOINT\\b" << "\\bSELECT\\b" << "\\bSET\\b" << "\\bTABLE\\b" << "\\bTEMP\\b" << "\\bTEMPORARY\\b" << "\\bTHEN\\b"
+					<< "\\bTO\\b" << "\\bTRANSACTION\\b" << "\\bTRIGGER\\b" << "\\bUNION\\b" << "\\bUNIQUE\\b" << "\\bUPDATE\\b" << "\\bUSING\\b"
+					<< "\\bVACUUM\\b" << "\\bVALUES\\b" << "\\bVIEW\\b" << "\\bVIRTUAL\\b" << "\\bWHEN\\b" << "\\bWHERE\\b" << "\\bWITH\\b"
+					<< "\\bWITHOUT";
+	szKeywordList 	<< "\\bTEXT\\b" << "\\bINTEGER\\b" << "\\bREAL\\b" << "\\bNUMERIC\\b" << "\\bNONE\\b" << "\\bBLOB\\b";
+	szKeywordList 	<< "\\bTRUE\\b" << "\\bFALSE\\b";
+
 	return szKeywordList;
 }

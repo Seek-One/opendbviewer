@@ -43,6 +43,7 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 
 	//Creation of a tree view and model for results tabs
 	m_pWorksheetTreeview = new QTreeView();
+	m_pWorksheetTreeview->setRootIsDecorated(false);
 	pResultsLayout->addWidget(m_pWorksheetTreeview);
 	m_pWorksheetResultsModel = new QStandardItemModel();
 	m_pWorksheetTreeview->setModel(m_pWorksheetResultsModel);

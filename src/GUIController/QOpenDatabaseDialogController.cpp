@@ -21,10 +21,7 @@ QOpenDatabaseDialogController::QOpenDatabaseDialogController()
 {
 	m_pOpenDatabaseDialog = NULL;
 	m_pMainWindow = NULL;
-	m_pDatabaseController = NULL;
-	m_pDatabaseConnectionViewController = NULL;
 }
-
 
 QOpenDatabaseDialogController::~QOpenDatabaseDialogController()
 {
@@ -65,6 +62,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 	bool bGoOn = true;
 	QString szErrorMsg;
 
+	DatabaseController* pDatabaseController = NULL;
+	QDatabaseConnectionViewController* pDatabaseConnectionViewController = NULL;
+
 	int iCurrentIndex = m_pOpenDatabaseDialog->getConnectionTypeTabWidget()->currentIndex();
 
 	switch(iCurrentIndex){
@@ -72,18 +72,17 @@ void QOpenDatabaseDialogController::loadDatabase()
 		bGoOn = !m_fileName.isEmpty();
 		if(bGoOn){
 			szTabFileName =	m_fileName.section('/', -1);//Get the last part of the file path to get the name for the tab
-			m_pDatabaseController = new DatabaseControllerSqlite(m_fileName);
-			m_pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, m_pDatabaseController);
+			pDatabaseController = new DatabaseControllerSqlite(m_fileName);
 		}else{
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}
 		break;
 	case 1: // MySQL
-		bGoOn = !m_fileName.isEmpty();
+		bGoOn = !m_pOpenDatabaseDialog->getHostField()->text().isEmpty() && m_pOpenDatabaseDialog->getDatabaseField()->text().isEmpty();
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseDialog->getDatabaseField()->text();
 			szDatabaseInfoList = makeDatabaseInfoList();
-			m_pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
+			pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
@@ -94,9 +93,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 
 	// Testing the connection, if it fails, give a warning
 	if(bGoOn){
-		bGoOn = m_pDatabaseController->openDatabase();
+		bGoOn = pDatabaseController->openDatabase();
 		if(bGoOn){
-			m_pDatabaseController->closeDataBase();
+			pDatabaseController->closeDataBase();
 		}else{
 			szErrorMsg = tr("Unable to connect to the database, please check the connection information.");
 		}
@@ -104,19 +103,25 @@ void QOpenDatabaseDialogController::loadDatabase()
 
 	// Init the view and fill it
 	if(bGoOn){
-		m_pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, m_pDatabaseController);
-		m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
+		pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, pDatabaseController);
+		pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 
 		// Adding DatabaseConnectionView to the main window
 		m_pMainWindow->addDatabaseConnectionView(pConnectionView, szTabFileName);
 
 		// Updating tables
-		m_pDatabaseConnectionViewController->updateTables();
+		pDatabaseConnectionViewController->updateTables();
 
-		connect(pConnectionView, SIGNAL(destroyed(QObject*)), m_pDatabaseConnectionViewController, SLOT(deleteLater()));
+		// Controller will be deleted when the view is destroyed
+		connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
 	}
 
 	if(!bGoOn){
+		if(pDatabaseController){
+			delete pDatabaseController;
+			pDatabaseController = NULL;
+		}
+
 		QMessageBox::critical(m_pOpenDatabaseDialog, tr("Connection error"), szErrorMsg);
 	}
 

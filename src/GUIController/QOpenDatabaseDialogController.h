@@ -38,8 +38,6 @@ private:
 	QOpenDatabaseDialog* m_pOpenDatabaseDialog;
 	QString m_fileName;
 	QWindowMain* m_pMainWindow;
-	DatabaseController* m_pDatabaseController;
-	QDatabaseConnectionViewController* m_pDatabaseConnectionViewController;
 };
 
 #endif /* SRC_GUICONTROLLER_QOPENDATABASEDIALOGCONTROLLER_H_ */

@@ -4,12 +4,12 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../src/main.cpp" line="79"/>
+        <location filename="../src/main.cpp" line="80"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="79"/>
+        <location filename="../src/main.cpp" line="80"/>
         <source>Error to initialize application</source>
         <translation type="unfinished"></translation>
     </message>
@@ -102,13 +102,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="73"/>
-        <source>Refresh</source>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="74"/>
+        <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="77"/>
-        <source>Filter:</source>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="80"/>
+        <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

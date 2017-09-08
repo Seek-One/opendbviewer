@@ -9,6 +9,7 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QMessageBox>
+#include <QLocale>
 
 #include "GUI/QWindowMain.h"
 #include "GUIController/QWindowMainController.h"

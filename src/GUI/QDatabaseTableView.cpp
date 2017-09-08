@@ -70,15 +70,15 @@ QWidget* QDatabaseTableView::makeDataTab()
 	QHBoxLayout *pHorizontalLayout = new QHBoxLayout();
 	pDataLayout->addLayout(pHorizontalLayout);
 
-	m_pRefreshButton = new QPushButton(tr("Refresh"));
-	pHorizontalLayout->addWidget(m_pRefreshButton);
-
 	QLabel *filterLabel = new QLabel();
 	filterLabel->setText(tr("Filter:"));
 	pHorizontalLayout->addWidget(filterLabel);
 
 	m_pFilterLine = new QLineEdit();
 	pHorizontalLayout->addWidget(m_pFilterLine);
+
+	m_pRefreshButton = new QPushButton(tr("Execute"));
+	pHorizontalLayout->addWidget(m_pRefreshButton);
 
 	m_pClearButton = new QPushButton(tr("Clear"));
 	pHorizontalLayout->addWidget(m_pClearButton);

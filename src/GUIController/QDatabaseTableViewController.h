@@ -27,8 +27,12 @@ public:
 	void init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController);
 	void showQueryInformation();
 
+public:
+	bool loadDatabaseTableInfos();
+	bool loadDatabaseTableData();
+
 public slots:
-	void updateView();
+	void updateTableData();
 	void clearFilterField();
 
 private:

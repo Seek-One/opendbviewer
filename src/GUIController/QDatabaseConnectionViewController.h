@@ -30,13 +30,13 @@ public:
 
 	void init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList);
 
+	bool loadDatabaseTables();
+
 public slots:
-	void openWorksheet();
-	void refreshList();
+	void openNewWorksheet();
+	void refreshDatabaseTables();
 	void openTableTab(const QModelIndex& index);
 	void closeTab(const int& index);
-
-	void updateTables();
 
 private:
 	static void onDbLoadTables(const QString& szTable, void* user_data);

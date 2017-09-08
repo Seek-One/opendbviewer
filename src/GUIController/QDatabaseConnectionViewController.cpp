@@ -33,17 +33,17 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 {
 	m_pDatabaseConnectionView = pDatabaseConnectionView;
 
-	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openWorksheet()));
-	connect(m_pDatabaseConnectionView->getRefreshTableListButton(), SIGNAL(clicked()), this, SLOT(refreshList()));
+	connect(m_pDatabaseConnectionView->getNewWorksheetButton(), SIGNAL(clicked()), this, SLOT(openNewWorksheet()));
+	connect(m_pDatabaseConnectionView->getRefreshTableListButton(), SIGNAL(clicked()), this, SLOT(refreshDatabaseTables()));
 	connect(m_pDatabaseConnectionView->getTabsInConnection(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 	connect(m_pDatabaseConnectionView->getTableTreeView(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(openTableTab(const QModelIndex&)));
 
 	m_pDatabaseConnectionView->setTablesModel(m_pListTableModel);
 
-	openWorksheet();
+	openNewWorksheet();
 }
 
-void QDatabaseConnectionViewController::openWorksheet()
+void QDatabaseConnectionViewController::openNewWorksheet()
 {
 	QDatabaseWorksheetView* pDatabaseWorksheetView = new QDatabaseWorksheetView(m_pDatabaseConnectionView);
 	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("worksheet"));
@@ -52,31 +52,44 @@ void QDatabaseConnectionViewController::openWorksheet()
 	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_szFileName, m_pDatabaseController);
 }
 
-void QDatabaseConnectionViewController::refreshList()
+void QDatabaseConnectionViewController::refreshDatabaseTables()
 {
+	bool bRes;
+
 	m_pDatabaseConnectionView->getTableItem()->removeRows(0, m_pDatabaseConnectionView->getTableItem()->rowCount());
 	m_pDatabaseConnectionView->getStructureTableItem()->removeRows(0, m_pDatabaseConnectionView->getStructureTableItem()->rowCount());
 	m_pDatabaseConnectionView->getViewTableItem()->removeRows(0, m_pDatabaseConnectionView->getViewTableItem()->rowCount());
 
-	updateTables();
+	bRes = loadDatabaseTables();
+	if(bRes){
+		QMessageBox::warning(m_pDatabaseConnectionView, tr("Database problem"), tr("Problem while loading database tables"));
+	}
 }
 
 void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 {
 	if (index == m_pDatabaseConnectionView->getTableItem()->index() || index == m_pDatabaseConnectionView->getStructureTableItem()->index() || index == m_pDatabaseConnectionView->getViewTableItem()->index())
 	{
-		return; /*Prevents the tab from opening if the user clicks on the "tables",
-				"system tables" or "views" item */
+		// Prevents the tab from opening if the user clicks on the "tables", "system tables" or "views" item
+		return;
 	}
 
 	QStandardItem *pTableItem = m_pListTableModel->itemFromIndex(index);
 	QString szTableName = pTableItem->text();
 
 	QDatabaseTableView* pDatabaseTableView = new QDatabaseTableView();
-	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTableName);
-
 	QDatabaseTableViewController* pDatabaseTableViewController = new QDatabaseTableViewController();
 	pDatabaseTableViewController->init(pDatabaseTableView, szTableName, m_pDatabaseController);
+
+	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTableName);
+
+	if(!pDatabaseTableViewController->loadDatabaseTableInfos()){
+		QMessageBox::warning(m_pDatabaseConnectionView, tr("Database problem"), tr("Problem while loading database table informations"));
+	}
+
+	// Controller will be deleted when the view is destroyed
+	connect(pDatabaseTableView, SIGNAL(destroyed(QObject*)), pDatabaseTableViewController, SLOT(deleteLater()));
+
 }
 
 void QDatabaseConnectionViewController::closeTab(const int& index)
@@ -87,11 +100,15 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 	delete(tabItem);
 }
 
-void QDatabaseConnectionViewController::updateTables()
+bool QDatabaseConnectionViewController::loadDatabaseTables()
 {
-	m_pDatabaseController->loadTables(onDbLoadTables, this);
-	m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this);
-	m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this);
+	bool bRes;
+
+	bRes = m_pDatabaseController->loadTables(onDbLoadTables, this);
+	bRes = m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this) && bRes;
+	bRes = m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this) && bRes;
+
+	return bRes;
 }
 
 void QDatabaseConnectionViewController::onDbLoadTables(const QString& szTable, void* user_data)

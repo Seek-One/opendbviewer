@@ -8,6 +8,7 @@
 #include <QTreeView>
 
 #include "QDatabaseTableView.h"
+#include "QQueryResultView.h"
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -82,36 +83,9 @@ QWidget* QDatabaseTableView::makeDataTab()
 	m_pClearButton = new QPushButton(tr("Clear"));
 	pHorizontalLayout->addWidget(m_pClearButton);
 
-	//Creation of a tab widget
-	QTabWidget *pQueryResults = new QTabWidget();
-	pQueryResults->setTabPosition(QTabWidget::East);
-	pDataLayout->addWidget(pQueryResults);
-
-	//Adds the result tabs
-	QWidget *pQueryResultsTab1 = new QWidget();
-	pQueryResults->addTab(pQueryResultsTab1, tr("Results"));
-
-	QVBoxLayout *pResultsLayout = new QVBoxLayout();
-	pQueryResultsTab1->setLayout(pResultsLayout);
-
-	//Creation of a tree view and model for results tabs
-	m_pDataTreeView = new QTreeView();
-	m_pDataTreeView->setRootIsDecorated(false);
-	pResultsLayout->addWidget(m_pDataTreeView);
-
-	m_pDataResultsModel = new QStandardItemModel();
-	m_pDataTreeView->setModel(m_pDataResultsModel);
-
-	//Adds the console Tab
-	QWidget *pQueryResultsTab2 = new QWidget();
-	pQueryResults->addTab(pQueryResultsTab2, tr("Console"));
-
-	QVBoxLayout *pConsoleLayout = new QVBoxLayout();
-	pQueryResultsTab2->setLayout(pConsoleLayout);
-
-	m_pConsoleTextEdit = new QTextEdit;
-	m_pConsoleTextEdit->setReadOnly(true);
-	pConsoleLayout->addWidget(m_pConsoleTextEdit);
+	// Creation the query result tab
+	m_pQueryResultsView = new QQueryResultView();
+	pDataLayout->addWidget(m_pQueryResultsView);
 
 	return pTableTab2;
 }
@@ -142,12 +116,12 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 
 QTreeView* QDatabaseTableView::getDataTreeView() const
 {
-	return m_pDataTreeView;
+	return m_pQueryResultsView->getDataTreeView();
 }
 
 QStandardItemModel* QDatabaseTableView::getDataResultsModel() const
 {
-	return m_pDataResultsModel;
+	return m_pQueryResultsView->getDataResultsModel();
 }
 
 QPushButton* QDatabaseTableView::getRefreshButton() const
@@ -167,10 +141,20 @@ QPushButton* QDatabaseTableView::getClearButton() const
 
 QTextEdit* QDatabaseTableView::getConsoleTextEdit() const
 {
-	return m_pConsoleTextEdit;
+	return m_pQueryResultsView->getConsoleTextEdit();
 }
 
 QTextEdit* QDatabaseTableView::getCreationScriptTextEdit() const
 {
 	return m_pCreationScriptTextEdit;
+}
+
+void QDatabaseTableView::showTabData()
+{
+	m_pQueryResultsView->showTabData();
+}
+
+void QDatabaseTableView::showTabConsole()
+{
+	m_pQueryResultsView->showTabConsole();
 }

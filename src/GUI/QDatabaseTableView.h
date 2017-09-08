@@ -21,6 +21,7 @@
 #include <QDebug>
 
 class QTreeView;
+class QQueryResultView;
 
 class QDatabaseTableView : public QWidget
 {
@@ -40,6 +41,8 @@ public:
 	QPushButton* getClearButton() const;
 	QLineEdit* getFilterLine() const;
 	QTextEdit* getConsoleTextEdit() const;
+	void showTabData();
+	void showTabConsole();
 
 	// Creation script tab
 	QTextEdit* getCreationScriptTextEdit() const;
@@ -50,15 +53,17 @@ private:
 	QWidget* makeCreationScriptTab();
 
 private:
+	// Structure tab
 	QStandardItemModel* m_pStructureModel;
 	QTreeView* m_pStructureTreeView;
 
-	QTreeView* m_pDataTreeView;
-	QStandardItemModel* m_pDataResultsModel;
+	// Data tab
 	QPushButton *m_pRefreshButton;
 	QPushButton *m_pClearButton;
 	QLineEdit* m_pFilterLine;
-	QTextEdit* m_pConsoleTextEdit;
+	QQueryResultView *m_pQueryResultsView;
+
+	// Creation script tab
 	QTextEdit* m_pCreationScriptTextEdit;
 };
 

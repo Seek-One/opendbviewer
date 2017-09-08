@@ -31,36 +31,54 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 	m_szTableName = szTableName;
 	m_pDatabaseController = pDatabaseController;
 
-	connect(m_pDatabaseTableView->getRefreshButton(), SIGNAL(clicked()), this, SLOT(updateView()));
+	connect(m_pDatabaseTableView->getRefreshButton(), SIGNAL(clicked()), this, SLOT(updateTableData()));
 	connect(m_pDatabaseTableView->getClearButton(), SIGNAL(clicked()), this, SLOT(clearFilterField()));
+}
+
+bool QDatabaseTableViewController::loadDatabaseTableInfos()
+{
+	bool bRes;
 
 	// Load table structure
-	m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
+	bRes = m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
 	showQueryInformation();
 	m_pDatabaseTableView->getStructureTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
 
 	// Load table data
-	updateView();
+	bRes = loadDatabaseTableData() && bRes;
 	
 	// Load table creation script (if any)
-	m_pDatabaseController->loadTableCreationScript(m_szTableName, onDbLoadTableCreationScript, this);
+	bRes = m_pDatabaseController->loadTableCreationScript(m_szTableName, onDbLoadTableCreationScript, this) && bRes;
 	showQueryInformation();
+
+	return bRes;
 }
 
-
-void QDatabaseTableViewController::updateView()
+bool QDatabaseTableViewController::loadDatabaseTableData()
 {
+	bool bRes;
 	QString szFilter = m_pDatabaseTableView->getFilterLine()->text();
 	m_pDatabaseTableView->getDataResultsModel()->clear();//Clear the table
 
-	m_pDatabaseController->loadTableData(m_szTableName, szFilter, onDbLoadTableData, this);//Load the data again
+	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, onDbLoadTableData, this);//Load the data again
 	showQueryInformation();
+
+	return bRes;
+}
+
+void QDatabaseTableViewController::updateTableData()
+{
+	if(loadDatabaseTableData()){
+		m_pDatabaseTableView->showTabData();
+	}else{
+		m_pDatabaseTableView->showTabConsole();
+	}
 }
 
 void QDatabaseTableViewController::clearFilterField()
 {
 	m_pDatabaseTableView->getFilterLine()->clear();
-	updateView();
+	updateTableData();
 }
 
 QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStringList(const QList<QString>& szStringList)

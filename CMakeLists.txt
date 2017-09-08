@@ -161,13 +161,15 @@ set(APPLICATION_SOURCES
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QDatabaseWorksheetView.h
+	src/GUI/QLineNumberAreaView.h
 	src/GUI/QOpenDatabaseDialog.cpp
 	src/GUI/QOpenDatabaseDialog.h
+	src/GUI/QQueryResultView.cpp
+	src/GUI/QQueryResultView.h
 	src/GUI/QSqlSourceView.cpp
 	src/GUI/QSqlSourceView.h
 	src/GUI/QWindowMain.cpp
 	src/GUI/QWindowMain.h
-	src/GUI/QLineNumberAreaView.h
 	src/GUIController/QWindowMainController.cpp
 	src/GUIController/QWindowMainController.h
 	src/GUIController/QDatabaseConnectionViewController.cpp

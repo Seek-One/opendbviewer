@@ -57,12 +57,11 @@ void QOpenDatabaseDialogController::loadDatabase()
 	QString szTabFileName;
 	QStringList szDatabaseInfoList;
 
-	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
-
 	bool bGoOn = true;
 	QString szErrorMsg;
 
 	DatabaseController* pDatabaseController = NULL;
+	QDatabaseConnectionView* pConnectionView = NULL;
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = NULL;
 
 	int iCurrentIndex = m_pOpenDatabaseDialog->getConnectionTypeTabWidget()->currentIndex();
@@ -103,6 +102,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 
 	// Init the view and fill it
 	if(bGoOn){
+		pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
 		pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, pDatabaseController);
 		pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 
@@ -110,7 +110,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 		m_pMainWindow->addDatabaseConnectionView(pConnectionView, szTabFileName);
 
 		// Updating tables
-		pDatabaseConnectionViewController->updateTables();
+		if(!pDatabaseConnectionViewController->loadDatabaseTables()){
+			QMessageBox::warning(m_pOpenDatabaseDialog, tr("Database problem"), tr("Problem while loading database tables"));
+		}
 
 		// Controller will be deleted when the view is destroyed
 		connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
@@ -136,6 +138,7 @@ QString QOpenDatabaseDialogController::getFileName() const
 QStringList QOpenDatabaseDialogController::makeDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
+
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getHostField()->text();
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getPortField()->text();
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getUsernameField()->text();

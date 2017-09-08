@@ -67,47 +67,53 @@
         <source>worksheet</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="65"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="87"/>
+        <source>Database problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="65"/>
+        <source>Problem while loading database tables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="87"/>
+        <source>Problem while loading database table informations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="25"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="26"/>
         <source>Structure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="30"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="31"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="35"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="36"/>
         <source>Original SQL creation script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="72"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="73"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="76"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="77"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="82"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="83"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="92"/>
-        <source>Results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="107"/>
-        <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -188,22 +194,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="77"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="76"/>
         <source>Please select a valid SQLite file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="100"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="99"/>
         <source>Unable to connect to the database, please check the connection information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="125"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="114"/>
+        <source>Database problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="114"/>
+        <source>Problem while loading database tables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="127"/>
         <source>Connection error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="87"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="86"/>
         <source>Please enter the necessary information.</source>
         <translation type="unfinished"></translation>
     </message>

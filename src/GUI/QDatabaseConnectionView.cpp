@@ -6,10 +6,6 @@
  */
 
 #include "QDatabaseConnectionView.h"
-#include "GUIController/QWindowMainController.h"
-#include "Database/DatabaseController.h"
-
-#include <QHeaderView>
 
 QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 		: QWidget(parent)
@@ -84,7 +80,7 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar(QWidget* pParent)
 	m_pRefreshTableListButton = new QPushButton(QIcon::fromTheme("document-refresh"), tr("Refresh"), pToolbar); //TODO needs image rather than text
 	pToolbar->addWidget(m_pRefreshTableListButton);
 
-	m_pNewWorksheetButton= new QPushButton(QIcon::fromTheme("document-new"), tr("New"), pToolbar);//TODO needs image rather than text
+	m_pNewWorksheetButton = new QPushButton(QIcon::fromTheme("document-new"), tr("New"), pToolbar);//TODO needs image rather than text
 	pToolbar->addWidget(m_pNewWorksheetButton);
 
 	return pToolbar;

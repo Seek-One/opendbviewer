@@ -16,6 +16,8 @@
 #include <QTextEdit>
 #include <QStandardItemModel>
 
+class QQueryResultView;
+
 class QDatabaseWorksheetView : public QWidget
 {
 public:
@@ -37,9 +39,7 @@ private:
 	QPushButton *m_pReformatButton;
 	QPushButton *m_pClearTextButton;
 	QSqlSourceView* m_pWorksheetTextEdit;
-	QTextEdit* m_pWorksheetConsoleTextEdit;
-	QStandardItemModel* m_pWorksheetResultsModel;
-	QTreeView* m_pWorksheetTreeview;
+	QQueryResultView* m_pQueryResultView;
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

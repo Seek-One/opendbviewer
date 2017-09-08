@@ -84,8 +84,8 @@ QWidget* QDatabaseTableView::makeDataTab()
 	pHorizontalLayout->addWidget(m_pClearButton);
 
 	// Creation the query result tab
-	m_pQueryResultsView = new QQueryResultView();
-	pDataLayout->addWidget(m_pQueryResultsView);
+	m_pQueryResultView = new QQueryResultView();
+	pDataLayout->addWidget(m_pQueryResultView);
 
 	return pTableTab2;
 }
@@ -116,12 +116,12 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 
 QTreeView* QDatabaseTableView::getDataTreeView() const
 {
-	return m_pQueryResultsView->getDataTreeView();
+	return m_pQueryResultView->getDataTreeView();
 }
 
 QStandardItemModel* QDatabaseTableView::getDataResultsModel() const
 {
-	return m_pQueryResultsView->getDataResultsModel();
+	return m_pQueryResultView->getDataResultsModel();
 }
 
 QPushButton* QDatabaseTableView::getRefreshButton() const
@@ -141,7 +141,7 @@ QPushButton* QDatabaseTableView::getClearButton() const
 
 QTextEdit* QDatabaseTableView::getConsoleTextEdit() const
 {
-	return m_pQueryResultsView->getConsoleTextEdit();
+	return m_pQueryResultView->getConsoleTextEdit();
 }
 
 QTextEdit* QDatabaseTableView::getCreationScriptTextEdit() const
@@ -151,10 +151,10 @@ QTextEdit* QDatabaseTableView::getCreationScriptTextEdit() const
 
 void QDatabaseTableView::showTabData()
 {
-	m_pQueryResultsView->showTabData();
+	m_pQueryResultView->showTabData();
 }
 
 void QDatabaseTableView::showTabConsole()
 {
-	m_pQueryResultsView->showTabConsole();
+	m_pQueryResultView->showTabConsole();
 }

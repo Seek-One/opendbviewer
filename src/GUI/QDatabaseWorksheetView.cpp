@@ -9,6 +9,7 @@
 
 #include "QDatabaseWorksheetView.h"
 #include "QSqlSourceView.h"
+#include "QQueryResultView.h"
 
 QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 		: QWidget(parent)
@@ -29,38 +30,9 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	pWorksheetViewLayout->addWidget(m_pWorksheetTextEdit);
 
 	//Creation of a tab widget for query results and console
-	QTabWidget *pWorksheetQueryTabWidget = new QTabWidget();
-	pWorksheetQueryTabWidget->setTabPosition(QTabWidget::East);
-	pWorksheetViewLayout->addWidget(pWorksheetQueryTabWidget);
 
-	//Adding the result tabs
-	QWidget *pWorksheetQueryResultsTab = new QWidget();
-	pWorksheetQueryTabWidget->addTab(pWorksheetQueryResultsTab, "Results");
-
-	//Creating a layout for the results tab
-	QVBoxLayout *pResultsLayout = new QVBoxLayout();
-	pWorksheetQueryResultsTab->setLayout(pResultsLayout);
-
-	//Creation of a tree view and model for results tabs
-	m_pWorksheetTreeview = new QTreeView();
-	m_pWorksheetTreeview->setRootIsDecorated(false);
-	pResultsLayout->addWidget(m_pWorksheetTreeview);
-	m_pWorksheetResultsModel = new QStandardItemModel();
-	m_pWorksheetTreeview->setModel(m_pWorksheetResultsModel);
-
-	//Adds the console Tab
-	QWidget *pWorksheetQueryConsoleTab = new QWidget();
-	pWorksheetQueryTabWidget->addTab(pWorksheetQueryConsoleTab, "Console");
-
-	//Creating a layout for the console tab
-	QVBoxLayout *pConsoleLayout = new QVBoxLayout();
-	pWorksheetQueryConsoleTab->setLayout(pConsoleLayout);
-
-	//Creating a text edit area for the console tab
-	m_pWorksheetConsoleTextEdit = new QTextEdit;
-	m_pWorksheetConsoleTextEdit->setReadOnly(true);
-
-	pConsoleLayout->addWidget(m_pWorksheetConsoleTextEdit);
+	m_pQueryResultView = new QQueryResultView();
+	pWorksheetViewLayout->addWidget(m_pQueryResultView);
 }
 
 
@@ -78,6 +50,7 @@ QToolBar* QDatabaseWorksheetView::makeWorksheetToolbar()
 	//m_pExecuteButton->setToolTip(tr("Execute the selected query"));
 
 	m_pReformatButton = new QPushButton("Reformat");
+	m_pReformatButton->setVisible(false);
 	pWorksheetToolbar->addWidget(m_pReformatButton);
 	//m_pReformatButton->setToolTip(tr("Reformat SQL text"));
 
@@ -110,15 +83,15 @@ QSqlSourceView* QDatabaseWorksheetView::getWorksheetTextEdit() const
 
 QTextEdit* QDatabaseWorksheetView::getWorksheetConsoleTextEdit() const
 {
-	return m_pWorksheetConsoleTextEdit;
+	return m_pQueryResultView->getConsoleTextEdit();
 }
 
 QStandardItemModel* QDatabaseWorksheetView::getWorksheetResultsModel() const
 {
-	return m_pWorksheetResultsModel;
+	return m_pQueryResultView->getDataResultsModel();
 }
 
 QTreeView* QDatabaseWorksheetView::getWorksheetTreeView() const
 {
-	return m_pWorksheetTreeview;
+	return m_pQueryResultView->getDataTreeView();
 }

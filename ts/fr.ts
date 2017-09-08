@@ -50,12 +50,12 @@
 <context>
     <name>QDatabaseConnectionView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="84"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="80"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="87"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="83"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>

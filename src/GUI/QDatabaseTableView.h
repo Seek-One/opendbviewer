@@ -61,7 +61,7 @@ private:
 	QPushButton *m_pRefreshButton;
 	QPushButton *m_pClearButton;
 	QLineEdit* m_pFilterLine;
-	QQueryResultView *m_pQueryResultsView;
+	QQueryResultView *m_pQueryResultView;
 
 	// Creation script tab
 	QTextEdit* m_pCreationScriptTextEdit;

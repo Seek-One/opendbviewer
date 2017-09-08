@@ -22,18 +22,16 @@ public:
 
 	void init(QWindowMain* pMainWindow);
 
-
-private:
-	QWidget* makeTab();
-
 public slots:
 	void openNewDatabaseConnection();
+	void closeDatabaseConnectionTab(const int& index);
+
 	void about();
-	void closeConnectionTab(const int& index);
-	//void openFileSelectionWindow();
 
 private:
 	QWindowMain* m_pMainWindow;
+
+	QWidget* makeTab();
 };
 
 #endif /* SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_ */

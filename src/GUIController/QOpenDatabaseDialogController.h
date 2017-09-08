@@ -31,7 +31,7 @@ private:
 
 public slots:
 	void openFileDialog();
-	void closeSelectionWindow();
+	void closeOpenDatabaseDialog();
 	void loadDatabase();
 
 private:

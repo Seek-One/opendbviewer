@@ -178,23 +178,32 @@
 <context>
     <name>QOpenDatabaseDialogController</name>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="83"/>
-        <source>Connection impossible</source>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="47"/>
+        <source>Select a file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="83"/>
-        <source>Unable to connect to database.
-Please, make sure the information you have provided is correct.</source>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="47"/>
+        <source>SQLite files (*.sqlite *.db)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="96"/>
-        <source>No connection selected</source>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="78"/>
+        <source>Please select a valid SQLite file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="96"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="101"/>
+        <source>Unable to connect to the database, please check the connection information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="120"/>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="88"/>
         <source>Please enter the necessary information.</source>
         <translation type="unfinished"></translation>
     </message>

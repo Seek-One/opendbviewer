@@ -41,10 +41,12 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 	m_pMainWindow = pMainWindow;
 
     connect(m_pMainWindow->getNewConnectionAction(), SIGNAL(triggered()), this, SLOT(openNewDatabaseConnection()));
-    connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
-    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
+    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeDatabaseConnectionTab(int)));
 
+    connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
+    connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
+
+    // At startup we launch the database connection dialog
     openNewDatabaseConnection();
 }
 
@@ -57,17 +59,17 @@ void QWindowMainController::openNewDatabaseConnection()
 	dbOpenDialog.exec();
 }
 
-void QWindowMainController::about()
-{
-	QAboutDialog aboutDialog(m_pMainWindow);
-	aboutDialog.exec();
-}
-
-void QWindowMainController::closeConnectionTab(const int& index)
+void QWindowMainController::closeDatabaseConnectionTab(const int& index)
 {
 	QWidget* pTabItem = m_pMainWindow->getDatabaseConnectionTab()->widget(index);
 	if(pTabItem){
 		m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
 		delete pTabItem;
 	}
+}
+
+void QWindowMainController::about()
+{
+	QAboutDialog aboutDialog(m_pMainWindow);
+	aboutDialog.exec();
 }

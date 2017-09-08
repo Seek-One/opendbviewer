@@ -46,4 +46,6 @@ Run:
 Screenshot
 ----------
 
-![alt text](https://raw.githubusercontent.com/Jet1oeil/opendbviewer/master/doc/opendbviewer-screenshot.png)
+![alt text](https://raw.githubusercontent.com/Jet1oeil/opendbviewer/master/doc/opendbviewer-screenshot-1.png)
+![alt text](https://raw.githubusercontent.com/Jet1oeil/opendbviewer/master/doc/opendbviewer-screenshot-2.png)
+![alt text](https://raw.githubusercontent.com/Jet1oeil/opendbviewer/master/doc/opendbviewer-screenshot-3.png)

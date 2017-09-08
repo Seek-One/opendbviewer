@@ -12,7 +12,7 @@
 #include <QString>
 
 class QWindowMain;
-class QDatabaseSelectionView;
+class QOpenDatabaseDialog;
 class DatabaseController;
 class QDatabaseConnectionViewController;
 
@@ -23,7 +23,7 @@ public:
 	QDatabaseSelectionViewController();
 	virtual ~QDatabaseSelectionViewController();
 
-	void init(QWindowMain* pMainWindow, QDatabaseSelectionView* pDatabaseSelectionView);
+	void init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog);
 	QString getFileName() const;
 
 private:
@@ -35,7 +35,7 @@ public slots:
 	void loadDatabase();
 
 private:
-	QDatabaseSelectionView* m_pDatabaseSelectionView;
+	QOpenDatabaseDialog* m_pOpenDatabaseDialog;
 	QString m_fileName;
 	QWindowMain* m_pMainWindow;
 	DatabaseController* m_pDatabaseController;

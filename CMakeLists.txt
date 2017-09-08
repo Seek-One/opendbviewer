@@ -161,8 +161,8 @@ set(APPLICATION_SOURCES
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QDatabaseWorksheetView.h
-	src/GUI/QDatabaseSelectionView.cpp
-	src/GUI/QDatabaseSelectionView.h
+	src/GUI/QOpenDatabaseDialog.cpp
+	src/GUI/QOpenDatabaseDialog.h
 	src/GUI/QSqlSourceView.cpp
 	src/GUI/QSqlSourceView.h
 	src/GUI/QWindowMain.cpp
@@ -192,8 +192,8 @@ set(APPLICATION_SOURCES
 set(APPLICATION_MOC_HEADERS
 	src/GUI/QAboutDialog.h
 	src/GUI/QDatabaseConnectionView.h
-	src/GUI/QDatabaseSelectionView.h
 	src/GUI/QDatabaseTableView.h
+	src/GUI/QOpenDatabaseDialog.h
 	src/GUI/QWindowMain.h
 	src/GUI/QSqlSourceView.h
 	src/GUIController/QWindowMainController.h
@@ -216,9 +216,9 @@ set (I18N_FILES
 	src/main.cpp
 	src/GUI/QAboutDialog.cpp
 	src/GUI/QDatabaseConnectionView.cpp
-	src/GUI/QDatabaseSelectionView.cpp
 	src/GUI/QDatabaseTableView.cpp
 	src/GUI/QDatabaseWorksheetView.cpp
+	src/GUI/QOpenDatabaseDialog.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUIController/QDatabaseConnectionViewController.cpp
 	src/GUIController/QDatabaseSelectionViewController.cpp

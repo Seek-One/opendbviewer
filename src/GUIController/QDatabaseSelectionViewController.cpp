@@ -7,7 +7,7 @@
 
 #include <QFileDialog>
 
-#include "GUI/QDatabaseSelectionView.h"
+#include "GUI/QOpenDatabaseDialog.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QWindowMain.h"
 
@@ -19,7 +19,7 @@
 
 QDatabaseSelectionViewController::QDatabaseSelectionViewController()
 {
-	m_pDatabaseSelectionView = NULL;
+	m_pOpenDatabaseDialog = NULL;
 	m_pMainWindow = NULL;
 	m_pDatabaseController = NULL;
 	m_pDatabaseConnectionViewController = NULL;
@@ -31,27 +31,27 @@ QDatabaseSelectionViewController::~QDatabaseSelectionViewController()
 
 }
 
-void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QDatabaseSelectionView* pDatabaseSelectionView)
+void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog)
 {
 	m_pMainWindow = pMainWindow;
-	m_pDatabaseSelectionView = pDatabaseSelectionView;
+	m_pOpenDatabaseDialog = pOpenDatabaseDialog;
 
-	connect(m_pDatabaseSelectionView->getFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
-	connect(m_pDatabaseSelectionView->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeSelectionWindow()));
-	connect(m_pDatabaseSelectionView->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+	connect(m_pOpenDatabaseDialog->getFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
+	connect(m_pOpenDatabaseDialog->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeSelectionWindow()));
+	connect(m_pOpenDatabaseDialog->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
 }
 
 
 void QDatabaseSelectionViewController::openFileDialog()
 {
-	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Select a file", QString(), "SQLite files (*.sqlite *.db)");
+	m_fileName = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, "Select a file", QString(), "SQLite files (*.sqlite *.db)");
 
-	m_pDatabaseSelectionView->getFilePathField()->setText(m_fileName);
+	m_pOpenDatabaseDialog->getFilePathField()->setText(m_fileName);
 }
 
 void QDatabaseSelectionViewController::closeSelectionWindow()
 {
-	m_pDatabaseSelectionView->close();
+	m_pOpenDatabaseDialog->close();
 }
 
 void QDatabaseSelectionViewController::loadDatabase()
@@ -63,7 +63,7 @@ void QDatabaseSelectionViewController::loadDatabase()
 	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
 
 	//If the current tab is the sqlite tab and a file path is given
-	if(m_pDatabaseSelectionView->getConnectionTypeTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
+	if(m_pOpenDatabaseDialog->getConnectionTypeTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
 	{
 		szTabFileName =	m_fileName.section('/', -1);//Get the last part of the file path to get the name for the tab
 		m_pDatabaseController = new DatabaseControllerSqlite(m_fileName);
@@ -71,7 +71,7 @@ void QDatabaseSelectionViewController::loadDatabase()
 		m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 	}
 	//If the current tab is the mysql tab and databaseinfolist is not empty
-	else if(m_pDatabaseSelectionView->getConnectionTypeTabWidget()->currentIndex() == 1 && m_pDatabaseSelectionView->getHostField()->text().isEmpty() == false)
+	else if(m_pOpenDatabaseDialog->getConnectionTypeTabWidget()->currentIndex() == 1 && m_pOpenDatabaseDialog->getHostField()->text().isEmpty() == false)
 	{
 		//Creating a list containing the user input information
 		szDatabaseInfoList = makeDatabaseInfoList();
@@ -80,12 +80,12 @@ void QDatabaseSelectionViewController::loadDatabase()
 		//Testing the connection, if it fails, give a warning
 		if(m_pDatabaseController->openDatabase() == false)
 		{
-			QMessageBox::warning(m_pDatabaseSelectionView, tr("Connection impossible"),tr("Unable to connect to database.\nPlease, make sure the information you have provided is correct."));
+			QMessageBox::warning(m_pOpenDatabaseDialog, tr("Connection impossible"),tr("Unable to connect to database.\nPlease, make sure the information you have provided is correct."));
 			return;
 		}
 		else
 		{
-			szTabFileName = m_pDatabaseSelectionView->getDatabaseField()->text();
+			szTabFileName = m_pOpenDatabaseDialog->getDatabaseField()->text();
 			m_pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, m_pDatabaseController);
 			m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 		}
@@ -93,7 +93,7 @@ void QDatabaseSelectionViewController::loadDatabase()
 	//if no information is provided in either tab, open a message box asking to select a connection
 	else
 	{
-		QMessageBox::warning(m_pDatabaseSelectionView, tr("No connection selected"),tr("Please enter the necessary information."));
+		QMessageBox::warning(m_pOpenDatabaseDialog, tr("No connection selected"),tr("Please enter the necessary information."));
 		return;
 	}
 
@@ -116,11 +116,11 @@ QString QDatabaseSelectionViewController::getFileName() const
 QStringList QDatabaseSelectionViewController::makeDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
-	szDatabaseInfoList << m_pDatabaseSelectionView->getHostField()->text();
-	szDatabaseInfoList << m_pDatabaseSelectionView->getPortField()->text();
-	szDatabaseInfoList << m_pDatabaseSelectionView->getUsernameField()->text();
-	szDatabaseInfoList << m_pDatabaseSelectionView->getPasswordField()->text();
-	szDatabaseInfoList << m_pDatabaseSelectionView->getDatabaseField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getHostField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPortField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getUsernameField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPasswordField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getDatabaseField()->text();
 
 	return szDatabaseInfoList;
 }

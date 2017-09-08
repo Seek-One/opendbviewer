@@ -19,7 +19,7 @@
 #include "GUI/QAboutDialog.h"
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
-#include "GUI/QDatabaseSelectionView.h"
+#include "GUI/QOpenDatabaseDialog.h"
 
 #include "QWindowMainController.h"
 
@@ -50,11 +50,11 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 
 void QWindowMainController::openNewDatabaseConnection()
 {
-	QDatabaseSelectionView dbSelectionViewDialog(m_pMainWindow);
+	QOpenDatabaseDialog dbOpenDialog(m_pMainWindow);
 
 	QDatabaseSelectionViewController dbSelectionViewController;
-	dbSelectionViewController.init(m_pMainWindow, &dbSelectionViewDialog);
-	dbSelectionViewDialog.exec();
+	dbSelectionViewController.init(m_pMainWindow, &dbOpenDialog);
+	dbOpenDialog.exec();
 }
 
 void QWindowMainController::about()

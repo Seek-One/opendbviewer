@@ -69,89 +69,25 @@
     </message>
 </context>
 <context>
-    <name>QDatabaseSelectionView</name>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="37"/>
-        <source>SQLite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="41"/>
-        <source>MySQL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="47"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="49"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="66"/>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="97"/>
-        <source>Connection:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="106"/>
-        <source>Host:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="82"/>
-        <source>Browse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="85"/>
-        <source>File:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="113"/>
-        <source>Port:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="118"/>
-        <source>Username:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="124"/>
-        <source>Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QDatabaseSelectionView.cpp" line="129"/>
-        <source>Database:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QDatabaseSelectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="83"/>
         <source>Connection impossible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="85"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="83"/>
         <source>Unable to connect to database.
 Please, make sure the information you have provided is correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="98"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="96"/>
         <source>No connection selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="98"/>
+        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="96"/>
         <source>Please enter the necessary information.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -196,6 +132,70 @@ Please, make sure the information you have provided is correct.</source>
     <message>
         <location filename="../src/GUI/QDatabaseTableView.cpp" line="107"/>
         <source>Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QOpenDatabaseDialog</name>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="37"/>
+        <source>SQLite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="41"/>
+        <source>MySQL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="47"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="49"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="66"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="97"/>
+        <source>Connection:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="82"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="85"/>
+        <source>File:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="106"/>
+        <source>Host:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="113"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="118"/>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="124"/>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="129"/>
+        <source>Database:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

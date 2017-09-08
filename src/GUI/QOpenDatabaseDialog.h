@@ -1,12 +1,12 @@
 /*
- * QDatabaseSelectionView.h
+ * QOpenDatabaseDialog.h
  *
  *  Created on: 10 juin 2016
  *      Author: echopin
  */
 
-#ifndef SRC_GUI_QDATABASESELECTIONVIEW_H_
-#define SRC_GUI_QDATABASESELECTIONVIEW_H_
+#ifndef SRC_GUI_QOPENDATABASEDIALOG_H_
+#define SRC_GUI_QOPENDATABASEDIALOG_H_
 
 #include <QDialog>
 
@@ -14,12 +14,12 @@ class QPushButton;
 class QLineEdit;
 class QTabWidget;
 
-class QDatabaseSelectionView : public QDialog
+class QOpenDatabaseDialog : public QDialog
 {
 	Q_OBJECT
 public:
-	QDatabaseSelectionView(QWidget* parent = 0);
-	virtual ~QDatabaseSelectionView();
+	QOpenDatabaseDialog(QWidget* parent = 0);
+	virtual ~QOpenDatabaseDialog();
 
 	QTabWidget* getConnectionTypeTabWidget() const;
 
@@ -60,4 +60,4 @@ private:
 	QPushButton* m_pCancelButton;
 };
 
-#endif /* SRC_GUI_QDATABASESELECTIONVIEW_H_ */
+#endif /* SRC_GUI_QOPENDATABASEDIALOG_H_ */

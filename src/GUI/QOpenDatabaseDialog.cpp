@@ -1,5 +1,5 @@
 /*
- * QDatabaseSelectionView.cpp
+ * QOpenDatabaseDialog.cpp
  *
  *  Created on: 10 juin 2016
  *      Author: echopin
@@ -15,9 +15,9 @@
 #include <QLineEdit>
 #include <QValidator>
 
-#include "GUI/QDatabaseSelectionView.h"
+#include "QOpenDatabaseDialog.h"
 
-QDatabaseSelectionView::QDatabaseSelectionView(QWidget* parent)
+QOpenDatabaseDialog::QOpenDatabaseDialog(QWidget* parent)
 		: QDialog(parent)
 {
 	QWidget *pWidget;
@@ -52,12 +52,12 @@ QDatabaseSelectionView::QDatabaseSelectionView(QWidget* parent)
 
 
 
-QDatabaseSelectionView::~QDatabaseSelectionView()
+QOpenDatabaseDialog::~QOpenDatabaseDialog()
 {
 
 }
 
-QWidget* QDatabaseSelectionView::makeSQLiteTab(QWidget* pParent)
+QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
@@ -88,7 +88,7 @@ QWidget* QDatabaseSelectionView::makeSQLiteTab(QWidget* pParent)
 	return pMainWidget;
 }
 
-QWidget* QDatabaseSelectionView::makeMySQLTab(QWidget* pParent)
+QWidget* QOpenDatabaseDialog::makeMySQLTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
@@ -132,53 +132,53 @@ QWidget* QDatabaseSelectionView::makeMySQLTab(QWidget* pParent)
 	return pMainWidget;
 }
 
-QTabWidget* QDatabaseSelectionView::getConnectionTypeTabWidget() const
+QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
 {
 	return m_pConnectionTypeTabWidget;
 }
 
-QPushButton* QDatabaseSelectionView::getFileSelectionButton() const
+QPushButton* QOpenDatabaseDialog::getFileSelectionButton() const
 {
 	return m_pFileSelectionButton;
 }
 
-QPushButton* QDatabaseSelectionView::getCancelButton() const
+QPushButton* QOpenDatabaseDialog::getCancelButton() const
 {
 	return m_pCancelButton;
 }
 
-QPushButton* QDatabaseSelectionView::getOKButton() const
+QPushButton* QOpenDatabaseDialog::getOKButton() const
 {
 	return m_pOKButton;
 }
 
-QLineEdit* QDatabaseSelectionView::getFilePathField() const
+QLineEdit* QOpenDatabaseDialog::getFilePathField() const
 
 {
 	return m_pFilePathField;
 }
 
-QLineEdit* QDatabaseSelectionView::getHostField() const
+QLineEdit* QOpenDatabaseDialog::getHostField() const
 {
 	return m_pHostField;
 }
 
-QLineEdit* QDatabaseSelectionView::getPortField() const
+QLineEdit* QOpenDatabaseDialog::getPortField() const
 {
 	return m_pPortField;
 }
 
-QLineEdit* QDatabaseSelectionView::getUsernameField() const
+QLineEdit* QOpenDatabaseDialog::getUsernameField() const
 {
 	return m_pUsernameField;
 }
 
-QLineEdit* QDatabaseSelectionView::getPasswordField() const
+QLineEdit* QOpenDatabaseDialog::getPasswordField() const
 {
 	return m_pPasswordField;
 }
 
-QLineEdit* QDatabaseSelectionView::getDatabaseField() const
+QLineEdit* QOpenDatabaseDialog::getDatabaseField() const
 {
 	return m_pDatabaseField;
 }

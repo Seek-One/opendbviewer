@@ -5,6 +5,15 @@
  *      Author: echopin
  */
 
+
+#include <QMessageBox>
+#include <QDialog>
+#include <QFileDialog>
+#include <QTabWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QString>
+
 #include "Database/DatabaseController.h"
 
 #include "GUI/QAboutDialog.h"
@@ -13,6 +22,7 @@
 #include "GUI/QDatabaseSelectionView.h"
 
 #include "QWindowMainController.h"
+
 #include "QDatabaseConnectionViewController.h"
 #include "QDatabaseSelectionViewController.h"
 
@@ -30,20 +40,21 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 {
 	m_pMainWindow = pMainWindow;
 
-    connect(m_pMainWindow->getNewConnectionAction(), SIGNAL(triggered()), this, SLOT(newDatabaseConnection()));
+    connect(m_pMainWindow->getNewConnectionAction(), SIGNAL(triggered()), this, SLOT(openNewDatabaseConnection()));
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeConnectionTab(int)));
 
-    newDatabaseConnection();
+    openNewDatabaseConnection();
 }
 
-void QWindowMainController::newDatabaseConnection()
+void QWindowMainController::openNewDatabaseConnection()
 {
-	QDatabaseSelectionView* pSelectionView = new QDatabaseSelectionView(m_pMainWindow);
-	QDatabaseSelectionViewController* pSelectionViewController = new QDatabaseSelectionViewController();
-	pSelectionViewController->init(m_pMainWindow, pSelectionView);
-	pSelectionView->exec();
+	QDatabaseSelectionView dbSelectionViewDialog(m_pMainWindow);
+
+	QDatabaseSelectionViewController dbSelectionViewController;
+	dbSelectionViewController.init(m_pMainWindow, &dbSelectionViewDialog);
+	dbSelectionViewDialog.exec();
 }
 
 void QWindowMainController::about()
@@ -54,8 +65,9 @@ void QWindowMainController::about()
 
 void QWindowMainController::closeConnectionTab(const int& index)
 {
-	QWidget* tabItem = m_pMainWindow->getDatabaseConnectionTab()->widget(index);
-	m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
-
-	delete(tabItem);
+	QWidget* pTabItem = m_pMainWindow->getDatabaseConnectionTab()->widget(index);
+	if(pTabItem){
+		m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
+		delete pTabItem;
+	}
 }

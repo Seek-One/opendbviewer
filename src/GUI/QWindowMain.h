@@ -8,19 +8,11 @@
 #ifndef SRC_MAINWINDOW_H_
 #define SRC_MAINWINDOW_H_
 
-#include "QDatabaseTableView.h"
-#include "QDatabaseConnectionView.h"
-#include "QDatabaseWorksheetView.h"
-
 #include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
-#include <QTabWidget>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QAction>
-#include <QApplication>
-#include <QMessageBox>
+
+class QAction;
+class QTabWidget;
+class QDatabaseConnectionView;
 
 class QWindowMain : public QMainWindow
 {

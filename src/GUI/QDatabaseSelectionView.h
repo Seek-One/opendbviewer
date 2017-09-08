@@ -8,18 +8,11 @@
 #ifndef SRC_GUI_QDATABASESELECTIONVIEW_H_
 #define SRC_GUI_QDATABASESELECTIONVIEW_H_
 
-#include <QObject>
-#include <QWidget>
 #include <QDialog>
-#include <QTabWidget>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QFileDialog>
-#include <QString>
-#include <QToolBar>
-#include <QLabel>
-#include <QAction>
-#include <QLineEdit>
+
+class QPushButton;
+class QLineEdit;
+class QTabWidget;
 
 class QDatabaseSelectionView : public QDialog
 {
@@ -27,32 +20,44 @@ class QDatabaseSelectionView : public QDialog
 public:
 	QDatabaseSelectionView(QWidget* parent = 0);
 	virtual ~QDatabaseSelectionView();
+
+	QTabWidget* getConnectionTypeTabWidget() const;
+
+	// SQLite
 	QPushButton* getFileSelectionButton() const;
-	QPushButton* getCancelButton() const;
-	QPushButton* getOKButton() const;
 	QLineEdit* getFilePathField() const;
+
+	// MySQL
 	QLineEdit* getHostField() const;
 	QLineEdit* getPortField() const;
 	QLineEdit* getUsernameField() const;
 	QLineEdit* getPasswordField() const;
 	QLineEdit* getDatabaseField() const;
-	QTabWidget* getFileSelectionTabWidget() const;
+
+	QPushButton* getCancelButton() const;
+	QPushButton* getOKButton() const;
 
 private:
-	QWidget* makeSqliteTab();
-	QWidget* makeMySqlTab();
+	QWidget* makeSQLiteTab(QWidget* pParent);
+	QWidget* makeMySQLTab(QWidget* pParent);
 
 private:
-	QPushButton* m_pFileSelectionButton;
-	QPushButton* m_pOKButton;
-	QPushButton* m_pCancelButton;
+	QTabWidget* m_pConnectionTypeTabWidget;
+
+	// SQLite
 	QLineEdit* m_pFilePathField;
+	QPushButton* m_pFileSelectionButton;
+
+	// MySQL
 	QLineEdit* m_pHostField;
 	QLineEdit* m_pPortField;
 	QLineEdit* m_pUsernameField;
 	QLineEdit* m_pPasswordField;
 	QLineEdit* m_pDatabaseField;
-	QTabWidget* m_pFileSelectionTabWidget;
+
+	// Validation button
+	QPushButton* m_pOKButton;
+	QPushButton* m_pCancelButton;
 };
 
 #endif /* SRC_GUI_QDATABASESELECTIONVIEW_H_ */

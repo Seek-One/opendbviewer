@@ -5,7 +5,13 @@
  *      Author: echopin
  */
 
+#include <QVBoxLayout>
+#include <QMenu>
+#include <QMenuBar>
+
 #include "QWindowMain.h"
+
+#include "QDatabaseConnectionView.h"
 
 QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)

@@ -8,18 +8,13 @@
 #ifndef SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_
 
-#include "GUI/QDatabaseSelectionView.h"
-#include "GUI/QWindowMain.h"
-#include "GUIController/QDatabaseConnectionViewController.h"
-#include "Database/DatabaseController.h"
-
-#include <QMessageBox>
-#include <QString>
-#include <QFileDialog>
-#include <QDebug>
 #include <QObject>
+#include <QString>
 
+class QWindowMain;
 class QDatabaseSelectionView;
+class DatabaseController;
+class QDatabaseConnectionViewController;
 
 class QDatabaseSelectionViewController : public QObject
 {

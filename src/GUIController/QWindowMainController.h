@@ -8,20 +8,9 @@
 #ifndef SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_
 #define SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_
 
-#include "QWindowMainController.h"
-#include "GUI/QWindowMain.h"
-#include "GUI/QDatabaseConnectionView.h"
-#include "GUI/QDatabaseSelectionView.h"
-
-#include <QMessageBox>
-#include <QDialog>
-#include <QFileDialog>
-#include <QTabWidget>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QString>
 #include <QObject>
 
+class QWidget;
 class QWindowMain;
 
 class QWindowMainController : public QObject
@@ -38,7 +27,7 @@ private:
 	QWidget* makeTab();
 
 public slots:
-	void newDatabaseConnection();
+	void openNewDatabaseConnection();
 	void about();
 	void closeConnectionTab(const int& index);
 	//void openFileSelectionWindow();

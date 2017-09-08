@@ -5,11 +5,14 @@
  *      Author: echopin
  */
 
-#include "QDatabaseConnectionViewController.h"
-#include "QDatabaseSelectionViewController.h"
+#include <QFileDialog>
+
 #include "GUI/QDatabaseSelectionView.h"
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QWindowMain.h"
+
+#include "QDatabaseConnectionViewController.h"
+#include "QDatabaseSelectionViewController.h"
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
 #include "Database/DatabaseControllerSqlite.h"
@@ -28,12 +31,11 @@ QDatabaseSelectionViewController::~QDatabaseSelectionViewController()
 
 }
 
-
-
 void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QDatabaseSelectionView* pDatabaseSelectionView)
 {
 	m_pMainWindow = pMainWindow;
 	m_pDatabaseSelectionView = pDatabaseSelectionView;
+
 	connect(m_pDatabaseSelectionView->getFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 	connect(m_pDatabaseSelectionView->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeSelectionWindow()));
 	connect(m_pDatabaseSelectionView->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
@@ -42,7 +44,7 @@ void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QDatabaseS
 
 void QDatabaseSelectionViewController::openFileDialog()
 {
-	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Select a file", QString(), "Sqlite files (*.sqlite *.db)");
+	m_fileName = QFileDialog::getOpenFileName(m_pDatabaseSelectionView, "Select a file", QString(), "SQLite files (*.sqlite *.db)");
 
 	m_pDatabaseSelectionView->getFilePathField()->setText(m_fileName);
 }
@@ -50,7 +52,6 @@ void QDatabaseSelectionViewController::openFileDialog()
 void QDatabaseSelectionViewController::closeSelectionWindow()
 {
 	m_pDatabaseSelectionView->close();
-	m_pDatabaseSelectionView->~QDatabaseSelectionView();
 }
 
 void QDatabaseSelectionViewController::loadDatabase()
@@ -62,7 +63,7 @@ void QDatabaseSelectionViewController::loadDatabase()
 	QDatabaseConnectionView* pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
 
 	//If the current tab is the sqlite tab and a file path is given
-	if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
+	if(m_pDatabaseSelectionView->getConnectionTypeTabWidget()->currentIndex() == 0 && m_fileName.isEmpty() == false)//If not filename is provided, use the information from mysql tab to establish a connection
 	{
 		szTabFileName =	m_fileName.section('/', -1);//Get the last part of the file path to get the name for the tab
 		m_pDatabaseController = new DatabaseControllerSqlite(m_fileName);
@@ -70,7 +71,7 @@ void QDatabaseSelectionViewController::loadDatabase()
 		m_pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 	}
 	//If the current tab is the mysql tab and databaseinfolist is not empty
-	else if(m_pDatabaseSelectionView->getFileSelectionTabWidget()->currentIndex() == 1 && m_pDatabaseSelectionView->getHostField()->text().isEmpty() == false)
+	else if(m_pDatabaseSelectionView->getConnectionTypeTabWidget()->currentIndex() == 1 && m_pDatabaseSelectionView->getHostField()->text().isEmpty() == false)
 	{
 		//Creating a list containing the user input information
 		szDatabaseInfoList = makeDatabaseInfoList();

@@ -95,3 +95,14 @@ QTreeView* QDatabaseWorksheetView::getWorksheetTreeView() const
 {
 	return m_pQueryResultView->getDataTreeView();
 }
+
+
+void QDatabaseWorksheetView::showTabData()
+{
+	m_pQueryResultView->showTabData();
+}
+
+void QDatabaseWorksheetView::showTabConsole()
+{
+	m_pQueryResultView->showTabConsole();
+}

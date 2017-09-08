@@ -31,6 +31,9 @@ public:
 	QStandardItemModel* getWorksheetResultsModel() const;
 	QTreeView* getWorksheetTreeView() const;
 
+	void showTabData();
+	void showTabConsole();
+
 private:
 	QToolBar* makeWorksheetToolbar();
 

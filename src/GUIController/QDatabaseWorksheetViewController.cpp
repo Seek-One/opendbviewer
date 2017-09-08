@@ -46,10 +46,17 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 
 void QDatabaseWorksheetViewController::executeQuery()
 {
+	bool bRes;
+
 	m_pDatabaseWorksheetView->getWorksheetResultsModel()->clear();
 	QString szWorksheetQuery = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText();
-	m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, onDbLoadWorksheetQueryResults, this);
+	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, onDbLoadWorksheetQueryResults, this);
 	showWorksheetQueryInformation();
+	if(bRes){
+		m_pDatabaseWorksheetView->showTabData();
+	}else{
+		m_pDatabaseWorksheetView->showTabConsole();
+	}
 }
 
 void QDatabaseWorksheetViewController::reformatSqlText()

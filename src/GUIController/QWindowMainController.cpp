@@ -24,7 +24,7 @@
 #include "QWindowMainController.h"
 
 #include "QDatabaseConnectionViewController.h"
-#include "QDatabaseSelectionViewController.h"
+#include "QOpenDatabaseDialogController.h"
 
 QWindowMainController::QWindowMainController()
 {
@@ -52,8 +52,8 @@ void QWindowMainController::openNewDatabaseConnection()
 {
 	QOpenDatabaseDialog dbOpenDialog(m_pMainWindow);
 
-	QDatabaseSelectionViewController dbSelectionViewController;
-	dbSelectionViewController.init(m_pMainWindow, &dbOpenDialog);
+	QOpenDatabaseDialogController dbOpenDialogController;
+	dbOpenDialogController.init(m_pMainWindow, &dbOpenDialog);
 	dbOpenDialog.exec();
 }
 

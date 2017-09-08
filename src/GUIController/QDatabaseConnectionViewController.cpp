@@ -6,7 +6,7 @@
  */
 
 #include "QDatabaseConnectionViewController.h"
-#include "QDatabaseSelectionViewController.h"
+#include "GUIController/QOpenDatabaseDialogController.h"
 #include "QDatabaseTableViewController.h"
 #include "QDatabaseWorksheetViewController.h"
 #include "GUI/QDatabaseConnectionView.h"

@@ -7,9 +7,6 @@
 
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerSqlite.h"
-#include "GUIController/QDatabaseSelectionViewController.h"
-#include "GUIController/QDatabaseConnectionViewController.h"
-#include "GUI/QDatabaseConnectionView.h"
 
 DatabaseController::DatabaseController(const QString& szFilename)
 {

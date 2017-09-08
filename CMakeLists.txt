@@ -174,10 +174,10 @@ set(APPLICATION_SOURCES
 	src/GUIController/QDatabaseConnectionViewController.h
 	src/GUIController/QDatabaseWorksheetViewController.cpp
 	src/GUIController/QDatabaseWorksheetViewController.h
-	src/GUIController/QDatabaseSelectionViewController.cpp
-	src/GUIController/QDatabaseSelectionViewController.h
 	src/GUIController/QDatabaseTableViewController.cpp
 	src/GUIController/QDatabaseTableViewController.h
+	src/GUIController/QOpenDatabaseDialogController.cpp
+	src/GUIController/QOpenDatabaseDialogController.h
 	src/GUIController/QSqlHighlighterController.cpp
 	src/GUIController/QSqlHighlighterController.h
 	src/Database/DatabaseController.cpp
@@ -198,9 +198,9 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QSqlSourceView.h
 	src/GUIController/QWindowMainController.h
 	src/GUIController/QDatabaseConnectionViewController.h
-	src/GUIController/QDatabaseSelectionViewController.h
 	src/GUIController/QDatabaseTableViewController.h
 	src/GUIController/QDatabaseWorksheetViewController.h
+	src/GUIController/QOpenDatabaseDialogController.h
 	src/GUIController/QSqlHighlighterController.h
 )
 qt_wrap_cpp(
@@ -221,8 +221,8 @@ set (I18N_FILES
 	src/GUI/QOpenDatabaseDialog.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUIController/QDatabaseConnectionViewController.cpp
-	src/GUIController/QDatabaseSelectionViewController.cpp
 	src/GUIController/QDatabaseWorksheetViewController.cpp
+	src/GUIController/QOpenDatabaseDialogController.cpp
 	src/GUIController/QWindowMainController.cpp
 )
 

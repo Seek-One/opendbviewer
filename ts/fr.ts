@@ -69,30 +69,6 @@
     </message>
 </context>
 <context>
-    <name>QDatabaseSelectionViewController</name>
-    <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="83"/>
-        <source>Connection impossible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="83"/>
-        <source>Unable to connect to database.
-Please, make sure the information you have provided is correct.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="96"/>
-        <source>No connection selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseSelectionViewController.cpp" line="96"/>
-        <source>Please enter the necessary information.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QDatabaseTableView</name>
     <message>
         <location filename="../src/GUI/QDatabaseTableView.cpp" line="25"/>
@@ -196,6 +172,30 @@ Please, make sure the information you have provided is correct.</source>
     <message>
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="129"/>
         <source>Database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QOpenDatabaseDialogController</name>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="83"/>
+        <source>Connection impossible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="83"/>
+        <source>Unable to connect to database.
+Please, make sure the information you have provided is correct.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="96"/>
+        <source>No connection selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="96"/>
+        <source>Please enter the necessary information.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

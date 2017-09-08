@@ -5,8 +5,8 @@
  *      Author: echopin
  */
 
-#ifndef SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_
-#define SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_
+#ifndef SRC_GUICONTROLLER_QOPENDATABASEDIALOGCONTROLLER_H_
+#define SRC_GUICONTROLLER_QOPENDATABASEDIALOGCONTROLLER_H_
 
 #include <QObject>
 #include <QString>
@@ -16,12 +16,12 @@ class QOpenDatabaseDialog;
 class DatabaseController;
 class QDatabaseConnectionViewController;
 
-class QDatabaseSelectionViewController : public QObject
+class QOpenDatabaseDialogController : public QObject
 {
 	Q_OBJECT
 public:
-	QDatabaseSelectionViewController();
-	virtual ~QDatabaseSelectionViewController();
+	QOpenDatabaseDialogController();
+	virtual ~QOpenDatabaseDialogController();
 
 	void init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog);
 	QString getFileName() const;
@@ -42,4 +42,4 @@ private:
 	QDatabaseConnectionViewController* m_pDatabaseConnectionViewController;
 };
 
-#endif /* SRC_GUICONTROLLER_QDATABASESELECTIONVIEWCONTROLLER_H_ */
+#endif /* SRC_GUICONTROLLER_QOPENDATABASEDIALOGCONTROLLER_H_ */

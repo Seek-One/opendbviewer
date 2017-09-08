@@ -1,5 +1,5 @@
 /*
- * QDatabaseSelectionViewController.cpp
+ * QOpenDatabaseDialogController.cpp
  *
  *  Created on: 10 juin 2016
  *      Author: echopin
@@ -12,12 +12,12 @@
 #include "GUI/QWindowMain.h"
 
 #include "QDatabaseConnectionViewController.h"
-#include "QDatabaseSelectionViewController.h"
+#include <GUIController/QOpenDatabaseDialogController.h>
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
 #include "Database/DatabaseControllerSqlite.h"
 
-QDatabaseSelectionViewController::QDatabaseSelectionViewController()
+QOpenDatabaseDialogController::QOpenDatabaseDialogController()
 {
 	m_pOpenDatabaseDialog = NULL;
 	m_pMainWindow = NULL;
@@ -26,12 +26,12 @@ QDatabaseSelectionViewController::QDatabaseSelectionViewController()
 }
 
 
-QDatabaseSelectionViewController::~QDatabaseSelectionViewController()
+QOpenDatabaseDialogController::~QOpenDatabaseDialogController()
 {
 
 }
 
-void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog)
+void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog)
 {
 	m_pMainWindow = pMainWindow;
 	m_pOpenDatabaseDialog = pOpenDatabaseDialog;
@@ -42,19 +42,19 @@ void QDatabaseSelectionViewController::init(QWindowMain* pMainWindow, QOpenDatab
 }
 
 
-void QDatabaseSelectionViewController::openFileDialog()
+void QOpenDatabaseDialogController::openFileDialog()
 {
 	m_fileName = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, "Select a file", QString(), "SQLite files (*.sqlite *.db)");
 
 	m_pOpenDatabaseDialog->getFilePathField()->setText(m_fileName);
 }
 
-void QDatabaseSelectionViewController::closeSelectionWindow()
+void QOpenDatabaseDialogController::closeSelectionWindow()
 {
 	m_pOpenDatabaseDialog->close();
 }
 
-void QDatabaseSelectionViewController::loadDatabase()
+void QOpenDatabaseDialogController::loadDatabase()
 {
 	//Creating a string to be used to set the tab name
 	QString szTabFileName;
@@ -108,12 +108,12 @@ void QDatabaseSelectionViewController::loadDatabase()
 	closeSelectionWindow();
 }
 
-QString QDatabaseSelectionViewController::getFileName() const
+QString QOpenDatabaseDialogController::getFileName() const
 {
 	return m_fileName;
 }
 
-QStringList QDatabaseSelectionViewController::makeDatabaseInfoList()
+QStringList QOpenDatabaseDialogController::makeDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getHostField()->text();

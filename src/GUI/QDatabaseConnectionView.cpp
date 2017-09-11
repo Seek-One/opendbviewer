@@ -77,7 +77,7 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar(QWidget* pParent)
 {
 	QToolBar *pToolbar = new QToolBar(pParent);
 
-	m_pRefreshTableListButton = new QPushButton(QIcon::fromTheme("document-refresh"), tr("Refresh"), pToolbar); //TODO needs image rather than text
+	m_pRefreshTableListButton = new QPushButton(QIcon::fromTheme("view-refresh"), tr("Refresh"), pToolbar); //TODO needs image rather than text
 	pToolbar->addWidget(m_pRefreshTableListButton);
 
 	m_pNewWorksheetButton = new QPushButton(QIcon::fromTheme("document-new"), tr("New"), pToolbar);//TODO needs image rather than text
@@ -89,22 +89,22 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar(QWidget* pParent)
 void QDatabaseConnectionView::setTablesModel(QStandardItemModel* pModel)
 {
 	m_pTableTreeView->setModel(pModel);
-	QStandardItem *pHeader = new QStandardItem("Structure");
+	QStandardItem *pHeader = new QStandardItem(tr("Structure"));
 	pModel->setHorizontalHeaderItem(0, pHeader);
 	m_pTableTreeView->expandAll();
 
 	//Creates the "tables" item in the tree view
-	m_pTableItem = new QStandardItem("Tables");
+	m_pTableItem = new QStandardItem(tr("Tables"));
 	m_pTableItem->setEditable(false);
 	pModel->appendRow(m_pTableItem);
 
 	//Creates the "structure tables" item in the tree view
-	m_pStructureTableItem = new QStandardItem("Structure tables");
+	m_pStructureTableItem = new QStandardItem(tr("System tables"));
 	m_pStructureTableItem->setEditable(false);
 	pModel->appendRow(m_pStructureTableItem);
 
 	//Creates the "views" item in the tree view
-	m_pViewItem = new QStandardItem("Views");
+	m_pViewItem = new QStandardItem(tr("Views"));
 	m_pViewItem->setEditable(false);
 	pModel->appendRow(m_pViewItem);
 	m_pTableTreeView->expandAll();

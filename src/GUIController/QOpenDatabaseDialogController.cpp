@@ -77,7 +77,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 		}
 		break;
 	case 1: // MySQL
-		bGoOn = !m_pOpenDatabaseDialog->getHostField()->text().isEmpty() && m_pOpenDatabaseDialog->getDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseDialog->getHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getDatabaseField()->text().isEmpty();
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseDialog->getDatabaseField()->text();
 			szDatabaseInfoList = makeDatabaseInfoList();
@@ -127,7 +127,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 		QMessageBox::critical(m_pOpenDatabaseDialog, tr("Connection error"), szErrorMsg);
 	}
 
-	closeOpenDatabaseDialog();
+	if(bGoOn){
+		closeOpenDatabaseDialog();
+	}
 }
 
 QString QOpenDatabaseDialogController::getFileName() const

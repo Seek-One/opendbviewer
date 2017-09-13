@@ -50,32 +50,32 @@
 <context>
     <name>QDatabaseConnectionView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="80"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="85"/>
         <source>Refresh</source>
         <translation>Rafraîchir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="83"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="88"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="92"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="97"/>
         <source>Structure</source>
         <translation>Structure</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="97"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="102"/>
         <source>Tables</source>
         <translation>Tables</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="102"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="107"/>
         <source>System tables</source>
         <translation>Tables système</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="107"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="112"/>
         <source>Views</source>
         <translation>Vues</translation>
     </message>
@@ -89,7 +89,7 @@
     </message>
     <message>
         <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="65"/>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="87"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="90"/>
         <source>Database problem</source>
         <translation>Problème de base de donnée</translation>
     </message>
@@ -99,7 +99,7 @@
         <translation>Problème durant le chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="87"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="90"/>
         <source>Problem while loading database table informations</source>
         <translation>Problème durant le chargement des informations de la table</translation>
     </message>

@@ -61,7 +61,7 @@ void QDatabaseConnectionViewController::refreshDatabaseTables()
 	m_pDatabaseConnectionView->getViewTableItem()->removeRows(0, m_pDatabaseConnectionView->getViewTableItem()->rowCount());
 
 	bRes = loadDatabaseTables();
-	if(bRes){
+	if(!bRes){
 		QMessageBox::warning(m_pDatabaseConnectionView, tr("Database problem"), tr("Problem while loading database tables"));
 	}
 }
@@ -77,11 +77,14 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 	QStandardItem *pTableItem = m_pListTableModel->itemFromIndex(index);
 	QString szTableName = pTableItem->text();
 
+	int iDatabaseTableViewIdx = 0;
 	QDatabaseTableView* pDatabaseTableView = new QDatabaseTableView();
 	QDatabaseTableViewController* pDatabaseTableViewController = new QDatabaseTableViewController();
 	pDatabaseTableViewController->init(pDatabaseTableView, szTableName, m_pDatabaseController);
 
-	m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTableName);
+
+	iDatabaseTableViewIdx = m_pDatabaseConnectionView->addTableView(pDatabaseTableView, szTableName);
+	m_pDatabaseConnectionView->switchCurrentTableView(iDatabaseTableViewIdx);
 
 	if(!pDatabaseTableViewController->loadDatabaseTableInfos()){
 		QMessageBox::warning(m_pDatabaseConnectionView, tr("Database problem"), tr("Problem while loading database table informations"));

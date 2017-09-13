@@ -39,9 +39,14 @@ void QDatabaseConnectionView::addWorksheetView(QDatabaseWorksheetView* pDatabase
 	m_pTabsInConnection->addTab(pDatabaseWorksheetView, szTitle);
 }
 
-void QDatabaseConnectionView::addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle)
+int QDatabaseConnectionView::addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle)
 {
-	m_pTabsInConnection->addTab(pDatabaseTableView, szTableTitle);
+	return m_pTabsInConnection->addTab(pDatabaseTableView, szTableTitle);
+}
+
+void QDatabaseConnectionView::switchCurrentTableView(int iIndex)
+{
+	m_pTabsInConnection->setCurrentIndex(iIndex);
 }
 
 QWidget* QDatabaseConnectionView::makeWorksheetTab()

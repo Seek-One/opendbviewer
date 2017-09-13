@@ -45,7 +45,8 @@ public:
 	QStandardItem* getStructureTableItem() const;
 	QStandardItem* getViewTableItem() const;
 	void addWorksheetView(QDatabaseWorksheetView* pDatabaseWorksheetView, const QString& szTitle);
-	void addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle);
+	int addTableView(QDatabaseTableView* pDatabaseTableView, const QString& szTableTitle);
+	void switchCurrentTableView(int iIndex);
 
 	void setTablesModel(QStandardItemModel* pModel);
 

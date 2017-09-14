@@ -21,14 +21,18 @@ This program is licenced under the terms of the GNU GENERAL PUBLIC LICENSE Versi
 Requirements
 ------------
 
-- Qt version 5
+- Qt version 4 or Qt version 5
 
 Compiling from source
 ---------------------
 
 Install dependencies:
 
-    apt-get install qtbase5-dev qttools5-dev-tools
+    apt-get install libqt4-dev libqt4-sql-mysql
+
+Or:
+
+    apt-get install qtbase5-dev qttools5-dev-tools libqt5sql5-mysql
 
 Get the code:
 

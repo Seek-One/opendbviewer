@@ -219,27 +219,29 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)
 {
-	bool bRes;
+	bool bRes = true;
 
-	bRes = openDatabase();
-	if(bRes){
+	QString szQuery = loadTableCreationScriptQuery(szTableName);
 
-		QString szQuery = loadTableCreationScriptQuery(szTableName);
+	if(!szQuery.isEmpty()){
+		bRes = openDatabase();
+		if(bRes){
 
-		QSqlQuery query(m_db);
-		bRes = query.exec(szQuery);
+			QSqlQuery query(m_db);
+			bRes = query.exec(szQuery);
 
-		QString szTmp;
+			QString szTmp;
 
-		while(query.next())
-		{
-			szTmp = makeTableCreationScriptQueryResult(query);
-			func(szTmp, user_data);
+			while(query.next())
+			{
+				szTmp = makeTableCreationScriptQueryResult(query);
+				func(szTmp, user_data);
+			}
+
+			closeDataBase();
+		}else{
+			qCritical("[DatabaseController] Cannot open database for table creation script loading");
 		}
-
-		closeDataBase();
-	}else{
-		qCritical("[DatabaseController] Cannot open database for table creation script loading");
 	}
 
 	return bRes;

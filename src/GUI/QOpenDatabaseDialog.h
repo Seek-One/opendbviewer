@@ -34,12 +34,20 @@ public:
 	QLineEdit* getMySQLPasswordField() const;
 	QLineEdit* getMySQLDatabaseField() const;
 
+	// PostgreSQL
+	QLineEdit* getPSQLHostField() const;
+	QLineEdit* getPSQLPortField() const;
+	QLineEdit* getPSQLUsernameField() const;
+	QLineEdit* getPSQLPasswordField() const;
+	QLineEdit* getPSQLDatabaseField() const;
+
 	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
 
 private:
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
+	QWidget* makePostgreSQLTab(QWidget* pParent);
 
 private:
 	QTabWidget* m_pConnectionTypeTabWidget;
@@ -54,6 +62,13 @@ private:
 	QLineEdit* m_pMySQLUsernameField;
 	QLineEdit* m_pMySQLPasswordField;
 	QLineEdit* m_pMySQLDatabaseField;
+
+	// PostgreSQL
+	QLineEdit* m_pPSQLHostField;
+	QLineEdit* m_pPSQLPortField;
+	QLineEdit* m_pPSQLUsernameField;
+	QLineEdit* m_pPSQLPasswordField;
+	QLineEdit* m_pPSQLDatabaseField;
 
 	// Validation button
 	QPushButton* m_pOKButton;

@@ -40,6 +40,10 @@ QOpenDatabaseDialog::QOpenDatabaseDialog(QWidget* parent)
 	pWidget = makeMySQLTab(m_pConnectionTypeTabWidget);
 	m_pConnectionTypeTabWidget->addTab(pWidget, tr("MySQL"));
 
+	// Adding a MySQL tab to the selection window
+	pWidget = makePostgreSQLTab(m_pConnectionTypeTabWidget);
+	m_pConnectionTypeTabWidget->addTab(pWidget, tr("PostgreSQL"));
+
 	// Bottom buttons
 	pTmpHLayout = new QHBoxLayout();
 	pMainLayout->addLayout(pTmpHLayout);
@@ -132,6 +136,50 @@ QWidget* QOpenDatabaseDialog::makeMySQLTab(QWidget* pParent)
 	return pMainWidget;
 }
 
+QWidget* QOpenDatabaseDialog::makePostgreSQLTab(QWidget* pParent)
+{
+	QWidget* pMainWidget = new QWidget(pParent);
+	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+
+	QGroupBox *pGroupBox = new QGroupBox(tr("Connection:"), pMainWidget);
+	pMainLayout->addWidget(pGroupBox);
+
+	QFormLayout* pFormLayout = new QFormLayout();
+	pGroupBox->setLayout(pFormLayout);
+
+	// Host field
+	{
+		m_pPSQLHostField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Host:"), m_pPSQLHostField);
+	}
+	// Port field
+	{
+		m_pPSQLPortField = new QLineEdit(this);
+		QValidator *pPortValidator = new QIntValidator(0, 65535, this);
+		m_pPSQLPortField->setValidator(pPortValidator);
+		pFormLayout->addRow(tr("Port:"), m_pPSQLPortField);
+	}
+	// Username field
+	{
+		m_pPSQLUsernameField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Username:"), m_pPSQLUsernameField);
+	}
+	// Password field
+	{
+		m_pPSQLPasswordField = new QLineEdit(this);
+		m_pPSQLPasswordField->setEchoMode(QLineEdit::Password);
+		pFormLayout->addRow(tr("Password:"), m_pPSQLPasswordField);
+	}
+	// Database field
+	{
+		m_pPSQLDatabaseField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Database:"), m_pPSQLDatabaseField);
+	}
+
+	return pMainWidget;
+}
+
 QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
 {
 	return m_pConnectionTypeTabWidget;
@@ -171,6 +219,31 @@ QLineEdit* QOpenDatabaseDialog::getMySQLPasswordField() const
 QLineEdit* QOpenDatabaseDialog::getMySQLDatabaseField() const
 {
 	return m_pMySQLDatabaseField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLHostField() const
+{
+	return m_pPSQLHostField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLPortField() const
+{
+	return m_pPSQLPortField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLUsernameField() const
+{
+	return m_pPSQLUsernameField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLPasswordField() const
+{
+	return m_pPSQLPasswordField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLDatabaseField() const
+{
+	return m_pPSQLDatabaseField;
 }
 
 QPushButton* QOpenDatabaseDialog::getCancelButton() const

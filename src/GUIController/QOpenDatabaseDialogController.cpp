@@ -16,6 +16,7 @@
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
 #include "Database/DatabaseControllerSqlite.h"
+#include "Database/DatabaseControllerPostgreSQL.h"
 
 QOpenDatabaseDialogController::QOpenDatabaseDialogController()
 {
@@ -42,9 +43,11 @@ void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabase
 	m_pOpenDatabaseDialog->getMySQLPortField()->setText("3306");
 	m_pOpenDatabaseDialog->getMySQLUsernameField()->setText("root");
 	m_pOpenDatabaseDialog->getMySQLDatabaseField()->setText("mysql");
-
+	// Default values
+	m_pOpenDatabaseDialog->getPSQLHostField()->setText("127.0.0.1");
+	m_pOpenDatabaseDialog->getPSQLPortField()->setText("5432");
+	m_pOpenDatabaseDialog->getPSQLUsernameField()->setText("postgres");
 }
-
 
 void QOpenDatabaseDialogController::openFileDialog()
 {
@@ -87,8 +90,18 @@ void QOpenDatabaseDialogController::loadDatabase()
 		bGoOn = !m_pOpenDatabaseDialog->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getMySQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
-			szDatabaseInfoList = makeDatabaseInfoList();
+			szDatabaseInfoList = makeMySQLDatabaseInfoList();
 			pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
+		}else{
+			szErrorMsg = tr("Please enter the necessary information.");
+		}
+		break;
+	case 2: // PostgreSQL
+		bGoOn = !m_pOpenDatabaseDialog->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getPSQLDatabaseField()->text().isEmpty();
+		if(bGoOn){
+			szTabFileName = m_pOpenDatabaseDialog->getPSQLDatabaseField()->text();
+			szDatabaseInfoList = makePostgreSQLDatabaseInfoList();
+			pDatabaseController = new DatabaseControllerPostgreSQL(m_fileName, szDatabaseInfoList);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
@@ -144,7 +157,7 @@ QString QOpenDatabaseDialogController::getFileName() const
 	return m_fileName;
 }
 
-QStringList QOpenDatabaseDialogController::makeDatabaseInfoList()
+QStringList QOpenDatabaseDialogController::makeMySQLDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
 
@@ -153,6 +166,19 @@ QStringList QOpenDatabaseDialogController::makeDatabaseInfoList()
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLUsernameField()->text();
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLPasswordField()->text();
 	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
+
+	return szDatabaseInfoList;
+}
+
+QStringList QOpenDatabaseDialogController::makePostgreSQLDatabaseInfoList()
+{
+	QStringList szDatabaseInfoList;
+
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLHostField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLPortField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLUsernameField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLPasswordField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLDatabaseField()->text();
 
 	return szDatabaseInfoList;
 }

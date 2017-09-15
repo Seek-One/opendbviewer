@@ -120,7 +120,7 @@ set(WITH_QT ON CACHE BOOL "Enable build with qt library")
 set(QT4_COMPONENTS QtCore QtGui QtNetwork QtSql QtTest)
 set(QT5_COMPONENTS Core Gui Widgets Network Sql Test)
 set(QT_IMAGEFORMATS_COMPONENTS qjpeg)
-set(QT_SQL_COMPONENTS qsqlite qsqlmysql)
+set(QT_SQL_COMPONENTS qsqlite qsqlmysql qpsql qodbc)
 
 # Define output variable
 set (PACKAGE_DEPS)
@@ -188,6 +188,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerMysql.h
 	src/Database/DatabaseControllerSqlite.cpp
 	src/Database/DatabaseControllerSqlite.h
+	src/Database/DatabaseControllerPostgreSQL.cpp
+	src/Database/DatabaseControllerPostgreSQL.h
 )
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro

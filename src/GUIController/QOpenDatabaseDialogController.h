@@ -27,7 +27,8 @@ public:
 	QString getFileName() const;
 
 private:
-	QStringList makeDatabaseInfoList();
+	QStringList makeMySQLDatabaseInfoList();
+	QStringList makePostgreSQLDatabaseInfoList();
 
 public slots:
 	void openFileDialog();

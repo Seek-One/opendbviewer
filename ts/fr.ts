@@ -150,53 +150,64 @@
         <translation>MySQL</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="47"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="45"/>
+        <source>PostgreSQL</source>
+        <translation>PostgreSQL</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="51"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="49"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="53"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="66"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="97"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="70"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="101"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="145"/>
         <source>Connection:</source>
         <translation>Connexion :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="82"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="86"/>
         <source>Browse</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="85"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="89"/>
         <source>File:</source>
         <translation>Fichier :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="106"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="110"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="154"/>
         <source>Host:</source>
         <translation>Hôte :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="113"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="117"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="161"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="118"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="122"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="166"/>
         <source>Username:</source>
         <translation>Nom d&apos;utilisateur</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="124"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="128"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="172"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="129"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="133"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="177"/>
         <source>Database:</source>
         <translation>Base de donnée :</translation>
     </message>
@@ -204,42 +215,43 @@
 <context>
     <name>QOpenDatabaseDialogController</name>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="44"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="54"/>
         <source>Select a file</source>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="44"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="54"/>
         <source>SQLite files (*.sqlite *.db)</source>
         <translation>Fichier SQLite (*.sqlite *.db)</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="76"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="86"/>
         <source>Please select a valid SQLite file</source>
         <translation>Veuillez choisir un fichier SQLite valide</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="99"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="119"/>
         <source>Unable to connect to the database, please check the connection information.</source>
         <translation>Impossible de se connecter à la base de donnée, veuillez vérifier les informations de connexion.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="114"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="134"/>
         <source>Database problem</source>
         <translation>Problème de base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="114"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="134"/>
         <source>Problem while loading database tables</source>
         <translation>Problème au chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="127"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="147"/>
         <source>Connection error</source>
         <translation>Erreur de connexion</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="86"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="96"/>
+        <location filename="../src/GUIController/QOpenDatabaseDialogController.cpp" line="106"/>
         <source>Please enter the necessary information.</source>
         <translation>Veuillez entrez les informations nécessaires.</translation>
     </message>

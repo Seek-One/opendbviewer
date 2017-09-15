@@ -257,6 +257,19 @@
     </message>
 </context>
 <context>
+    <name>QQueryResultView</name>
+    <message>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="25"/>
+        <source>Results</source>
+        <translation>Résultats</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="42"/>
+        <source>Console</source>
+        <translation>Console</translation>
+    </message>
+</context>
+<context>
     <name>QWindowMain</name>
     <message>
         <location filename="../src/GUI/QWindowMain.cpp" line="50"/>

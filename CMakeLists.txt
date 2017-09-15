@@ -223,11 +223,13 @@ set (I18N_FILES
 	src/GUI/QDatabaseTableView.cpp
 	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QOpenDatabaseDialog.cpp
+	src/GUI/QQueryResultView.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUIController/QDatabaseConnectionViewController.cpp
 	src/GUIController/QDatabaseWorksheetViewController.cpp
 	src/GUIController/QOpenDatabaseDialogController.cpp
 	src/GUIController/QWindowMainController.cpp
+	
 )
 
 set (TS_FILES

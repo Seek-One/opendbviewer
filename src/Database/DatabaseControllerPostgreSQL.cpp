@@ -1,18 +1,19 @@
 /*
- * DatabaseControllerPostgresSQL.cpp
+ * DatabaseControllerPostgreSQL.cpp
  *
- *  Created on: 27 juin 2016
- *      Author: echopin
+ *  Created on: 15 sept 2017
+ *      Author: ebeuque
  */
+#include <QSqlDatabase>
 
-#include "Database/DatabaseControllerPostgresSQL.h"
+#include "DatabaseControllerPostgreSQL.h"
 
-DatabaseControllerPostgresSQL::DatabaseControllerPostgresSQL(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
+DatabaseControllerPostgreSQL::DatabaseControllerPostgreSQL(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
 {
 	m_szDatabaseInfoList = szDatabaseInfoList;
 	splitDatabaseInfoList(m_szDatabaseInfoList);
 
-	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
+	m_db = QSqlDatabase::addDatabase("QPSQL", m_szDatabaseName);
     m_db.setHostName(m_szHostName);
     m_db.setPort(m_port);
     m_db.setDatabaseName(m_szDatabaseName);
@@ -20,30 +21,30 @@ DatabaseControllerPostgresSQL::DatabaseControllerPostgresSQL(const QString &szFi
     m_db.setPassword(m_szPassword);
 }
 
-DatabaseControllerPostgresSQL::~DatabaseControllerPostgresSQL()
+DatabaseControllerPostgreSQL::~DatabaseControllerPostgreSQL()
 {
 }
 
-QString DatabaseControllerPostgresSQL::loadTableDescriptionQuery(const QString& szTableName)
+QString DatabaseControllerPostgreSQL::loadTableDescriptionQuery(const QString& szTableName)
 {
-	return QString("\d %0;").arg(szTableName);
+	return QString("SELECT column_name, data_type, character_maximum_length, is_nullable, column_default FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '%0';").arg(szTableName);
 }
 
-QStringList DatabaseControllerPostgresSQL::loadTableDescriptionResult(const QSqlQuery query)
+QStringList DatabaseControllerPostgreSQL::loadTableDescriptionResult(const QSqlQuery query)
 {
 	QStringList pRowData;
-	QString szField = query.value(0).toString();
-	QString szName = query.value(1).toString();
-	QString szType = query.value(2).toString();
-	QString szNotNull = query.value(3).toString();
+	QString szColName = query.value(0).toString();
+	QString szType = query.value(1).toString();
+	QString szMaxLen = query.value(2).toString();
+	QString szNullable = query.value(2).toString();
 	QString szDefaultValue = query.value(4).toString();
-	QString szPk = query.value(5).toString();
-	pRowData << szField << szName << szType << szNotNull << szDefaultValue << szPk;
+	//QString szPk = query.value(5).toString();
+	pRowData << szColName << szType << szMaxLen << szNullable << szDefaultValue;
 
 	return pRowData;
 }
 
-QStringList DatabaseControllerPostgresSQL::loadTableDescriptionColumnNames(const QSqlQuery query)
+QStringList DatabaseControllerPostgreSQL::loadTableDescriptionColumnNames(const QSqlQuery query)
 {
 	QStringList pColumnNames;
 	int currentColumnNumber;
@@ -56,7 +57,7 @@ QStringList DatabaseControllerPostgresSQL::loadTableDescriptionColumnNames(const
 	return pColumnNames;
 }
 
-QStringList DatabaseControllerPostgresSQL::listColumnNames(const QString& szTableName)
+QStringList DatabaseControllerPostgreSQL::listColumnNames(const QString& szTableName)
 {
 	QStringList listColumnName;
 	QSqlQuery tableInfoQuery(m_db);
@@ -69,17 +70,17 @@ QStringList DatabaseControllerPostgresSQL::listColumnNames(const QString& szTabl
 	return listColumnName;
 }
 
-QString DatabaseControllerPostgresSQL::loadTableCreationScriptQuery(const QString& szTableName)
+QString DatabaseControllerPostgreSQL::loadTableCreationScriptQuery(const QString& szTableName)
 {
-	return QString("SHOW CREATE TABLE %0;").arg(szTableName);
+	return QString();
 }
 
-QString DatabaseControllerPostgresSQL::makeTableCreationScriptQueryResult(const QSqlQuery query)
+QString DatabaseControllerPostgreSQL::makeTableCreationScriptQueryResult(const QSqlQuery query)
 {
 	return QString(query.value(1).toString());
 }
 
-void DatabaseControllerPostgresSQL::splitDatabaseInfoList(QStringList& szDatabaseInfoList)
+void DatabaseControllerPostgreSQL::splitDatabaseInfoList(QStringList& szDatabaseInfoList)
 {
 	m_szHostName = szDatabaseInfoList.value(0);
 	m_port = szDatabaseInfoList.value(1).toInt();

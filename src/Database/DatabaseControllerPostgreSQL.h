@@ -1,28 +1,22 @@
 /*
- * DatabaseControllerMysql.h
+ * DatabaseControllerPostgresSQL.h
  *
  *  Created on: 27 juin 2016
  *      Author: echopin
  */
 
-#ifndef SRC_DATABASE_DATABASECONTROLLERMYSQL_H_
-#define SRC_DATABASE_DATABASECONTROLLERMYSQL_H_
+#ifndef SRC_DATABASE_DATABASECONTROLLERPOSTGRESQL_H_
+#define SRC_DATABASE_DATABASECONTROLLERPOSTGRESQL_H_
 
 #include "DatabaseController.h"
 
-#include <QString>
 #include <QStringList>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlField>
-#include <QSqlRecord>
-#include <QDebug>
 
-class DatabaseControllerPostgresSQL : public DatabaseController
+class DatabaseControllerPostgreSQL : public DatabaseController
 {
 public:
-	DatabaseControllerPostgresSQL(const QString& szFileName, const QStringList& szDatabaseInfoList);
-	virtual ~DatabaseControllerPostgresSQL();
+	DatabaseControllerPostgreSQL(const QString &szFileName, const QStringList& szDatabaseInfoList);
+	virtual ~DatabaseControllerPostgreSQL();
 
 protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName);
@@ -44,4 +38,4 @@ private:
 	QStringList m_szDatabaseInfoList;
 };
 
-#endif /* SRC_DATABASE_DATABASECONTROLLERMYSQL_H_ */
+#endif /* SRC_DATABASE_DATABASECONTROLLERPOSTGRESQL_H_ */

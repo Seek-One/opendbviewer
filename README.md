@@ -9,7 +9,7 @@ OpenDBViewer is a simple database explorer for Windows, Linux and Max OS X.
 
 Features
 --------
-- Compatibility with SQLITE and MySQL database.
+- Compatibility with SQLITE, MySQL, PostgreSQL database.
 - SQL syntax highlightings
 - Multi database, table and worksheet view
 
@@ -28,11 +28,11 @@ Compiling from source
 
 Install dependencies:
 
-    apt-get install libqt4-dev libqt4-sql-mysql
+    apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql
 
 Or:
 
-    apt-get install qtbase5-dev qttools5-dev-tools libqt5sql5-mysql
+    apt-get install qtbase5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql
 
 Get the code:
 

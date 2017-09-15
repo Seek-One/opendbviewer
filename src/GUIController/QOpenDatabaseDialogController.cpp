@@ -36,6 +36,13 @@ void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabase
 	connect(m_pOpenDatabaseDialog->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 	connect(m_pOpenDatabaseDialog->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeOpenDatabaseDialog()));
 	connect(m_pOpenDatabaseDialog->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+
+	// Default values
+	m_pOpenDatabaseDialog->getMySQLHostField()->setText("127.0.0.1");
+	m_pOpenDatabaseDialog->getMySQLPortField()->setText("3306");
+	m_pOpenDatabaseDialog->getMySQLUsernameField()->setText("root");
+	m_pOpenDatabaseDialog->getMySQLDatabaseField()->setText("mysql");
+
 }
 
 

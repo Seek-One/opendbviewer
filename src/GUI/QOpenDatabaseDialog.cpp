@@ -75,12 +75,12 @@ QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 	{
 		pTmpLayout = new QHBoxLayout();
 
-		m_pFilePathField = new QLineEdit();
-		m_pFilePathField->setReadOnly(true);
-		pTmpLayout->addWidget(m_pFilePathField);
+		m_pSQLiteFilePathField = new QLineEdit();
+		m_pSQLiteFilePathField->setReadOnly(true);
+		pTmpLayout->addWidget(m_pSQLiteFilePathField);
 
-		m_pFileSelectionButton = new QPushButton(tr("Browse"), this);
-		pTmpLayout->addWidget(m_pFileSelectionButton);
+		m_pSQLiteFileSelectionButton = new QPushButton(tr("Browse"), this);
+		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton);
 
 		pFormLayout->addRow(tr("File:"), pTmpLayout);
 	}
@@ -102,31 +102,31 @@ QWidget* QOpenDatabaseDialog::makeMySQLTab(QWidget* pParent)
 
 	// Host field
 	{
-		m_pHostField = new QLineEdit(this);
-		pFormLayout->addRow(tr("Host:"), m_pHostField);
+		m_pMySQLHostField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Host:"), m_pMySQLHostField);
 	}
 	// Port field
 	{
-		m_pPortField = new QLineEdit(this);
+		m_pMySQLPortField = new QLineEdit(this);
 		QValidator *pPortValidator = new QIntValidator(0, 65535, this);
-		m_pPortField->setValidator(pPortValidator);
-		pFormLayout->addRow(tr("Port:"), m_pPortField);
+		m_pMySQLPortField->setValidator(pPortValidator);
+		pFormLayout->addRow(tr("Port:"), m_pMySQLPortField);
 	}
 	// Username field
 	{
-		m_pUsernameField = new QLineEdit(this);
-		pFormLayout->addRow(tr("Username:"), m_pUsernameField);
+		m_pMySQLUsernameField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Username:"), m_pMySQLUsernameField);
 	}
 	// Password field
 	{
-		m_pPasswordField = new QLineEdit(this);
-		m_pPasswordField->setEchoMode(QLineEdit::Password);
-		pFormLayout->addRow(tr("Password:"), m_pPasswordField);
+		m_pMySQLPasswordField = new QLineEdit(this);
+		m_pMySQLPasswordField->setEchoMode(QLineEdit::Password);
+		pFormLayout->addRow(tr("Password:"), m_pMySQLPasswordField);
 	}
 	// Database field
 	{
-		m_pDatabaseField = new QLineEdit(this);
-		pFormLayout->addRow(tr("Database:"), m_pDatabaseField);
+		m_pMySQLDatabaseField = new QLineEdit(this);
+		pFormLayout->addRow(tr("Database:"), m_pMySQLDatabaseField);
 	}
 
 	return pMainWidget;
@@ -137,9 +137,40 @@ QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
 	return m_pConnectionTypeTabWidget;
 }
 
-QPushButton* QOpenDatabaseDialog::getFileSelectionButton() const
+QPushButton* QOpenDatabaseDialog::getSQLiteFileSelectionButton() const
 {
-	return m_pFileSelectionButton;
+	return m_pSQLiteFileSelectionButton;
+}
+
+QLineEdit* QOpenDatabaseDialog::getSQLiteFilePathField() const
+
+{
+	return m_pSQLiteFilePathField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLHostField() const
+{
+	return m_pMySQLHostField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLPortField() const
+{
+	return m_pMySQLPortField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLUsernameField() const
+{
+	return m_pMySQLUsernameField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLPasswordField() const
+{
+	return m_pMySQLPasswordField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLDatabaseField() const
+{
+	return m_pMySQLDatabaseField;
 }
 
 QPushButton* QOpenDatabaseDialog::getCancelButton() const
@@ -150,35 +181,4 @@ QPushButton* QOpenDatabaseDialog::getCancelButton() const
 QPushButton* QOpenDatabaseDialog::getOKButton() const
 {
 	return m_pOKButton;
-}
-
-QLineEdit* QOpenDatabaseDialog::getFilePathField() const
-
-{
-	return m_pFilePathField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getHostField() const
-{
-	return m_pHostField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPortField() const
-{
-	return m_pPortField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getUsernameField() const
-{
-	return m_pUsernameField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPasswordField() const
-{
-	return m_pPasswordField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getDatabaseField() const
-{
-	return m_pDatabaseField;
 }

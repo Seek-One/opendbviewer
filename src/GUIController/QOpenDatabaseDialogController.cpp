@@ -33,7 +33,7 @@ void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabase
 	m_pMainWindow = pMainWindow;
 	m_pOpenDatabaseDialog = pOpenDatabaseDialog;
 
-	connect(m_pOpenDatabaseDialog->getFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
+	connect(m_pOpenDatabaseDialog->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 	connect(m_pOpenDatabaseDialog->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeOpenDatabaseDialog()));
 	connect(m_pOpenDatabaseDialog->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
 }
@@ -43,7 +43,7 @@ void QOpenDatabaseDialogController::openFileDialog()
 {
 	m_fileName = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, tr("Select a file"), QString(), tr("SQLite files (*.sqlite *.db)"));
 
-	m_pOpenDatabaseDialog->getFilePathField()->setText(m_fileName);
+	m_pOpenDatabaseDialog->getSQLiteFilePathField()->setText(m_fileName);
 }
 
 void QOpenDatabaseDialogController::closeOpenDatabaseDialog()
@@ -77,9 +77,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 		}
 		break;
 	case 1: // MySQL
-		bGoOn = !m_pOpenDatabaseDialog->getHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseDialog->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getMySQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
-			szTabFileName = m_pOpenDatabaseDialog->getDatabaseField()->text();
+			szTabFileName = m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
 			szDatabaseInfoList = makeDatabaseInfoList();
 			pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
 		}else{
@@ -141,11 +141,11 @@ QStringList QOpenDatabaseDialogController::makeDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
 
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getHostField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPortField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getUsernameField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPasswordField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getDatabaseField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLHostField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLPortField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLUsernameField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLPasswordField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
 
 	return szDatabaseInfoList;
 }

@@ -24,15 +24,15 @@ public:
 	QTabWidget* getConnectionTypeTabWidget() const;
 
 	// SQLite
-	QPushButton* getFileSelectionButton() const;
-	QLineEdit* getFilePathField() const;
+	QPushButton* getSQLiteFileSelectionButton() const;
+	QLineEdit* getSQLiteFilePathField() const;
 
 	// MySQL
-	QLineEdit* getHostField() const;
-	QLineEdit* getPortField() const;
-	QLineEdit* getUsernameField() const;
-	QLineEdit* getPasswordField() const;
-	QLineEdit* getDatabaseField() const;
+	QLineEdit* getMySQLHostField() const;
+	QLineEdit* getMySQLPortField() const;
+	QLineEdit* getMySQLUsernameField() const;
+	QLineEdit* getMySQLPasswordField() const;
+	QLineEdit* getMySQLDatabaseField() const;
 
 	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
@@ -45,15 +45,15 @@ private:
 	QTabWidget* m_pConnectionTypeTabWidget;
 
 	// SQLite
-	QLineEdit* m_pFilePathField;
-	QPushButton* m_pFileSelectionButton;
+	QLineEdit* m_pSQLiteFilePathField;
+	QPushButton* m_pSQLiteFileSelectionButton;
 
 	// MySQL
-	QLineEdit* m_pHostField;
-	QLineEdit* m_pPortField;
-	QLineEdit* m_pUsernameField;
-	QLineEdit* m_pPasswordField;
-	QLineEdit* m_pDatabaseField;
+	QLineEdit* m_pMySQLHostField;
+	QLineEdit* m_pMySQLPortField;
+	QLineEdit* m_pMySQLUsernameField;
+	QLineEdit* m_pMySQLPasswordField;
+	QLineEdit* m_pMySQLDatabaseField;
 
 	// Validation button
 	QPushButton* m_pOKButton;

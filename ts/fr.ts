@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.0">
 <context>
     <name>Main</name>
     <message>
@@ -50,32 +50,32 @@
 <context>
     <name>QDatabaseConnectionView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="85"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="87"/>
         <source>Refresh</source>
         <translation>Rafraîchir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="88"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="90"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="97"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="99"/>
         <source>Structure</source>
         <translation>Structure</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="102"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="104"/>
         <source>Tables</source>
         <translation>Tables</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="107"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="109"/>
         <source>System tables</source>
         <translation>Tables système</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="112"/>
+        <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="114"/>
         <source>Views</source>
         <translation>Vues</translation>
     </message>

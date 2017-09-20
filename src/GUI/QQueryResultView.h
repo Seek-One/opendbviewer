@@ -15,6 +15,7 @@ class QTextEdit;
 class QStandardItemModel;
 
 class QQueryResultView : public QTabWidget {
+	Q_OBJECT
 public:
 	QQueryResultView(QWidget* pParent = NULL);
 	virtual ~QQueryResultView();

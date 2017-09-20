@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include "Widget/QMidClickClosableTabWidget.h"
+
 #include "QDatabaseConnectionView.h"
 
 QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
@@ -24,7 +26,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	pSplitter->addWidget(pVertConnectionPanel);
 
 	// Create left panel
-	m_pTabsInConnection = new QTabWidget();//Used to create a tab widget in the opened connection tab
+	m_pTabsInConnection = new QMidClickClosableTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
 	pSplitter->addWidget(m_pTabsInConnection);
 }

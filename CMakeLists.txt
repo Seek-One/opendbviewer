@@ -190,6 +190,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerSqlite.h
 	src/Database/DatabaseControllerPostgreSQL.cpp
 	src/Database/DatabaseControllerPostgreSQL.h
+	src/Widget/QMidClickClosableTabWidget.cpp
+	src/Widget/QMidClickClosableTabWidget.h
 )
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
@@ -198,6 +200,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QOpenDatabaseDialog.h
+	src/GUI/QQueryResultView.h
 	src/GUI/QWindowMain.h
 	src/GUI/QSqlSourceView.h
 	src/GUIController/QWindowMainController.h

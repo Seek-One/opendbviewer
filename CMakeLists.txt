@@ -127,6 +127,30 @@ set (PACKAGE_DEPS)
 
 include (CMakeModules/IncludeLibraries.cmake)
 
+# Install qt-mysql plugin
+if(QT_FOUND AND WIN32 AND QT_USE_VERSION EQUAL 4)
+    INSTALL(FILES
+        "${PROJECT_SOURCE_DIR}/3rdparty/qt-mysql/libmysql.dll"
+        DESTINATION ${INSTALL_PATH_BIN}
+    )
+    SET(TMPDLL "${QT_PLUGINS_DIR}/sqldrivers/qsqlmysql${QT_VERSION_MAJOR}.dll")
+    if(NOT EXISTS ${TMPDLL} AND NOT MSVC)
+        INSTALL(FILES
+            "${PROJECT_SOURCE_DIR}/3rdparty/qt-mysql/qsqlmysql${QT_VERSION_MAJOR}.dll"
+            DESTINATION ${INSTALL_PATH_BIN}/sqldrivers
+            CONFIGURATIONS Release
+        )
+    endif()
+    SET(TMPDLL "${QT_PLUGINS_DIR}/sqldrivers/qsqlmysqld${QT_VERSION_MAJOR}.dll")
+    if(NOT EXISTS ${TMPDLL} AND NOT MSVC)
+        INSTALL(FILES
+            "${PROJECT_SOURCE_DIR}/3rdparty/qt-mysql/qsqlmysqld${QT_VERSION_MAJOR}.dll"
+            DESTINATION ${INSTALL_PATH_BIN}/sqldrivers
+            CONFIGURATIONS Debug
+        )
+    endif()
+endif(QT_FOUND AND WIN32 AND QT_USE_VERSION EQUAL 4)
+
 ####################
 # Config file
 ####################

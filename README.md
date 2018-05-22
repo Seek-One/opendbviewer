@@ -32,7 +32,7 @@ Install dependencies:
 
 Or:
 
-    apt-get install qtbase5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql
+    apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql
 
 Get the code:
 

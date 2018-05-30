@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>Main</name>
     <message>
@@ -57,7 +57,7 @@
     <message>
         <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="90"/>
         <source>New</source>
-        <translation>Nouveau</translation>
+        <translation>Nouvelle feuille de travail</translation>
     </message>
     <message>
         <location filename="../src/GUI/QDatabaseConnectionView.cpp" line="99"/>
@@ -85,7 +85,7 @@
     <message>
         <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="49"/>
         <source>worksheet</source>
-        <translation>feuille de travail</translation>
+        <translation>Feuille de travail</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="65"/>
@@ -127,12 +127,36 @@
         <translation>Filtrer :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="80"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="81"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="112"/>
+        <source>Refresh</source>
+        <translation>Rafraîchir</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="116"/>
         <source>Execute</source>
         <translation>Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="83"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="84"/>
+        <source>Clear</source>
+        <translation>Effacer</translation>
+    </message>
+</context>
+<context>
+    <name>QDatabaseWorksheetView</name>
+    <message>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="48"/>
+        <source>Execute</source>
+        <translation>Exécuter</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="52"/>
+        <source>Reformat</source>
+        <translation>Reformater</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="57"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -197,7 +221,7 @@
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="122"/>
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="166"/>
         <source>Username:</source>
-        <translation>Nom d&apos;utilisateur</translation>
+        <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="128"/>

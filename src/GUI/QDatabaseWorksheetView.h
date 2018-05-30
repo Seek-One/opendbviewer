@@ -20,6 +20,7 @@ class QQueryResultView;
 
 class QDatabaseWorksheetView : public QWidget
 {
+	Q_OBJECT
 public:
 	QDatabaseWorksheetView(QWidget* parent = 0);
 	virtual ~QDatabaseWorksheetView();

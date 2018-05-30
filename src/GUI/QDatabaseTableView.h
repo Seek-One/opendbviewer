@@ -52,6 +52,9 @@ private:
 	QWidget* makeStructureTab();
 	QWidget* makeCreationScriptTab();
 
+private slots:
+	void filterLineTextChanged(const QString& szText);
+
 private:
 	// Structure tab
 	QStandardItemModel* m_pStructureModel;

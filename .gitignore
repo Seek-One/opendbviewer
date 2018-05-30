@@ -15,3 +15,4 @@ opendbviewer
 moc_*.c*
 *.sqlite
 README
+build

@@ -75,9 +75,10 @@ QWidget* QDatabaseTableView::makeDataTab()
 	pHorizontalLayout->addWidget(filterLabel);
 
 	m_pFilterLine = new QLineEdit();
+	connect(m_pFilterLine, SIGNAL(textChanged(const QString&)), this, SLOT(filterLineTextChanged(const QString&)));
 	pHorizontalLayout->addWidget(m_pFilterLine);
 
-	m_pRefreshButton = new QPushButton(tr("Execute"));
+	m_pRefreshButton = new QPushButton(tr("Refresh"));
 	pHorizontalLayout->addWidget(m_pRefreshButton);
 
 	m_pClearButton = new QPushButton(tr("Clear"));
@@ -102,6 +103,15 @@ QWidget* QDatabaseTableView::makeCreationScriptTab()
 	pCreationScriptLayout->addWidget(m_pCreationScriptTextEdit);
 
 	return pTableTab3;
+}
+
+void QDatabaseTableView::filterLineTextChanged(const QString& szText)
+{
+	if (m_pFilterLine->text().isEmpty()){
+		m_pRefreshButton->setText(tr("Refresh"));
+	}else{
+		m_pRefreshButton->setText(tr("Execute"));
+	}
 }
 
 QTreeView* QDatabaseTableView::getStructureTreeView() const

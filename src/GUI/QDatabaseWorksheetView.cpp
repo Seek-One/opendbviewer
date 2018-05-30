@@ -45,16 +45,16 @@ QToolBar* QDatabaseWorksheetView::makeWorksheetToolbar()
 {
 	QToolBar *pWorksheetToolbar = new QToolBar();
 
-	m_pExecuteButton = new QPushButton("Execute");
+	m_pExecuteButton = new QPushButton(tr("Execute"));
 	pWorksheetToolbar->addWidget(m_pExecuteButton);
 	//m_pExecuteButton->setToolTip(tr("Execute the selected query"));
 
-	m_pReformatButton = new QPushButton("Reformat");
+	m_pReformatButton = new QPushButton(tr("Reformat"));
 	m_pReformatButton->setVisible(false);
 	pWorksheetToolbar->addWidget(m_pReformatButton);
 	//m_pReformatButton->setToolTip(tr("Reformat SQL text"));
 
-	m_pClearTextButton = new QPushButton("Clear");
+	m_pClearTextButton = new QPushButton(tr("Clear"));
 	pWorksheetToolbar->addWidget(m_pClearTextButton);
 	//m_pClearTextButton->setToolTip(tr("Clear the text"));
 

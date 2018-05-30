@@ -223,6 +223,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QAboutDialog.h
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseTableView.h
+	src/GUI/QDatabaseWorksheetView.h
 	src/GUI/QOpenDatabaseDialog.h
 	src/GUI/QQueryResultView.h
 	src/GUI/QWindowMain.h

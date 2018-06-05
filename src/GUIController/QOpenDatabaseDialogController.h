@@ -24,7 +24,7 @@ public:
 	virtual ~QOpenDatabaseDialogController();
 
 	void init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog);
-	QString getFileName() const;
+	QString getFileUrl() const;
 
 private:
 	QStringList makeMySQLDatabaseInfoList();
@@ -32,12 +32,13 @@ private:
 
 public slots:
 	void openFileDialog();
+	void openFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
 	void loadDatabase();
 
 private:
 	QOpenDatabaseDialog* m_pOpenDatabaseDialog;
-	QString m_fileName;
+	QString m_szFileUrl;
 	QWindowMain* m_pMainWindow;
 };
 

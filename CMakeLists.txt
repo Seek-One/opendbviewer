@@ -214,6 +214,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerSqlite.h
 	src/Database/DatabaseControllerPostgreSQL.cpp
 	src/Database/DatabaseControllerPostgreSQL.h
+	src/Widget/QDropAreaWidget.cpp
+	src/Widget/QDropAreaWidget.h
 	src/Widget/QMidClickClosableTabWidget.cpp
 	src/Widget/QMidClickClosableTabWidget.h
 )
@@ -234,6 +236,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUIController/QDatabaseWorksheetViewController.h
 	src/GUIController/QOpenDatabaseDialogController.h
 	src/GUIController/QSqlHighlighterController.h
+	src/Widget/QDropAreaWidget.h
 )
 qt_wrap_cpp(
 	APPLICATION_MOC_OUTFILES
@@ -257,7 +260,7 @@ set (I18N_FILES
 	src/GUIController/QDatabaseWorksheetViewController.cpp
 	src/GUIController/QOpenDatabaseDialogController.cpp
 	src/GUIController/QWindowMainController.cpp
-	
+	src/Widget/QDropAreaWidget.cpp
 )
 
 set (TS_FILES

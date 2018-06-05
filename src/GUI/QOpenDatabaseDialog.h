@@ -10,6 +10,8 @@
 
 #include <QDialog>
 
+#include "Widget/QDropAreaWidget.h"
+
 class QPushButton;
 class QLineEdit;
 class QTabWidget;
@@ -26,6 +28,8 @@ public:
 	// SQLite
 	QPushButton* getSQLiteFileSelectionButton() const;
 	QLineEdit* getSQLiteFilePathField() const;
+
+	QDropAreaWidget* getDropAreaWidget() const;
 
 	// MySQL
 	QLineEdit* getMySQLHostField() const;
@@ -55,6 +59,7 @@ private:
 	// SQLite
 	QLineEdit* m_pSQLiteFilePathField;
 	QPushButton* m_pSQLiteFileSelectionButton;
+	QDropAreaWidget* m_pDropAreaWidget;
 
 	// MySQL
 	QLineEdit* m_pMySQLHostField;

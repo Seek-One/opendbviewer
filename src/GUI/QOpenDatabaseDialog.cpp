@@ -61,10 +61,91 @@ QOpenDatabaseDialog::~QOpenDatabaseDialog()
 
 }
 
+QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
+{
+	return m_pConnectionTypeTabWidget;
+}
+
+QPushButton* QOpenDatabaseDialog::getSQLiteFileSelectionButton() const
+{
+	return m_pSQLiteFileSelectionButton;
+}
+
+QLineEdit* QOpenDatabaseDialog::getSQLiteFilePathField() const
+
+{
+	return m_pSQLiteFilePathField;
+}
+
+QDropAreaWidget* QOpenDatabaseDialog::getDropAreaWidget() const
+{
+	return m_pDropAreaWidget;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLHostField() const
+{
+	return m_pMySQLHostField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLPortField() const
+{
+	return m_pMySQLPortField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLUsernameField() const
+{
+	return m_pMySQLUsernameField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLPasswordField() const
+{
+	return m_pMySQLPasswordField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getMySQLDatabaseField() const
+{
+	return m_pMySQLDatabaseField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLHostField() const
+{
+	return m_pPSQLHostField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLPortField() const
+{
+	return m_pPSQLPortField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLUsernameField() const
+{
+	return m_pPSQLUsernameField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLPasswordField() const
+{
+	return m_pPSQLPasswordField;
+}
+
+QLineEdit* QOpenDatabaseDialog::getPSQLDatabaseField() const
+{
+	return m_pPSQLDatabaseField;
+}
+
+QPushButton* QOpenDatabaseDialog::getCancelButton() const
+{
+	return m_pCancelButton;
+}
+
+QPushButton* QOpenDatabaseDialog::getOKButton() const
+{
+	return m_pOKButton;
+}
+
 QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
-	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
 	QGroupBox *pGroupBox = new QGroupBox(tr("Connection:"), pMainWidget);
@@ -89,6 +170,14 @@ QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 		pFormLayout->addRow(tr("File:"), pTmpLayout);
 	}
 
+	{
+		pTmpLayout = new QHBoxLayout();
+		pTmpLayout->setContentsMargins(10,0,10,10);
+
+		m_pDropAreaWidget = new QDropAreaWidget(this);
+		pTmpLayout->addWidget(m_pDropAreaWidget);
+	}
+	pMainLayout->addLayout(pTmpLayout);
 	return pMainWidget;
 }
 
@@ -178,80 +267,4 @@ QWidget* QOpenDatabaseDialog::makePostgreSQLTab(QWidget* pParent)
 	}
 
 	return pMainWidget;
-}
-
-QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
-{
-	return m_pConnectionTypeTabWidget;
-}
-
-QPushButton* QOpenDatabaseDialog::getSQLiteFileSelectionButton() const
-{
-	return m_pSQLiteFileSelectionButton;
-}
-
-QLineEdit* QOpenDatabaseDialog::getSQLiteFilePathField() const
-
-{
-	return m_pSQLiteFilePathField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getMySQLHostField() const
-{
-	return m_pMySQLHostField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getMySQLPortField() const
-{
-	return m_pMySQLPortField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getMySQLUsernameField() const
-{
-	return m_pMySQLUsernameField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getMySQLPasswordField() const
-{
-	return m_pMySQLPasswordField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getMySQLDatabaseField() const
-{
-	return m_pMySQLDatabaseField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPSQLHostField() const
-{
-	return m_pPSQLHostField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPSQLPortField() const
-{
-	return m_pPSQLPortField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPSQLUsernameField() const
-{
-	return m_pPSQLUsernameField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPSQLPasswordField() const
-{
-	return m_pPSQLPasswordField;
-}
-
-QLineEdit* QOpenDatabaseDialog::getPSQLDatabaseField() const
-{
-	return m_pPSQLDatabaseField;
-}
-
-QPushButton* QOpenDatabaseDialog::getCancelButton() const
-{
-	return m_pCancelButton;
-}
-
-QPushButton* QOpenDatabaseDialog::getOKButton() const
-{
-	return m_pOKButton;
 }

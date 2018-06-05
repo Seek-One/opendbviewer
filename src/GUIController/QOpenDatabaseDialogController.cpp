@@ -37,6 +37,8 @@ void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabase
 	connect(m_pOpenDatabaseDialog->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 	connect(m_pOpenDatabaseDialog->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeOpenDatabaseDialog()));
 	connect(m_pOpenDatabaseDialog->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+	connect(m_pOpenDatabaseDialog->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openFile(const QString&)));
+
 
 	// Default values
 	m_pOpenDatabaseDialog->getMySQLHostField()->setText("127.0.0.1");
@@ -51,9 +53,14 @@ void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabase
 
 void QOpenDatabaseDialogController::openFileDialog()
 {
-	m_fileName = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, tr("Select a file"), QString(), tr("SQLite files (*.sqlite *.db)"));
+	m_szFileUrl = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, tr("Select a file"), QString(), tr("SQLite files (*.sqlite *.db)"));
+	m_pOpenDatabaseDialog->getSQLiteFilePathField()->setText(m_szFileUrl);
+}
 
-	m_pOpenDatabaseDialog->getSQLiteFilePathField()->setText(m_fileName);
+void QOpenDatabaseDialogController::openFile(const QString& szFileUrl)
+{
+	m_szFileUrl = szFileUrl;
+	loadDatabase();
 }
 
 void QOpenDatabaseDialogController::closeOpenDatabaseDialog()
@@ -78,10 +85,10 @@ void QOpenDatabaseDialogController::loadDatabase()
 
 	switch(iCurrentIndex){
 	case 0: // SQLite
-		bGoOn = !m_fileName.isEmpty();
+		bGoOn = !m_szFileUrl.isEmpty();
 		if(bGoOn){
-			szTabFileName =	m_fileName.section('/', -1);//Get the last part of the file path to get the name for the tab
-			pDatabaseController = new DatabaseControllerSqlite(m_fileName);
+			szTabFileName =	m_szFileUrl.section('/', -1);//Get the last part of the file path to get the name for the tab
+			pDatabaseController = new DatabaseControllerSqlite(m_szFileUrl);
 		}else{
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}
@@ -91,7 +98,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
 			szDatabaseInfoList = makeMySQLDatabaseInfoList();
-			pDatabaseController = new DatabaseControllerMysql(m_fileName, szDatabaseInfoList);
+			pDatabaseController = new DatabaseControllerMysql(m_szFileUrl, szDatabaseInfoList);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
@@ -101,7 +108,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseDialog->getPSQLDatabaseField()->text();
 			szDatabaseInfoList = makePostgreSQLDatabaseInfoList();
-			pDatabaseController = new DatabaseControllerPostgreSQL(m_fileName, szDatabaseInfoList);
+			pDatabaseController = new DatabaseControllerPostgreSQL(m_szFileUrl, szDatabaseInfoList);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
@@ -123,7 +130,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 	// Init the view and fill it
 	if(bGoOn){
 		pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
-		pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_fileName, pDatabaseController);
+		pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_szFileUrl, pDatabaseController);
 		pDatabaseConnectionViewController->init(pConnectionView, szDatabaseInfoList);
 
 		// Adding DatabaseConnectionView to the main window
@@ -152,9 +159,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 	}
 }
 
-QString QOpenDatabaseDialogController::getFileName() const
+QString QOpenDatabaseDialogController::getFileUrl() const
 {
-	return m_fileName;
+	return m_szFileUrl;
 }
 
 QStringList QOpenDatabaseDialogController::makeMySQLDatabaseInfoList()

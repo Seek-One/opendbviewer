@@ -31,7 +31,6 @@ public:
 private:
 	void createMenu(); //Creates a menu bar
 
-
 	QTabWidget *m_pDatabaseConnectionTab;
 
 	// List of actions
@@ -39,8 +38,5 @@ private:
 	QAction* m_pQuitAction;
 	QAction* m_pAboutAction;
 };
-
-
-
 
 #endif /* SRC_MAINWINDOW_H_ */

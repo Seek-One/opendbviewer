@@ -46,7 +46,7 @@ void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseC
 void QDatabaseConnectionViewController::openNewWorksheet()
 {
 	QDatabaseWorksheetView* pDatabaseWorksheetView = new QDatabaseWorksheetView(m_pDatabaseConnectionView);
-	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("worksheet"));
+	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("Worksheet"));
 
 	QDatabaseWorksheetViewController* pDatabaseWorksheetViewController = new QDatabaseWorksheetViewController;
 	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_szFileName, m_pDatabaseController);

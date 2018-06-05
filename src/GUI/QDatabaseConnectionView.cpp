@@ -28,6 +28,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	// Create left panel
 	m_pTabsInConnection = new QMidClickClosableTabWidget();//Used to create a tab widget in the opened connection tab
 	m_pTabsInConnection->setTabsClosable(true);
+	m_pTabsInConnection->setMovable(true);
 	pSplitter->addWidget(m_pTabsInConnection);
 }
 
@@ -87,7 +88,7 @@ QToolBar* QDatabaseConnectionView::makeOptionButtonsToolBar(QWidget* pParent)
 	m_pRefreshTableListButton = new QPushButton(QIcon::fromTheme("view-refresh"), tr("Refresh"), pToolbar); //TODO needs image rather than text
 	pToolbar->addWidget(m_pRefreshTableListButton);
 
-	m_pNewWorksheetButton = new QPushButton(QIcon::fromTheme("document-new"), tr("New"), pToolbar);//TODO needs image rather than text
+	m_pNewWorksheetButton = new QPushButton(QIcon::fromTheme("document-new"), tr("New worksheet"), pToolbar);//TODO needs image rather than text
 	pToolbar->addWidget(m_pNewWorksheetButton);
 
 	return pToolbar;

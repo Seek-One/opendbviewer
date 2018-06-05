@@ -8,10 +8,22 @@
 #ifndef SRC_WIDGET_QDROPAREAWIDGET_H_
 #define SRC_WIDGET_QDROPAREAWIDGET_H_
 
-class QDropAreaWidget {
+#include <QFrame>
+
+class QDropAreaWidget : public QFrame {
+	Q_OBJECT
+
 public:
-	QDropAreaWidget();
+	QDropAreaWidget(QWidget* parent = 0);
 	virtual ~QDropAreaWidget();
+
+protected:
+	void dragEnterEvent(QDragEnterEvent *event);
+	void dropEvent(QDropEvent *event);
+	void paintEvent(QPaintEvent* event);
+
+signals:
+	void fileDropped(const QString& szFileUrl);
 };
 
 #endif /* SRC_WIDGET_QDROPAREAWIDGET_H_ */

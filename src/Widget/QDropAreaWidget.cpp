@@ -8,6 +8,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QPainter>
+#include <QUrl>
 
 #include "QDropAreaWidget.h"
 
@@ -30,7 +31,7 @@ void QDropAreaWidget::dragEnterEvent(QDragEnterEvent *event)
 		QList<QUrl>::iterator iter;
 		QString szFileName;
 		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
-			szFileName = (*iter).fileName();
+			szFileName = (*iter).path();
 			if(szFileName.endsWith(".sqlite") || szFileName.endsWith(".db")){
 				event->acceptProposedAction();
 				break;
@@ -47,7 +48,7 @@ void QDropAreaWidget::dropEvent(QDropEvent *event)
 		QList<QUrl>::iterator iter;
 		QString szUrl;
 		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
-			szUrl = (*iter).url(QUrl::RemoveScheme);
+			szUrl = (*iter).path();
 			if(szUrl.endsWith(".sqlite") || szUrl.endsWith(".db")){
 				emit fileDropped(szUrl);
 			}

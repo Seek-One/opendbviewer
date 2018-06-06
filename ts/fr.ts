@@ -301,27 +301,27 @@
 <context>
     <name>QWindowMain</name>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="71"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="72"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="72"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="73"/>
         <source>&amp;New connection</source>
         <translation>&amp;Nouvelle connexion</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="75"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="76"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="93"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="94"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="94"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="95"/>
         <source>&amp;About</source>
         <translation>&amp;A propos</translation>
     </message>

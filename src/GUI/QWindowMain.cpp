@@ -33,6 +33,7 @@ QWindowMain::QWindowMain(QWidget* parent)
     //Creation of the first set of tabs for database files
     m_pDatabaseConnectionTab = new QTabWidget(this);
     m_pDatabaseConnectionTab->setTabsClosable(true);
+    m_pDatabaseConnectionTab->setMovable(true);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
 }
 

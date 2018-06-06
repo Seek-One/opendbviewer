@@ -162,14 +162,6 @@
     </message>
 </context>
 <context>
-    <name>QDropAreaWidget</name>
-    <message>
-        <location filename="../src/Widget/QDropAreaWidget.cpp" line="74"/>
-        <source>Drag and drop your files here</source>
-        <translation>Glisser-Déposer les fichiers ici</translation>
-    </message>
-</context>
-<context>
     <name>QOpenDatabaseDialog</name>
     <message>
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="37"/>
@@ -198,8 +190,8 @@
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="151"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="190"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="234"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="191"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="235"/>
         <source>Connection:</source>
         <translation>Connexion :</translation>
     </message>
@@ -214,32 +206,37 @@
         <translation>Fichier :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="199"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="243"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="177"/>
+        <source>Drag and drop your files here</source>
+        <translation>Glisser-Déposer les fichiers ici</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="200"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="244"/>
         <source>Host:</source>
         <translation>Hôte :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="206"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="250"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="207"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="251"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="211"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="255"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="212"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="256"/>
         <source>Username:</source>
         <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="217"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="261"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="218"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="262"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="222"/>
-        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="266"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="223"/>
+        <location filename="../src/GUI/QOpenDatabaseDialog.cpp" line="267"/>
         <source>Database:</source>
         <translation>Base de donnée :</translation>
     </message>

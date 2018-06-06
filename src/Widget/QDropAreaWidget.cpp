@@ -12,9 +12,12 @@
 
 #include "QDropAreaWidget.h"
 
-QDropAreaWidget::QDropAreaWidget(QWidget* parent)
+
+QDropAreaWidget::QDropAreaWidget(const QString& dropAreaName, QWidget* parent)
 	: QFrame(parent)
 {
+	m_dropAreaName = dropAreaName;
+
 	setAcceptDrops(true);
 }
 
@@ -72,7 +75,5 @@ void QDropAreaWidget::paintEvent(QPaintEvent* event)
 	font.setPointSize(font.pointSize()*1.5);
 	p.setFont(font);
 
-	QString text = tr("Drag and drop your files here");
-
-	p.drawText(QRect(0,0,width(),height()),Qt::AlignCenter,text);
+	p.drawText(QRect(0, 0, width(), height()), Qt::AlignCenter, m_dropAreaName);
 }

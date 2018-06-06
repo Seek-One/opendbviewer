@@ -174,7 +174,8 @@ QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 		pTmpLayout = new QHBoxLayout();
 		pTmpLayout->setContentsMargins(10,0,10,10);
 
-		m_pDropAreaWidget = new QDropAreaWidget(this);
+		QString szDropAreaName = tr("Drag and drop your files here");
+		m_pDropAreaWidget = new QDropAreaWidget(szDropAreaName,this);
 		pTmpLayout->addWidget(m_pDropAreaWidget);
 	}
 	pMainLayout->addLayout(pTmpLayout);

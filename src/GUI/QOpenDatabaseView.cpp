@@ -5,32 +5,35 @@
  *      Author: echopin
  */
 
-#include <QTabWidget>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QLabel>
 #include <QFormLayout>
 #include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QTabWidget>
 #include <QValidator>
+#include <QVBoxLayout>
 
-#include "QOpenDatabaseDialog.h"
+#include "QOpenDatabaseView.h"
 
-QOpenDatabaseDialog::QOpenDatabaseDialog(QWidget* parent)
-		: QDialog(parent)
+QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
+		: QWidget(parent)
 {
 	QWidget *pWidget;
 	QHBoxLayout *pTmpHLayout;
 
 	// Creation of the dialog box for opening the files
-	setMinimumSize(450, 100);
+	setMinimumSize(100, 100);
 
-	QVBoxLayout *pMainLayout = new QVBoxLayout();
+	QHBoxLayout *pMainLayout = new QHBoxLayout();
 	setLayout(pMainLayout);
 
+	QVBoxLayout *pSecondLayout = new QVBoxLayout();
+	pMainLayout->addLayout(pSecondLayout);
+
 	m_pConnectionTypeTabWidget = new QTabWidget(this);
-	pMainLayout->addWidget(m_pConnectionTypeTabWidget);
+	pSecondLayout->addWidget(m_pConnectionTypeTabWidget);
 
 	// Adding an SQLite tab to the selection window
 	pWidget = makeSQLiteTab(m_pConnectionTypeTabWidget);
@@ -46,103 +49,109 @@ QOpenDatabaseDialog::QOpenDatabaseDialog(QWidget* parent)
 
 	// Bottom buttons
 	pTmpHLayout = new QHBoxLayout();
-	pMainLayout->addLayout(pTmpHLayout);
+	pSecondLayout->addLayout(pTmpHLayout);
 	pTmpHLayout->addStretch();
-	m_pCancelButton = new QPushButton(tr("Cancel"));
-	pTmpHLayout->addWidget(m_pCancelButton);
 	m_pOKButton = new QPushButton(tr("OK"));
 	pTmpHLayout->addWidget(m_pOKButton);
+
+	m_pFileExplorerWidget = new QFileExplorerWidget(this);
+	pMainLayout->addWidget(m_pFileExplorerWidget, 2);
 }
 
 
 
-QOpenDatabaseDialog::~QOpenDatabaseDialog()
+QOpenDatabaseView::~QOpenDatabaseView()
 {
 
 }
 
-QTabWidget* QOpenDatabaseDialog::getConnectionTypeTabWidget() const
+QTabWidget* QOpenDatabaseView::getConnectionTypeTabWidget() const
 {
 	return m_pConnectionTypeTabWidget;
 }
 
-QPushButton* QOpenDatabaseDialog::getSQLiteFileSelectionButton() const
+QPushButton* QOpenDatabaseView::getSQLiteFileSelectionButton() const
 {
 	return m_pSQLiteFileSelectionButton;
 }
 
-QLineEdit* QOpenDatabaseDialog::getSQLiteFilePathField() const
+QLineEdit* QOpenDatabaseView::getSQLiteFilePathField() const
 
 {
 	return m_pSQLiteFilePathField;
 }
 
-QDropAreaWidget* QOpenDatabaseDialog::getDropAreaWidget() const
+QDropAreaWidget* QOpenDatabaseView::getDropAreaWidget() const
 {
 	return m_pDropAreaWidget;
 }
 
-QLineEdit* QOpenDatabaseDialog::getMySQLHostField() const
+QFileExplorerWidget* QOpenDatabaseView::getFileExplorerWidget() const
+{
+	return m_pFileExplorerWidget;
+}
+
+QLineEdit* QOpenDatabaseView::getMySQLHostField() const
 {
 	return m_pMySQLHostField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getMySQLPortField() const
+QLineEdit* QOpenDatabaseView::getMySQLPortField() const
 {
 	return m_pMySQLPortField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getMySQLUsernameField() const
+QLineEdit* QOpenDatabaseView::getMySQLUsernameField() const
 {
 	return m_pMySQLUsernameField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getMySQLPasswordField() const
+QLineEdit* QOpenDatabaseView::getMySQLPasswordField() const
 {
 	return m_pMySQLPasswordField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getMySQLDatabaseField() const
+QLineEdit* QOpenDatabaseView::getMySQLDatabaseField() const
 {
 	return m_pMySQLDatabaseField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getPSQLHostField() const
+QLineEdit* QOpenDatabaseView::getPSQLHostField() const
 {
 	return m_pPSQLHostField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getPSQLPortField() const
+QLineEdit* QOpenDatabaseView::getPSQLPortField() const
 {
 	return m_pPSQLPortField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getPSQLUsernameField() const
+QLineEdit* QOpenDatabaseView::getPSQLUsernameField() const
 {
 	return m_pPSQLUsernameField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getPSQLPasswordField() const
+QLineEdit* QOpenDatabaseView::getPSQLPasswordField() const
 {
 	return m_pPSQLPasswordField;
 }
 
-QLineEdit* QOpenDatabaseDialog::getPSQLDatabaseField() const
+QLineEdit* QOpenDatabaseView::getPSQLDatabaseField() const
 {
 	return m_pPSQLDatabaseField;
 }
 
-QPushButton* QOpenDatabaseDialog::getCancelButton() const
+QPushButton* QOpenDatabaseView::getCancelButton() const
 {
 	return m_pCancelButton;
 }
 
-QPushButton* QOpenDatabaseDialog::getOKButton() const
+QPushButton* QOpenDatabaseView::getOKButton() const
 {
 	return m_pOKButton;
 }
 
-QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
+QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
@@ -161,7 +170,6 @@ QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 		pTmpLayout = new QHBoxLayout();
 
 		m_pSQLiteFilePathField = new QLineEdit();
-		m_pSQLiteFilePathField->setReadOnly(true);
 		pTmpLayout->addWidget(m_pSQLiteFilePathField);
 
 		m_pSQLiteFileSelectionButton = new QPushButton(tr("Browse"), this);
@@ -174,15 +182,15 @@ QWidget* QOpenDatabaseDialog::makeSQLiteTab(QWidget* pParent)
 		pTmpLayout = new QHBoxLayout();
 		pTmpLayout->setContentsMargins(10,0,10,10);
 
-		QString szDropAreaName = tr("Drag and drop your files here");
+		QString szDropAreaName = tr("Drag and drop \n your files here");
 		m_pDropAreaWidget = new QDropAreaWidget(szDropAreaName,this);
 		pTmpLayout->addWidget(m_pDropAreaWidget);
 	}
-	pMainLayout->addLayout(pTmpLayout);
+	pMainLayout->addLayout(pTmpLayout, 3);
 	return pMainWidget;
 }
 
-QWidget* QOpenDatabaseDialog::makeMySQLTab(QWidget* pParent)
+QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
@@ -226,7 +234,7 @@ QWidget* QOpenDatabaseDialog::makeMySQLTab(QWidget* pParent)
 	return pMainWidget;
 }
 
-QWidget* QOpenDatabaseDialog::makePostgreSQLTab(QWidget* pParent)
+QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();

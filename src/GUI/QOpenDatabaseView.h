@@ -1,27 +1,28 @@
 /*
- * QOpenDatabaseDialog.h
+ * QOpenDatabaseView.h
  *
  *  Created on: 10 juin 2016
  *      Author: echopin
  */
 
-#ifndef SRC_GUI_QOPENDATABASEDIALOG_H_
-#define SRC_GUI_QOPENDATABASEDIALOG_H_
+#ifndef SRC_GUI_QOPENDATABASEVIEW_H_
+#define SRC_GUI_QOPENDATABASEVIEW_H_
 
-#include <QDialog>
+#include <QWidget>
 
 #include "Widget/QDropAreaWidget.h"
+#include "Widget/QFileExplorerWidget.h"
 
 class QPushButton;
 class QLineEdit;
 class QTabWidget;
 
-class QOpenDatabaseDialog : public QDialog
+class QOpenDatabaseView : public QWidget
 {
 	Q_OBJECT
 public:
-	QOpenDatabaseDialog(QWidget* parent = 0);
-	virtual ~QOpenDatabaseDialog();
+	QOpenDatabaseView(QWidget* parent = 0);
+	virtual ~QOpenDatabaseView();
 
 	QTabWidget* getConnectionTypeTabWidget() const;
 
@@ -48,10 +49,13 @@ public:
 	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
 
+	QFileExplorerWidget* getFileExplorerWidget() const;
+
 private:
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
 	QWidget* makePostgreSQLTab(QWidget* pParent);
+
 
 private:
 	QTabWidget* m_pConnectionTypeTabWidget;
@@ -60,6 +64,7 @@ private:
 	QLineEdit* m_pSQLiteFilePathField;
 	QPushButton* m_pSQLiteFileSelectionButton;
 	QDropAreaWidget* m_pDropAreaWidget;
+	QFileExplorerWidget *m_pFileExplorerWidget;
 
 	// MySQL
 	QLineEdit* m_pMySQLHostField;
@@ -78,6 +83,7 @@ private:
 	// Validation button
 	QPushButton* m_pOKButton;
 	QPushButton* m_pCancelButton;
+
 };
 
-#endif /* SRC_GUI_QOPENDATABASEDIALOG_H_ */
+#endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

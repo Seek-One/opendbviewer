@@ -6,69 +6,75 @@
  */
 
 #include <QFileDialog>
+#include <QFileInfo>
+#include <QFileSystemModel>
+#include <QtCore>
+#include <QtGui>
+#include <QTreeView>
 
-#include "GUI/QOpenDatabaseDialog.h"
-#include "GUI/QDatabaseConnectionView.h"
-#include "GUI/QWindowMain.h"
-
-#include "QDatabaseConnectionViewController.h"
-#include <GUIController/QOpenDatabaseDialogController.h>
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
-#include "Database/DatabaseControllerSqlite.h"
 #include "Database/DatabaseControllerPostgreSQL.h"
+#include "Database/DatabaseControllerSqlite.h"
+#include "GUI/QDatabaseConnectionView.h"
+#include "GUI/QOpenDatabaseView.h"
+#include "GUI/QWindowMain.h"
+#include "QDatabaseConnectionViewController.h"
+#include "QOpenDatabaseViewController.h"
+#include "Widget/QFileExplorerWidget.h"
 
-QOpenDatabaseDialogController::QOpenDatabaseDialogController()
+
+QOpenDatabaseViewController::QOpenDatabaseViewController()
 {
-	m_pOpenDatabaseDialog = NULL;
+	m_pOpenDatabaseView = NULL;
 	m_pMainWindow = NULL;
 }
 
-QOpenDatabaseDialogController::~QOpenDatabaseDialogController()
+QOpenDatabaseViewController::~QOpenDatabaseViewController()
 {
 
 }
 
-void QOpenDatabaseDialogController::init(QWindowMain* pMainWindow, QOpenDatabaseDialog* pOpenDatabaseDialog)
+void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView)
 {
 	m_pMainWindow = pMainWindow;
-	m_pOpenDatabaseDialog = pOpenDatabaseDialog;
+	m_pOpenDatabaseView = pOpenDatabaseView;
 
-	connect(m_pOpenDatabaseDialog->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
-	connect(m_pOpenDatabaseDialog->getCancelButton(), SIGNAL(clicked()), this, SLOT(closeOpenDatabaseDialog()));
-	connect(m_pOpenDatabaseDialog->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
-	connect(m_pOpenDatabaseDialog->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openFile(const QString&)));
+	connect(m_pOpenDatabaseView->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
+	connect(m_pOpenDatabaseView->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openFile(const QString&)));
+	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openSelectedFile(const QString&)), this, SLOT(openFile(const QString&)));
 
 
 	// Default values
-	m_pOpenDatabaseDialog->getMySQLHostField()->setText("127.0.0.1");
-	m_pOpenDatabaseDialog->getMySQLPortField()->setText("3306");
-	m_pOpenDatabaseDialog->getMySQLUsernameField()->setText("root");
-	m_pOpenDatabaseDialog->getMySQLDatabaseField()->setText("mysql");
+	m_pOpenDatabaseView->getMySQLHostField()->setText("127.0.0.1");
+	m_pOpenDatabaseView->getMySQLPortField()->setText("3306");
+	m_pOpenDatabaseView->getMySQLUsernameField()->setText("root");
+	m_pOpenDatabaseView->getMySQLDatabaseField()->setText("mysql");
 	// Default values
-	m_pOpenDatabaseDialog->getPSQLHostField()->setText("127.0.0.1");
-	m_pOpenDatabaseDialog->getPSQLPortField()->setText("5432");
-	m_pOpenDatabaseDialog->getPSQLUsernameField()->setText("postgres");
+	m_pOpenDatabaseView->getPSQLHostField()->setText("127.0.0.1");
+	m_pOpenDatabaseView->getPSQLPortField()->setText("5432");
+	m_pOpenDatabaseView->getPSQLUsernameField()->setText("postgres");
 }
 
-void QOpenDatabaseDialogController::openFileDialog()
+void QOpenDatabaseViewController::openFileDialog()
 {
-	m_szFileUrl = QFileDialog::getOpenFileName(m_pOpenDatabaseDialog, tr("Select a file"), QString(), tr("SQLite files (*.sqlite *.db)"));
-	m_pOpenDatabaseDialog->getSQLiteFilePathField()->setText(m_szFileUrl);
+	m_szFileUrl = QFileDialog::getOpenFileName(m_pOpenDatabaseView, tr("Select a file"), QString(), tr("SQLite files (*.sqlite *.db)"));
+	m_pOpenDatabaseView->getSQLiteFilePathField()->setText(m_szFileUrl);
 }
 
-void QOpenDatabaseDialogController::openFile(const QString& szFileUrl)
+void QOpenDatabaseViewController::openFile(const QString& szFileUrl)
 {
 	m_szFileUrl = szFileUrl;
 	loadDatabase();
 }
 
-void QOpenDatabaseDialogController::closeOpenDatabaseDialog()
+void QOpenDatabaseViewController::closeOpenDatabaseDialog()
 {
-	m_pOpenDatabaseDialog->close();
+	m_pOpenDatabaseView->close();
 }
 
-void QOpenDatabaseDialogController::loadDatabase()
+void QOpenDatabaseViewController::loadDatabase()
 {
 	// Creating a string to be used to set the tab name
 	QString szTabFileName;
@@ -81,7 +87,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 	QDatabaseConnectionView* pConnectionView = NULL;
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = NULL;
 
-	int iCurrentIndex = m_pOpenDatabaseDialog->getConnectionTypeTabWidget()->currentIndex();
+	int iCurrentIndex = m_pOpenDatabaseView->getConnectionTypeTabWidget()->currentIndex();
 
 	switch(iCurrentIndex){
 	case 0: // SQLite
@@ -94,9 +100,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 		}
 		break;
 	case 1: // MySQL
-		bGoOn = !m_pOpenDatabaseDialog->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getMySQLDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
-			szTabFileName = m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
+			szTabFileName = m_pOpenDatabaseView->getMySQLDatabaseField()->text();
 			szDatabaseInfoList = makeMySQLDatabaseInfoList();
 			pDatabaseController = new DatabaseControllerMysql(m_szFileUrl, szDatabaseInfoList);
 		}else{
@@ -104,9 +110,9 @@ void QOpenDatabaseDialogController::loadDatabase()
 		}
 		break;
 	case 2: // PostgreSQL
-		bGoOn = !m_pOpenDatabaseDialog->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseDialog->getPSQLDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
-			szTabFileName = m_pOpenDatabaseDialog->getPSQLDatabaseField()->text();
+			szTabFileName = m_pOpenDatabaseView->getPSQLDatabaseField()->text();
 			szDatabaseInfoList = makePostgreSQLDatabaseInfoList();
 			pDatabaseController = new DatabaseControllerPostgreSQL(m_szFileUrl, szDatabaseInfoList);
 		}else{
@@ -138,7 +144,7 @@ void QOpenDatabaseDialogController::loadDatabase()
 
 		// Updating tables
 		if(!pDatabaseConnectionViewController->loadDatabaseTables()){
-			QMessageBox::warning(m_pOpenDatabaseDialog, tr("Database problem"), tr("Problem while loading database tables"));
+			QMessageBox::warning(m_pOpenDatabaseView, tr("Database problem"), tr("Problem while loading database tables"));
 		}
 
 		// Controller will be deleted when the view is destroyed
@@ -150,42 +156,37 @@ void QOpenDatabaseDialogController::loadDatabase()
 			delete pDatabaseController;
 			pDatabaseController = NULL;
 		}
-
-		QMessageBox::critical(m_pOpenDatabaseDialog, tr("Connection error"), szErrorMsg);
-	}
-
-	if(bGoOn){
-		closeOpenDatabaseDialog();
+		QMessageBox::critical(m_pOpenDatabaseView, tr("Connection error"), szErrorMsg);
 	}
 }
 
-QString QOpenDatabaseDialogController::getFileUrl() const
+QString QOpenDatabaseViewController::getFileUrl() const
 {
 	return m_szFileUrl;
 }
 
-QStringList QOpenDatabaseDialogController::makeMySQLDatabaseInfoList()
+QStringList QOpenDatabaseViewController::makeMySQLDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
 
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLHostField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLPortField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLUsernameField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLPasswordField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getMySQLDatabaseField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getMySQLHostField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getMySQLPortField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getMySQLUsernameField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getMySQLPasswordField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getMySQLDatabaseField()->text();
 
 	return szDatabaseInfoList;
 }
 
-QStringList QOpenDatabaseDialogController::makePostgreSQLDatabaseInfoList()
+QStringList QOpenDatabaseViewController::makePostgreSQLDatabaseInfoList()
 {
 	QStringList szDatabaseInfoList;
 
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLHostField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLPortField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLUsernameField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLPasswordField()->text();
-	szDatabaseInfoList << m_pOpenDatabaseDialog->getPSQLDatabaseField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getPSQLHostField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getPSQLPortField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getPSQLUsernameField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getPSQLPasswordField()->text();
+	szDatabaseInfoList << m_pOpenDatabaseView->getPSQLDatabaseField()->text();
 
 	return szDatabaseInfoList;
 }

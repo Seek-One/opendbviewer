@@ -186,8 +186,8 @@ set(APPLICATION_SOURCES
 	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QDatabaseWorksheetView.h
 	src/GUI/QLineNumberAreaView.h
-	src/GUI/QOpenDatabaseDialog.cpp
-	src/GUI/QOpenDatabaseDialog.h
+	src/GUI/QOpenDatabaseView.cpp
+	src/GUI/QOpenDatabaseView.h
 	src/GUI/QQueryResultView.cpp
 	src/GUI/QQueryResultView.h
 	src/GUI/QSqlSourceView.cpp
@@ -202,8 +202,8 @@ set(APPLICATION_SOURCES
 	src/GUIController/QDatabaseWorksheetViewController.h
 	src/GUIController/QDatabaseTableViewController.cpp
 	src/GUIController/QDatabaseTableViewController.h
-	src/GUIController/QOpenDatabaseDialogController.cpp
-	src/GUIController/QOpenDatabaseDialogController.h
+	src/GUIController/QOpenDatabaseViewController.cpp
+	src/GUIController/QOpenDatabaseViewController.h
 	src/GUIController/QSqlHighlighterController.cpp
 	src/GUIController/QSqlHighlighterController.h
 	src/Database/DatabaseController.cpp
@@ -216,6 +216,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerPostgreSQL.h
 	src/Widget/QDropAreaWidget.cpp
 	src/Widget/QDropAreaWidget.h
+   	src/Widget/QFileExplorerWidget.cpp
+   	src/Widget/QFileExplorerWidget.h
 	src/Widget/QMidClickClosableTabWidget.cpp
 	src/Widget/QMidClickClosableTabWidget.h
 )
@@ -226,7 +228,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QDatabaseConnectionView.h
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QDatabaseWorksheetView.h
-	src/GUI/QOpenDatabaseDialog.h
+	src/GUI/QOpenDatabaseView.h
 	src/GUI/QQueryResultView.h
 	src/GUI/QWindowMain.h
 	src/GUI/QSqlSourceView.h
@@ -234,9 +236,10 @@ set(APPLICATION_MOC_HEADERS
 	src/GUIController/QDatabaseConnectionViewController.h
 	src/GUIController/QDatabaseTableViewController.h
 	src/GUIController/QDatabaseWorksheetViewController.h
-	src/GUIController/QOpenDatabaseDialogController.h
+	src/GUIController/QOpenDatabaseViewController.h
 	src/GUIController/QSqlHighlighterController.h
 	src/Widget/QDropAreaWidget.h
+   	src/Widget/QFileExplorerWidget.h
 )
 qt_wrap_cpp(
 	APPLICATION_MOC_OUTFILES
@@ -253,12 +256,12 @@ set (I18N_FILES
 	src/GUI/QDatabaseConnectionView.cpp
 	src/GUI/QDatabaseTableView.cpp
 	src/GUI/QDatabaseWorksheetView.cpp
-	src/GUI/QOpenDatabaseDialog.cpp
+	src/GUI/QOpenDatabaseView.cpp
 	src/GUI/QQueryResultView.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUIController/QDatabaseConnectionViewController.cpp
 	src/GUIController/QDatabaseWorksheetViewController.cpp
-	src/GUIController/QOpenDatabaseDialogController.cpp
+	src/GUIController/QOpenDatabaseViewController.cpp
 	src/GUIController/QWindowMainController.cpp
 	src/Widget/QDropAreaWidget.cpp
 )

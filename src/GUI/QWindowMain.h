@@ -11,8 +11,9 @@
 #include <QMainWindow>
 
 class QAction;
-class QTabWidget;
 class QDatabaseConnectionView;
+class QOpenDatabaseView;
+class QTabWidget;
 
 class QWindowMain : public QMainWindow
 {
@@ -21,9 +22,9 @@ public:
 	QWindowMain(QWidget* parent = 0);
 	virtual ~QWindowMain();
 
-	QAction* getNewConnectionAction() const;
 	QAction* getQuitAction() const;
 	QAction* getAboutAction() const;
+	QOpenDatabaseView* getOpenDatabaseView() const;
 	QTabWidget* getDatabaseConnectionTab() const;
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
@@ -32,9 +33,9 @@ private:
 	void createMenu(); //Creates a menu bar
 
 	QTabWidget *m_pDatabaseConnectionTab;
+	QOpenDatabaseView* m_pOpenDatabaseView;
 
 	// List of actions
-	QAction* m_pNewConnectionAction;
 	QAction* m_pQuitAction;
 	QAction* m_pAboutAction;
 };

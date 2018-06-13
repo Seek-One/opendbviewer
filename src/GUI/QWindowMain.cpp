@@ -9,9 +9,9 @@
 #include <QMenu>
 #include <QMenuBar>
 
-#include "QWindowMain.h"
-
 #include "QDatabaseConnectionView.h"
+#include "QOpenDatabaseView.h"
+#include "QWindowMain.h"
 
 QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)
@@ -35,16 +35,20 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pDatabaseConnectionTab->setTabsClosable(true);
     m_pDatabaseConnectionTab->setMovable(true);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
+
+    QWidget *pNewConnectionWidget = new QWidget();
+    QHBoxLayout *pSecondLayout = new QHBoxLayout();
+    pNewConnectionWidget->setLayout(pSecondLayout);
+
+    m_pOpenDatabaseView = new QOpenDatabaseView(this);
+    pSecondLayout->addWidget(m_pOpenDatabaseView);
+
+    m_pDatabaseConnectionTab->addTab(pNewConnectionWidget, tr("New connection"));
 }
 
 QWindowMain::~QWindowMain()
 {
 
-}
-
-QAction* QWindowMain::getNewConnectionAction() const
-{
-	return m_pNewConnectionAction;
 }
 
 QAction* QWindowMain::getQuitAction() const
@@ -55,6 +59,11 @@ QAction* QWindowMain::getQuitAction() const
 QAction* QWindowMain::getAboutAction() const
 {
 	return m_pAboutAction;
+}
+
+QOpenDatabaseView* QWindowMain::getOpenDatabaseView() const
+{
+	return m_pOpenDatabaseView;
 }
 
 QTabWidget* QWindowMain::getDatabaseConnectionTab() const
@@ -70,9 +79,6 @@ void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseCo
 void QWindowMain::createMenu()
 {
     QMenu *pFileMenu = menuBar()->addMenu(tr("&File"));
-    m_pNewConnectionAction = new QAction(tr("&New connection"), this);
-    pFileMenu->addAction(m_pNewConnectionAction);
-
     m_pQuitAction = new QAction(tr("&Quit"), this);
     pFileMenu->addAction(m_pQuitAction);
 

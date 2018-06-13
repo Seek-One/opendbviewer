@@ -6,57 +6,47 @@
  */
 
 
-#include <QMessageBox>
 #include <QDialog>
 #include <QFileDialog>
-#include <QTabWidget>
-#include <QVBoxLayout>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QString>
+#include <QTabWidget>
+#include <QVBoxLayout>
 
 #include "Database/DatabaseController.h"
-
 #include "GUI/QAboutDialog.h"
 #include "GUI/QWindowMain.h"
 #include "GUI/QDatabaseConnectionView.h"
-#include "GUI/QOpenDatabaseDialog.h"
-
-#include "QWindowMainController.h"
-
 #include "QDatabaseConnectionViewController.h"
-#include "QOpenDatabaseDialogController.h"
+#include "QOpenDatabaseViewController.h"
+#include "QWindowMainController.h"
 
 QWindowMainController::QWindowMainController()
 {
 	m_pMainWindow = NULL;
+	m_pOpenDatabaseViewController = NULL;
 }
 
 QWindowMainController::~QWindowMainController()
 {
-
+	if(m_pOpenDatabaseViewController)
+	{
+		delete m_pOpenDatabaseViewController;
+		m_pOpenDatabaseViewController = NULL;
+	}
 }
 
 void QWindowMainController::init(QWindowMain* pMainWindow)
 {
 	m_pMainWindow = pMainWindow;
+	m_pOpenDatabaseViewController = new QOpenDatabaseViewController();
 
-    connect(m_pMainWindow->getNewConnectionAction(), SIGNAL(triggered()), this, SLOT(openNewDatabaseConnection()));
+	m_pOpenDatabaseViewController->init(pMainWindow, pMainWindow->getOpenDatabaseView());
+
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeDatabaseConnectionTab(int)));
-
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
-
-    // At startup we launch the database connection dialog
-    openNewDatabaseConnection();
-}
-
-void QWindowMainController::openNewDatabaseConnection()
-{
-	QOpenDatabaseDialog dbOpenDialog(m_pMainWindow);
-
-	QOpenDatabaseDialogController dbOpenDialogController;
-	dbOpenDialogController.init(m_pMainWindow, &dbOpenDialog);
-	dbOpenDialog.exec();
 }
 
 void QWindowMainController::closeDatabaseConnectionTab(const int& index)

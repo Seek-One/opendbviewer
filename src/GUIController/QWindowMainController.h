@@ -10,6 +10,7 @@
 
 #include <QObject>
 
+class QOpenDatabaseViewController;
 class QWidget;
 class QWindowMain;
 
@@ -23,13 +24,13 @@ public:
 	void init(QWindowMain* pMainWindow);
 
 public slots:
-	void openNewDatabaseConnection();
 	void closeDatabaseConnectionTab(const int& index);
 
 	void about();
 
 private:
 	QWindowMain* m_pMainWindow;
+	QOpenDatabaseViewController* m_pOpenDatabaseViewController;
 
 	QWidget* makeTab();
 };

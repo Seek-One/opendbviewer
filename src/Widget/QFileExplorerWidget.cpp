@@ -5,6 +5,7 @@
  *      Author: cdegeorgi
  */
 
+#include <QtGlobal>
 #include <QHeaderView>
 #include <QLabel>
 #include <QMouseEvent>
@@ -19,6 +20,8 @@
 QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	: QWidget(parent)
 {
+
+
 	QVBoxLayout *pMainLayout = new QVBoxLayout();
 	this->setLayout(pMainLayout);
 
@@ -42,9 +45,18 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     m_pFileTreeView->setDragEnabled(true);
     m_pFileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_pFileTreeView->setItemsExpandable(false);
-    m_pFileTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     m_pFileTreeView->setRootIsDecorated(false);
     m_pFileTreeView->setAlternatingRowColors(true);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+
+    m_pFileTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+#else
+
+    m_pFileTreeView->header()->setResizeMode(QHeaderView::ResizeToContents);
+
+#endif
 
     QSplitter *pSplitter = new QSplitter();
 
@@ -53,8 +65,8 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 
 	pMainLayout->addWidget(pSplitter);
 
-	connect(m_pFolderTreeView, SIGNAL(clicked(const QModelIndex)), this, SLOT(onTreeViewClicked(const QModelIndex)));
-	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onTreeViewDoubleClicked(const QModelIndex)));
+	connect(m_pFolderTreeView, SIGNAL(clicked(const QModelIndex)), this, SLOT(onFolderTreeViewClicked(const QModelIndex)));
+	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFileTreeViewDoubleClicked(const QModelIndex)));
 }
 
 QFileExplorerWidget::~QFileExplorerWidget()
@@ -62,17 +74,15 @@ QFileExplorerWidget::~QFileExplorerWidget()
 
 }
 
-void QFileExplorerWidget::onTreeViewClicked(QModelIndex index)
+void QFileExplorerWidget::onFolderTreeViewClicked(QModelIndex index)
 {
 	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
     m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
 }
 
-void QFileExplorerWidget::onTreeViewDoubleClicked(QModelIndex index)
+void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 {
-	QString szTypeSelectedFile = fileModel->type(index);
-
-	if (szTypeSelectedFile == "Folder")
+	if (fileModel->isDir(index))
 	{
 		QString szFolderPath = fileModel->filePath(index);
 		QString szPath = szFolderPath;
@@ -80,7 +90,7 @@ void QFileExplorerWidget::onTreeViewDoubleClicked(QModelIndex index)
 		m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
 	}
 
-	if (szTypeSelectedFile.contains("File"))
+	else
 	{
 		QString szFilePath = fileModel->filePath(index);
 		if(szFilePath.endsWith(".sqlite") || szFilePath.endsWith(".db"))

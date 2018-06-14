@@ -25,8 +25,8 @@ public:
 	virtual ~QFileExplorerWidget();
 
 public slots:
-	void onTreeViewClicked(QModelIndex index);
-	void onTreeViewDoubleClicked(QModelIndex index);
+	void onFolderTreeViewClicked(QModelIndex index);
+	void onFileTreeViewDoubleClicked(QModelIndex index);
 
 	signals:
 	void openSelectedFile(QString szFilePath);

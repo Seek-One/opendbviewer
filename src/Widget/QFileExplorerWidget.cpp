@@ -5,7 +5,6 @@
  *      Author: cdegeorgi
  */
 
-#include <QtGlobal>
 #include <QHeaderView>
 #include <QLabel>
 #include <QMouseEvent>
@@ -20,15 +19,14 @@
 QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	: QWidget(parent)
 {
-
-
 	QVBoxLayout *pMainLayout = new QVBoxLayout();
 	this->setLayout(pMainLayout);
 
 
 	dirModel = new QFileSystemModel(this);
-	dirModel->setRootPath(QDir::currentPath());
+	dirModel->setRootPath(QDir::homePath());
 	dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+	QString szHomeUserPath = dirModel->rootPath();
 
 	fileModel = new QFileSystemModel(this);
 	fileModel->setRootPath(QDir::currentPath());
@@ -39,6 +37,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     m_pFolderTreeView->setColumnHidden(1, true);
     m_pFolderTreeView->setColumnHidden(2, true);
     m_pFolderTreeView->setColumnHidden(3, true);
+    m_pFolderTreeView->expandAll();
 
     m_pFileTreeView = new QTreeView();
     m_pFileTreeView->setModel(fileModel);
@@ -47,14 +46,15 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     m_pFileTreeView->setItemsExpandable(false);
     m_pFileTreeView->setRootIsDecorated(false);
     m_pFileTreeView->setAlternatingRowColors(true);
+    m_pFileTreeView->setRootIndex(fileModel->setRootPath(szHomeUserPath));
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 
-    m_pFileTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    	m_pFileTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 #else
 
-    m_pFileTreeView->header()->setResizeMode(QHeaderView::ResizeToContents);
+    	m_pFileTreeView->header()->setResizeMode(QHeaderView::ResizeToContents);
 
 #endif
 
@@ -65,7 +65,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 
 	pMainLayout->addWidget(pSplitter);
 
-	connect(m_pFolderTreeView, SIGNAL(clicked(const QModelIndex)), this, SLOT(onFolderTreeViewClicked(const QModelIndex)));
+	connect(m_pFolderTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFolderTreeViewDoubleClicked(const QModelIndex)));
 	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFileTreeViewDoubleClicked(const QModelIndex)));
 }
 
@@ -74,7 +74,7 @@ QFileExplorerWidget::~QFileExplorerWidget()
 
 }
 
-void QFileExplorerWidget::onFolderTreeViewClicked(QModelIndex index)
+void QFileExplorerWidget::onFolderTreeViewDoubleClicked(QModelIndex index)
 {
 	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
     m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
@@ -85,9 +85,20 @@ void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 	if (fileModel->isDir(index))
 	{
 		QString szFolderPath = fileModel->filePath(index);
-		QString szPath = szFolderPath;
+		m_pFileTreeView->setRootIndex(fileModel->setRootPath(szFolderPath));
 
-		m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
+		QModelIndex folderIndex = dirModel->index(szFolderPath);
+		QModelIndex parentIndex = dirModel->parent(folderIndex);
+
+		m_pFolderTreeView->expand(folderIndex);
+
+		m_pFolderTreeView->setCurrentIndex(folderIndex);
+
+
+		if(m_pFolderTreeView->isExpanded(parentIndex) == false)
+		{
+			m_pFolderTreeView->expand(parentIndex);
+		}
 	}
 
 	else

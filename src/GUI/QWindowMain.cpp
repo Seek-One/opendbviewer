@@ -36,14 +36,13 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pDatabaseConnectionTab->setMovable(true);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
 
-    QWidget *pNewConnectionWidget = new QWidget();
-    QHBoxLayout *pSecondLayout = new QHBoxLayout();
-    pNewConnectionWidget->setLayout(pSecondLayout);
-
     m_pOpenDatabaseView = new QOpenDatabaseView(this);
-    pSecondLayout->addWidget(m_pOpenDatabaseView);
 
-    m_pDatabaseConnectionTab->addTab(pNewConnectionWidget, tr("New connection"));
+    m_pDatabaseConnectionTab->addTab(m_pOpenDatabaseView, tr("New connection"));
+
+    QTabBar *pNewConnectionTabBar = m_pDatabaseConnectionTab->tabBar();
+    pNewConnectionTabBar->tabButton(0, QTabBar::RightSide)->hide();
+    pNewConnectionTabBar->tabButton(0, QTabBar::RightSide)->setMaximumSize(0,0);
 }
 
 QWindowMain::~QWindowMain()

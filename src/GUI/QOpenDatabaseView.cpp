@@ -23,9 +23,6 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	QWidget *pWidget;
 	QHBoxLayout *pTmpHLayout;
 
-	// Creation of the dialog box for opening the files
-	setMinimumSize(100, 100);
-
 	QHBoxLayout *pMainLayout = new QHBoxLayout();
 	setLayout(pMainLayout);
 

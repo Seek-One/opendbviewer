@@ -9,6 +9,7 @@
 #define SRC_MAINWINDOW_H_
 
 #include <QMainWindow>
+#include "Widget/QMidClickClosableTabWidget.h"
 
 class QAction;
 class QDatabaseConnectionView;
@@ -32,7 +33,7 @@ public:
 private:
 	void createMenu(); //Creates a menu bar
 
-	QTabWidget *m_pDatabaseConnectionTab;
+	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 	QOpenDatabaseView* m_pOpenDatabaseView;
 
 	// List of actions

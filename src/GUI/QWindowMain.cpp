@@ -31,7 +31,7 @@ QWindowMain::QWindowMain(QWidget* parent)
     pCentralArea->setLayout(pMainLayout);
 
     //Creation of the first set of tabs for database files
-    m_pDatabaseConnectionTab = new QTabWidget(this);
+    m_pDatabaseConnectionTab = new QMidClickClosableTabWidget(this);
     m_pDatabaseConnectionTab->setTabsClosable(true);
     m_pDatabaseConnectionTab->setMovable(true);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
@@ -39,10 +39,8 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pOpenDatabaseView = new QOpenDatabaseView(this);
 
     m_pDatabaseConnectionTab->addTab(m_pOpenDatabaseView, tr("New connection"));
+    m_pDatabaseConnectionTab->setTabNonClosable(0);
 
-    QTabBar *pNewConnectionTabBar = m_pDatabaseConnectionTab->tabBar();
-    pNewConnectionTabBar->tabButton(0, QTabBar::RightSide)->hide();
-    pNewConnectionTabBar->tabButton(0, QTabBar::RightSide)->setMaximumSize(0,0);
 }
 
 QWindowMain::~QWindowMain()

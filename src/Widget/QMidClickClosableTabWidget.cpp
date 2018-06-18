@@ -32,3 +32,10 @@ bool QMidClickClosableTabWidget::eventFilter(QObject* pObject, QEvent* pEvent)
 	}
 	return QTabWidget::eventFilter(pObject, pEvent);
 }
+
+void QMidClickClosableTabWidget::setTabNonClosable(int index)
+{
+	QTabBar *pTabBar = this->tabBar();
+	pTabBar->tabButton(index, QTabBar::RightSide)->hide();
+	pTabBar->tabButton(index, QTabBar::RightSide)->setMaximumSize(0,0);
+}

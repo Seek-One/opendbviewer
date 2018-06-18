@@ -15,6 +15,8 @@ public:
 	QMidClickClosableTabWidget(QWidget* pParent = NULL);
 	virtual ~QMidClickClosableTabWidget();
 
+	void setTabNonClosable(int index);
+
 private:
 	virtual bool eventFilter(QObject* pObject, QEvent* pEvent);
 };

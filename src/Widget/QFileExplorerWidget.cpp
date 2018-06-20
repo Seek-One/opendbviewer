@@ -22,15 +22,10 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	QVBoxLayout *pMainLayout = new QVBoxLayout();
 	this->setLayout(pMainLayout);
 
-
 	dirModel = new QFileSystemModel(this);
 	dirModel->setRootPath(QDir::homePath());
 	dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 	QString szHomeUserPath = dirModel->rootPath();
-
-	fileModel = new QFileSystemModel(this);
-	fileModel->setRootPath(QDir::currentPath());
-	fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
 
     m_pFolderTreeView = new QTreeView();
     m_pFolderTreeView->setModel(dirModel);
@@ -39,14 +34,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     m_pFolderTreeView->setColumnHidden(3, true);
     m_pFolderTreeView->expandAll();
 
-    m_pFileTreeView = new QTreeView();
-    m_pFileTreeView->setModel(fileModel);
-    m_pFileTreeView->setDragEnabled(true);
-    m_pFileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    m_pFileTreeView->setItemsExpandable(false);
-    m_pFileTreeView->setRootIsDecorated(false);
-    m_pFileTreeView->setAlternatingRowColors(true);
-    m_pFileTreeView->setRootIndex(fileModel->setRootPath(szHomeUserPath));
+    m_pFileExplorerDropAreaWidget = makeFileExplorerDropAreaWidget(this, szHomeUserPath);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 
@@ -61,12 +49,18 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     QSplitter *pSplitter = new QSplitter();
 
     pSplitter->addWidget(m_pFolderTreeView);
-    pSplitter->addWidget(m_pFileTreeView);
+    pSplitter->addWidget(m_pFileExplorerDropAreaWidget);
+
+    pSplitter->setStretchFactor(1, 2);
 
 	pMainLayout->addWidget(pSplitter);
 
+	m_pOpenDatabaseButton = new QPushButton(tr("Open"));
+	pMainLayout->addWidget(m_pOpenDatabaseButton, 1, Qt::AlignRight);
+
 	connect(m_pFolderTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFolderTreeViewDoubleClicked(const QModelIndex)));
 	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFileTreeViewDoubleClicked(const QModelIndex)));
+	connect(m_pOpenDatabaseButton, SIGNAL(clicked()), this, SLOT(onOpenDatabaseButtonClicked()));
 }
 
 QFileExplorerWidget::~QFileExplorerWidget()
@@ -74,10 +68,9 @@ QFileExplorerWidget::~QFileExplorerWidget()
 
 }
 
-void QFileExplorerWidget::onFolderTreeViewDoubleClicked(QModelIndex index)
+QDropAreaWidget* QFileExplorerWidget::getDropArea()
 {
-	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
-    m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
+	return m_pDropArea;
 }
 
 void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
@@ -109,4 +102,53 @@ void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 			emit openSelectedFile(szFilePath);
 		}
 	}
+}
+
+void QFileExplorerWidget::onFolderTreeViewDoubleClicked(QModelIndex index)
+{
+	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
+    m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
+}
+
+void QFileExplorerWidget::onOpenDatabaseButtonClicked()
+{
+	QModelIndexList indexList = m_pFileTreeView->selectionModel()->selectedRows();
+
+	QList<QModelIndex>::iterator iter;
+	QString szFilePath;
+	for(iter = indexList.begin(); iter != indexList.end(); ++iter)
+	{
+		szFilePath = fileModel->filePath(*iter);
+		if(szFilePath.endsWith(".sqlite") || szFilePath.endsWith(".db")){
+			emit openDatabase(szFilePath);
+		}
+	}
+}
+
+QWidget* QFileExplorerWidget::makeFileExplorerDropAreaWidget(QWidget* pParent, QString szHomeUserPath)
+{
+	QWidget* pMainWidget = new QWidget(pParent);
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+	pMainLayout->setContentsMargins(0, 0, 0, 0);
+
+	fileModel = new QFileSystemModel(this);
+	fileModel->setRootPath(QDir::currentPath());
+	fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+
+	m_pFileTreeView = new QTreeView();
+	m_pFileTreeView->setModel(fileModel);
+	m_pFileTreeView->setDragEnabled(true);
+	m_pFileTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	m_pFileTreeView->setItemsExpandable(false);
+	m_pFileTreeView->setRootIsDecorated(false);
+	m_pFileTreeView->setAlternatingRowColors(true);
+	m_pFileTreeView->setRootIndex(fileModel->setRootPath(szHomeUserPath));
+
+	pMainLayout->addWidget(m_pFileTreeView, 3);
+
+	m_pDropArea = new QDropAreaWidget(tr("Drag and drop your files here"));
+	pMainLayout->addWidget(m_pDropArea, 1);
+
+	return pMainWidget;
 }

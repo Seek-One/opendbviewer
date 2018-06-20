@@ -11,11 +11,14 @@
 #include <QAbstractItemView>
 #include <QFileSystemModel>
 #include <QListView>
+#include <QPushButton>
 #include <QtCore>
 #include <QtGui>
 #include <QTreeView>
 #include <QTreeWidget>
 #include <QWidget>
+
+#include "Widget/QDropAreaWidget.h"
 
 class QFileExplorerWidget : public QWidget{
 	Q_OBJECT
@@ -24,12 +27,15 @@ public:
 	QFileExplorerWidget(QWidget* parent = 0);
 	virtual ~QFileExplorerWidget();
 
-public slots:
-	void onFolderTreeViewDoubleClicked(QModelIndex index);
-	void onFileTreeViewDoubleClicked(QModelIndex index);
+	QDropAreaWidget* getDropArea();
 
-	signals:
-	void openSelectedFile(QString szFilePath);
+public slots:
+	void onFileTreeViewDoubleClicked(QModelIndex index);
+	void onFolderTreeViewDoubleClicked(QModelIndex index);
+	void onOpenDatabaseButtonClicked();
+
+private:
+	QWidget *makeFileExplorerDropAreaWidget(QWidget* pParent, QString szHomeUserPath);
 
 private:
 	QFileSystemModel *dirModel;
@@ -38,6 +44,15 @@ private:
 	QTreeView *m_pFolderTreeView;
 	QTreeView *m_pFileTreeView;
 
+	QDropAreaWidget *m_pDropArea;
+
+	QWidget *m_pFileExplorerDropAreaWidget;
+
+	QPushButton* m_pOpenDatabaseButton;
+
+signals:
+	void openDatabase(QString szFilePath);
+	void openSelectedFile(QString szFilePath);
 };
 
 #endif /* SRC_WIDGET_QFILEEXPLORERWIDGET_H_ */

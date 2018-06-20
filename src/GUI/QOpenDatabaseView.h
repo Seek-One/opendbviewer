@@ -46,25 +46,28 @@ public:
 	QLineEdit* getPSQLPasswordField() const;
 	QLineEdit* getPSQLDatabaseField() const;
 
-	QPushButton* getCancelButton() const;
 	QPushButton* getOKButton() const;
+	QPushButton* getMySQLConnectButton() const;
+	QPushButton* getPostgreSQLConnectButton() const;
 
 	QFileExplorerWidget* getFileExplorerWidget() const;
 
 private:
+	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
 	QWidget* makePostgreSQLTab(QWidget* pParent);
 
-
 private:
 	QTabWidget* m_pConnectionTypeTabWidget;
+
+	// Explorer
+	QFileExplorerWidget *m_pFileExplorerWidget;
 
 	// SQLite
 	QLineEdit* m_pSQLiteFilePathField;
 	QPushButton* m_pSQLiteFileSelectionButton;
 	QDropAreaWidget* m_pDropAreaWidget;
-	QFileExplorerWidget *m_pFileExplorerWidget;
 
 	// MySQL
 	QLineEdit* m_pMySQLHostField;
@@ -82,8 +85,8 @@ private:
 
 	// Validation button
 	QPushButton* m_pOKButton;
-	QPushButton* m_pCancelButton;
-
+	QPushButton* m_pMySQLConnectButton;
+	QPushButton* m_pPostgreSQLConnectButton;
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

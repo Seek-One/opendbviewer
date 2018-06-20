@@ -15,7 +15,6 @@ class DatabaseController;
 class QDatabaseConnectionViewController;
 class QOpenDatabaseView;
 class QWindowMain;
-class QFileExplorerWidget;
 
 class QOpenDatabaseViewController : public QObject
 {
@@ -36,8 +35,6 @@ public slots:
 	void openFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
 	void loadDatabase();
-//	void onTreeViewClicked(QModelIndex index);
-
 
 private:
 	QOpenDatabaseView* m_pOpenDatabaseView;

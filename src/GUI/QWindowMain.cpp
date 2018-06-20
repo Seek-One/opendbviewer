@@ -17,7 +17,7 @@ QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)
 {
     //Set minimum window size
-    setMinimumSize(1200, 700);
+    setMinimumSize(800, 600);
 
     //Creation of the menu bar
     createMenu();

@@ -264,6 +264,7 @@ set (I18N_FILES
 	src/GUIController/QOpenDatabaseViewController.cpp
 	src/GUIController/QWindowMainController.cpp
 	src/Widget/QDropAreaWidget.cpp
+   	src/Widget/QFileExplorerWidget.cpp
 )
 
 set (TS_FILES

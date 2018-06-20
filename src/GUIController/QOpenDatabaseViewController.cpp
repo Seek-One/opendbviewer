@@ -21,8 +21,6 @@
 #include "GUI/QWindowMain.h"
 #include "QDatabaseConnectionViewController.h"
 #include "QOpenDatabaseViewController.h"
-#include "Widget/QFileExplorerWidget.h"
-
 
 QOpenDatabaseViewController::QOpenDatabaseViewController()
 {
@@ -42,9 +40,13 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 
 	connect(m_pOpenDatabaseView->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 	connect(m_pOpenDatabaseView->getOKButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+	connect(m_pOpenDatabaseView->getMySQLConnectButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+	connect(m_pOpenDatabaseView->getPostgreSQLConnectButton(), SIGNAL(clicked()), this, SLOT(loadDatabase()));
+
 	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openFile(const QString&)));
 	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openSelectedFile(const QString&)), this, SLOT(openFile(const QString&)));
-
+	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openDatabase(const QString&)), this, SLOT(openFile(const QString&)));
+	connect(m_pOpenDatabaseView->getFileExplorerWidget()->getDropArea(), SIGNAL(fileDropped(const QString&)), this, SLOT(openFile(const QString&)));
 
 	// Default values
 	m_pOpenDatabaseView->getMySQLHostField()->setText("127.0.0.1");
@@ -90,7 +92,8 @@ void QOpenDatabaseViewController::loadDatabase()
 	int iCurrentIndex = m_pOpenDatabaseView->getConnectionTypeTabWidget()->currentIndex();
 
 	switch(iCurrentIndex){
-	case 0: // SQLite
+	case 0: // Explorer File
+	case 1: // SQLite
 		bGoOn = !m_szFileUrl.isEmpty();
 		if(bGoOn){
 			szTabFileName =	m_szFileUrl.section('/', -1);//Get the last part of the file path to get the name for the tab
@@ -99,7 +102,7 @@ void QOpenDatabaseViewController::loadDatabase()
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}
 		break;
-	case 1: // MySQL
+	case 2: // MySQL
 		bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseView->getMySQLDatabaseField()->text();
@@ -109,7 +112,7 @@ void QOpenDatabaseViewController::loadDatabase()
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
 		break;
-	case 2: // PostgreSQL
+	case 3: // PostgreSQL
 		bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseView->getPSQLDatabaseField()->text();

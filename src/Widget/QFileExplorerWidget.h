@@ -31,7 +31,7 @@ public:
 
 public slots:
 	void onFileTreeViewDoubleClicked(QModelIndex index);
-	void onFolderTreeViewDoubleClicked(QModelIndex index);
+	void onFolderTreeViewClicked(QModelIndex index);
 	void onOpenDatabaseButtonClicked();
 
 private:

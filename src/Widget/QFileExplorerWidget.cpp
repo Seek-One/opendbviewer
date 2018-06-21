@@ -58,7 +58,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	m_pOpenDatabaseButton = new QPushButton(tr("Open"));
 	pMainLayout->addWidget(m_pOpenDatabaseButton, 1, Qt::AlignRight);
 
-	connect(m_pFolderTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFolderTreeViewDoubleClicked(const QModelIndex)));
+	connect(m_pFolderTreeView, SIGNAL(clicked(const QModelIndex)), this, SLOT(onFolderTreeViewClicked(const QModelIndex)));
 	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFileTreeViewDoubleClicked(const QModelIndex)));
 	connect(m_pOpenDatabaseButton, SIGNAL(clicked()), this, SLOT(onOpenDatabaseButtonClicked()));
 }
@@ -104,7 +104,7 @@ void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 	}
 }
 
-void QFileExplorerWidget::onFolderTreeViewDoubleClicked(QModelIndex index)
+void QFileExplorerWidget::onFolderTreeViewClicked(QModelIndex index)
 {
 	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
     m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
@@ -134,7 +134,9 @@ QWidget* QFileExplorerWidget::makeFileExplorerDropAreaWidget(QWidget* pParent, Q
 
 	fileModel = new QFileSystemModel(this);
 	fileModel->setRootPath(QDir::currentPath());
-	fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+	QStringList szfileTreeViewFilter = QStringList() << "*.db" << "*.sdb" << "*.sqlite" << "*.db3" << "*.s3db" << "*.sqlite3" << "*.sl3" << "*.db2" << "*.s2db" << "*.sqlite2" << "*.sl2";
+	fileModel->setNameFilterDisables(false);
+	fileModel->setNameFilters(szfileTreeViewFilter);
 
 	m_pFileTreeView = new QTreeView();
 	m_pFileTreeView->setModel(fileModel);

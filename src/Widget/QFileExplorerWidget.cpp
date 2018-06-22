@@ -13,7 +13,9 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 
+#include "Global/ApplicationSettings.h"
 #include "GUIController/QOpenDatabaseViewController.h"
+#include "Settings/QSettingsManager.h"
 #include "Widget/QFileExplorerWidget.h"
 
 QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
@@ -23,7 +25,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	this->setLayout(pMainLayout);
 
 	dirModel = new QFileSystemModel(this);
-	dirModel->setRootPath(QDir::homePath());
+	dirModel->setRootPath(ApplicationSettings::getCurrentExplorerPath());
 	dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 	QString szHomeUserPath = dirModel->rootPath();
 
@@ -87,6 +89,8 @@ void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 
 		m_pFolderTreeView->setCurrentIndex(folderIndex);
 
+		ApplicationSettings::setCurrentExplorerPath(szFolderPath);
+	    QSettingsManager::getInstance().saveSettings();
 
 		if(m_pFolderTreeView->isExpanded(parentIndex) == false)
 		{
@@ -108,6 +112,9 @@ void QFileExplorerWidget::onFolderTreeViewClicked(QModelIndex index)
 {
 	QString szPath = dirModel->fileInfo(index).absoluteFilePath();
     m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
+
+    ApplicationSettings::setCurrentExplorerPath(szPath);
+    QSettingsManager::getInstance().saveSettings();
 }
 
 void QFileExplorerWidget::onOpenDatabaseButtonClicked()

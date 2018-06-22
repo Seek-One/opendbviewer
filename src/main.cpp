@@ -11,8 +11,10 @@
 #include <QMessageBox>
 #include <QLocale>
 
+#include "Global/ApplicationSettings.h"
 #include "GUI/QWindowMain.h"
 #include "GUIController/QWindowMainController.h"
+#include "Settings/QSettingsManager.h"
 
 // Enable memory leak detection
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -50,6 +52,8 @@ int main(int argc, char *argv[])
 	QTranslator appTranslator;
 	appTranslator.load(QLocale::system().name(), ":/ts/");
 	app.installTranslator(&appTranslator);
+
+	QSettingsManager::getInstance().loadSettings();
 
 	// Init GUI
 	QWindowMain* pWindowMain = NULL;

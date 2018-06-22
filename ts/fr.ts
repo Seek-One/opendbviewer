@@ -4,12 +4,12 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../src/main.cpp" line="80"/>
+        <location filename="../src/main.cpp" line="84"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="80"/>
+        <location filename="../src/main.cpp" line="84"/>
         <source>Error to initialize application</source>
         <translation>Erreur à l&apos;initialisation de l&apos;application</translation>
     </message>
@@ -164,12 +164,12 @@
 <context>
     <name>QFileExplorerWidget</name>
     <message>
-        <location filename="../src/Widget/QFileExplorerWidget.cpp" line="58"/>
+        <location filename="../src/Widget/QFileExplorerWidget.cpp" line="60"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="../src/Widget/QFileExplorerWidget.cpp" line="150"/>
+        <location filename="../src/Widget/QFileExplorerWidget.cpp" line="159"/>
         <source>Drag and drop your files here</source>
         <translation>Glisser - Déposer vos fichiers ici</translation>
     </message>

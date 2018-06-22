@@ -177,6 +177,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src)
 
 set(APPLICATION_SOURCES
 	src/main.cpp
+	src/Global/ApplicationSettings.cpp
+	src/Global/ApplicationSettings.h
 	src/GUI/QAboutDialog.cpp
 	src/GUI/QAboutDialog.h
 	src/GUI/QDatabaseTableView.cpp
@@ -214,6 +216,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerSqlite.h
 	src/Database/DatabaseControllerPostgreSQL.cpp
 	src/Database/DatabaseControllerPostgreSQL.h
+	src/Settings/QSettingsManager.cpp
+	src/Settings/QSettingsManager.h
 	src/Widget/QDropAreaWidget.cpp
 	src/Widget/QDropAreaWidget.h
    	src/Widget/QFileExplorerWidget.cpp

@@ -52,7 +52,13 @@ public:
 
 	QFileExplorerWidget* getFileExplorerWidget() const;
 
+	QTreeWidget* getFavouriteTreeWidget() const;
+
+public slots:
+	void onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
+
 private:
+	QWidget* makeFavouriteTab(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
@@ -87,6 +93,11 @@ private:
 	QPushButton* m_pOKButton;
 	QPushButton* m_pMySQLConnectButton;
 	QPushButton* m_pPostgreSQLConnectButton;
+
+	QTreeWidget* m_pFavouriteTabTreeWidget;
+
+signals:
+	void openFavouriteSQLiteDatabase(QString szPath);
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

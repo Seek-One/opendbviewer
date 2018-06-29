@@ -21,11 +21,15 @@ public:
 	static QSettingsManager& getInstance();
 
 public:
-	void loadSettings();
-	void saveSettings();
+	void loadConfigSettings();
+	void saveConfigSettings();
+
+	void loadDatabaseSettings();
+	void saveDatabaseSettings();
 
 private:
-	QSettings* m_pSettingsCurrentExplorerPath;
+	QSettings* m_pConfigSettings;
+	QSettings* m_pDatabaseSettings;
 
 	static QSettingsManager m_gInstance;
 };

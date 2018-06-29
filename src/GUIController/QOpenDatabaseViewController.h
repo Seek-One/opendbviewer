@@ -20,11 +20,27 @@ class QOpenDatabaseViewController : public QObject
 {
 	Q_OBJECT
 public:
+	enum TabIndex {
+		FavouriteIndex = 0,
+		ExplorerFileIndex,
+		SQLiteIndex,
+		MySQLIndex,
+		PostgreSQLIndex,
+	};
+
+	enum DatabaseType {
+		SQLiteType = 0,
+		MySQLType,
+		PostgreSQLType,
+	};
+
+public:
 	QOpenDatabaseViewController();
 	virtual ~QOpenDatabaseViewController();
 
 	void init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView);
 	QString getFileUrl() const;
+	void initFavouriteList();
 
 private:
 	QStringList makeMySQLDatabaseInfoList();
@@ -32,7 +48,7 @@ private:
 
 public slots:
 	void openFileDialog();
-	void openFile(const QString& szFileUrl);
+	void openSQLiteFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
 	void loadDatabase();
 

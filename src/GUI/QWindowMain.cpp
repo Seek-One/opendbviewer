@@ -10,8 +10,10 @@
 #include <QMenuBar>
 
 #include "QDatabaseConnectionView.h"
+#include "Global/ApplicationSettings.h"
 #include "QOpenDatabaseView.h"
 #include "QWindowMain.h"
+#include "Settings/QSettingsManager.h"
 
 QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)
@@ -71,6 +73,20 @@ QTabWidget* QWindowMain::getDatabaseConnectionTab() const
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
+}
+
+void QWindowMain::changeEvent(QEvent* pEvent)
+{
+	if(pEvent->type() == QEvent::WindowStateChange){
+		if(isMaximized()){
+			ApplicationSettings::setWindowMaximized(true);
+			QSettingsManager::getInstance().saveConfigSettings();
+		}else{
+			ApplicationSettings::setWindowMaximized(false);
+			QSettingsManager::getInstance().saveConfigSettings();
+		}
+	}
+	pEvent->accept();
 }
 
 void QWindowMain::createMenu()

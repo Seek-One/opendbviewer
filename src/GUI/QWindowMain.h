@@ -30,6 +30,9 @@ public:
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 
+protected:
+	virtual void changeEvent(QEvent* pEvent);
+
 private:
 	void createMenu(); //Creates a menu bar
 

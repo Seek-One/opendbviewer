@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
 	appTranslator.load(QLocale::system().name(), ":/ts/");
 	app.installTranslator(&appTranslator);
 
-	QSettingsManager::getInstance().loadSettings();
+	QSettingsManager::getInstance().loadConfigSettings();
+	QSettingsManager::getInstance().loadDatabaseSettings();
 
 	// Init GUI
 	QWindowMain* pWindowMain = NULL;
@@ -67,8 +68,12 @@ int main(int argc, char *argv[])
 	// Show GUI
 	if(bGoOn && pWindowMain){
 		qDebug("[Main] Show application");
-		pWindowMain->show();
-#ifdef WIN32
+		if (ApplicationSettings::getWindowMaximized()){
+					pWindowMain->showMaximized();
+		}else{
+			pWindowMain->show();
+		}
+		#ifdef WIN32
 		pWindowMain->setWindowIcon(QIcon(":/" APPLICATION_PACKAGE_NAME ".png"));
 #else
 		pWindowMain->setWindowIconText(APPLICATION_PACKAGE_NAME);

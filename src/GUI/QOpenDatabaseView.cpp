@@ -8,6 +8,7 @@
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -32,6 +33,10 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	pSecondLayout->addWidget(m_pConnectionTypeTabWidget);
 
 	//Adding Explorer tab to the selection window
+	pWidget = makeFavouriteTab(m_pConnectionTypeTabWidget);
+	m_pConnectionTypeTabWidget->addTab(pWidget, tr("Favourite Database"));
+
+	//Adding Explorer tab to the selection window
 	pWidget = makeExplorerTab(m_pConnectionTypeTabWidget);
 	m_pConnectionTypeTabWidget->addTab(pWidget, tr("File Explorer"));
 
@@ -47,6 +52,7 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	pWidget = makePostgreSQLTab(m_pConnectionTypeTabWidget);
 	m_pConnectionTypeTabWidget->addTab(pWidget, tr("PostgreSQL"));
 
+	connect(m_pFavouriteTabTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
 }
 
 
@@ -80,6 +86,11 @@ QDropAreaWidget* QOpenDatabaseView::getDropAreaWidget() const
 QFileExplorerWidget* QOpenDatabaseView::getFileExplorerWidget() const
 {
 	return m_pFileExplorerWidget;
+}
+
+QTreeWidget* QOpenDatabaseView::getFavouriteTreeWidget() const
+{
+	return m_pFavouriteTabTreeWidget;
 }
 
 QLineEdit* QOpenDatabaseView::getMySQLHostField() const
@@ -147,6 +158,22 @@ QPushButton* QOpenDatabaseView::getPostgreSQLConnectButton() const
 	return m_pPostgreSQLConnectButton;
 }
 
+QWidget* QOpenDatabaseView::makeFavouriteTab(QWidget* pParent)
+{
+	QWidget* pMainWidget = new QWidget(pParent);
+
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+
+	m_pFavouriteTabTreeWidget = new QTreeWidget(this);
+	QString szFavouriteHeaderName = "Favourite Database";
+	m_pFavouriteTabTreeWidget->setHeaderLabel(szFavouriteHeaderName);
+	m_pFavouriteTabTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
+
+	pMainLayout->addWidget(m_pFavouriteTabTreeWidget);
+
+	return pMainWidget;
+}
 
 QWidget* QOpenDatabaseView::makeExplorerTab(QWidget* pParent)
 {
@@ -314,4 +341,11 @@ QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 	pMainLayout->addStretch();
 
 	return pMainWidget;
+}
+
+void QOpenDatabaseView::onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column)
+{
+	QString szPath;
+	szPath = item->text(column);
+	emit openFavouriteSQLiteDatabase(szPath);
 }

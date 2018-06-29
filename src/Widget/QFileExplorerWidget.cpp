@@ -35,6 +35,8 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
     m_pFolderTreeView->setColumnHidden(2, true);
     m_pFolderTreeView->setColumnHidden(3, true);
     m_pFolderTreeView->expandAll();
+    m_pFolderTreeView->setCurrentIndex(dirModel->index(ApplicationSettings::getCurrentExplorerPath()));
+
 
     m_pFileExplorerDropAreaWidget = makeFileExplorerDropAreaWidget(this, szHomeUserPath);
 
@@ -90,7 +92,7 @@ void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 		m_pFolderTreeView->setCurrentIndex(folderIndex);
 
 		ApplicationSettings::setCurrentExplorerPath(szFolderPath);
-	    QSettingsManager::getInstance().saveSettings();
+	    QSettingsManager::getInstance().saveConfigSettings();
 
 		if(m_pFolderTreeView->isExpanded(parentIndex) == false)
 		{
@@ -114,7 +116,7 @@ void QFileExplorerWidget::onFolderTreeViewClicked(QModelIndex index)
     m_pFileTreeView->setRootIndex(fileModel->setRootPath(szPath));
 
     ApplicationSettings::setCurrentExplorerPath(szPath);
-    QSettingsManager::getInstance().saveSettings();
+    QSettingsManager::getInstance().saveConfigSettings();
 }
 
 void QFileExplorerWidget::onOpenDatabaseButtonClicked()

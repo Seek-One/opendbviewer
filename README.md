@@ -16,7 +16,7 @@ Features
 License
 -------
 
-This program is licenced under the terms of the GNU GENERAL PUBLIC LICENSE Version 3.
+This program is licensed under the terms of the GNU GENERAL PUBLIC LICENSE Version 3.
 
 Requirements
 ------------

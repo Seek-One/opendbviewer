@@ -73,6 +73,7 @@ QTabWidget* QWindowMain::getDatabaseConnectionTab() const
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
+	m_pDatabaseConnectionTab->setCurrentIndex(1);
 }
 
 void QWindowMain::changeEvent(QEvent* pEvent)

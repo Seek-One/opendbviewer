@@ -12,6 +12,7 @@ ts.qrc
 config.h
 version.h
 opendbviewer
+opendbviewer-testsuite
 moc_*.c*
 *.sqlite
 README

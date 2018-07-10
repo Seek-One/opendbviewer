@@ -5,6 +5,7 @@
  *      Author: mlegarrec
  */
 
+#include "Model/FavouriteDatabaseList.h"
 #include "FavouriteDatabaseListTestCase.h"
 
 void FavouriteDatabaseListTestCase::test_appendDatabaseModel()

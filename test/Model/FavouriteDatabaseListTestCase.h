@@ -10,8 +10,6 @@
 
 #include <QtTest>
 
-#include "src/Model/FavouriteDatabaseList.h"
-
 class FavouriteDatabaseListTestCase : public QObject {
 	Q_OBJECT
 private slots:

@@ -5,6 +5,8 @@
  *      Author: mlegarrec
  */
 
+#include "FavouriteDatabaseListTestCase.h"
+
 void FavouriteDatabaseListTestCase::test_appendDatabaseModel()
 {
 	//Test taille liste

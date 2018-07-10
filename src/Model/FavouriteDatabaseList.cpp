@@ -4,6 +4,7 @@
  *  Created on: 26 juin 2018
  *      Author: cdegeorgi
  */
+#include <QDebug>
 
 #include "FavouriteDatabaseList.h"
 
@@ -21,18 +22,14 @@ FavouriteDatabaseList::~FavouriteDatabaseList()
 
 void FavouriteDatabaseList::append(const DatabaseModel& value)
 {
-	if(size() + 1 > MAX_ITEMS){
-		removeFirst();
-	}
-	QList<DatabaseModel>::append(value);
+	if (!isEmpty()) removeAll(value);
+	if(size() + 1 > MAX_ITEMS) removeFirst();
+	QList::append(value);
 }
 
 void FavouriteDatabaseList::append(const QList<DatabaseModel>& value)
 {
-	if(size() + 1 > MAX_ITEMS){
-		for(int i = 0 ; i < size() - MAX_ITEMS ; i++){
-			removeFirst();
-		}
+	for (int i=0; i!=value.size(); i++) {
+		append(value.at(i));
 	}
-	QList<DatabaseModel>::append(value);
 }

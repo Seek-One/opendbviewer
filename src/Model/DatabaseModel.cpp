@@ -13,6 +13,12 @@ DatabaseModel::DatabaseModel()
 
 }
 
+DatabaseModel::DatabaseModel(const QString& szName, const QString& szType)
+{
+	m_szDatabaseName = szName;
+	m_szDatabaseType = szType;
+}
+
 DatabaseModel::~DatabaseModel()
 {
 
@@ -66,4 +72,22 @@ const QString& DatabaseModel::getDatabasePort() const
 void DatabaseModel::setDatabasePort(const QString& szDatabasePort)
 {
 	m_szDatabasePort = szDatabasePort;
+}
+
+bool DatabaseModel::operator==(const DatabaseModel& other) const
+{
+	return (m_szDatabaseName == other.m_szDatabaseName &&
+			m_szDatabaseHost == other.m_szDatabaseHost &&
+			m_szDatabasePath == other.m_szDatabasePath &&
+			m_szDatabaseType == other.m_szDatabaseType &&
+			m_szDatabasePort == other.m_szDatabasePort);
+}
+
+bool DatabaseModel::operator!=(const DatabaseModel& other) const
+{
+	return (m_szDatabaseName != other.m_szDatabaseName ||
+			m_szDatabaseHost != other.m_szDatabaseHost ||
+			m_szDatabasePath != other.m_szDatabasePath ||
+			m_szDatabaseType != other.m_szDatabaseType ||
+			m_szDatabasePort != other.m_szDatabasePort);
 }

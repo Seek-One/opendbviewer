@@ -13,6 +13,7 @@
 class DatabaseModel {
 public:
 	DatabaseModel();
+	DatabaseModel(const QString& szName, const QString& szType);
 	virtual ~DatabaseModel();
 
 	const QString& getDatabaseName() const;
@@ -26,6 +27,8 @@ public:
 	const QString& getDatabasePort() const;
 	void setDatabasePort(const QString& szDatabasePort);
 
+	bool operator==(const DatabaseModel& other) const;
+	bool operator!=(const DatabaseModel& other) const;
 private:
 	QString m_szDatabaseName;
 	QString m_szDatabasePath;
@@ -33,5 +36,7 @@ private:
 	QString m_szDatabaseHost;
 	QString m_szDatabasePort;
 };
+
+
 
 #endif /* SRC_MODEL_DATABASEMODEL_H_ */

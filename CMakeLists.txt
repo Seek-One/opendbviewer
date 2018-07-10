@@ -175,6 +175,13 @@ include_directories (${PROJECT_BINARY_DIR})
 
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
+set(APPLICATION_MODEL_SOURCES
+	src/Model/FavouriteDatabaseList.cpp
+	src/Model/FavouriteDatabaseList.h
+	src/Model/DatabaseModel.cpp
+	src/Model/DatabaseModel.h
+)
+
 set(APPLICATION_SOURCES
 	src/main.cpp
 	src/Global/ApplicationSettings.cpp
@@ -216,10 +223,6 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerSqlite.h
 	src/Database/DatabaseControllerPostgreSQL.cpp
 	src/Database/DatabaseControllerPostgreSQL.h
-	src/Model/FavouriteDatabaseList.cpp
-	src/Model/FavouriteDatabaseList.h
-	src/Model/DatabaseModel.cpp
-	src/Model/DatabaseModel.h
 	src/Settings/QSettingsManager.cpp
 	src/Settings/QSettingsManager.h
 	src/Widget/QDropAreaWidget.cpp
@@ -320,6 +323,7 @@ QT_ADD_RESOURCES(RCS_OUTFILES ${QRC_FILES})
 
 add_executable (${APPLICATION_EXE_NAME}
 	${APPLICATION_SOURCES}
+	${APPLICATION_MODEL_SOURCES}
 	${APPLICATION_MOC_OUTFILES}
     ${RCS_OUTFILES}
 	${qm_FILES}
@@ -328,6 +332,40 @@ target_link_libraries (${APPLICATION_EXE_NAME}
     ${QT_LIBRARIES}
 )
 install(TARGETS ${APPLICATION_EXE_NAME} DESTINATION ${INSTALL_PATH_BIN})
+
+####################
+# Unit test
+####################
+
+set (UNITTEST_SOURCE
+	test/main.cpp
+	test/Model/FavouriteDatabaseListTestCase.cpp
+	test/Model/FavouriteDatabaseListTestCase.h
+)
+
+set (UNITTEST_MOC_HEADERS
+	test/Model/FavouriteDatabaseListTestCase.h
+)
+
+qt_wrap_cpp(
+	UNITTEST_MOC_OUTFILES
+	${UNITTEST_MOC_HEADERS}
+)
+
+set(UNITTEST_EXE ${APPLICATION_EXE_NAME}-testsuite)
+
+add_executable(${UNITTEST_EXE}
+	${UNITTEST_SOURCE}
+	${UNITTEST_MOC_OUTFILES}
+	${APPLICATION_MODEL_SOURCES}
+    ${RCS_OUTFILES}
+)
+
+set_target_properties(${UNITTEST_EXE} PROPERTIES COMPILE_FLAGS -DUNITTEST)
+
+target_link_libraries(${UNITTEST_EXE}
+	${QT_LIBRARIES}
+)
 
 ############################
 # Common files installation

@@ -21,7 +21,7 @@
 class DatabaseControllerSqlite : public DatabaseController
 {
 public:
-	DatabaseControllerSqlite(const QString& szFilename);
+	DatabaseControllerSqlite(const DatabaseModel& databaseModel);
 	virtual ~DatabaseControllerSqlite();
 
 protected:

@@ -88,7 +88,7 @@ void QSettingsManager::loadDatabaseSettings()
 		QString szGroup;
 		QString szName;
 		QString szPath;
-		QString szType;
+		int iType;
 		QVariant databaseName;
 		QVariant databasePath;
 		QVariant databaseType;
@@ -109,13 +109,14 @@ void QSettingsManager::loadDatabaseSettings()
 				szPath = databasePath.toString();
 			}
 			if(!databaseType.isNull()){
-				szType = databaseType.toString();
+				bool ok = true;
+				iType = databaseType.toInt(&ok);
 			}
 
 			DatabaseModel databaseModel;
 			databaseModel.setDatabaseName(szName);
 			databaseModel.setDatabasePath(szPath);
-			databaseModel.setDatabaseType(szType);
+			databaseModel.setDatabaseType(iType);
 			favouriteList.append(databaseModel);
 		}
 		ApplicationSettings::setFavouriteList(favouriteList);

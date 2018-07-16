@@ -10,44 +10,24 @@
 
 void FavouriteDatabaseListTestCase::test_appendDatabaseModel()
 {
-	//Test taille liste
 	FavouriteDatabaseList listDatabase;
 
-	//Insertion element vide
-	DatabaseModel emptydatabase;
-	listDatabase.append(emptydatabase);
-	QVERIFY(listDatabase.at(0)==emptydatabase);
-
-	//insertion élément(s) plein(s)
-	DatabaseModel database("database0", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database1", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database2", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database3", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database4", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database5", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database6", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database7", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database8", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database9", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database10", "sqlite");
-	listDatabase.append(database);
-	database = DatabaseModel("database11", "sqlite");
-	listDatabase.append(database);
-
-	QVERIFY(listDatabase.size() <= 10);
-	for (int i=0; i<10; i++) {
-		QVERIFY(listDatabase.at(i) != emptydatabase);
+	//Test about the size of the list
+	for(int i = 0; i < 10; ++i){
+		listDatabase.append(DatabaseModel(QString::number(i), i));
+		QVERIFY(listDatabase.size() == (i + 1));
 	}
+	listDatabase.append(DatabaseModel("10", 10));
+	QVERIFY(listDatabase.size() == 10);
+
+	//Clear the list
+	listDatabase.clear();
+
+	//Test on duplicates
+	listDatabase.append(DatabaseModel("", 1));
+	QVERIFY(listDatabase.size() == 1);
+	listDatabase.append(DatabaseModel("", 1));
+	QVERIFY(listDatabase.size() == 1);
 }
 
 void FavouriteDatabaseListTestCase::test_appendListDatabaseModel()
@@ -59,15 +39,15 @@ void FavouriteDatabaseListTestCase::test_appendListDatabaseModel()
 	//Insertion empty list into list of favorites databases
 	QVERIFY(listFavDatabase.size()<=10);
 
-	DatabaseModel database("database0", "sqlite");
+	DatabaseModel database("database0", DatabaseModel::SQLiteType);
 	listInsertion.append(database);
-	database = DatabaseModel("database1", "sqlite");
+	database = DatabaseModel("database1", DatabaseModel::SQLiteType);
 	listInsertion.append(database);
-	database = DatabaseModel("database2", "sqlite");
+	database = DatabaseModel("database2", DatabaseModel::SQLiteType);
 	listInsertion.append(database);
-	database = DatabaseModel("database3", "sqlite");
+	database = DatabaseModel("database3", DatabaseModel::SQLiteType);
 	listInsertion.append(database);
-	database = DatabaseModel("database4", "sqlite");
+	database = DatabaseModel("database4", DatabaseModel::SQLiteType);
 	listInsertion.append(database);
 	//Insertion list into empty list of favorite databases
 	listFavDatabase.append(listInsertion);

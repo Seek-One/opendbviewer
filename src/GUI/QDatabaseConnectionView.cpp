@@ -15,7 +15,7 @@ QDatabaseConnectionView::QDatabaseConnectionView(QWidget* parent)
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	setLayout(pMainLayout);
 
-	// Spliter
+	// Splitter
 	QSplitter *pSplitter = new QSplitter();
 	pSplitter->setChildrenCollapsible(false);
 	pMainLayout->addWidget(pSplitter);

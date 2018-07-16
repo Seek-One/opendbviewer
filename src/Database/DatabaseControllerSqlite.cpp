@@ -6,12 +6,11 @@
  */
 
 #include "DatabaseControllerSqlite.h"
-#include "DatabaseController.h"
 
-DatabaseControllerSqlite::DatabaseControllerSqlite(const QString& szFileName) : DatabaseController(szFileName)
+DatabaseControllerSqlite::DatabaseControllerSqlite(const DatabaseModel& databaseModel) : DatabaseController(databaseModel)
 {
-	m_db = QSqlDatabase::addDatabase("QSQLITE", szFileName);
-	m_db.setDatabaseName(szFileName);
+	m_db = QSqlDatabase::addDatabase("QSQLITE", databaseModel.getDatabaseName());
+	m_db.setDatabaseName(databaseModel.getDatabasePath());
 }
 
 DatabaseControllerSqlite::~DatabaseControllerSqlite()

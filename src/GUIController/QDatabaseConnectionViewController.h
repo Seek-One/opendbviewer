@@ -28,7 +28,7 @@ public:
 	QDatabaseConnectionViewController(const QString& szFileName, DatabaseController* pDatabaseController);
 	virtual ~QDatabaseConnectionViewController();
 
-	void init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList);
+	void init(QDatabaseConnectionView* pDatabaseConnectionView);
 
 	bool loadDatabaseTables();
 

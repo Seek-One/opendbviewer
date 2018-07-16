@@ -31,8 +31,6 @@ public slots:
 private:
 	QWindowMain* m_pMainWindow;
 	QOpenDatabaseViewController* m_pOpenDatabaseViewController;
-
-	QWidget* makeTab();
 };
 
 #endif /* SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_ */

@@ -21,7 +21,8 @@
 class DatabaseControllerMysql : public DatabaseController
 {
 public:
-	DatabaseControllerMysql(const QString& szFileName, const QStringList& szDatabaseInfoList);
+	//DatabaseControllerMysql(const QString& szFileName, const QStringList& szDatabaseInfoList);
+	DatabaseControllerMysql(DatabaseModel databaseModel);
 	virtual ~DatabaseControllerMysql();
 
 protected:
@@ -33,7 +34,8 @@ protected:
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
 
 private:
-	void splitDatabaseInfoList(QStringList& szDatabaseInfoList);
+	//void splitDatabaseInfoList(QStringList& szDatabaseInfoList);
+	void splitDatabaseInfoList(DatabaseModel databaseModel);
 
 private:
 	QString m_szHostName;

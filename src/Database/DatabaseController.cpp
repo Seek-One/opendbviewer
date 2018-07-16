@@ -5,12 +5,11 @@
  *      Author: echopin
  */
 
-#include "Database/DatabaseController.h"
-#include "Database/DatabaseControllerSqlite.h"
+#include "DatabaseController.h"
 
-DatabaseController::DatabaseController(const QString& szFilename)
+DatabaseController::DatabaseController(const DatabaseModel&  databaseModel)
 {
-	m_szFilename = szFilename;
+	m_szFilename = databaseModel.getDatabaseName();
 }
 
 DatabaseController::~DatabaseController()
@@ -34,8 +33,7 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 
 	bRes = openDatabase();
 	if(bRes){
-		QStringList listItem = m_db.tables();
-
+		QStringList listItem = m_db.tables(QSql::Tables);
 		// Sort by name
 		listItem.sort();
 
@@ -118,6 +116,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 
 	QStringList listRowHeader;
 	QStringList listRowData;
+
 
 	bRes = openDatabase();
 	if(bRes){

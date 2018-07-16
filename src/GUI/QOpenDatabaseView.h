@@ -10,6 +10,7 @@
 
 #include <QWidget>
 
+#include "Model/DatabaseModel.h"
 #include "Widget/QDropAreaWidget.h"
 #include "Widget/QFileExplorerWidget.h"
 
@@ -20,6 +21,7 @@ class QTabWidget;
 class QOpenDatabaseView : public QWidget
 {
 	Q_OBJECT
+
 public:
 	QOpenDatabaseView(QWidget* parent = 0);
 	virtual ~QOpenDatabaseView();
@@ -46,7 +48,7 @@ public:
 	QLineEdit* getPSQLPasswordField() const;
 	QLineEdit* getPSQLDatabaseField() const;
 
-	QPushButton* getOKButton() const;
+	QPushButton* getSQLiteButton() const;
 	QPushButton* getMySQLConnectButton() const;
 	QPushButton* getPostgreSQLConnectButton() const;
 
@@ -54,15 +56,20 @@ public:
 
 	QTreeWidget* getFavouriteTreeWidget() const;
 
-public slots:
-	void onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
-
-private:
 	QWidget* makeFavouriteTab(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
 	QWidget* makePostgreSQLTab(QWidget* pParent);
+	void HideUnusedObjects(bool i);
+
+public slots:
+	void dispatchClicked();
+	void onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
+
+signals :
+	void openFavouriteSQLiteDatabase(QString szPath);
+	void clicked(DatabaseModel::DatabaseType type);
 
 private:
 	QTabWidget* m_pConnectionTypeTabWidget;
@@ -90,14 +97,12 @@ private:
 	QLineEdit* m_pPSQLDatabaseField;
 
 	// Validation button
-	QPushButton* m_pOKButton;
+	QPushButton* m_pSQLiteButton;
 	QPushButton* m_pMySQLConnectButton;
 	QPushButton* m_pPostgreSQLConnectButton;
 
 	QTreeWidget* m_pFavouriteTabTreeWidget;
 
-signals:
-	void openFavouriteSQLiteDatabase(QString szPath);
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

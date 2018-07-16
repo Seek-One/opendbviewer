@@ -23,7 +23,8 @@
 class DatabaseController
 {
 public:
-	DatabaseController(const QString& szFilename);
+	//DatabaseController(const QString& szFilename);
+	DatabaseController(const DatabaseModel&  databaseModel);
 	virtual ~DatabaseController();
 
 	bool openDatabase();

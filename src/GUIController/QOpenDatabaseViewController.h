@@ -11,7 +11,9 @@
 #include <QObject>
 #include <QString>
 
-class DatabaseController;
+#include "Model/DatabaseModel.h"
+#include "Database/DatabaseController.h"
+
 class QDatabaseConnectionViewController;
 class QOpenDatabaseView;
 class QWindowMain;
@@ -19,20 +21,14 @@ class QWindowMain;
 class QOpenDatabaseViewController : public QObject
 {
 	Q_OBJECT
-public:
+/*public:
 	enum TabIndex {
 		FavouriteIndex = 0,
 		ExplorerFileIndex,
 		SQLiteIndex,
 		MySQLIndex,
 		PostgreSQLIndex,
-	};
-
-	enum DatabaseType {
-		SQLiteType = 0,
-		MySQLType,
-		PostgreSQLType,
-	};
+	};*/
 
 public:
 	QOpenDatabaseViewController();
@@ -41,21 +37,33 @@ public:
 	void init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView);
 	QString getFileUrl() const;
 	void initFavouriteList();
+	DatabaseModel selectedDatabase(int iType, QString szTabFileName);
+	void loadDatabase(const DatabaseModel&  databaseModel);
 
 private:
-	QStringList makeMySQLDatabaseInfoList();
-	QStringList makePostgreSQLDatabaseInfoList();
+	//QStringList makeMySQLDatabaseInfoList();
+	//QStringList makePostgreSQLDatabaseInfoList();
+	void MySQLDatabaseInfo(DatabaseModel * database);
+	void PostgreSQLInfo(DatabaseModel * database);
 
 public slots:
+	void buttonClicked(DatabaseModel::DatabaseType type);
 	void openFileDialog();
 	void openSQLiteFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
-	void loadDatabase();
+	void openViews();
+	void openFav();
+	void openExplorer();
+	void openMenuConn();
+	void openSQLite();
+	void openMySQL();
+	void openPostgreSQL();
 
 private:
 	QOpenDatabaseView* m_pOpenDatabaseView;
 	QString m_szFileUrl;
 	QWindowMain* m_pMainWindow;
+	bool m_bGoOn;
 };
 
 #endif /* SRC_GUICONTROLLER_QOPENDATABASEVIEWCONTROLLER_H_ */

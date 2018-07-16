@@ -7,10 +7,9 @@
 
 #include "Database/DatabaseControllerMysql.h"
 
-DatabaseControllerMysql::DatabaseControllerMysql(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
+DatabaseControllerMysql::DatabaseControllerMysql(DatabaseModel databaseModel) : DatabaseController(databaseModel)
 {
-	m_szDatabaseInfoList = szDatabaseInfoList;
-	splitDatabaseInfoList(m_szDatabaseInfoList);
+	splitDatabaseInfoList(databaseModel);
 
 	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
     m_db.setHostName(m_szHostName);
@@ -79,11 +78,35 @@ QString DatabaseControllerMysql::makeTableCreationScriptQueryResult(const QSqlQu
 	return QString(query.value(1).toString());
 }
 
-void DatabaseControllerMysql::splitDatabaseInfoList(QStringList& szDatabaseInfoList)
+void DatabaseControllerMysql::splitDatabaseInfoList(DatabaseModel databaseModel)
+{
+	m_szHostName = databaseModel.getDatabaseHost();
+	m_port = databaseModel.getDatabasePort();
+	m_szUsername = databaseModel.getDatabaseUsername();
+	//TODO Include the password for MySQL Controller (and PostgreSQL Controller)
+	m_szPassword = "";
+	m_szDatabaseName = databaseModel.getDatabaseName();
+}
+
+/*DatabaseControllerMysql::DatabaseControllerMysql(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
+{
+	m_szDatabaseInfoList = szDatabaseInfoList;
+	splitDatabaseInfoList(m_szDatabaseInfoList);
+
+	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
+    m_db.setHostName(m_szHostName);
+    m_db.setPort(m_port);
+    m_db.setDatabaseName(m_szDatabaseName);
+    m_db.setUserName(m_szUsername);
+    m_db.setPassword(m_szPassword);
+}*/
+
+
+/*void DatabaseControllerMysql::splitDatabaseInfoList(QStringList& szDatabaseInfoList)
 {
 	m_szHostName = szDatabaseInfoList.value(0);
 	m_port = szDatabaseInfoList.value(1).toInt();
 	m_szUsername = szDatabaseInfoList.value(2);
 	m_szPassword = szDatabaseInfoList.value(3);
 	m_szDatabaseName = szDatabaseInfoList.value(4);
-}
+}*/

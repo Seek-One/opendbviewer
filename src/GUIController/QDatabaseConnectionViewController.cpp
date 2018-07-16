@@ -28,7 +28,7 @@ QDatabaseConnectionViewController::~QDatabaseConnectionViewController()
 
 }
 
-void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseConnectionView, QStringList& szDatabaseInfoList)
+void QDatabaseConnectionViewController::init(QDatabaseConnectionView* pDatabaseConnectionView)
 {
 	m_pDatabaseConnectionView = pDatabaseConnectionView;
 
@@ -105,7 +105,7 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 bool QDatabaseConnectionViewController::loadDatabaseTables()
 {
 	bool bRes;
-
+	//Cannot load the data from the tables/systemTables/ViewsTables
 	bRes = m_pDatabaseController->loadTables(onDbLoadTables, this);
 	bRes = m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this) && bRes;
 	bRes = m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this) && bRes;

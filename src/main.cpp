@@ -14,6 +14,7 @@
 #include "Global/ApplicationSettings.h"
 #include "GUI/QWindowMain.h"
 #include "GUIController/QWindowMainController.h"
+#include "Image/QIconThemeFallback.h"
 #include "Settings/QSettingsManager.h"
 
 // Enable memory leak detection
@@ -42,6 +43,29 @@ int main(int argc, char *argv[])
 	QApplication::setWindowIcon(QIcon(":/" APPLICATION_PACKAGE_NAME ".png"));
 
 	qDebug("[Main] Starting application");
+
+	QStringList listPathsTheme;
+	listPathsTheme = QIcon::themeSearchPaths();
+#ifdef QT_DEBUG
+	listPathsTheme.append("./data/theme/icons"); // Add from the working directory
+	listPathsTheme.append(app.applicationDirPath() + "/data/theme/icons"); // Add from the binary directory
+#if defined(APPLE)
+	listPathsTheme.append(app.applicationDirPath() + "/../data/theme/icons"); // Add from the binary directory
+#endif
+#endif
+
+#if defined(WIN32)
+	listPathsTheme.append("./icons_themes"); // Add from the working directory
+	listPathsTheme.append(app.applicationDirPath() + "/icons_themes");
+#elif defined(APPLE)
+	listPathsTheme.append(app.applicationDirPath() + "/../Resources/icons_themes"); // Add from bundle
+#else
+	listPathsTheme.append(app.applicationDirPath() + "/../share/" + APPLICATION_PACKAGE_NAME + "/icons_themes"); // Add from the binary directory
+#endif
+	QIcon::setThemeSearchPaths(listPathsTheme);
+	qDebug("[Main] Theme paths: %s", qPrintable(QIcon::themeSearchPaths().join(";")));
+	QIconThemeFallback::setThemeName("app_default");
+	qDebug("[Main] Using theme: %s, fallback theme: %s", qPrintable(QIcon::themeName()), qPrintable(QIconThemeFallback::themeName()));
 
 	// Initialize translation
 	QTranslator qtTranslator;

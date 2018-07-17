@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION "2.8.9")
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
+include (CMakeModules/IncludeProductImage.cmake)
+
 # Define project data 
 set (APPLICATION_VENDOR_NAME "jet1oeil")
 set (APPLICATION_VENDOR_DOMAIN "www.jet1oeil.com")
@@ -215,6 +217,8 @@ set(APPLICATION_SOURCES
 	src/GUIController/QOpenDatabaseViewController.h
 	src/GUIController/QSqlHighlighterController.cpp
 	src/GUIController/QSqlHighlighterController.h
+	src/Image/QIconThemeFallback.cpp
+	src/Image/QIconThemeFallback.h
 	src/Database/DatabaseController.cpp
 	src/Database/DatabaseController.h
 	src/Database/DatabaseControllerMysql.cpp
@@ -300,6 +304,13 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/ts.qrc.in"
   "${PROJECT_BINARY_DIR}/ts.qrc"
 )
+
+# Theme resource file
+product_image_generate_icon(${PROJECT_BINARY_DIR}/data/theme/icons_src/svg ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
+
+# Icon resource file
+file(COPY ${PROJECT_SOURCE_DIR}/data/theme/icons_src/author DESTINATION ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
+file(COPY ${PROJECT_SOURCE_DIR}/data/theme/icons_src/index.theme DESTINATION ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
 
 # Resources
 configure_file (
@@ -394,6 +405,13 @@ configure_file (
 # ChangeLog file
 set(CHANGELOG "ChangeLog")
 install(FILES "${PROJECT_SOURCE_DIR}/${CHANGELOG}" DESTINATION ${INSTALL_PATH_DOC} RENAME ChangeLog${DOCFILES_EXT})
+
+# Install icons theme
+install(DIRECTORY ${PROJECT_BINARY_DIR}/data/theme/icons/
+    DESTINATION ${INSTALL_PATH_SHARE}/icons_themes/
+    PATTERN ".svn" EXCLUDE
+    PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ WORLD_READ WORLD_EXECUTE
+)
 
 # Desktop file
 configure_file (

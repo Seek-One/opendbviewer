@@ -17,3 +17,4 @@ moc_*.c*
 *.sqlite
 README
 build
+data/theme/icons

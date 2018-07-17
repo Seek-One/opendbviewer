@@ -197,6 +197,7 @@ QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 	QString szHistoryHeaderName = "History";
 	m_pHistoryTreeWidget->setHeaderLabel(szHistoryHeaderName);
 	m_pHistoryTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
+	//m_pHistoryTreeWidget->header()->hide();
 	pMainLayout->addWidget(m_pHistoryTreeWidget);
 
 	return pMainWidget;
@@ -223,7 +224,6 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 	pMainWidget->setLayout(pMainLayout);
 	pMainWidget->setMaximumWidth(300);
 
-	pMainLayout->setSpacing(0);
 	pMainLayout->setContentsMargins(0,0,0,0);
 
 	QLabel *lTitle = new QLabel(this);

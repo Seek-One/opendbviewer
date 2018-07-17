@@ -58,6 +58,7 @@ protected:
 	QSqlDatabase m_db;
 	QString m_szResultString;
 
+	static int g_iConnectionIdentifier;
 };
 
 #endif /* SRC_DATABASE_DATABASECONTROLLER_H_ */

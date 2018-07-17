@@ -151,7 +151,12 @@ void QWindowMain::showViewsTab() {
 
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
-	m_pDatabaseConnectionTab->removeTab(0);
+	if (m_pDatabaseConnectionTab->currentWidget()==m_pOpenDatabaseView)  {
+		m_pDatabaseConnectionTab->removeTab(0);
+	}
+	/*if (m_pDatabaseConnectionTab->count()==0) {
+		m_pDatabaseConnectionTab->insertTab(0, m_pOpenDatabaseView, tr("No selection"));
+	}*/
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
 
 	int index = m_pDatabaseConnectionTab->currentIndex()+1;
@@ -243,6 +248,7 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->setWindowTitle("ToolBar");
 	m_pWindowToolBar->setContentsMargins(0,0,0,0);
 	m_pWindowToolBar->addSeparator();
+	//m_pWindowToolBar->setStyleSheet("Background: blue;");
 
 	QWidget * ToolBarButton;
 	int height = 50, width = 100;

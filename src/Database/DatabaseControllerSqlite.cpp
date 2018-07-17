@@ -9,7 +9,7 @@
 
 DatabaseControllerSqlite::DatabaseControllerSqlite(const DatabaseModel& databaseModel) : DatabaseController(databaseModel)
 {
-	m_db = QSqlDatabase::addDatabase("QSQLITE", databaseModel.getDatabaseName());
+	m_db = QSqlDatabase::addDatabase("QSQLITE", QString::number(g_iConnectionIdentifier++));
 	m_db.setDatabaseName(databaseModel.getDatabasePath());
 }
 

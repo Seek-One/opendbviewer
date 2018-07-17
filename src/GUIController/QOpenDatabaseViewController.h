@@ -27,7 +27,7 @@ public:
 
 	void init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView);
 	QString getFileUrl() const;
-	void initFavouriteList();
+	void initHistoryList();
 	DatabaseModel selectedDatabase(int iType, QString szTabFileName);
 	void loadDatabase(const DatabaseModel&  databaseModel);
 
@@ -41,7 +41,7 @@ public slots:
 	void openSQLiteFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
 	void openViews();
-	void openFav();
+	void openHist();
 	void openExplorer();
 	void openMenuConn();
 	void openSQLite();

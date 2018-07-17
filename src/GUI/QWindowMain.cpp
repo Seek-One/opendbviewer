@@ -11,6 +11,7 @@
 
 #include "QDatabaseConnectionView.h"
 #include "Global/ApplicationSettings.h"
+#include "Image/QIconThemeFallback.h"
 #include "QOpenDatabaseView.h"
 #include "QWindowMain.h"
 #include "Settings/QSettingsManager.h"
@@ -57,12 +58,9 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pOpenDatabaseView = new QOpenDatabaseView(this);
     m_pDatabaseConnectionTab->addTab(m_pOpenDatabaseView, tr("No selection"));
 
-    m_pDatabaseConnectionTab->setTabNonClosable(0);
-    m_pDatabaseConnectionTab->removeTab(0);
-
     //Menu Widgets
-    m_pFavWidget = m_pOpenDatabaseView->makeFavouriteTab(m_pOpenDatabaseView);
-    m_pStackedMenuWidget->addWidget(m_pFavWidget);
+    m_pHistWidget = m_pOpenDatabaseView->makeHistoryTab(m_pOpenDatabaseView);
+    m_pStackedMenuWidget->addWidget(m_pHistWidget);
 
     m_pExplorerWidget = m_pOpenDatabaseView->makeExplorerTab(m_pOpenDatabaseView);
     m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
@@ -79,6 +77,11 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pNewConnWidget = m_pOpenDatabaseView->makeNewConnMenu(m_pOpenDatabaseView);
 	m_pStackedMenuWidget->addWidget(m_pNewConnWidget);
     m_pStackedMenuWidget->setHidden(true);
+
+    pMainLayout->setSpacing(0);
+    int iLeft, iTop, iRight, iBottom;
+    pMainLayout->getContentsMargins(&iLeft, &iTop, &iRight, &iBottom);
+    pMainLayout->setContentsMargins(0,iTop,iRight, iBottom);
 }
 
 QWindowMain::~QWindowMain()
@@ -101,9 +104,9 @@ QAction* QWindowMain::getViewsAction() const
 	return m_pViewsAction;
 }
 
-QAction* QWindowMain::getFavAction() const
+QAction* QWindowMain::getHistAction() const
 {
-	return m_pFavAction;
+	return m_pHistAction;
 }
 
 QAction* QWindowMain::getExplorerAction() const
@@ -148,6 +151,7 @@ void QWindowMain::showViewsTab() {
 
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
+	m_pDatabaseConnectionTab->removeTab(0);
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
 
 	int index = m_pDatabaseConnectionTab->currentIndex()+1;
@@ -157,12 +161,12 @@ void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseCo
 	m_pStackedMenuWidget->setHidden(true);
 }
 
-void QWindowMain::showFavouritesDatabasesTab()
+void QWindowMain::showHistoryTab()
 {
 	m_pDatabaseConnectionTab->setVisible(true);
 
 	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pFavWidget);
+	m_pStackedMenuWidget->setCurrentWidget(m_pHistWidget);
 
 }
 
@@ -233,28 +237,42 @@ void QWindowMain::createMenu()
 }
 
 void QWindowMain::createToolbar() {
-	//m_pWindowToolBar->addAction(QIcon(QPixmap(views.png)), "Views");
 	m_pWindowToolBar = new QToolBar();
 
+	m_pWindowToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	m_pWindowToolBar->setWindowTitle("ToolBar");
+	m_pWindowToolBar->setContentsMargins(0,0,0,0);
 	m_pWindowToolBar->addSeparator();
 
-	m_pViewsAction = new QAction(tr("Views"), this);
+	QWidget * ToolBarButton;
+	int height = 50, width = 100;
+
+	m_pViewsAction = new QAction(QIconThemeFallback::fromThemeFallback("database"), tr("Views"), this);
 	m_pWindowToolBar->addAction(m_pViewsAction);
+	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pViewsAction);
+	ToolBarButton->setFixedSize(width,height);
 	m_pWindowToolBar->addSeparator();
 
-	m_pFavAction = new QAction(tr("Favourites Databases"), this);
-	m_pWindowToolBar->addAction(m_pFavAction);
+	m_pHistAction = new QAction(QIconThemeFallback::fromThemeFallback("history"), tr("History"), this);
+	m_pWindowToolBar->addAction(m_pHistAction);
+	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pHistAction);
+	ToolBarButton->setFixedSize(width,height);
 	m_pWindowToolBar->addSeparator();
 
-	m_pExplorerAction = new QAction(tr("File Explorer"), this);
+	m_pExplorerAction = new QAction(QIconThemeFallback::fromThemeFallback("folder"), tr("File Explorer"), this);
 	m_pWindowToolBar->addAction(m_pExplorerAction);
+	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pExplorerAction);
+	ToolBarButton->setFixedSize(width,height);
 	m_pWindowToolBar->addSeparator();
 
-	m_pNewConnAction = new QAction(tr("New Connection"), this);
+	m_pNewConnAction = new QAction(QIconThemeFallback::fromThemeFallback("database-add"), tr("New Connection"), this);
 	m_pWindowToolBar->addAction(m_pNewConnAction);
+	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
+	ToolBarButton->setFixedSize(width,height);
+
 
 	m_pWindowToolBar->setOrientation(Qt::Vertical);
 	m_pWindowToolBar->setMovable(false);
+
 	addToolBar(Qt::LeftToolBarArea, m_pWindowToolBar);
 }

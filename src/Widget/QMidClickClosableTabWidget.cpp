@@ -26,19 +26,9 @@ bool QMidClickClosableTabWidget::eventFilter(QObject* pObject, QEvent* pEvent)
 	if ((pObject == tabBar()) && (pEvent->type() == QEvent::MouseButtonPress)) {
 		QMouseEvent* pMouseEvent = static_cast<QMouseEvent*>(pEvent);
 		if (pMouseEvent->button() == Qt::MiddleButton) {
-			if(tabBar()->tabAt(pMouseEvent->pos()) != 0)
-			{
-				removeTab(tabBar()->tabAt(pMouseEvent->pos()));
-				return true;
-			}
+			removeTab(tabBar()->tabAt(pMouseEvent->pos()));
+			return true;
 		}
 	}
 	return QTabWidget::eventFilter(pObject, pEvent);
-}
-
-void QMidClickClosableTabWidget::setTabNonClosable(int index)
-{
-	QTabBar *pTabBar = this->tabBar();
-	pTabBar->tabButton(index, QTabBar::RightSide)->hide();
-	pTabBar->tabButton(index, QTabBar::RightSide)->setMaximumSize(0,0);
 }

@@ -53,12 +53,12 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
 	connect(m_pOpenDatabaseView->getFileExplorerWidget()->getDropArea(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
 
-	//Favourites Databases Selection
-	connect(m_pOpenDatabaseView, SIGNAL(openFavouriteSQLiteDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
+	//History Databases Selection
+	connect(m_pOpenDatabaseView, SIGNAL(openHistorySQLiteDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
 
 	//Main ToolBar Slots
 	connect(m_pMainWindow->getViewsAction(), SIGNAL(triggered()), this, SLOT(openViews()));
-	connect(m_pMainWindow->getFavAction(), SIGNAL(triggered()), this, SLOT(openFav()));
+	connect(m_pMainWindow->getHistAction(), SIGNAL(triggered()), this, SLOT(openHist()));
 	connect(m_pMainWindow->getExplorerAction(), SIGNAL(triggered()), this, SLOT(openExplorer()));
 	connect(m_pMainWindow->getNewConnAction(), SIGNAL(triggered()), this, SLOT(openMenuConn()));
 
@@ -77,7 +77,7 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	m_pOpenDatabaseView->getPSQLPortField()->setText("5432");
 	m_pOpenDatabaseView->getPSQLUsernameField()->setText("postgres");
 
-	initFavouriteList();
+	initHistoryList();
 }
 
 void QOpenDatabaseViewController::openFileDialog()
@@ -147,7 +147,7 @@ DatabaseModel QOpenDatabaseViewController::selectedDatabase(int iType, QString s
 
 		ApplicationSettings::addFavouriteDatabase(databaseModel);
 		QSettingsManager::getInstance().saveDatabaseSettings();
-		initFavouriteList();
+		initHistoryList();
 
 		break;
 	/*case DatabaseModel::MySQLType:
@@ -261,15 +261,15 @@ QString QOpenDatabaseViewController::getFileUrl() const
 	return m_szFileUrl;
 }
 
-void QOpenDatabaseViewController::initFavouriteList()
+void QOpenDatabaseViewController::initHistoryList()
 {
 	FavouriteDatabaseList list = ApplicationSettings::getFavouriteList();
 	DatabaseModel database;
 
-	m_pOpenDatabaseView->getFavouriteTreeWidget()->clear();
+	m_pOpenDatabaseView->getHistoryTreeWidget()->clear();
 	for (int row = list.size() - 1 ; row >= 0 ; row--){
 		database = list.at(row);
-		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getFavouriteTreeWidget());
+		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
 		item->setText(0, database.getDatabaseName());
 		item->setText(1, database.getDatabasePath());
 	}
@@ -279,8 +279,8 @@ void QOpenDatabaseViewController::openViews() {
 	m_pMainWindow->showViewsTab();
 }
 
-void QOpenDatabaseViewController::openFav() {
-	m_pMainWindow->showFavouritesDatabasesTab();
+void QOpenDatabaseViewController::openHist() {
+	m_pMainWindow->showHistoryTab();
 }
 
 void QOpenDatabaseViewController::openExplorer() {

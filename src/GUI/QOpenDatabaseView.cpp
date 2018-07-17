@@ -30,7 +30,7 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	m_pConnectionTypeTabWidget = new QTabWidget(this);
 	pSecondLayout->addWidget(m_pConnectionTypeTabWidget);
 
-	m_pFavouriteTabTreeWidget = new QTreeWidget(m_pConnectionTypeTabWidget);
+	m_pHistoryTreeWidget = new QTreeWidget(m_pConnectionTypeTabWidget);
 
 	m_pFileExplorerWidget = new QFileExplorerWidget();
 
@@ -63,7 +63,7 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	m_pMySQLSelection = new QPushButton(tr("Open MySQL Database"));
 	m_pPSQLSelection = new QPushButton(tr("Open PostgreSQL Database"));
 
-	connect(m_pFavouriteTabTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
+	connect(m_pHistoryTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
 }
 
 
@@ -99,9 +99,9 @@ QFileExplorerWidget* QOpenDatabaseView::getFileExplorerWidget() const
 	return m_pFileExplorerWidget;
 }
 
-QTreeWidget* QOpenDatabaseView::getFavouriteTreeWidget() const
+QTreeWidget* QOpenDatabaseView::getHistoryTreeWidget() const
 {
-	return m_pFavouriteTabTreeWidget;
+	return m_pHistoryTreeWidget;
 }
 
 QLineEdit* QOpenDatabaseView::getMySQLHostField() const
@@ -184,17 +184,20 @@ QPushButton* QOpenDatabaseView::getPostgreSQLSelection() const
 	return m_pPSQLSelection;
 }
 
-QWidget* QOpenDatabaseView::makeFavouriteTab(QWidget* pParent)
+QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
 
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
-	QString szFavouriteHeaderName = "Favourite Database";
-	m_pFavouriteTabTreeWidget->setHeaderLabel(szFavouriteHeaderName);
-	m_pFavouriteTabTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
-	pMainLayout->addWidget(m_pFavouriteTabTreeWidget);
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
+
+	QString szHistoryHeaderName = "History";
+	m_pHistoryTreeWidget->setHeaderLabel(szHistoryHeaderName);
+	m_pHistoryTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
+	pMainLayout->addWidget(m_pHistoryTreeWidget);
 
 	return pMainWidget;
 }
@@ -204,6 +207,9 @@ QWidget* QOpenDatabaseView::makeExplorerTab(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
+
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
 
 	pMainLayout->addWidget(m_pFileExplorerWidget);
 	return pMainWidget;
@@ -216,6 +222,9 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 	pMainWidget->setMaximumWidth(300);
+
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
 
 	QLabel *lTitle = new QLabel(this);
 	lTitle->setText("Connection database choice :");
@@ -238,10 +247,16 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
+
 	QVBoxLayout* pSecondLayout = new QVBoxLayout();
 	pMainLayout->addLayout(pSecondLayout);
 
-	QGroupBox *pGroupBox = new QGroupBox(tr("Connection:"), pMainWidget);
+	pSecondLayout->setSpacing(0);
+	pSecondLayout->setContentsMargins(0,0,0,0);
+
+	QGroupBox *pGroupBox = new QGroupBox(tr("SQLite Connection:"), pMainWidget);
 	pSecondLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
@@ -283,10 +298,16 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
+
 	QVBoxLayout* pSecondLayout = new QVBoxLayout();
 	pMainLayout->addLayout(pSecondLayout);
 
-	QGroupBox *pGroupBox = new QGroupBox(tr("Connection:"), pMainWidget);
+	pSecondLayout->setSpacing(0);
+	pSecondLayout->setContentsMargins(0,0,0,0);
+
+	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection:"), pMainWidget);
 	pSecondLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
@@ -333,7 +354,7 @@ QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 	QVBoxLayout* pSecondLayout = new QVBoxLayout();
 	pMainLayout->addLayout(pSecondLayout);
 
-	QGroupBox *pGroupBox = new QGroupBox(tr("Connection:"), pMainWidget);
+	QGroupBox *pGroupBox = new QGroupBox(tr("PostgreSQL Connection:"), pMainWidget);
 	pSecondLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
@@ -384,9 +405,9 @@ void QOpenDatabaseView::dispatchClicked()
 	}
 }
 
-void QOpenDatabaseView::onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column)
+void QOpenDatabaseView::onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column)
 {
 	QString szPath;
 	szPath = item->text(column+1);
-	emit openFavouriteSQLiteDatabase(szPath);
+	emit openHistorySQLiteDatabase(szPath);
 }

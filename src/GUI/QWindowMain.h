@@ -29,7 +29,7 @@ public:
 	QAction* getAboutAction() const;
 
 	QAction* getViewsAction() const;
-	QAction* getFavAction() const;
+	QAction* getHistAction() const;
 	QAction* getExplorerAction() const;
 	QAction* getNewConnAction() const;
 
@@ -42,7 +42,7 @@ public:
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 	void showViewsTab();
-	void showFavouritesDatabasesTab();
+	void showHistoryTab();
 	void showExplorerTab();
 	void showNewConnMenuTab();
 	void OpenSQLiteTab();
@@ -59,7 +59,7 @@ private:
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 	QStackedWidget * m_pStackedMenuWidget;
 
-	QWidget * m_pFavWidget;
+	QWidget * m_pHistWidget;
 	QWidget * m_pNewConnWidget;
 	QWidget * m_pExplorerWidget;
 	QWidget * m_pSQLiteWidget;
@@ -74,7 +74,7 @@ private:
 	QAction* m_pAboutAction;
 
 	QAction* m_pViewsAction;
-	QAction* m_pFavAction;
+	QAction* m_pHistAction;
 	QAction* m_pExplorerAction;
 	QAction* m_pNewConnAction;
 

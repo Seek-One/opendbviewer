@@ -58,9 +58,9 @@ public:
 
 	QFileExplorerWidget* getFileExplorerWidget() const;
 
-	QTreeWidget* getFavouriteTreeWidget() const;
+	QTreeWidget* getHistoryTreeWidget() const;
 
-	QWidget* makeFavouriteTab(QWidget* pParent);
+	QWidget* makeHistoryTab(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeNewConnMenu(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
@@ -69,9 +69,9 @@ public:
 
 public slots:
 	void dispatchClicked();
-	void onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
+	void onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
 signals :
-	void openFavouriteSQLiteDatabase(QString szPath);
+	void openHistorySQLiteDatabase(QString szPath);
 	void clicked(DatabaseModel::DatabaseType type);
 
 private:
@@ -109,7 +109,7 @@ private:
 	QPushButton* m_pMySQLSelection;
 	QPushButton* m_pPSQLSelection;
 
-	QTreeWidget* m_pFavouriteTabTreeWidget;
+	QTreeWidget* m_pHistoryTreeWidget;
 
 };
 

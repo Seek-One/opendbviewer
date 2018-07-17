@@ -27,26 +27,31 @@ QWindowMain::QWindowMain(QWidget* parent)
     //Creation of the tool bar
     createToolbar();
 
-
-	createAddDatabasesToolBar();
-	m_pAddDatabasesToolBar->setHidden(true);
-
     //Creation of the central area
     QWidget *pCentralArea = new QWidget();
     setCentralWidget(pCentralArea);
 
     //Creation of the main layout
-    QVBoxLayout *pMainLayout = new QVBoxLayout();
+    QHBoxLayout *pMainLayout = new QHBoxLayout();
     pCentralArea->setLayout(pMainLayout);
 
-    m_pMenuTab = new QTabWidget(this);
-    pMainLayout->addWidget(m_pMenuTab);
+    //Creation of the Menu Container
+    m_pStackedMenuWidget = new QStackedWidget(this);
 
-    //Creation of the first set of tabs for database files
+    QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    spLeft.setHorizontalStretch(1);
+    m_pStackedMenuWidget->setSizePolicy(spLeft);
+    pMainLayout->addWidget(m_pStackedMenuWidget);
+
+    //Creation of the databases tabs container
     m_pDatabaseConnectionTab = new QMidClickClosableTabWidget(this);
     m_pDatabaseConnectionTab->setTabsClosable(true);
     m_pDatabaseConnectionTab->setMovable(true);
     m_pDatabaseConnectionTab->setHidden(true);
+
+    QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    spRight.setHorizontalStretch(4);
+    m_pDatabaseConnectionTab->setSizePolicy(spRight);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
 
     m_pOpenDatabaseView = new QOpenDatabaseView(this);
@@ -54,6 +59,26 @@ QWindowMain::QWindowMain(QWidget* parent)
 
     m_pDatabaseConnectionTab->setTabNonClosable(0);
     m_pDatabaseConnectionTab->removeTab(0);
+
+    //Menu Widgets
+    m_pFavWidget = m_pOpenDatabaseView->makeFavouriteTab(m_pOpenDatabaseView);
+    m_pStackedMenuWidget->addWidget(m_pFavWidget);
+
+    m_pExplorerWidget = m_pOpenDatabaseView->makeExplorerTab(m_pOpenDatabaseView);
+    m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
+
+    m_pSQLiteWidget = m_pOpenDatabaseView->makeSQLiteTab(m_pOpenDatabaseView);
+    m_pStackedMenuWidget->addWidget(m_pSQLiteWidget);
+
+	m_pMySQLWidget = m_pOpenDatabaseView->makeMySQLTab(m_pOpenDatabaseView);
+	 m_pStackedMenuWidget->addWidget(m_pMySQLWidget);
+
+    m_pPSQLWidget = m_pOpenDatabaseView->makePostgreSQLTab(m_pOpenDatabaseView);
+    m_pStackedMenuWidget->addWidget(m_pPSQLWidget);
+
+    m_pNewConnWidget = m_pOpenDatabaseView->makeNewConnMenu(m_pOpenDatabaseView);
+	m_pStackedMenuWidget->addWidget(m_pNewConnWidget);
+    m_pStackedMenuWidget->setHidden(true);
 }
 
 QWindowMain::~QWindowMain()
@@ -117,78 +142,69 @@ QTabWidget* QWindowMain::getDatabaseConnectionTab() const
 }
 
 void QWindowMain::showViewsTab() {
-	m_pMenuTab->setHidden(true);
+	m_pStackedMenuWidget->setHidden(true);
 	m_pDatabaseConnectionTab->setVisible(true);
-	m_pAddDatabasesToolBar->setHidden(true);
 }
 
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
-	m_pMenuTab->setHidden(true);
-	m_pDatabaseConnectionTab->setVisible(true);
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
+
 	int index = m_pDatabaseConnectionTab->currentIndex()+1;
 	m_pDatabaseConnectionTab->setCurrentIndex(index);
-	m_pAddDatabasesToolBar->setHidden(true);
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setHidden(true);
 }
 
-void QWindowMain::addFavouritesDatabasesTab()
-{	//OOpen a QOpenDatabaseView and creates only the tab for Favourites Databases
-	m_pMenuTab->removeTab(0);
-	m_pMenuTab->setVisible(true);
-	m_pDatabaseConnectionTab->setHidden(true);
-	/*if (m_pDatabaseConnectionTab->count()!=0) {
-		m_pDatabaseConnectionTab->setVisible(true);
-	}*/
-	m_pAddDatabasesToolBar->setHidden(true);
-
-	QWidget * pWidget;
-	pWidget = m_pOpenDatabaseView->makeFavouriteTab(m_pOpenDatabaseView);
-	m_pMenuTab->addTab(pWidget, tr("Favourites Databases"));
-}
-
-void QWindowMain::addExplorerTab()
+void QWindowMain::showFavouritesDatabasesTab()
 {
-	m_pMenuTab->removeTab(0);
-	m_pAddDatabasesToolBar->setHidden(true);
-	m_pDatabaseConnectionTab->setHidden(true);
-	m_pMenuTab->setVisible(true);
-	QWidget * pWidget;
-	pWidget = m_pOpenDatabaseView->makeExplorerTab(m_pOpenDatabaseView);
-	m_pMenuTab->addTab(pWidget, tr("File Explorer"));
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pFavWidget);
+
 }
 
-void QWindowMain::addNewConnMenuTab()
+void QWindowMain::showExplorerTab()
 {
-	m_pMenuTab->removeTab(0);
 	m_pDatabaseConnectionTab->setHidden(true);
-	m_pMenuTab->setVisible(true);
-	m_pAddDatabasesToolBar->setVisible(true);
 
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pExplorerWidget);
+}
+
+void QWindowMain::showNewConnMenuTab()
+{
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pNewConnWidget);
 }
 
 void QWindowMain::OpenSQLiteTab()
 {
-	m_pMenuTab->removeTab(0);
-	QWidget * pWidget;
-	pWidget = m_pOpenDatabaseView->makeSQLiteTab(m_pOpenDatabaseView);
-	m_pMenuTab->addTab(pWidget, tr("SQLite"));
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pSQLiteWidget);
 }
 
 void QWindowMain::OpenMySQLTab()
 {
-	m_pMenuTab->removeTab(0);
-	QWidget * pWidget;
-	pWidget = m_pOpenDatabaseView->makeMySQLTab(m_pOpenDatabaseView);
-	m_pMenuTab->addTab(pWidget, tr("MySQL"));
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pMySQLWidget);
 }
 
 void QWindowMain::OpenPostgreSQLTab()
 {
-	m_pMenuTab->removeTab(0);
-	QWidget * pWidget;
-	pWidget = m_pOpenDatabaseView->makePostgreSQLTab(m_pOpenDatabaseView);
-	m_pMenuTab->addTab(pWidget, tr("PostgreSQL"));
+
+	m_pDatabaseConnectionTab->setVisible(true);
+
+	m_pStackedMenuWidget->setVisible(true);
+	m_pStackedMenuWidget->setCurrentWidget(m_pPSQLWidget);
 }
 
 void QWindowMain::changeEvent(QEvent* pEvent)
@@ -241,26 +257,4 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->setOrientation(Qt::Vertical);
 	m_pWindowToolBar->setMovable(false);
 	addToolBar(Qt::LeftToolBarArea, m_pWindowToolBar);
-}
-
-void QWindowMain::createAddDatabasesToolBar() {
-	m_pAddDatabasesToolBar = new QToolBar();
-
-	m_pAddDatabasesToolBar->setWindowTitle("Databases ToolBar");
-	m_pAddDatabasesToolBar->addSeparator();
-
-	m_pSQLiteAction = new QAction(tr("SQLite"), this);
-	m_pAddDatabasesToolBar->addAction(m_pSQLiteAction);
-	m_pAddDatabasesToolBar->setMovable(false);
-
-	m_pAddDatabasesToolBar->addSeparator();
-	m_pMySQLAction = new QAction(tr("MySQL"), this);
-	m_pAddDatabasesToolBar->addAction(m_pMySQLAction);
-	m_pAddDatabasesToolBar->setMovable(false);
-
-	m_pAddDatabasesToolBar->addSeparator();
-	m_pPostgreSQLAction = new QAction(tr("PostgreSQL"), this);
-	m_pAddDatabasesToolBar->addAction(m_pPostgreSQLAction);
-	m_pAddDatabasesToolBar->setMovable(false);
-	addToolBar(Qt::LeftToolBarArea, m_pAddDatabasesToolBar);
 }

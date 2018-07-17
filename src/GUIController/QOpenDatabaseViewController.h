@@ -21,15 +21,6 @@ class QWindowMain;
 class QOpenDatabaseViewController : public QObject
 {
 	Q_OBJECT
-/*public:
-	enum TabIndex {
-		FavouriteIndex = 0,
-		ExplorerFileIndex,
-		SQLiteIndex,
-		MySQLIndex,
-		PostgreSQLIndex,
-	};*/
-
 public:
 	QOpenDatabaseViewController();
 	virtual ~QOpenDatabaseViewController();
@@ -41,8 +32,6 @@ public:
 	void loadDatabase(const DatabaseModel&  databaseModel);
 
 private:
-	//QStringList makeMySQLDatabaseInfoList();
-	//QStringList makePostgreSQLDatabaseInfoList();
 	void MySQLDatabaseInfo(DatabaseModel * database);
 	void PostgreSQLInfo(DatabaseModel * database);
 

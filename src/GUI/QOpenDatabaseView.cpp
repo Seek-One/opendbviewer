@@ -11,10 +11,10 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QTabWidget>
 #include <QValidator>
 #include <QVBoxLayout>
+#include <QScrollBar>
 
 #include "QOpenDatabaseView.h"
 
@@ -59,7 +59,9 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	m_pPostgreSQLConnectButton = new QPushButton(tr("Connect"));
 	connect(m_pPostgreSQLConnectButton, SIGNAL(clicked()), this, SLOT(dispatchClicked()));
 
-	HideUnusedObjects(true);
+	m_pSQLiteSelection = new QPushButton(tr("Open SQLite Database"));
+	m_pMySQLSelection = new QPushButton(tr("Open MySQL Database"));
+	m_pPSQLSelection = new QPushButton(tr("Open PostgreSQL Database"));
 
 	connect(m_pFavouriteTabTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
 }
@@ -167,9 +169,23 @@ QPushButton* QOpenDatabaseView::getPostgreSQLConnectButton() const
 	return m_pPostgreSQLConnectButton;
 }
 
+QPushButton* QOpenDatabaseView::getSQLiteSelection() const
+{
+	return m_pSQLiteSelection;
+}
+
+QPushButton* QOpenDatabaseView::getMySQLSelection() const
+{
+	return m_pMySQLSelection;
+}
+
+QPushButton* QOpenDatabaseView::getPostgreSQLSelection() const
+{
+	return m_pPSQLSelection;
+}
+
 QWidget* QOpenDatabaseView::makeFavouriteTab(QWidget* pParent)
 {
-	HideUnusedObjects(true);
 	QWidget* pMainWidget = new QWidget(pParent);
 
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
@@ -178,8 +194,6 @@ QWidget* QOpenDatabaseView::makeFavouriteTab(QWidget* pParent)
 	QString szFavouriteHeaderName = "Favourite Database";
 	m_pFavouriteTabTreeWidget->setHeaderLabel(szFavouriteHeaderName);
 	m_pFavouriteTabTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
-	m_pFavouriteTabTreeWidget->setVisible(true);
-
 	pMainLayout->addWidget(m_pFavouriteTabTreeWidget);
 
 	return pMainWidget;
@@ -187,19 +201,39 @@ QWidget* QOpenDatabaseView::makeFavouriteTab(QWidget* pParent)
 
 QWidget* QOpenDatabaseView::makeExplorerTab(QWidget* pParent)
 {
-	HideUnusedObjects(true);
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
 	pMainLayout->addWidget(m_pFileExplorerWidget);
-	m_pFileExplorerWidget->setVisible(true);
+	return pMainWidget;
+}
+
+QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
+{
+
+	QWidget* pMainWidget = new QWidget(pParent);
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+	pMainWidget->setMaximumWidth(300);
+
+	QLabel *lTitle = new QLabel(this);
+	lTitle->setText("Connection database choice :");
+	pMainLayout->addWidget(lTitle);
+
+	pMainLayout->addWidget(m_pSQLiteSelection);
+
+	pMainLayout->addWidget(m_pMySQLSelection);
+
+	pMainLayout->addWidget(m_pPSQLSelection);
+
+	pMainLayout->addStretch();
+
 	return pMainWidget;
 }
 
 QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 {
-	HideUnusedObjects(true);
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
@@ -215,11 +249,6 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 
 	QBoxLayout* pTmpLayout;
 
-	m_pSQLiteFilePathField->setVisible(true);
-	m_pSQLiteFileSelectionButton->setVisible(true);
-	m_pDropAreaWidget->setVisible(true);
-	m_pSQLiteButton->setVisible(true);
-
 	// File field
 	{
 		pTmpLayout = new QHBoxLayout();
@@ -228,7 +257,7 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 
 		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton);
 
-		pFormLayout->addRow(tr("File:"), pTmpLayout);
+		pFormLayout->addRow(pTmpLayout);
 	}
 
 	{
@@ -250,7 +279,6 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 
 QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 {
-	HideUnusedObjects(true);
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
@@ -263,14 +291,6 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
-
-
-	m_pMySQLHostField->setVisible(true);
-	m_pMySQLPortField->setVisible(true);
-	m_pMySQLUsernameField->setVisible(true);
-	m_pMySQLPasswordField->setVisible(true);
-	m_pMySQLDatabaseField->setVisible(true);
-	m_pMySQLConnectButton->setVisible(true);
 
 	// Host field
 	{
@@ -306,7 +326,6 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 
 QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 {
-	HideUnusedObjects(true);
 	QWidget* pMainWidget = new QWidget(pParent);
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
@@ -319,14 +338,6 @@ QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
-
-
-	m_pPSQLHostField->setVisible(true);
-	m_pPSQLPortField->setVisible(true);
-	m_pPSQLUsernameField->setVisible(true);
-	m_pPSQLPasswordField->setVisible(true);
-	m_pPSQLDatabaseField->setVisible(true);
-	m_pPostgreSQLConnectButton->setVisible(true);
 
 	// Host field
 	{
@@ -376,36 +387,6 @@ void QOpenDatabaseView::dispatchClicked()
 void QOpenDatabaseView::onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column)
 {
 	QString szPath;
-	szPath = item->text(column);
+	szPath = item->text(column+1);
 	emit openFavouriteSQLiteDatabase(szPath);
-}
-
-void QOpenDatabaseView::HideUnusedObjects(bool i) {
-		m_pFileExplorerWidget->setHidden(i);
-
-		// SQLite
-		m_pSQLiteFilePathField->setHidden(i);
-		m_pSQLiteFileSelectionButton->setHidden(i);
-		m_pDropAreaWidget->setHidden(i);
-
-		// MySQL
-		m_pMySQLHostField->setHidden(i);
-		m_pMySQLPortField->setHidden(i);
-		m_pMySQLUsernameField->setHidden(i);
-		m_pMySQLPasswordField->setHidden(i);
-		m_pMySQLDatabaseField->setHidden(i);
-
-		// PostgreSQL
-		m_pPSQLHostField->setHidden(i);
-		m_pPSQLPortField->setHidden(i);
-		m_pPSQLUsernameField->setHidden(i);
-		m_pPSQLPasswordField->setHidden(i);
-		m_pPSQLDatabaseField->setHidden(i);
-
-		// Validation button
-		m_pSQLiteButton->setHidden(i); //SQLite
-		m_pMySQLConnectButton->setHidden(i);
-		m_pPostgreSQLConnectButton->setHidden(i);
-
-		m_pFavouriteTabTreeWidget->setHidden(i); //setVisible when click on the button 'Favourites Databases' + connect(...)
 }

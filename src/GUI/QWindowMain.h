@@ -9,6 +9,8 @@
 #define SRC_MAINWINDOW_H_
 
 #include <QMainWindow>
+#include <QStackedWidget>
+
 #include "Widget/QMidClickClosableTabWidget.h"
 
 class QAction;
@@ -40,9 +42,9 @@ public:
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 	void showViewsTab();
-	void addFavouritesDatabasesTab();
-	void addExplorerTab();
-	void addNewConnMenuTab();
+	void showFavouritesDatabasesTab();
+	void showExplorerTab();
+	void showNewConnMenuTab();
 	void OpenSQLiteTab();
 	void OpenMySQLTab();
 	void OpenPostgreSQLTab();
@@ -53,12 +55,19 @@ protected:
 private:
 	void createMenu(); //Creates a menu bar
 	void createToolbar(); //Creates main toolbar
-	void createAddDatabasesToolBar(); //Creates the specific toolbar to add databases for the New Connection Action
+
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
-	QTabWidget * m_pMenuTab;
+	QStackedWidget * m_pStackedMenuWidget;
+
+	QWidget * m_pFavWidget;
+	QWidget * m_pNewConnWidget;
+	QWidget * m_pExplorerWidget;
+	QWidget * m_pSQLiteWidget;
+	QWidget * m_pMySQLWidget;
+	QWidget * m_pPSQLWidget;
+
 	QOpenDatabaseView* m_pOpenDatabaseView;
 	QToolBar * m_pWindowToolBar;
-	QToolBar * m_pAddDatabasesToolBar;
 
 	// List of actions
 	QAction* m_pQuitAction;

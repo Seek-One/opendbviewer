@@ -10,6 +10,8 @@
 
 #include <QString>
 
+#include "Model/DatabaseModel.h"
+
 enum DatabaseQueryStep {
 	DBQueryStepStart,
 	DBQueryStepRow,

@@ -62,10 +62,10 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	connect(m_pMainWindow->getExplorerAction(), SIGNAL(triggered()), this, SLOT(openExplorer()));
 	connect(m_pMainWindow->getNewConnAction(), SIGNAL(triggered()), this, SLOT(openMenuConn()));
 
-	//Add Databases ToolBar Slots
-	connect(m_pMainWindow->getSQLiteAction(), SIGNAL(triggered()), this, SLOT(openSQLite()));
-	connect(m_pMainWindow->getMySQLAction(), SIGNAL(triggered()), this, SLOT(openMySQL()));
-	connect(m_pMainWindow->getPostgreSQLAction(), SIGNAL(triggered()), this, SLOT(openPostgreSQL()));
+	//Slots for buttons in Add Connection Menu
+	connect(m_pOpenDatabaseView->getSQLiteSelection(), SIGNAL(clicked()), this, SLOT(openSQLite()));
+	connect(m_pOpenDatabaseView->getMySQLSelection(), SIGNAL(clicked()), this, SLOT(openMySQL()));
+	connect(m_pOpenDatabaseView->getPostgreSQLSelection(), SIGNAL(clicked()), this, SLOT(openPostgreSQL()));
 
 	// Default values
 	m_pOpenDatabaseView->getMySQLHostField()->setText("127.0.0.1");
@@ -270,7 +270,8 @@ void QOpenDatabaseViewController::initFavouriteList()
 	for (int row = list.size() - 1 ; row >= 0 ; row--){
 		database = list.at(row);
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getFavouriteTreeWidget());
-		item->setText(0, database.getDatabasePath());
+		item->setText(0, database.getDatabaseName());
+		item->setText(1, database.getDatabasePath());
 	}
 }
 
@@ -279,15 +280,15 @@ void QOpenDatabaseViewController::openViews() {
 }
 
 void QOpenDatabaseViewController::openFav() {
-	m_pMainWindow->addFavouritesDatabasesTab();
+	m_pMainWindow->showFavouritesDatabasesTab();
 }
 
 void QOpenDatabaseViewController::openExplorer() {
-	m_pMainWindow->addExplorerTab();
+	m_pMainWindow->showExplorerTab();
 }
 
 void QOpenDatabaseViewController::openMenuConn() {
-	m_pMainWindow->addNewConnMenuTab();
+	m_pMainWindow->showNewConnMenuTab();
 }
 
 void QOpenDatabaseViewController::openSQLite() {

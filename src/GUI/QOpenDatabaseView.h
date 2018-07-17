@@ -52,21 +52,24 @@ public:
 	QPushButton* getMySQLConnectButton() const;
 	QPushButton* getPostgreSQLConnectButton() const;
 
+	QPushButton* getSQLiteSelection() const;
+	QPushButton* getMySQLSelection() const;
+	QPushButton* getPostgreSQLSelection() const;
+
 	QFileExplorerWidget* getFileExplorerWidget() const;
 
 	QTreeWidget* getFavouriteTreeWidget() const;
 
 	QWidget* makeFavouriteTab(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
+	QWidget* makeNewConnMenu(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
 	QWidget* makePostgreSQLTab(QWidget* pParent);
-	void HideUnusedObjects(bool i);
 
 public slots:
 	void dispatchClicked();
 	void onFavouriteTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
-
 signals :
 	void openFavouriteSQLiteDatabase(QString szPath);
 	void clicked(DatabaseModel::DatabaseType type);
@@ -100,6 +103,11 @@ private:
 	QPushButton* m_pSQLiteButton;
 	QPushButton* m_pMySQLConnectButton;
 	QPushButton* m_pPostgreSQLConnectButton;
+
+	//Selection Button
+	QPushButton* m_pSQLiteSelection;
+	QPushButton* m_pMySQLSelection;
+	QPushButton* m_pPSQLSelection;
 
 	QTreeWidget* m_pFavouriteTabTreeWidget;
 

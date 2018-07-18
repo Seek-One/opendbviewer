@@ -5,9 +5,9 @@
  *      Author: mlegarrec
  */
 
+#include <test/Model/HistoryDatabaseListTestCase.h>
 #include <QtTest>
 
-#include "Model/FavouriteDatabaseListTestCase.h"
 
 int main(int argc, char**argv)
 {
@@ -16,7 +16,7 @@ int main(int argc, char**argv)
 	int iRes = 0;
 
 	if(iRes == 0){
-		FavouriteDatabaseListTestCase testCase;
+		HistoryDatabaseListTestCase testCase;
 		iRes = QTest::qExec(&testCase, argc, argv);
 	}
 

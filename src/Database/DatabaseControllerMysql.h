@@ -31,7 +31,6 @@ protected:
 	virtual QStringList listColumnNames(const QString& szTableName);
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName);
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
-
 };
 
 #endif /* SRC_DATABASE_DATABASECONTROLLERMYSQL_H_ */

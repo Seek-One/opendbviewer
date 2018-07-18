@@ -23,7 +23,6 @@ DatabaseModel::DatabaseModel(const QString& szName, DatabaseModel::DatabaseType 
 
 DatabaseModel::~DatabaseModel()
 {
-
 }
 const QString& DatabaseModel::getDatabaseName() const
 {

@@ -233,47 +233,57 @@ vos fichiers ici</translation>
         <translation>Ouvrir une base de données PostgreSQL</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="255"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="197"/>
+        <source>History</source>
+        <translation type="unfinished">Historique</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="228"/>
+        <source>Connection database choice :</source>
+        <translation>Choix de la connexion : </translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="253"/>
         <source>SQLite Connection:</source>
         <translation>Connexion SQLite</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="298"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="296"/>
         <source>MySQL Connection:</source>
         <translation>Connexion MySQL</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="306"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="353"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="304"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="351"/>
         <source>Host:</source>
         <translation>Hôte :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="312"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="359"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="310"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="357"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="316"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="363"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="314"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="361"/>
         <source>Username:</source>
         <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="321"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="368"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="319"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="366"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="325"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="372"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="323"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="370"/>
         <source>Database:</source>
         <translation>Base de donnée :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="345"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="343"/>
         <source>PostgreSQL Connection:</source>
         <translation>Connexion PostgreSQL</translation>
     </message>

@@ -22,8 +22,12 @@ HistoryDatabaseList::~HistoryDatabaseList()
 
 void HistoryDatabaseList::append(const DatabaseModel& value)
 {
-	if (!isEmpty()) removeAll(value);
-	if(size() + 1 > MAX_ITEMS) removeFirst();
+	if (!isEmpty()) {
+		removeAll(value);
+	}
+	if(size() + 1 > MAX_ITEMS) {
+		removeFirst();
+	}
 	QList::append(value);
 }
 

@@ -51,7 +51,7 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pDatabaseConnectionTab->setHidden(true);
 
     QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    spRight.setHorizontalStretch(4);
+    spRight.setHorizontalStretch(5);
     m_pDatabaseConnectionTab->setSizePolicy(spRight);
     pMainLayout->addWidget(m_pDatabaseConnectionTab);
 

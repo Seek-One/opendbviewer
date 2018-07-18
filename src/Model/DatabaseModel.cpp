@@ -10,7 +10,7 @@
 
 DatabaseModel::DatabaseModel()
 {
-	m_DatabaseType = SQLiteType;
+	m_DatabaseType = UnknownType;
 	m_iDatabasePort = 0;
 }
 

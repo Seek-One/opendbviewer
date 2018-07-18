@@ -194,10 +194,8 @@ QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 	pMainLayout->setSpacing(0);
 	pMainLayout->setContentsMargins(0,0,0,0);
 
-	QString szHistoryHeaderName = "History";
-	m_pHistoryTreeWidget->setHeaderLabel(szHistoryHeaderName);
+	m_pHistoryTreeWidget->setHeaderLabel(tr("History"));
 	m_pHistoryTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
-	//Hide the header of the qtreewidget?
 	pMainLayout->addWidget(m_pHistoryTreeWidget);
 
 	return pMainWidget;
@@ -226,8 +224,7 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 
 	pMainLayout->setContentsMargins(0,0,0,0);
 
-	QLabel *lTitle = new QLabel(this);
-	lTitle->setText("Connection database choice :");
+	QLabel *lTitle = new QLabel(tr("Connection database choice :"));
 	pMainLayout->addWidget(lTitle);
 	pMainLayout->addWidget(m_pSQLiteSelection);
 	pMainLayout->addWidget(m_pMySQLSelection);

@@ -13,7 +13,8 @@
 class DatabaseModel {
 public:
 	enum DatabaseType {
-		SQLiteType = 0,
+		UnknownType = 0,
+		SQLiteType,
 		MySQLType,
 		PostgreSQLType,
 	};

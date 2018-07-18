@@ -109,8 +109,7 @@ void QSettingsManager::loadDatabaseSettings()
 				szPath = databasePath.toString();
 			}
 			if(!databaseType.isNull()){
-				bool bOk = true;
-				type = (DatabaseModel::DatabaseType)databaseType.toInt(&bOk);
+				type = (DatabaseModel::DatabaseType)databaseType.toInt();
 			}
 
 			DatabaseModel databaseModel;

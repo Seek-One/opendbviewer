@@ -152,10 +152,8 @@ DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::Databas
 
 		break;
 	 case DatabaseModel::MySQLType:
-		//TODO set the DatabaseModel instance with the type "mysql";
 		break;
 	case DatabaseModel::PostgreSQLType:
-		//TODO set the DatabaseModel instance with the type "postgresql";
 		break;
 	default:
 		break;
@@ -223,10 +221,9 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 
 void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * database)
 {
-	bool bOk = true;
 	database->setDatabaseName(m_pOpenDatabaseView->getMySQLDatabaseField()->text());
 	database->setDatabaseHost(m_pOpenDatabaseView->getMySQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt(&bOk, 10));
+	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt());
 	database->setDatabaseUsername(m_pOpenDatabaseView->getMySQLUsernameField()->text());
 	//TODO get the MySQLPasswordField and set it in the DatabaseModel instance
 }
@@ -236,7 +233,7 @@ void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database
 	bool bOk = true;
 	database->setDatabaseName(m_pOpenDatabaseView->getPSQLDatabaseField()->text());
 	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt(&bOk, 10));
+	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt());
 	database->setDatabaseUsername(m_pOpenDatabaseView->getPSQLUsernameField()->text());
 	//TODO get the PSQLPasswordField and set it in the DatabaseModel instance
 }

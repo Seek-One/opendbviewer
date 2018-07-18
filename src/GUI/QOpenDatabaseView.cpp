@@ -237,43 +237,35 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
-	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
-	pMainLayout->setSpacing(0);
 	pMainLayout->setContentsMargins(0,0,0,0);
 
-	QVBoxLayout* pSecondLayout = new QVBoxLayout();
-	pMainLayout->addLayout(pSecondLayout);
-
-	pSecondLayout->setSpacing(0);
-	pSecondLayout->setContentsMargins(0,0,0,0);
-
 	QGroupBox *pGroupBox = new QGroupBox(tr("SQLite Connection:"), pMainWidget);
-	pSecondLayout->addWidget(pGroupBox);
+	pMainLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
 
 	QBoxLayout* pTmpLayout;
-
 	// File field
 	{
-		pTmpLayout = new QHBoxLayout();
+		pTmpLayout = new QVBoxLayout();
 		pTmpLayout->addWidget(m_pSQLiteFilePathField);
-		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton);
+		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton, 1, Qt::AlignRight);
+		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignCenter); //Maybe need an adjust?
 		pFormLayout->addRow(pTmpLayout);
 	}
 
 	{
 		pTmpLayout = new QVBoxLayout();
-		pTmpLayout->setContentsMargins(10,0,10,10);
-		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignLeft);
 		pTmpLayout->addWidget(m_pDropAreaWidget);
 	}
-//	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	pTmpLayout->setSpacing(0);
+	pTmpLayout->setContentsMargins(0,0,0,0);
+	pMainLayout->addLayout(pTmpLayout, 3);
 
-	pSecondLayout->addLayout(pTmpLayout, 3);
 	pMainLayout->addStretch();
 
 	return pMainWidget;
@@ -282,20 +274,14 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
-	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
 	pMainLayout->setSpacing(0);
 	pMainLayout->setContentsMargins(0,0,0,0);
 
-	QVBoxLayout* pSecondLayout = new QVBoxLayout();
-	pMainLayout->addLayout(pSecondLayout);
-
-	pSecondLayout->setSpacing(0);
-	pSecondLayout->setContentsMargins(0,0,0,0);
-
 	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection:"), pMainWidget);
-	pSecondLayout->addWidget(pGroupBox);
+	pMainLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
@@ -325,9 +311,7 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	}
 	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 
-	pSecondLayout->addWidget(m_pMySQLConnectButton, 1, Qt::AlignRight);
-
-	pSecondLayout->addStretch();
+	pMainLayout->addWidget(m_pMySQLConnectButton, 1, Qt::AlignRight);
 	pMainLayout->addStretch();
 
 	return pMainWidget;

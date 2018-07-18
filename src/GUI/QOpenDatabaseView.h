@@ -70,6 +70,7 @@ public:
 public slots:
 	void dispatchClicked();
 	void onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
+
 signals :
 	void openHistorySQLiteDatabase(QString szPath);
 	void clicked(DatabaseModel::DatabaseType type);

@@ -149,11 +149,20 @@ DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::Databas
 		ApplicationSettings::addHistoryDatabase(databaseModel);
 		QSettingsManager::getInstance().saveDatabaseSettings();
 		initHistoryList();
-
 		break;
-	 case DatabaseModel::MySQLType:
+	case DatabaseModel::MySQLType:
+		recoverMySQLDatabaseInfo(&databaseModel);
+
+		ApplicationSettings::addHistoryDatabase(databaseModel);
+		QSettingsManager::getInstance().saveDatabaseSettings();
+		initHistoryList();
 		break;
 	case DatabaseModel::PostgreSQLType:
+		recoverPostgreSQLInfo(&databaseModel);
+
+		ApplicationSettings::addHistoryDatabase(databaseModel);
+		QSettingsManager::getInstance().saveDatabaseSettings();
+		initHistoryList();
 		break;
 	default:
 		break;
@@ -230,7 +239,6 @@ void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * datab
 
 void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database)
 {
-	bool bOk = true;
 	database->setDatabaseName(m_pOpenDatabaseView->getPSQLDatabaseField()->text());
 	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
 	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt());
@@ -253,7 +261,7 @@ void QOpenDatabaseViewController::initHistoryList()
 		database = list.at(row);
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
 		item->setText(0, database.getDatabaseName());
-		item->setText(1, database.getDatabasePath());
+		item->setToolTip(0, database.getDatabasePath());
 	}
 }
 

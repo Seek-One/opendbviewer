@@ -271,6 +271,8 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignLeft);
 		pTmpLayout->addWidget(m_pDropAreaWidget);
 	}
+//	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+
 	pSecondLayout->addLayout(pTmpLayout, 3);
 	pMainLayout->addStretch();
 
@@ -321,6 +323,7 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	{
 		pFormLayout->addRow(tr("Database:"), m_pMySQLDatabaseField);
 	}
+	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 
 	pSecondLayout->addWidget(m_pMySQLConnectButton, 1, Qt::AlignRight);
 
@@ -368,6 +371,7 @@ QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 	{
 		pFormLayout->addRow(tr("Database:"), m_pPSQLDatabaseField);
 	}
+	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 
 	pSecondLayout->addWidget(m_pPostgreSQLConnectButton, 1, Qt::AlignRight);
 
@@ -393,6 +397,6 @@ void QOpenDatabaseView::dispatchClicked()
 void QOpenDatabaseView::onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column)
 {
 	QString szPath;
-	szPath = item->text(column+1);
+	szPath = item->toolTip(column);
 	emit openHistorySQLiteDatabase(szPath);
 }

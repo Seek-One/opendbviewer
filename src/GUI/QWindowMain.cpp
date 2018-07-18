@@ -25,8 +25,9 @@ QWindowMain::QWindowMain(QWidget* parent)
     //Creation of the menu bar
     createMenu();
 
-    //Creation of the tool bar
+    //Creation of the tool bar & remove the Context Menu that allow to hide the Toolbar
     createToolbar();
+	setContextMenuPolicy(Qt::NoContextMenu);
 
     //Creation of the central area
     QWidget *pCentralArea = new QWidget();

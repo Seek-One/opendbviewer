@@ -49,4 +49,4 @@ macro (product_image_generate_icon SRC_PATH DST_PATH)
 		endforeach(ICON_SIZE)
 
 	endforeach(ICON_IN)
-endmacro(product_image_make_customized_icon)
+endmacro(product_image_generate_icon)

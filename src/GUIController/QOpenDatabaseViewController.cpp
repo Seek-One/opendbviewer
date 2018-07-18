@@ -28,7 +28,6 @@ QOpenDatabaseViewController::QOpenDatabaseViewController()
 {
 	m_pOpenDatabaseView = NULL;
 	m_pMainWindow = NULL;
-	m_bGoOn = true;
 }
 
 QOpenDatabaseViewController::~QOpenDatabaseViewController()
@@ -45,7 +44,7 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	connect(m_pOpenDatabaseView->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
 
 	//Forms Validation buttons
-	connect(m_pOpenDatabaseView, SIGNAL(clicked(DatabaseModel::DatabaseType)), this, SLOT(buttonClicked(DatabaseModel::DatabaseType)));
+	connect(m_pOpenDatabaseView, SIGNAL(clicked(DatabaseModel::DatabaseType)), this, SLOT(prepareConnection(DatabaseModel::DatabaseType)));
 
 	//File Explorer Buttons
 	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
@@ -89,7 +88,7 @@ void QOpenDatabaseViewController::openFileDialog()
 void QOpenDatabaseViewController::openSQLiteFile(const QString& szFileUrl)
 {
 	m_szFileUrl = szFileUrl;
-	buttonClicked(DatabaseModel::SQLiteType);
+	prepareConnection(DatabaseModel::SQLiteType);
 }
 
 void QOpenDatabaseViewController::closeOpenDatabaseDialog()
@@ -97,36 +96,36 @@ void QOpenDatabaseViewController::closeOpenDatabaseDialog()
 	m_pOpenDatabaseView->close();
 }
 
-void QOpenDatabaseViewController::buttonClicked(DatabaseModel::DatabaseType type) {
-	m_bGoOn = true;
+void QOpenDatabaseViewController::prepareConnection(DatabaseModel::DatabaseType type) {
+	bool bGoOn = true;
 	QString szTabFileName;
 	QString szErrorMsg;
 	DatabaseModel database;
 
 	switch(type){
 	case DatabaseModel::SQLiteType: // SQLite
-		m_bGoOn = !m_szFileUrl.isEmpty();
-		if(m_bGoOn){
+		bGoOn = !m_szFileUrl.isEmpty();
+		if(bGoOn){
 			szTabFileName =	m_szFileUrl.section('/', -1);//Get the last part of the file path to get the name for the tab
-			database=selectedDatabase(type, szTabFileName);
+			database = selectDatabase(type, szTabFileName);
 		} else {
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}
 		break;
 	case  DatabaseModel::MySQLType: // MySQL
-		m_bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
-		if(m_bGoOn){
+		bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
+		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseView->getMySQLDatabaseField()->text();
-			database=selectedDatabase(type, szTabFileName);
+			database=selectDatabase(type, szTabFileName);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
 		break;
 	case DatabaseModel::PostgreSQLType: // PostgreSQL
-		m_bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
-		if(m_bGoOn){
+		bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
+		if(bGoOn){
 			szTabFileName = m_pOpenDatabaseView->getPSQLDatabaseField()->text();
-			database=selectedDatabase(type, szTabFileName);
+			database = selectDatabase(type, szTabFileName);
 		}else{
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
@@ -134,44 +133,30 @@ void QOpenDatabaseViewController::buttonClicked(DatabaseModel::DatabaseType type
 	default:
 		break;
 	}
-	loadDatabase(database);
+	if (bGoOn) {
+		loadDatabase(database);
+	}
 }
 
-DatabaseModel QOpenDatabaseViewController::selectedDatabase(int iType, QString szTabFileName) {
+DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::DatabaseType type, QString szTabFileName) {
 	DatabaseModel databaseModel;
-	switch(iType){
+	switch(type){
 	case DatabaseModel::SQLiteType:
 		databaseModel.setDatabaseName(szTabFileName);
 		databaseModel.setDatabasePath(m_szFileUrl);
-		databaseModel.setDatabaseType(iType);
+		databaseModel.setDatabaseType(type);
 
-		ApplicationSettings::addFavouriteDatabase(databaseModel);
+		ApplicationSettings::addHistoryDatabase(databaseModel);
 		QSettingsManager::getInstance().saveDatabaseSettings();
 		initHistoryList();
 
 		break;
-	/*case DatabaseModel::MySQLType:
-		szDatabaseType= "mysql";
-		databaseModel.setDatabaseName(szTabFileName);
-		databaseModel.setDatabasePath(m_szFileUrl);
-		databaseModel.setDatabaseType(szDatabaseType);
-		MySQLDatabaseInfo(databaseModel);
-
-		ApplicationSettings::addFavouriteDatabase(databaseModel);
-		QSettingsManager::getInstance().saveDatabaseSettings();
-		initFavouriteList();
+	 case DatabaseModel::MySQLType:
+		//TODO set the DatabaseModel instance with the type "mysql";
 		break;
 	case DatabaseModel::PostgreSQLType:
-		szDatabaseType= "postgresql";
-		databaseModel.setDatabaseName(szTabFileName);
-		databaseModel.setDatabasePath(m_szFileUrl);
-		databaseModel.setDatabaseType(szDatabaseType);
-		PostgreSQLDatabaseInfo(databaseModel);
-
-		ApplicationSettings::addFavouriteDatabase(databaseModel);
-		QSettingsManager::getInstance().saveDatabaseSettings();
-		initFavouriteList();
-		break;*/
+		//TODO set the DatabaseModel instance with the type "postgresql";
+		break;
 	default:
 		break;
 	}
@@ -182,7 +167,7 @@ DatabaseModel QOpenDatabaseViewController::selectedDatabase(int iType, QString s
 void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseModel)
 {
 	QString szErrorMsg;
-
+	bool bGoOn = true;
 	DatabaseController * dbControl = NULL;
 	QDatabaseConnectionView* pConnectionView = NULL;
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = NULL;
@@ -200,16 +185,16 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 	}
 
 	// Testing the connection, if it pass load the selected database else give a warning
-	if(m_bGoOn){
-		m_bGoOn = dbControl->openDatabase();
-		if(m_bGoOn){
+	if(bGoOn){
+		bGoOn = dbControl->openDatabase();
+		if(bGoOn){
 			dbControl->closeDataBase();
 		} else {
 			szErrorMsg = tr("Unable to connect to the database, please check the connection information.");
 		}
 	}
 	// Init the view and fill it
-	if(m_bGoOn){
+	if(bGoOn){
 		pConnectionView = new QDatabaseConnectionView(m_pMainWindow);
 		pDatabaseConnectionViewController = new QDatabaseConnectionViewController(m_szFileUrl, dbControl);
 		pDatabaseConnectionViewController->init(pConnectionView);
@@ -227,7 +212,7 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 		connect(pConnectionView, SIGNAL(destroyed(QObject*)), pDatabaseConnectionViewController, SLOT(deleteLater()));
 	}
 
-	if(!m_bGoOn){
+	if(!bGoOn){
 		if(dbControl){
 			delete dbControl;
 			dbControl = NULL;
@@ -236,24 +221,24 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 	}
 }
 
-void QOpenDatabaseViewController::MySQLDatabaseInfo(DatabaseModel * database)
+void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * database)
 {
-	bool ok = true;
+	bool bOk = true;
 	database->setDatabaseName(m_pOpenDatabaseView->getMySQLDatabaseField()->text());
 	database->setDatabaseHost(m_pOpenDatabaseView->getMySQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt(&ok, 10));
+	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt(&bOk, 10));
 	database->setDatabaseUsername(m_pOpenDatabaseView->getMySQLUsernameField()->text());
-	//m_pOpenDatabaseView->getMySQLPasswordField()->text()); //TODO Modify DatabaseModel to accept the password?
+	//TODO get the MySQLPasswordField and set it in the DatabaseModel instance
 }
 
-void QOpenDatabaseViewController::PostgreSQLInfo(DatabaseModel * database)
+void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database)
 {
-	bool ok = true;
+	bool bOk = true;
 	database->setDatabaseName(m_pOpenDatabaseView->getPSQLDatabaseField()->text());
 	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt(&ok, 10));
+	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt(&bOk, 10));
 	database->setDatabaseUsername(m_pOpenDatabaseView->getPSQLUsernameField()->text());
-	//m_pOpenDatabaseView->getPSQLPasswordField()->text()); //TODO Modify DatabaseModel to accept the password?
+	//TODO get the PSQLPasswordField and set it in the DatabaseModel instance
 }
 
 QString QOpenDatabaseViewController::getFileUrl() const
@@ -263,7 +248,7 @@ QString QOpenDatabaseViewController::getFileUrl() const
 
 void QOpenDatabaseViewController::initHistoryList()
 {
-	FavouriteDatabaseList list = ApplicationSettings::getFavouriteList();
+	HistoryDatabaseList list = ApplicationSettings::getHistoryList();
 	DatabaseModel database;
 
 	m_pOpenDatabaseView->getHistoryTreeWidget()->clear();
@@ -292,13 +277,13 @@ void QOpenDatabaseViewController::openMenuConn() {
 }
 
 void QOpenDatabaseViewController::openSQLite() {
-	m_pMainWindow->OpenSQLiteTab();
+	m_pMainWindow->openSQLiteTab();
 }
 
 void QOpenDatabaseViewController::openMySQL() {
-	m_pMainWindow->OpenMySQLTab();
+	m_pMainWindow->openMySQLTab();
 }
 
 void QOpenDatabaseViewController::openPostgreSQL() {
-	m_pMainWindow->OpenPostgreSQLTab();
+	m_pMainWindow->openPostgreSQLTab();
 }

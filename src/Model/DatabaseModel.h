@@ -20,30 +20,31 @@ public:
 
 public:
 	DatabaseModel();
-	DatabaseModel(const QString& szName, int iType);
+	DatabaseModel(const QString& szName, DatabaseModel::DatabaseType type);
 	virtual ~DatabaseModel();
 
 	const QString& getDatabaseName() const;
 	void setDatabaseName(const QString& szDatabaseName);
+	int getDatabaseType() const;
+	void setDatabaseType(DatabaseModel::DatabaseType DatabaseType);
 	const QString& getDatabasePath() const;
 	void setDatabasePath(const QString& szDatabasePath);
 	const QString& getDatabaseHost() const;
 	void setDatabaseHost(const QString& szDatabaseHost);
-	const QString& getDatabaseUsername() const;
-	void setDatabaseUsername(const QString& szDatabaseUsername);
-	int getDatabaseType() const;
-	void setDatabaseType(int iDatabaseType);
 	int getDatabasePort() const;
 	void setDatabasePort(int iDatabasePort);
+	const QString& getDatabaseUsername() const;
+	void setDatabaseUsername(const QString& szDatabaseUsername);
+
 
 	bool operator==(const DatabaseModel& other) const;
 	bool operator!=(const DatabaseModel& other) const;
 private:
-	int m_iDatabaseType;
-	int m_iDatabasePort;
 	QString m_szDatabaseName;
+	DatabaseModel::DatabaseType m_DatabaseType;
 	QString m_szDatabasePath;
 	QString m_szDatabaseHost;
+	int m_iDatabasePort;
 	QString m_szDatabaseUsername;
 };
 

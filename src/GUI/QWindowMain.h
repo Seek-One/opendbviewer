@@ -45,9 +45,9 @@ public:
 	void showHistoryTab();
 	void showExplorerTab();
 	void showNewConnMenuTab();
-	void OpenSQLiteTab();
-	void OpenMySQLTab();
-	void OpenPostgreSQLTab();
+	void openSQLiteTab();
+	void openMySQLTab();
+	void openPostgreSQLTab();
 
 protected:
 	virtual void changeEvent(QEvent* pEvent);
@@ -56,6 +56,7 @@ private:
 	void createMenu(); //Creates a menu bar
 	void createToolbar(); //Creates main toolbar
 
+private:
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 	QStackedWidget * m_pStackedMenuWidget;
 

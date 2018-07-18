@@ -77,7 +77,7 @@ void QSettingsManager::saveConfigSettings()
 void QSettingsManager::loadDatabaseSettings()
 {
 	if(m_pDatabaseSettings){
-		FavouriteDatabaseList favouriteList;
+		HistoryDatabaseList historyList;
 
 		int iDatabaseCount = 0;
 		QVariant databaseCount = m_pDatabaseSettings->value(DATABASE_GROUP_GLOBAL + "/" + DATABASE_KEY_DATABASE_COUNT, 0);
@@ -88,7 +88,7 @@ void QSettingsManager::loadDatabaseSettings()
 		QString szGroup;
 		QString szName;
 		QString szPath;
-		int iType;
+		DatabaseModel::DatabaseType type;
 		QVariant databaseName;
 		QVariant databasePath;
 		QVariant databaseType;
@@ -109,30 +109,30 @@ void QSettingsManager::loadDatabaseSettings()
 				szPath = databasePath.toString();
 			}
 			if(!databaseType.isNull()){
-				bool ok = true;
-				iType = databaseType.toInt(&ok);
+				bool bOk = true;
+				type = (DatabaseModel::DatabaseType)databaseType.toInt(&bOk);
 			}
 
 			DatabaseModel databaseModel;
 			databaseModel.setDatabaseName(szName);
 			databaseModel.setDatabasePath(szPath);
-			databaseModel.setDatabaseType(iType);
-			favouriteList.append(databaseModel);
+			databaseModel.setDatabaseType(type);
+			historyList.append(databaseModel);
 		}
-		ApplicationSettings::setFavouriteList(favouriteList);
+		ApplicationSettings::setHistoryList(historyList);
 	}
 }
 
 void QSettingsManager::saveDatabaseSettings()
 {
 	if(m_pDatabaseSettings){
-		FavouriteDatabaseList favouriteList = ApplicationSettings::getFavouriteList();
+		HistoryDatabaseList historyList = ApplicationSettings::getHistoryList();
 		DatabaseModel database;
 
-		m_pDatabaseSettings->setValue(DATABASE_GROUP_GLOBAL + "/" + DATABASE_KEY_DATABASE_COUNT, favouriteList.size());
+		m_pDatabaseSettings->setValue(DATABASE_GROUP_GLOBAL + "/" + DATABASE_KEY_DATABASE_COUNT, historyList.size());
 
-		for(int i = 0 ; i < favouriteList.size() ; i++){
-			database = favouriteList.at(i);
+		for(int i = 0 ; i < historyList.size() ; i++){
+			database = historyList.at(i);
 			m_pDatabaseSettings->beginGroup(DATABASE_GROUP_DATABASE_ITER + QString::number(i) );
 			m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_NAME, database.getDatabaseName());
 			m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_PATH, database.getDatabasePath());

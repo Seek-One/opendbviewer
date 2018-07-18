@@ -28,15 +28,15 @@ public:
 	void init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView);
 	QString getFileUrl() const;
 	void initHistoryList();
-	DatabaseModel selectedDatabase(int iType, QString szTabFileName);
+	DatabaseModel selectDatabase(DatabaseModel::DatabaseType type, QString szTabFileName);
 	void loadDatabase(const DatabaseModel&  databaseModel);
 
 private:
-	void MySQLDatabaseInfo(DatabaseModel * database);
-	void PostgreSQLInfo(DatabaseModel * database);
+	void recoverMySQLDatabaseInfo(DatabaseModel * database);
+	void recoverPostgreSQLInfo(DatabaseModel * database);
 
 public slots:
-	void buttonClicked(DatabaseModel::DatabaseType type);
+	void prepareConnection(DatabaseModel::DatabaseType type);
 	void openFileDialog();
 	void openSQLiteFile(const QString& szFileUrl);
 	void closeOpenDatabaseDialog();
@@ -52,7 +52,6 @@ private:
 	QOpenDatabaseView* m_pOpenDatabaseView;
 	QString m_szFileUrl;
 	QWindowMain* m_pMainWindow;
-	bool m_bGoOn;
 };
 
 #endif /* SRC_GUICONTROLLER_QOPENDATABASEVIEWCONTROLLER_H_ */

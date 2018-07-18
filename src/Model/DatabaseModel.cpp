@@ -10,14 +10,14 @@
 
 DatabaseModel::DatabaseModel()
 {
-	m_iDatabaseType = 0;
+	m_DatabaseType = SQLiteType;
 	m_iDatabasePort = 0;
 }
 
-DatabaseModel::DatabaseModel(const QString& szName, int iType)
+DatabaseModel::DatabaseModel(const QString& szName, DatabaseModel::DatabaseType type)
 {
 	m_szDatabaseName = szName;
-	m_iDatabaseType = iType;
+	m_DatabaseType = type;
 	m_iDatabasePort = 0;
 }
 
@@ -48,12 +48,12 @@ void DatabaseModel::setDatabasePath(const QString& szDatabasePath)
 
 int DatabaseModel::getDatabaseType() const
 {
-	return m_iDatabaseType;
+	return m_DatabaseType;
 }
 
-void DatabaseModel::setDatabaseType(int iDatabaseType)
+void DatabaseModel::setDatabaseType(DatabaseModel::DatabaseType DatabaseType)
 {
-	m_iDatabaseType = iDatabaseType;
+	m_DatabaseType = DatabaseType;
 }
 
 const QString& DatabaseModel::getDatabaseHost() const
@@ -91,7 +91,7 @@ bool DatabaseModel::operator==(const DatabaseModel& other) const
 	return (m_szDatabaseName == other.m_szDatabaseName &&
 			m_szDatabaseHost == other.m_szDatabaseHost &&
 			m_szDatabasePath == other.m_szDatabasePath &&
-			m_iDatabaseType == other.m_iDatabaseType &&
+			m_DatabaseType == other.m_DatabaseType &&
 			m_iDatabasePort == other.m_iDatabasePort &&
 			m_szDatabaseUsername == other.m_szDatabaseUsername);
 }
@@ -101,7 +101,7 @@ bool DatabaseModel::operator!=(const DatabaseModel& other) const
 	return (m_szDatabaseName != other.m_szDatabaseName ||
 			m_szDatabaseHost != other.m_szDatabaseHost ||
 			m_szDatabasePath != other.m_szDatabasePath ||
-			m_iDatabaseType != other.m_iDatabaseType ||
+			m_DatabaseType != other.m_DatabaseType ||
 			m_iDatabasePort != other.m_iDatabasePort ||
 			m_szDatabaseUsername != other.m_szDatabaseUsername);
 }

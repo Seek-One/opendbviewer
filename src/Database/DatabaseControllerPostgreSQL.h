@@ -15,7 +15,6 @@
 class DatabaseControllerPostgreSQL : public DatabaseController
 {
 public:
-	//DatabaseControllerPostgreSQL(const QString &szFileName, const QStringList& szDatabaseInfoList);
 	DatabaseControllerPostgreSQL(DatabaseModel databaseModel);
 	virtual ~DatabaseControllerPostgreSQL();
 
@@ -26,18 +25,6 @@ protected:
 	virtual QStringList listColumnNames(const QString& szTableName);
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName);
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query);
-
-private:
-	//void splitDatabaseInfoList(QStringList& szDatabaseInfoList);
-	void splitDatabaseInfoList(DatabaseModel databaseModel);
-
-private:
-	QString m_szHostName;
-	int m_port;
-	QString m_szUsername;
-	QString m_szPassword;
-	QString m_szDatabaseName;
-	QStringList m_szDatabaseInfoList;
 };
 
 #endif /* SRC_DATABASE_DATABASECONTROLLERPOSTGRESQL_H_ */

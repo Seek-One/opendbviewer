@@ -8,10 +8,10 @@
 #ifndef SRC_GLOBAL_APPLICATIONSETTINGS_H_
 #define SRC_GLOBAL_APPLICATIONSETTINGS_H_
 
+#include <Model/HistoryDatabaseList.h>
 #include <QString>
 #include <QList>
 
-#include "Model/FavouriteDatabaseList.h"
 
 class ApplicationSettings {
 public:
@@ -21,15 +21,15 @@ public:
 	static bool getWindowMaximized();
 	static void setWindowMaximized(bool bWindowMaximized);
 
-	static const FavouriteDatabaseList getFavouriteList();
-	static void setFavouriteList(const FavouriteDatabaseList& databaseList);
-	static void addFavouriteDatabase(const DatabaseModel& database);
+	static const HistoryDatabaseList getHistoryList();
+	static void setHistoryList(const HistoryDatabaseList& databaseList);
+	static void addHistoryDatabase(const DatabaseModel& database);
 
 private:
 	static QString m_szCurrentExplorerPath;
 	static bool m_bWindowMaximized;
 
-	static FavouriteDatabaseList m_listFavourite;
+	static HistoryDatabaseList m_listHistory;
 };
 
 #endif /* SRC_GLOBAL_APPLICATIONSETTINGS_H_ */

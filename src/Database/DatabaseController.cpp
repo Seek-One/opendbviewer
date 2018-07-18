@@ -11,7 +11,7 @@ int DatabaseController::g_iConnectionIdentifier = 0;
 
 DatabaseController::DatabaseController(const DatabaseModel&  databaseModel)
 {
-	m_szFilename = databaseModel.getDatabaseName();
+	m_databaseModel = databaseModel;
 }
 
 DatabaseController::~DatabaseController()

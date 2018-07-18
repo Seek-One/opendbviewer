@@ -105,7 +105,6 @@ void QDatabaseConnectionViewController::closeTab(const int& index)
 bool QDatabaseConnectionViewController::loadDatabaseTables()
 {
 	bool bRes;
-	//Cannot load the data from the tables/systemTables/ViewsTables
 	bRes = m_pDatabaseController->loadTables(onDbLoadTables, this);
 	bRes = m_pDatabaseController->loadSystemTables(onDbLoadSystemTables, this) && bRes;
 	bRes = m_pDatabaseController->loadViewsTables(onDbLoadViewsTables, this) && bRes;
@@ -125,7 +124,6 @@ void QDatabaseConnectionViewController::onDbLoadTables(const QString& szTable, v
 void QDatabaseConnectionViewController::onDbLoadSystemTables(const QString& szTable, void* user_data)
 {
 	QDatabaseConnectionViewController* pController = (QDatabaseConnectionViewController*)(user_data);
-
 	QStandardItem *pStructureTableItem = new QStandardItem(szTable);
 	pController->m_pDatabaseConnectionView->getStructureTableItem()->appendRow(pStructureTableItem);
 	pStructureTableItem->setEditable(false);

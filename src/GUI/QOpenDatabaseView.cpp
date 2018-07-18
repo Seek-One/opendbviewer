@@ -197,7 +197,7 @@ QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 	QString szHistoryHeaderName = "History";
 	m_pHistoryTreeWidget->setHeaderLabel(szHistoryHeaderName);
 	m_pHistoryTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
-	//m_pHistoryTreeWidget->header()->hide();
+	//Hide the header of the qtreewidget?
 	pMainLayout->addWidget(m_pHistoryTreeWidget);
 
 	return pMainWidget;
@@ -229,13 +229,9 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 	QLabel *lTitle = new QLabel(this);
 	lTitle->setText("Connection database choice :");
 	pMainLayout->addWidget(lTitle);
-
 	pMainLayout->addWidget(m_pSQLiteSelection);
-
 	pMainLayout->addWidget(m_pMySQLSelection);
-
 	pMainLayout->addWidget(m_pPSQLSelection);
-
 	pMainLayout->addStretch();
 
 	return pMainWidget;
@@ -267,26 +263,18 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 	// File field
 	{
 		pTmpLayout = new QHBoxLayout();
-
 		pTmpLayout->addWidget(m_pSQLiteFilePathField);
-
 		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton);
-
 		pFormLayout->addRow(pTmpLayout);
 	}
 
 	{
 		pTmpLayout = new QVBoxLayout();
-
 		pTmpLayout->setContentsMargins(10,0,10,10);
-
 		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignLeft);
-
 		pTmpLayout->addWidget(m_pDropAreaWidget);
-
 	}
 	pSecondLayout->addLayout(pTmpLayout, 3);
-
 	pMainLayout->addStretch();
 
 	return pMainWidget;

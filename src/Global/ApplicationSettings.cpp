@@ -10,7 +10,7 @@
 QString ApplicationSettings::m_szCurrentExplorerPath;
 bool ApplicationSettings::m_bWindowMaximized;
 
-FavouriteDatabaseList ApplicationSettings::m_listFavourite;
+HistoryDatabaseList ApplicationSettings::m_listHistory;
 
 const QString& ApplicationSettings::getCurrentExplorerPath()
 {
@@ -32,17 +32,17 @@ void ApplicationSettings::setWindowMaximized(bool bWindowMaximized)
 	m_bWindowMaximized = bWindowMaximized;
 }
 
-const FavouriteDatabaseList ApplicationSettings::getFavouriteList()
+const HistoryDatabaseList ApplicationSettings::getHistoryList()
 {
-	return m_listFavourite;
+	return m_listHistory;
 }
 
-void ApplicationSettings::setFavouriteList(const FavouriteDatabaseList& databaseList)
+void ApplicationSettings::setHistoryList(const HistoryDatabaseList& databaseList)
 {
-	m_listFavourite = databaseList;
+	m_listHistory = databaseList;
 }
 
-void ApplicationSettings::addFavouriteDatabase(const DatabaseModel& database)
+void ApplicationSettings::addHistoryDatabase(const DatabaseModel& database)
 {
-	m_listFavourite.append(database);
+	m_listHistory.append(database);
 }

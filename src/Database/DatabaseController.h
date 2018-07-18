@@ -23,7 +23,6 @@
 class DatabaseController
 {
 public:
-	//DatabaseController(const QString& szFilename);
 	DatabaseController(const DatabaseModel&  databaseModel);
 	virtual ~DatabaseController();
 
@@ -54,7 +53,7 @@ private:
 
 
 protected:
-	QString m_szFilename;
+	DatabaseModel m_databaseModel;
 	QSqlDatabase m_db;
 	QString m_szResultString;
 

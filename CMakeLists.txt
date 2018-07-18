@@ -178,8 +178,8 @@ include_directories (${PROJECT_BINARY_DIR})
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
 set(APPLICATION_MODEL_SOURCES
-	src/Model/FavouriteDatabaseList.cpp
-	src/Model/FavouriteDatabaseList.h
+	src/Model/HistoryDatabaseList.cpp
+	src/Model/HistoryDatabaseList.h
 	src/Model/DatabaseModel.cpp
 	src/Model/DatabaseModel.h
 )
@@ -350,12 +350,12 @@ install(TARGETS ${APPLICATION_EXE_NAME} DESTINATION ${INSTALL_PATH_BIN})
 
 set (UNITTEST_SOURCE
 	test/main.cpp
-	test/Model/FavouriteDatabaseListTestCase.cpp
-	test/Model/FavouriteDatabaseListTestCase.h
+	test/Model/HistoryDatabaseListTestCase.cpp
+	test/Model/HistoryDatabaseListTestCase.h
 )
 
 set (UNITTEST_MOC_HEADERS
-	test/Model/FavouriteDatabaseListTestCase.h
+	test/Model/HistoryDatabaseListTestCase.h
 )
 
 qt_wrap_cpp(

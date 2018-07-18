@@ -9,14 +9,13 @@
 
 DatabaseControllerMysql::DatabaseControllerMysql(DatabaseModel databaseModel) : DatabaseController(databaseModel)
 {
-	splitDatabaseInfoList(databaseModel);
 
-	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
-    m_db.setHostName(m_szHostName);
-    m_db.setPort(m_port);
-    m_db.setDatabaseName(m_szDatabaseName);
-    m_db.setUserName(m_szUsername);
-    m_db.setPassword(m_szPassword);
+	m_db = QSqlDatabase::addDatabase("QMYSQL", QString::number(g_iConnectionIdentifier++));
+    m_db.setDatabaseName(databaseModel.getDatabaseName());
+    m_db.setPort(databaseModel.getDatabasePort());
+    m_db.setHostName(databaseModel.getDatabaseHost());
+    m_db.setUserName(databaseModel.getDatabaseUsername());
+    //TODO set the password for qsqldatabase instance
 }
 
 DatabaseControllerMysql::~DatabaseControllerMysql()
@@ -77,36 +76,3 @@ QString DatabaseControllerMysql::makeTableCreationScriptQueryResult(const QSqlQu
 {
 	return QString(query.value(1).toString());
 }
-
-void DatabaseControllerMysql::splitDatabaseInfoList(DatabaseModel databaseModel)
-{
-	m_szHostName = databaseModel.getDatabaseHost();
-	m_port = databaseModel.getDatabasePort();
-	m_szUsername = databaseModel.getDatabaseUsername();
-	//TODO Include the password for MySQL Controller (and PostgreSQL Controller)
-	m_szPassword = "";
-	m_szDatabaseName = databaseModel.getDatabaseName();
-}
-
-/*DatabaseControllerMysql::DatabaseControllerMysql(const QString &szFileName, const QStringList& szDatabaseInfoList) : DatabaseController(szFileName)
-{
-	m_szDatabaseInfoList = szDatabaseInfoList;
-	splitDatabaseInfoList(m_szDatabaseInfoList);
-
-	m_db = QSqlDatabase::addDatabase("QMYSQL", m_szDatabaseName);
-    m_db.setHostName(m_szHostName);
-    m_db.setPort(m_port);
-    m_db.setDatabaseName(m_szDatabaseName);
-    m_db.setUserName(m_szUsername);
-    m_db.setPassword(m_szPassword);
-}*/
-
-
-/*void DatabaseControllerMysql::splitDatabaseInfoList(QStringList& szDatabaseInfoList)
-{
-	m_szHostName = szDatabaseInfoList.value(0);
-	m_port = szDatabaseInfoList.value(1).toInt();
-	m_szUsername = szDatabaseInfoList.value(2);
-	m_szPassword = szDatabaseInfoList.value(3);
-	m_szDatabaseName = szDatabaseInfoList.value(4);
-}*/

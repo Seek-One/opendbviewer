@@ -10,15 +10,13 @@
 
 #include "QMidClickClosableTabWidget.h"
 
-QMidClickClosableTabWidget::QMidClickClosableTabWidget(QWidget* pParent)
-	: QTabWidget(pParent)
+QMidClickClosableTabWidget::QMidClickClosableTabWidget(QWidget* pParent): QTabWidget(pParent)
 {
 	tabBar()->installEventFilter(this);
 }
 
 QMidClickClosableTabWidget::~QMidClickClosableTabWidget()
 {
-
 }
 
 bool QMidClickClosableTabWidget::eventFilter(QObject* pObject, QEvent* pEvent)

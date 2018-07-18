@@ -144,7 +144,8 @@ QTabWidget* QWindowMain::getDatabaseConnectionTab() const
 	return m_pDatabaseConnectionTab;
 }
 
-void QWindowMain::showViewsTab() {
+void QWindowMain::showViewsTab()
+{
 	m_pStackedMenuWidget->setHidden(true);
 	m_pDatabaseConnectionTab->setVisible(true);
 }
@@ -154,11 +155,7 @@ void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseCo
 	if (m_pDatabaseConnectionTab->currentWidget()==m_pOpenDatabaseView)  {
 		m_pDatabaseConnectionTab->removeTab(0);
 	}
-	/*if (m_pDatabaseConnectionTab->count()==0) {
-		m_pDatabaseConnectionTab->insertTab(0, m_pOpenDatabaseView, tr("No selection"));
-	}*/
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
-
 	int index = m_pDatabaseConnectionTab->currentIndex()+1;
 	m_pDatabaseConnectionTab->setCurrentIndex(index);
 	m_pDatabaseConnectionTab->setVisible(true);
@@ -169,7 +166,6 @@ void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseCo
 void QWindowMain::showHistoryTab()
 {
 	m_pDatabaseConnectionTab->setVisible(true);
-
 	m_pStackedMenuWidget->setVisible(true);
 	m_pStackedMenuWidget->setCurrentWidget(m_pHistWidget);
 
@@ -178,7 +174,6 @@ void QWindowMain::showHistoryTab()
 void QWindowMain::showExplorerTab()
 {
 	m_pDatabaseConnectionTab->setHidden(true);
-
 	m_pStackedMenuWidget->setVisible(true);
 	m_pStackedMenuWidget->setCurrentWidget(m_pExplorerWidget);
 }
@@ -186,28 +181,25 @@ void QWindowMain::showExplorerTab()
 void QWindowMain::showNewConnMenuTab()
 {
 	m_pDatabaseConnectionTab->setVisible(true);
-
 	m_pStackedMenuWidget->setVisible(true);
 	m_pStackedMenuWidget->setCurrentWidget(m_pNewConnWidget);
 }
 
-void QWindowMain::OpenSQLiteTab()
+void QWindowMain::openSQLiteTab()
 {
 	m_pDatabaseConnectionTab->setVisible(true);
-
 	m_pStackedMenuWidget->setVisible(true);
 	m_pStackedMenuWidget->setCurrentWidget(m_pSQLiteWidget);
 }
 
-void QWindowMain::OpenMySQLTab()
+void QWindowMain::openMySQLTab()
 {
 	m_pDatabaseConnectionTab->setVisible(true);
-
 	m_pStackedMenuWidget->setVisible(true);
 	m_pStackedMenuWidget->setCurrentWidget(m_pMySQLWidget);
 }
 
-void QWindowMain::OpenPostgreSQLTab()
+void QWindowMain::openPostgreSQLTab()
 {
 
 	m_pDatabaseConnectionTab->setVisible(true);
@@ -232,12 +224,12 @@ void QWindowMain::changeEvent(QEvent* pEvent)
 
 void QWindowMain::createMenu()
 {
-    QMenu *pFileMenu = menuBar()->addMenu(tr("&File"));
-    m_pQuitAction = new QAction(tr("&Quit"), this);
+    QMenu *pFileMenu = menuBar()->addMenu(tr("File"));
+    m_pQuitAction = new QAction(tr("Quit"), this);
     pFileMenu->addAction(m_pQuitAction);
 
-    QMenu *pHelpMenu = menuBar()->addMenu(tr("&Help"));
-    m_pAboutAction = new QAction(tr("&About"), this);
+    QMenu *pHelpMenu = menuBar()->addMenu(tr("Help"));
+    m_pAboutAction = new QAction(tr("About"), this);
     pHelpMenu->addAction(m_pAboutAction);
 }
 
@@ -248,33 +240,33 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->setWindowTitle("ToolBar");
 	m_pWindowToolBar->setContentsMargins(0,0,0,0);
 	m_pWindowToolBar->addSeparator();
-	//m_pWindowToolBar->setStyleSheet("Background: blue;");
+	//set the background with the method setStyleSheet("Background: ;")
 
 	QWidget * ToolBarButton;
-	int height = 50, width = 100;
+	int iHeight = 50, iWidth = 100;
 
 	m_pViewsAction = new QAction(QIconThemeFallback::fromThemeFallback("database"), tr("Views"), this);
 	m_pWindowToolBar->addAction(m_pViewsAction);
 	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pViewsAction);
-	ToolBarButton->setFixedSize(width,height);
+	ToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pHistAction = new QAction(QIconThemeFallback::fromThemeFallback("history"), tr("History"), this);
 	m_pWindowToolBar->addAction(m_pHistAction);
 	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pHistAction);
-	ToolBarButton->setFixedSize(width,height);
+	ToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pExplorerAction = new QAction(QIconThemeFallback::fromThemeFallback("folder"), tr("File Explorer"), this);
 	m_pWindowToolBar->addAction(m_pExplorerAction);
 	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pExplorerAction);
-	ToolBarButton->setFixedSize(width,height);
+	ToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pNewConnAction = new QAction(QIconThemeFallback::fromThemeFallback("database-add"), tr("New Connection"), this);
 	m_pWindowToolBar->addAction(m_pNewConnAction);
 	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
-	ToolBarButton->setFixedSize(width,height);
+	ToolBarButton->setFixedSize(iWidth,iHeight);
 
 
 	m_pWindowToolBar->setOrientation(Qt::Vertical);

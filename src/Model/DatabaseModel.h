@@ -36,6 +36,8 @@ public:
 	void setDatabasePort(int iDatabasePort);
 	const QString& getDatabaseUsername() const;
 	void setDatabaseUsername(const QString& szDatabaseUsername);
+	const QString& getDatabasePassword() const;
+	void setDatabasePassword(const QString& szDatabasePassword);
 
 
 	bool operator==(const DatabaseModel& other) const;
@@ -47,6 +49,7 @@ private:
 	QString m_szDatabaseHost;
 	int m_iDatabasePort;
 	QString m_szDatabaseUsername;
+	QString m_szDatabasePassword;
 };
 
 

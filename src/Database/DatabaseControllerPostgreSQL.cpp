@@ -15,7 +15,7 @@ DatabaseControllerPostgreSQL::DatabaseControllerPostgreSQL(DatabaseModel databas
     m_db.setPort(databaseModel.getDatabasePort());
     m_db.setHostName(databaseModel.getDatabaseHost());
     m_db.setUserName(databaseModel.getDatabaseUsername());
-    //TODO set the password for qsqldatabase instance
+    m_db.setPassword(databaseModel.getDatabasePassword());
 }
 
 DatabaseControllerPostgreSQL::~DatabaseControllerPostgreSQL()

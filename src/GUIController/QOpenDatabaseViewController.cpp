@@ -152,17 +152,9 @@ DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::Databas
 		break;
 	case DatabaseModel::MySQLType:
 		recoverMySQLDatabaseInfo(&databaseModel);
-
-		ApplicationSettings::addHistoryDatabase(databaseModel);
-		QSettingsManager::getInstance().saveDatabaseSettings();
-		initHistoryList();
 		break;
 	case DatabaseModel::PostgreSQLType:
 		recoverPostgreSQLInfo(&databaseModel);
-
-		ApplicationSettings::addHistoryDatabase(databaseModel);
-		QSettingsManager::getInstance().saveDatabaseSettings();
-		initHistoryList();
 		break;
 	default:
 		break;
@@ -234,7 +226,7 @@ void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * datab
 	database->setDatabaseHost(m_pOpenDatabaseView->getMySQLHostField()->text());
 	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt());
 	database->setDatabaseUsername(m_pOpenDatabaseView->getMySQLUsernameField()->text());
-	//TODO get the MySQLPasswordField and set it in the DatabaseModel instance
+	database->setDatabasePassword(m_pOpenDatabaseView->getMySQLPasswordField()->text());
 }
 
 void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database)
@@ -243,7 +235,7 @@ void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database
 	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
 	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt());
 	database->setDatabaseUsername(m_pOpenDatabaseView->getPSQLUsernameField()->text());
-	//TODO get the PSQLPasswordField and set it in the DatabaseModel instance
+	database->setDatabasePassword(m_pOpenDatabaseView->getPSQLPasswordField()->text());
 }
 
 QString QOpenDatabaseViewController::getFileUrl() const
@@ -261,6 +253,7 @@ void QOpenDatabaseViewController::initHistoryList()
 		database = list.at(row);
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
 		item->setText(0, database.getDatabaseName());
+		//TODO if the type is sql -> get the path in the tooltip, else get the host
 		item->setToolTip(0, database.getDatabasePath());
 	}
 }

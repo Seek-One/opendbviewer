@@ -85,6 +85,16 @@ void DatabaseModel::setDatabaseUsername(const QString& szDatabaseUsername)
 	m_szDatabaseUsername = szDatabaseUsername;
 }
 
+const QString& DatabaseModel::getDatabasePassword() const
+{
+	return m_szDatabasePassword;
+}
+
+void DatabaseModel::setDatabasePassword(const QString& szDatabasePassword)
+{
+	m_szDatabaseUsername = szDatabasePassword;
+}
+
 bool DatabaseModel::operator==(const DatabaseModel& other) const
 {
 	return (m_szDatabaseName == other.m_szDatabaseName &&

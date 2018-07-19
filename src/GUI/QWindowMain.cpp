@@ -241,7 +241,6 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->setWindowTitle("ToolBar");
 	m_pWindowToolBar->setContentsMargins(0,0,0,0);
 	m_pWindowToolBar->addSeparator();
-	//set the background with the method setStyleSheet("Background: ;")
 
 	QWidget * ToolBarButton;
 	int iHeight = 50, iWidth = 100;
@@ -268,6 +267,7 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->addAction(m_pNewConnAction);
 	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
 	ToolBarButton->setFixedSize(iWidth,iHeight);
+
 
 
 	m_pWindowToolBar->setOrientation(Qt::Vertical);

@@ -6,8 +6,8 @@
  */
 
 #include <QtTest>
-#include <test/Model/HistoryDatabaseListTestCase.h>
 
+#include "Model/HistoryDatabaseListTestCase.h"
 
 int main(int argc, char**argv)
 {

@@ -204,7 +204,7 @@ QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 QWidget* QOpenDatabaseView::makeExplorerTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
-	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	QHBoxLayout* pMainLayout = new QHBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
 	pMainLayout->setSpacing(0);

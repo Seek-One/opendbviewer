@@ -253,8 +253,12 @@ void QOpenDatabaseViewController::initHistoryList()
 		database = list.at(row);
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
 		item->setText(0, database.getDatabaseName());
-		//TODO if the type is sql -> get the path in the tooltip, else get the host
-		item->setToolTip(0, database.getDatabasePath());
+		switch (database.getDatabaseType()) {
+		case DatabaseModel::SQLiteType:
+			item->setToolTip(0, database.getDatabasePath());
+			break;
+		//TODO case for MySQLiteType and PostgreSQLType (getDatabaseHost) -> Warning Password
+		}
 	}
 }
 

@@ -5,7 +5,7 @@
  *      Author: mlegarrec
  */
 
-#include <Model/HistoryDatabaseList.h>
+#include "Model/HistoryDatabaseList.h"
 #include "HistoryDatabaseListTestCase.h"
 
 void HistoryDatabaseListTestCase::test_appendDatabaseModel()

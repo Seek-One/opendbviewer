@@ -18,3 +18,4 @@ moc_*.c*
 README
 build
 data/theme/icons
+core

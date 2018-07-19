@@ -241,37 +241,38 @@ void QWindowMain::createToolbar() {
 	m_pWindowToolBar->setWindowTitle("ToolBar");
 	m_pWindowToolBar->setContentsMargins(0,0,0,0);
 	m_pWindowToolBar->addSeparator();
+	m_pWindowToolBar->setOrientation(Qt::Vertical);
+	m_pWindowToolBar->setMovable(false);
+	m_pWindowToolBar->setStyleSheet("QToolButton:hover {background: #DDDDDD; border: 0.5px solid gray; border-radius:3px;} "
+									"QToolButton:pressed {background: #C0C0C0; border:none; color:white; }"
+									"QToolBar {border:none; background: qlineargradient("
+									"x1: 0, y1: 0, x2: 1, y2: 0,   stop: 0.2 #C0C0C0, stop: 0.4 #C5C5C5, stop: 0.6 #D0D0D0, stop: 0.8 #D5D5D5);}");
 
-	QWidget * ToolBarButton;
+	QWidget *pToolBarButton;
 	int iHeight = 50, iWidth = 100;
 
 	m_pViewsAction = new QAction(QIconThemeFallback::fromThemeFallback("database"), tr("Views"), this);
 	m_pWindowToolBar->addAction(m_pViewsAction);
-	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pViewsAction);
-	ToolBarButton->setFixedSize(iWidth,iHeight);
+	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pViewsAction);
+	pToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pHistAction = new QAction(QIconThemeFallback::fromThemeFallback("history"), tr("History"), this);
 	m_pWindowToolBar->addAction(m_pHistAction);
-	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pHistAction);
-	ToolBarButton->setFixedSize(iWidth,iHeight);
+	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pHistAction);
+	pToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pExplorerAction = new QAction(QIconThemeFallback::fromThemeFallback("folder"), tr("File Explorer"), this);
 	m_pWindowToolBar->addAction(m_pExplorerAction);
-	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pExplorerAction);
-	ToolBarButton->setFixedSize(iWidth,iHeight);
+	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pExplorerAction);
+	pToolBarButton->setFixedSize(iWidth,iHeight);
 	m_pWindowToolBar->addSeparator();
 
 	m_pNewConnAction = new QAction(QIconThemeFallback::fromThemeFallback("database-add"), tr("New Connection"), this);
 	m_pWindowToolBar->addAction(m_pNewConnAction);
-	ToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
-	ToolBarButton->setFixedSize(iWidth,iHeight);
-
-
-
-	m_pWindowToolBar->setOrientation(Qt::Vertical);
-	m_pWindowToolBar->setMovable(false);
+	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
+	pToolBarButton->setFixedSize(iWidth,iHeight);
 
 	addToolBar(Qt::LeftToolBarArea, m_pWindowToolBar);
 }

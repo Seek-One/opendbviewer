@@ -57,8 +57,10 @@ private:
 	void createToolbar(); //Creates main toolbar
 
 private:
-	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 	QStackedWidget * m_pStackedMenuWidget;
+	QStackedWidget * m_pStackedDatabaseWidget;
+
+	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 
 	QWidget * m_pHistWidget;
 	QWidget * m_pNewConnWidget;
@@ -66,6 +68,7 @@ private:
 	QWidget * m_pSQLiteWidget;
 	QWidget * m_pMySQLWidget;
 	QWidget * m_pPSQLWidget;
+	QWidget * m_pNoSelectWidget;
 
 	QOpenDatabaseView* m_pOpenDatabaseView;
 	QToolBar * m_pWindowToolBar;

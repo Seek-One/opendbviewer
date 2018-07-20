@@ -60,6 +60,7 @@ public:
 
 	QTreeWidget* getHistoryTreeWidget() const;
 
+	QWidget* makeNoSelectionTab(QWidget* pParent);
 	QWidget* makeHistoryTab(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeNewConnMenu(QWidget* pParent);

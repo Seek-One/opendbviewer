@@ -28,7 +28,7 @@ public:
 	void init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView);
 	QString getFileUrl() const;
 	void initHistoryList();
-	DatabaseModel selectDatabase(DatabaseModel::DatabaseType type, QString szTabFileName);
+	DatabaseModel selectDatabase(DatabaseModel::DatabaseType type);
 	void loadDatabase(const DatabaseModel&  databaseModel);
 
 private:

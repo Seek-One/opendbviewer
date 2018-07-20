@@ -9,7 +9,6 @@
 
 DatabaseControllerMysql::DatabaseControllerMysql(DatabaseModel databaseModel) : DatabaseController(databaseModel)
 {
-
 	m_db = QSqlDatabase::addDatabase("QMYSQL", QString::number(g_iConnectionIdentifier++));
     m_db.setDatabaseName(databaseModel.getDatabaseName());
     m_db.setPort(databaseModel.getDatabasePort());

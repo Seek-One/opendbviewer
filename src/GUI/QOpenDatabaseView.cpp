@@ -184,6 +184,22 @@ QPushButton* QOpenDatabaseView::getPostgreSQLSelection() const
 	return m_pPSQLSelection;
 }
 
+QWidget* QOpenDatabaseView::makeNoSelectionTab(QWidget* pParent)
+{
+	QWidget* pMainWidget = new QWidget(pParent);
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+
+	pMainWidget->setStyleSheet("background: #EEEEEE; font-size:18px; font:bold italic");
+	pMainLayout->setContentsMargins(0,0,0,0);
+
+	QLabel * pLabel = new QLabel();
+	pLabel->setText(tr("No selection"));
+	pMainLayout->addWidget(pLabel, 1, Qt::AlignCenter);
+
+	return pMainWidget;
+}
+
 QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
@@ -222,13 +238,20 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 	pMainWidget->setLayout(pMainLayout);
 	pMainWidget->setMaximumWidth(300);
 
-	pMainLayout->setContentsMargins(0,0,0,0);
+	pMainLayout->setContentsMargins(10,0,10,0);
 
-	QLabel *lTitle = new QLabel(tr("Connection database choice :"));
-	pMainLayout->addWidget(lTitle);
-	pMainLayout->addWidget(m_pSQLiteSelection);
-	pMainLayout->addWidget(m_pMySQLSelection);
-	pMainLayout->addWidget(m_pPSQLSelection);
+	QGroupBox *pGroupBox = new QGroupBox(tr("Connection Database choice :"), pMainWidget);
+	pMainLayout->addWidget(pGroupBox);
+	pGroupBox->setContentsMargins(0,0,0,0);
+
+	QVBoxLayout* pTmpLayout = new QVBoxLayout();
+	pTmpLayout->addWidget(m_pSQLiteSelection);
+	pTmpLayout->addWidget(m_pMySQLSelection);
+	pTmpLayout->addWidget(m_pPSQLSelection);
+	pTmpLayout->setContentsMargins(0,20,0,0);
+
+	pGroupBox->setLayout(pTmpLayout);
+
 	pMainLayout->addStretch();
 
 	return pMainWidget;
@@ -239,14 +262,17 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
+	pMainWidget->setMaximumWidth(300);
 
-	pMainLayout->setContentsMargins(0,0,0,0);
+	int iSpace = 10;
+	pMainLayout->setContentsMargins(iSpace,0,0,0);
 
 	QGroupBox *pGroupBox = new QGroupBox(tr("SQLite Connection:"), pMainWidget);
 	pMainLayout->addWidget(pGroupBox);
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
+	pFormLayout->setContentsMargins(0,iSpace,iSpace,0);
 
 	QBoxLayout* pTmpLayout;
 	// File field
@@ -254,17 +280,18 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 		pTmpLayout = new QVBoxLayout();
 		pTmpLayout->addWidget(m_pSQLiteFilePathField);
 		pTmpLayout->addWidget(m_pSQLiteFileSelectionButton, 1, Qt::AlignRight);
-		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignCenter); //Maybe need an adjust?
+		pTmpLayout->addWidget(m_pSQLiteButton, 1, Qt::AlignLeft);
 		pFormLayout->addRow(pTmpLayout);
+		pTmpLayout->setContentsMargins(0,iSpace,0,0);
 	}
 
 	{
 		pTmpLayout = new QVBoxLayout();
 		pTmpLayout->addWidget(m_pDropAreaWidget);
+		pTmpLayout->setContentsMargins(0,iSpace,iSpace,iSpace);
 	}
-	pTmpLayout->setSpacing(0);
-	pTmpLayout->setContentsMargins(0,0,0,0);
 	pMainLayout->addLayout(pTmpLayout, 3);
+	pGroupBox->setContentsMargins(0,0,0,0);
 
 	pMainLayout->addStretch();
 
@@ -276,9 +303,10 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
+	pMainWidget->setMaximumWidth(300);
 
-	pMainLayout->setSpacing(0);
-	pMainLayout->setContentsMargins(0,0,0,0);
+	int iSpace = 10;
+	pMainLayout->setContentsMargins(iSpace,0,iSpace,0);
 
 	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection:"), pMainWidget);
 	pMainLayout->addWidget(pGroupBox);
@@ -309,7 +337,10 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	{
 		pFormLayout->addRow(tr("Database:"), m_pMySQLDatabaseField);
 	}
+	iSpace = 20;
 	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	pFormLayout->setContentsMargins(0,0,0,0);
+	pGroupBox->setContentsMargins(0,iSpace,0,0);
 
 	pMainLayout->addWidget(m_pMySQLConnectButton, 1, Qt::AlignRight);
 	pMainLayout->addStretch();
@@ -320,14 +351,18 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
-	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 
-	QVBoxLayout* pSecondLayout = new QVBoxLayout();
-	pMainLayout->addLayout(pSecondLayout);
+	int iSpace = 10;
+	pMainLayout->setContentsMargins(iSpace,0,iSpace,0);
+
 
 	QGroupBox *pGroupBox = new QGroupBox(tr("PostgreSQL Connection:"), pMainWidget);
-	pSecondLayout->addWidget(pGroupBox);
+	pMainLayout->addWidget(pGroupBox);
+
+	iSpace = 20;
+	pGroupBox->setContentsMargins(0,iSpace,0,0);
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
@@ -356,10 +391,9 @@ QWidget* QOpenDatabaseView::makePostgreSQLTab(QWidget* pParent)
 		pFormLayout->addRow(tr("Database:"), m_pPSQLDatabaseField);
 	}
 	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	pFormLayout->setContentsMargins(0,0,0,0);
 
-	pSecondLayout->addWidget(m_pPostgreSQLConnectButton, 1, Qt::AlignRight);
-
-	pSecondLayout->addStretch();
+	pMainLayout->addWidget(m_pPostgreSQLConnectButton, 1, Qt::AlignRight);
 	pMainLayout->addStretch();
 
 	return pMainWidget;

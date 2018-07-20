@@ -69,12 +69,9 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	// Default values
 	m_pOpenDatabaseView->getMySQLHostField()->setText("127.0.0.1");
 	m_pOpenDatabaseView->getMySQLPortField()->setText("3306");
-	m_pOpenDatabaseView->getMySQLUsernameField()->setText("root");
-	m_pOpenDatabaseView->getMySQLDatabaseField()->setText("mysql");
 	// Default values
 	m_pOpenDatabaseView->getPSQLHostField()->setText("127.0.0.1");
 	m_pOpenDatabaseView->getPSQLPortField()->setText("5432");
-	m_pOpenDatabaseView->getPSQLUsernameField()->setText("postgres");
 
 	initHistoryList();
 }
@@ -98,7 +95,6 @@ void QOpenDatabaseViewController::closeOpenDatabaseDialog()
 
 void QOpenDatabaseViewController::prepareConnection(DatabaseModel::DatabaseType type) {
 	bool bGoOn = true;
-	QString szTabFileName;
 	QString szErrorMsg;
 	DatabaseModel database;
 
@@ -106,43 +102,43 @@ void QOpenDatabaseViewController::prepareConnection(DatabaseModel::DatabaseType 
 	case DatabaseModel::SQLiteType: // SQLite
 		bGoOn = !m_szFileUrl.isEmpty();
 		if(bGoOn){
-			szTabFileName =	m_szFileUrl.section('/', -1);//Get the last part of the file path to get the name for the tab
-			database = selectDatabase(type, szTabFileName);
+			database = selectDatabase(type);
 		} else {
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}
 		break;
 	case  DatabaseModel::MySQLType: // MySQL
-		bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseView->getMySQLHostField()->text().isEmpty()  && !m_pOpenDatabaseView->getMySQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
-			szTabFileName = m_pOpenDatabaseView->getMySQLDatabaseField()->text();
-			database=selectDatabase(type, szTabFileName);
-		}else{
+			database = selectDatabase(type);
+		} else {
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
 		break;
 	case DatabaseModel::PostgreSQLType: // PostgreSQL
-		bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty() && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
+		bGoOn = !m_pOpenDatabaseView->getPSQLHostField()->text().isEmpty()  && !m_pOpenDatabaseView->getPSQLDatabaseField()->text().isEmpty();
 		if(bGoOn){
-			szTabFileName = m_pOpenDatabaseView->getPSQLDatabaseField()->text();
-			database = selectDatabase(type, szTabFileName);
-		}else{
+			database = selectDatabase(type);
+		} else {
 			szErrorMsg = tr("Please enter the necessary information.");
 		}
 		break;
 	default:
 		break;
 	}
+
 	if (bGoOn) {
 		loadDatabase(database);
+	} else {
+		QMessageBox::critical(m_pOpenDatabaseView, tr("Invalid Informations"), szErrorMsg);
 	}
 }
 
-DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::DatabaseType type, QString szTabFileName) {
+DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::DatabaseType type) {
 	DatabaseModel databaseModel;
 	switch(type){
 	case DatabaseModel::SQLiteType:
-		databaseModel.setDatabaseName(szTabFileName);
+		databaseModel.setDatabaseName(m_szFileUrl.section('/', -1)); //Get the last part of the file path to get the name for the tab
 		databaseModel.setDatabasePath(m_szFileUrl);
 		databaseModel.setDatabaseType(type);
 
@@ -152,9 +148,11 @@ DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::Databas
 		break;
 	case DatabaseModel::MySQLType:
 		recoverMySQLDatabaseInfo(&databaseModel);
+		databaseModel.setDatabaseType(type);
 		break;
 	case DatabaseModel::PostgreSQLType:
 		recoverPostgreSQLInfo(&databaseModel);
+		databaseModel.setDatabaseType(type);
 		break;
 	default:
 		break;
@@ -171,6 +169,7 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 	QDatabaseConnectionView* pConnectionView = NULL;
 	QDatabaseConnectionViewController* pDatabaseConnectionViewController = NULL;
 
+
 	switch(databaseModel.getDatabaseType()) {
 	case DatabaseModel::SQLiteType:
 		dbControl = new DatabaseControllerSqlite(databaseModel);
@@ -180,6 +179,8 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 		break;
 	case DatabaseModel::PostgreSQLType:
 		dbControl = new DatabaseControllerPostgreSQL(databaseModel);
+		break;
+	default:
 		break;
 	}
 

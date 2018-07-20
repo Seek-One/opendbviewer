@@ -103,6 +103,8 @@ void QOpenDatabaseViewController::prepareConnection(DatabaseModel::DatabaseType 
 		bGoOn = !m_szFileUrl.isEmpty();
 		if(bGoOn){
 			database = selectDatabase(type);
+			m_szFileUrl = "";
+			m_pOpenDatabaseView->getSQLiteFilePathField()->setText("");
 		} else {
 			szErrorMsg = tr("Please select a valid SQLite file");
 		}

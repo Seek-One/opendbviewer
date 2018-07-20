@@ -4,12 +4,12 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../src/main.cpp" line="115"/>
+        <location filename="../src/main.cpp" line="113"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="115"/>
+        <location filename="../src/main.cpp" line="113"/>
         <source>Error to initialize application</source>
         <translation>Erreur à l&apos;initialisation de l&apos;application</translation>
     </message>
@@ -233,62 +233,62 @@ vos fichiers ici</translation>
         <translation>Ouvrir une base de données PostgreSQL</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="198"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="197"/>
         <source>No selection</source>
         <translation>Pas de sélection</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="214"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="213"/>
         <source>History</source>
         <translation>Historique</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="244"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="243"/>
         <source>Connection Database choice :</source>
         <translation>Choix de la connexion :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="271"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="270"/>
         <source>SQLite Connection:</source>
         <translation>Connexion SQLite</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="312"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="311"/>
         <source>MySQL Connection:</source>
         <translation>Connexion MySQL</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="320"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="373"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="319"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="372"/>
         <source>Host:</source>
         <translation>Hôte :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="326"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="379"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="325"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="378"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="330"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="383"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="329"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="382"/>
         <source>Username:</source>
         <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="335"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="388"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="334"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="387"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="339"/>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="392"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="338"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="391"/>
         <source>Database:</source>
         <translation>Base de donnée :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="362"/>
+        <location filename="../src/GUI/QOpenDatabaseView.cpp" line="361"/>
         <source>PostgreSQL Connection:</source>
         <translation>Connexion PostgreSQL</translation>
     </message>
@@ -312,38 +312,38 @@ vos fichiers ici</translation>
         <translation>Fichier SQLite (*.sqlite *.db)</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="107"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="109"/>
         <source>Please select a valid SQLite file</source>
         <translation>Veuillez choisir un fichier SQLite valide</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="115"/>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="123"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="117"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="125"/>
         <source>Please enter the necessary information.</source>
         <translation>Veuillez entrez les informations nécessaires.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="133"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="135"/>
         <source>Invalid Informations</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations invalides</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="193"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="195"/>
         <source>Unable to connect to the database, please check the connection information.</source>
         <translation>Impossible de se connecter à la base de donnée, veuillez vérifier les informations de connexion.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="208"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="210"/>
         <source>Database problem</source>
         <translation>Problème de base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="208"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="210"/>
         <source>Problem while loading database tables</source>
         <translation>Problème durant le chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="220"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="222"/>
         <source>Connection error</source>
         <translation>Erreur de connexion</translation>
     </message>

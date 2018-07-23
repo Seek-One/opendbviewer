@@ -15,6 +15,8 @@
 #include <QValidator>
 #include <QVBoxLayout>
 #include <QScrollBar>
+#include <QFontMetrics>
+
 
 #include "QOpenDatabaseView.h"
 
@@ -23,18 +25,34 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 {
 	QHBoxLayout *pMainLayout = new QHBoxLayout();
 	setLayout(pMainLayout);
+	pMainLayout->setContentsMargins(0,0,0,0);
 
 	QVBoxLayout *pSecondLayout = new QVBoxLayout();
 	pMainLayout->addLayout(pSecondLayout);
+	pSecondLayout->setContentsMargins(0,0,0,0);
 
 	m_pConnectionTypeTabWidget = new QTabWidget(this);
 	pSecondLayout->addWidget(m_pConnectionTypeTabWidget);
 
+	//History Menu
 	m_pHistoryTreeWidget = new QTreeWidget(m_pConnectionTypeTabWidget);
+	m_pHistoryNameLabel = new QLabel();
+	m_pHistoryPathLabel = new QLabel();
+	m_pHistoryHostLabel = new QLabel();
+	m_pHistoryPortLabel = new QLabel();
+	m_pHistoryUsernameLabel = new QLabel();
+
+	connect(m_pHistoryTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(onHistoryItemClicked(QTreeWidgetItem *, int)));
+	connect(m_pHistoryTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
 
 	m_pFileExplorerWidget = new QFileExplorerWidget();
 
+	//New Connection Menu
+	m_pSQLiteSelection = new QPushButton(tr("Open SQLite Database"));
+	m_pMySQLSelection = new QPushButton(tr("Open MySQL Database"));
+	m_pPSQLSelection = new QPushButton(tr("Open PostgreSQL Database"));
 
+	//SQLite Menu
 	m_pSQLiteFilePathField = new QLineEdit();
 	m_pSQLiteFileSelectionButton = new QPushButton(tr("Browse"), m_pConnectionTypeTabWidget);
 	m_pSQLiteButton = new QPushButton(tr("OK"));
@@ -42,7 +60,7 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	QString szDropAreaName = tr("Drag and drop \n your files here");
 	m_pDropAreaWidget = new QDropAreaWidget(szDropAreaName, m_pConnectionTypeTabWidget);
 
-
+	//MySQL Menu
 	m_pMySQLHostField = new QLineEdit(m_pConnectionTypeTabWidget);
 	m_pMySQLPortField = new QLineEdit(m_pConnectionTypeTabWidget);
 	m_pMySQLUsernameField = new QLineEdit(m_pConnectionTypeTabWidget);
@@ -51,6 +69,7 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	m_pMySQLConnectButton = new QPushButton(tr("Connect"));
 	connect(m_pMySQLConnectButton, SIGNAL(clicked()), this, SLOT(dispatchClicked()));
 
+	//PostgreSQL Menu
 	m_pPSQLHostField = new QLineEdit(m_pConnectionTypeTabWidget);
 	m_pPSQLPortField = new QLineEdit(m_pConnectionTypeTabWidget);
 	m_pPSQLUsernameField = new QLineEdit(m_pConnectionTypeTabWidget);
@@ -58,12 +77,6 @@ QOpenDatabaseView::QOpenDatabaseView(QWidget* parent)
 	m_pPSQLDatabaseField = new QLineEdit(m_pConnectionTypeTabWidget);
 	m_pPostgreSQLConnectButton = new QPushButton(tr("Connect"));
 	connect(m_pPostgreSQLConnectButton, SIGNAL(clicked()), this, SLOT(dispatchClicked()));
-
-	m_pSQLiteSelection = new QPushButton(tr("Open SQLite Database"));
-	m_pMySQLSelection = new QPushButton(tr("Open MySQL Database"));
-	m_pPSQLSelection = new QPushButton(tr("Open PostgreSQL Database"));
-
-	connect(m_pHistoryTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *, int)));
 }
 
 
@@ -184,6 +197,21 @@ QPushButton* QOpenDatabaseView::getPostgreSQLSelection() const
 	return m_pPSQLSelection;
 }
 
+QLabel* QOpenDatabaseView::getHistoryNameLabel() const
+{
+	return m_pHistoryNameLabel;
+}
+
+QLabel* QOpenDatabaseView::getHistoryPathLabel() const
+{
+	return m_pHistoryPathLabel;
+}
+
+QWidget* QOpenDatabaseView::getHistoryInfoWidget() const
+{
+	return m_pHistoryInfoWidget;
+}
+
 QWidget* QOpenDatabaseView::makeNoSelectionTab(QWidget* pParent)
 {
 	QWidget* pMainWidget = new QWidget(pParent);
@@ -214,6 +242,45 @@ QWidget* QOpenDatabaseView::makeHistoryTab(QWidget* pParent)
 	m_pHistoryTreeWidget->header()->setDefaultAlignment(Qt::AlignCenter);
 	pMainLayout->addWidget(m_pHistoryTreeWidget);
 
+	m_pHistoryInfoWidget  = makeHistoryInfo(m_pHistoryTreeWidget);
+	pMainLayout->addWidget(m_pHistoryInfoWidget);
+	m_pHistoryInfoWidget->setHidden(true);
+
+	return pMainWidget;
+}
+
+QWidget* QOpenDatabaseView::makeHistoryInfo(QWidget* pParent) {
+	QWidget* pMainWidget = new QWidget(pParent);
+	pMainWidget->setMinimumWidth(m_pHistoryTreeWidget->width());
+
+	pMainWidget->setStyleSheet("QWidget {border-right: 1px solid #888888; font-size:12px; color:black; font: bold;}");
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+	pMainLayout->setContentsMargins(0,0,0,0);
+
+	QGroupBox *pGroupBox = new QGroupBox(tr("Item Informations:"), pMainWidget);
+	pMainLayout->addWidget(pGroupBox);
+	pGroupBox->setContentsMargins(0,0,0,0);
+
+	int iSpace = 7;
+	QFormLayout* pFormLayout = new QFormLayout();
+	pGroupBox->setLayout(pFormLayout);
+	//set the color of the background without side effect on border
+
+	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	pFormLayout->setContentsMargins(0,iSpace,0,0);
+	//Create a second QFormLayout for the MySQL/PostgreSQL database
+
+	{
+		m_pHistoryNameLabel->setStyleSheet("font:none;");
+		pFormLayout->addRow(tr("Name :"), m_pHistoryNameLabel);
+	}
+
+	{
+		m_pHistoryPathLabel->setStyleSheet("font:none;");
+		pFormLayout->addRow(tr("Path :"), m_pHistoryPathLabel);
+	}
+
 	return pMainWidget;
 }
 
@@ -236,7 +303,6 @@ QWidget* QOpenDatabaseView::makeNewConnMenu(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
-	pMainWidget->setMaximumWidth(300);
 
 	pMainLayout->setContentsMargins(10,0,10,0);
 
@@ -262,7 +328,6 @@ QWidget* QOpenDatabaseView::makeSQLiteTab(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
-	pMainWidget->setMaximumWidth(300);
 
 	int iSpace = 10;
 	pMainLayout->setContentsMargins(iSpace,0,0,0);
@@ -303,16 +368,19 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	QWidget* pMainWidget = new QWidget(pParent);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
-	pMainWidget->setMaximumWidth(300);
 
 	int iSpace = 10;
 	pMainLayout->setContentsMargins(iSpace,0,iSpace,0);
 
 	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection:"), pMainWidget);
 	pMainLayout->addWidget(pGroupBox);
+	iSpace = 20;
+	pGroupBox->setContentsMargins(0,iSpace,0,0);
 
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
+	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
+	pFormLayout->setContentsMargins(0,0,0,0);
 
 	// Host field
 	{
@@ -337,10 +405,7 @@ QWidget* QOpenDatabaseView::makeMySQLTab(QWidget* pParent)
 	{
 		pFormLayout->addRow(tr("Database:"), m_pMySQLDatabaseField);
 	}
-	iSpace = 20;
-	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
-	pFormLayout->setContentsMargins(0,0,0,0);
-	pGroupBox->setContentsMargins(0,iSpace,0,0);
+
 
 	pMainLayout->addWidget(m_pMySQLConnectButton, 1, Qt::AlignRight);
 	pMainLayout->addStretch();
@@ -416,5 +481,16 @@ void QOpenDatabaseView::onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, 
 {
 	QString szPath;
 	szPath = item->toolTip(column);
+	m_pHistoryNameLabel->setText("");
+	m_pHistoryPathLabel->setText("");
+	m_pHistoryInfoWidget->setHidden(true);
 	emit openHistorySQLiteDatabase(szPath);
+}
+
+void QOpenDatabaseView::onHistoryItemClicked(QTreeWidgetItem *item, int column)
+{
+	QString szPath;
+	szPath = item->toolTip(column);
+
+	emit openHistoryInfo(szPath);
 }

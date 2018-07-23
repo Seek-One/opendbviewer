@@ -54,6 +54,7 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 
 	//History Databases Selection
 	connect(m_pOpenDatabaseView, SIGNAL(openHistorySQLiteDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
+	connect(m_pOpenDatabaseView, SIGNAL(openHistoryInfo(const QString&)), this, SLOT(setHistoryInfo(const QString&)));
 
 	//Main ToolBar Slots
 	connect(m_pMainWindow->getViewsAction(), SIGNAL(triggered()), this, SLOT(openViews()));
@@ -86,6 +87,25 @@ void QOpenDatabaseViewController::openSQLiteFile(const QString& szFileUrl)
 {
 	m_szFileUrl = szFileUrl;
 	prepareConnection(DatabaseModel::SQLiteType);
+}
+
+void QOpenDatabaseViewController::setHistoryInfo(const QString& szPath)
+{
+	QString qElidedText, szFName;
+	int iWidth = 220;
+
+	if (m_pOpenDatabaseView->getHistoryInfoWidget()->width()>iWidth) {
+		iWidth = m_pOpenDatabaseView->getHistoryInfoWidget()->width()-10;
+	}
+	szFName = szPath.section('/', -1);
+	qElidedText = szPath.section('/', 0, -2);
+
+	QFontMetrics metrics(m_pOpenDatabaseView->getHistoryPathLabel()->font());
+	qElidedText = metrics.elidedText(qElidedText, Qt::ElideLeft, iWidth);
+	m_pOpenDatabaseView->getHistoryInfoWidget()->setVisible(true);
+
+	m_pOpenDatabaseView->getHistoryNameLabel()->setText(szFName);
+	m_pOpenDatabaseView->getHistoryPathLabel()->setText(qElidedText);
 }
 
 void QOpenDatabaseViewController::closeOpenDatabaseDialog()
@@ -250,12 +270,19 @@ void QOpenDatabaseViewController::initHistoryList()
 {
 	HistoryDatabaseList list = ApplicationSettings::getHistoryList();
 	DatabaseModel database;
+	QString qElidedText;
+	int iWidth = 190;
 
 	m_pOpenDatabaseView->getHistoryTreeWidget()->clear();
 	for (int row = list.size() - 1 ; row >= 0 ; row--){
 		database = list.at(row);
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
-		item->setText(0, database.getDatabaseName());
+
+		qElidedText = database.getDatabasePath().section('/', 0, -2);
+		QFontMetrics metrics(m_pOpenDatabaseView->getHistoryPathLabel()->font());
+		qElidedText = metrics.elidedText(qElidedText, Qt::ElideLeft, iWidth);
+
+		item->setText(0, database.getDatabaseName()+'\n'+qElidedText);
 		switch (database.getDatabaseType()) {
 		case DatabaseModel::SQLiteType:
 			item->setToolTip(0, database.getDatabasePath());

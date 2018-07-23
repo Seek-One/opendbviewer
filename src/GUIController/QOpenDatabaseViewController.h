@@ -39,6 +39,8 @@ public slots:
 	void prepareConnection(DatabaseModel::DatabaseType type);
 	void openFileDialog();
 	void openSQLiteFile(const QString& szFileUrl);
+	void setHistoryInfo(const QString& szPath);
+
 	void closeOpenDatabaseDialog();
 	void openViews();
 	void openHist();

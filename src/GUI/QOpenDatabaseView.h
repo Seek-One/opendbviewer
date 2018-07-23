@@ -9,6 +9,7 @@
 #define SRC_GUI_QOPENDATABASEVIEW_H_
 
 #include <QWidget>
+#include <QLabel>
 
 #include "Model/DatabaseModel.h"
 #include "Widget/QDropAreaWidget.h"
@@ -59,9 +60,13 @@ public:
 	QFileExplorerWidget* getFileExplorerWidget() const;
 
 	QTreeWidget* getHistoryTreeWidget() const;
+	QWidget* getHistoryInfoWidget() const;
+	QLabel* getHistoryNameLabel() const;
+	QLabel* getHistoryPathLabel() const;
 
 	QWidget* makeNoSelectionTab(QWidget* pParent);
 	QWidget* makeHistoryTab(QWidget* pParent);
+	QWidget* makeHistoryInfo(QWidget* pParent);
 	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeNewConnMenu(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
@@ -70,11 +75,13 @@ public:
 
 public slots:
 	void dispatchClicked();
+	void onHistoryItemClicked(QTreeWidgetItem *item, int column);
 	void onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
 
 signals :
-	void openHistorySQLiteDatabase(QString szPath);
 	void clicked(DatabaseModel::DatabaseType type);
+	void openHistorySQLiteDatabase(QString szPath);
+	void openHistoryInfo(QString szPath);
 
 private:
 	QTabWidget* m_pConnectionTypeTabWidget;
@@ -111,8 +118,15 @@ private:
 	QPushButton* m_pMySQLSelection;
 	QPushButton* m_pPSQLSelection;
 
+	//History Widgets
 	QTreeWidget* m_pHistoryTreeWidget;
+	QWidget* m_pHistoryInfoWidget;
 
+	QLabel* m_pHistoryNameLabel;
+	QLabel* m_pHistoryPathLabel;
+	QLabel* m_pHistoryHostLabel;
+	QLabel* m_pHistoryPortLabel;
+	QLabel* m_pHistoryUsernameLabel;
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

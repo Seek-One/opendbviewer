@@ -13,6 +13,7 @@
 #include "Global/ApplicationSettings.h"
 #include "Image/QIconThemeFallback.h"
 #include "QOpenDatabaseView.h"
+#include "QOpenHistoryView.h"
 #include "QWindowMain.h"
 #include "Settings/QSettingsManager.h"
 
@@ -22,10 +23,8 @@ QWindowMain::QWindowMain(QWidget* parent)
     //Set minimum window size
     setMinimumSize(800, 600);
 
-    //Creation of the menu bar
+    //Creation of the menu bar and the toolbar
     createMenu();
-
-    //Creation of the tool bar
     createToolbar();
 
     //Creation of the central area
@@ -38,54 +37,39 @@ QWindowMain::QWindowMain(QWidget* parent)
 
     //Creation of the Menu Container
     m_pStackedMenuWidget = new QStackedWidget(this);
-
     QSizePolicy spLeft(QSizePolicy::Preferred, QSizePolicy::Preferred);
     spLeft.setHorizontalStretch(1);
     m_pStackedMenuWidget->setSizePolicy(spLeft);
     pMainLayout->addWidget(m_pStackedMenuWidget);
 
+    //Creation of the Database Container
     m_pStackedDatabaseWidget = new QStackedWidget(this);
-
-    //Creation of the databases container
     QSizePolicy spRight(QSizePolicy::Preferred, QSizePolicy::Preferred);
     spRight.setHorizontalStretch(5);
     m_pStackedDatabaseWidget->setSizePolicy(spRight);
     pMainLayout->addWidget(m_pStackedDatabaseWidget);
 
+    //Databases Widgets
     m_pDatabaseConnectionTab = new QMidClickClosableTabWidget(this);
     m_pDatabaseConnectionTab->setTabsClosable(true);
     m_pDatabaseConnectionTab->setMovable(true);
-
-    m_pOpenDatabaseView = new QOpenDatabaseView(this);
-    m_pDatabaseConnectionTab->addTab(m_pOpenDatabaseView, tr("No selection"));
-    m_pDatabaseConnectionTab->removeTab(0);
     m_pStackedDatabaseWidget->addWidget(m_pDatabaseConnectionTab);
 
-    //Menu Widgets
-    m_pHistWidget = m_pOpenDatabaseView->makeHistoryTab(m_pOpenDatabaseView);
-    m_pStackedMenuWidget->addWidget(m_pHistWidget);
-
-    m_pExplorerWidget = m_pOpenDatabaseView->makeExplorerTab(m_pOpenDatabaseView);
-    m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
-
-    m_pSQLiteWidget = m_pOpenDatabaseView->makeSQLiteTab(m_pOpenDatabaseView);
-    m_pStackedMenuWidget->addWidget(m_pSQLiteWidget);
-
-	m_pMySQLWidget = m_pOpenDatabaseView->makeMySQLTab(m_pOpenDatabaseView);
-	 m_pStackedMenuWidget->addWidget(m_pMySQLWidget);
-
-    m_pPSQLWidget = m_pOpenDatabaseView->makePostgreSQLTab(m_pOpenDatabaseView);
-    m_pStackedMenuWidget->addWidget(m_pPSQLWidget);
-
-    m_pNewConnWidget = m_pOpenDatabaseView->makeNewConnMenu(m_pOpenDatabaseView);
-	m_pStackedMenuWidget->addWidget(m_pNewConnWidget);
-
-    m_pNoSelectWidget = m_pOpenDatabaseView->makeNoSelectionTab(m_pOpenDatabaseView);
+    m_pNoSelectWidget = makeNoSelectionTab(this);
 	m_pStackedDatabaseWidget->addWidget(m_pNoSelectWidget);
 
-    pMainLayout->setSpacing(0);
-    pMainLayout->setContentsMargins(0, 0, 0, 0);
+    //Menu Widgets
+    m_pOpenDatabaseView = new QOpenDatabaseView(this);
+    m_pStackedMenuWidget->addWidget(m_pOpenDatabaseView);
 
+    m_pOpenHistoryView = new QOpenHistoryView(this);
+    m_pStackedMenuWidget->addWidget(m_pOpenHistoryView);
+
+    m_pExplorerWidget = makeExplorerTab(this);
+    m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
+
+    pMainLayout->setSpacing(0);
+    pMainLayout->setContentsMargins(0,0,0,0);
     showViewsTab();
 }
 
@@ -124,29 +108,24 @@ QAction* QWindowMain::getNewConnAction() const
 	return m_pNewConnAction;
 }
 
-QAction* QWindowMain::getSQLiteAction() const
-{
-	return m_pSQLiteAction;
-}
-
-QAction* QWindowMain::getMySQLAction() const
-{
-	return m_pMySQLAction;
-}
-
-QAction* QWindowMain::getPostgreSQLAction() const
-{
-	return m_pPostgreSQLAction;
-}
-
 QOpenDatabaseView* QWindowMain::getOpenDatabaseView() const
 {
 	return m_pOpenDatabaseView;
 }
 
+QOpenHistoryView* QWindowMain::getOpenHistoryView() const
+{
+	return m_pOpenHistoryView;
+}
+
 QTabWidget* QWindowMain::getDatabaseConnectionTab() const
 {
 	return m_pDatabaseConnectionTab;
+}
+
+QFileExplorerWidget* QWindowMain::getFileExplorerWidget() const
+{
+	return m_pFileExplorerWidget;
 }
 
 void QWindowMain::showViewsTab()
@@ -163,9 +142,6 @@ void QWindowMain::showViewsTab()
 
 void QWindowMain::addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle)
 {
-	if (m_pDatabaseConnectionTab->currentWidget()==m_pOpenDatabaseView)  {
-		m_pDatabaseConnectionTab->removeTab(0);
-	}
 	m_pDatabaseConnectionTab->addTab(pDatabaseConnectionView, szTitle);
 	int index = m_pDatabaseConnectionTab->currentIndex()+1;
 	m_pDatabaseConnectionTab->setCurrentIndex(index);
@@ -176,7 +152,7 @@ void QWindowMain::showHistoryTab()
 {
 	showViewsTab();
 	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pHistWidget);
+	m_pStackedMenuWidget->setCurrentWidget(m_pOpenHistoryView);
 }
 
 void QWindowMain::showExplorerTab()
@@ -186,32 +162,12 @@ void QWindowMain::showExplorerTab()
 	m_pStackedMenuWidget->setCurrentWidget(m_pExplorerWidget);
 }
 
-void QWindowMain::showNewConnMenuTab()
+void QWindowMain::showMenuConnTab()
 {
 	showViewsTab();
 	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pNewConnWidget);
-}
-
-void QWindowMain::openSQLiteTab()
-{
-	showViewsTab();
-	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pSQLiteWidget);
-}
-
-void QWindowMain::openMySQLTab()
-{
-	showViewsTab();
-	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pMySQLWidget);
-}
-
-void QWindowMain::openPostgreSQLTab()
-{
-	showViewsTab();
-	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setCurrentWidget(m_pPSQLWidget);
+	m_pOpenDatabaseView->openNewConnMenuTab();
+	m_pStackedMenuWidget->setCurrentWidget(m_pOpenDatabaseView);
 }
 
 void QWindowMain::changeEvent(QEvent* pEvent)
@@ -273,7 +229,6 @@ void QWindowMain::createToolbar() {
 	qText = m_pExplorerAction->text();
 	qElidedText = metrics.elidedText(qText, Qt::ElideRight, iWidth);
 	m_pExplorerAction->setIconText(qElidedText);
-	qTest = m_pExplorerAction->text();
 	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pExplorerAction);
 	pToolBarButton->setFixedSize(iWidth,iHeight);
 	pToolBarButton->setToolTip(qText);
@@ -284,11 +239,43 @@ void QWindowMain::createToolbar() {
 	qText = m_pNewConnAction->text();
 	qElidedText = metrics.elidedText(qText, Qt::ElideRight, iWidth);
 	m_pNewConnAction->setIconText(qElidedText);
-	qTest = m_pNewConnAction->text();
 	pToolBarButton = m_pWindowToolBar->widgetForAction(m_pNewConnAction);
 	pToolBarButton->setFixedSize(iWidth,iHeight);
 	pToolBarButton->setToolTip(qText);
 
 	addToolBar(Qt::LeftToolBarArea, m_pWindowToolBar);
 	setContextMenuPolicy(Qt::NoContextMenu);
+}
+
+QWidget * QWindowMain::makeExplorerTab(QWidget* pParent)
+{
+	//TODO Need a modification?
+	QWidget* pMainWidget = new QWidget(pParent);
+	m_pFileExplorerWidget = new QFileExplorerWidget();
+
+	QHBoxLayout* pMainLayout = new QHBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+
+	pMainLayout->setSpacing(0);
+	pMainLayout->setContentsMargins(0,0,0,0);
+
+	pMainLayout->addWidget(m_pFileExplorerWidget);
+
+	return pMainWidget;
+}
+
+QWidget* QWindowMain::makeNoSelectionTab(QWidget* pParent)
+{
+	QWidget* pMainWidget = new QWidget(pParent);
+	QVBoxLayout* pMainLayout = new QVBoxLayout();
+	pMainWidget->setLayout(pMainLayout);
+
+	pMainWidget->setStyleSheet("background: #EEEEEE; font-size:18px; font:bold italic");
+	pMainLayout->setContentsMargins(0,0,0,0);
+
+	QLabel * pLabel = new QLabel();
+	pLabel->setText(tr("No selection"));
+	pMainLayout->addWidget(pLabel, 1, Qt::AlignCenter);
+
+	return pMainWidget;
 }

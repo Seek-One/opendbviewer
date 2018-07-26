@@ -10,12 +10,12 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
+#include <QStackedWidget>
 
 #include "Model/DatabaseModel.h"
 #include "Widget/QDropAreaWidget.h"
-#include "Widget/QFileExplorerWidget.h"
 
-class QPushButton;
 class QLineEdit;
 class QTabWidget;
 
@@ -27,12 +27,11 @@ public:
 	QOpenDatabaseView(QWidget* parent = 0);
 	virtual ~QOpenDatabaseView();
 
-	QTabWidget* getConnectionTypeTabWidget() const;
+	QStackedWidget* getStackedMenuConnWidget() const;
 
 	// SQLite
 	QPushButton* getSQLiteFileSelectionButton() const;
 	QLineEdit* getSQLiteFilePathField() const;
-
 	QDropAreaWidget* getDropAreaWidget() const;
 
 	// MySQL
@@ -53,41 +52,33 @@ public:
 	QPushButton* getMySQLConnectButton() const;
 	QPushButton* getPostgreSQLConnectButton() const;
 
+	//Menu
 	QPushButton* getSQLiteSelection() const;
 	QPushButton* getMySQLSelection() const;
 	QPushButton* getPostgreSQLSelection() const;
 
-	QFileExplorerWidget* getFileExplorerWidget() const;
-
-	QTreeWidget* getHistoryTreeWidget() const;
-	QWidget* getHistoryInfoWidget() const;
-	QLabel* getHistoryNameLabel() const;
-	QLabel* getHistoryPathLabel() const;
-
-	QWidget* makeNoSelectionTab(QWidget* pParent);
-	QWidget* makeHistoryTab(QWidget* pParent);
-	QWidget* makeHistoryInfo(QWidget* pParent);
-	QWidget* makeExplorerTab(QWidget* pParent);
 	QWidget* makeNewConnMenu(QWidget* pParent);
 	QWidget* makeSQLiteTab(QWidget* pParent);
 	QWidget* makeMySQLTab(QWidget* pParent);
 	QWidget* makePostgreSQLTab(QWidget* pParent);
 
+	void openNewConnMenuTab();
+	void openSQLiteTab();
+	void openMySQLTab();
+	void openPostgreSQLTab();
+
 public slots:
 	void dispatchClicked();
-	void onHistoryItemClicked(QTreeWidgetItem *item, int column);
-	void onHistoryTreeWidgetDoubleClicked(QTreeWidgetItem *item, int column);
 
 signals :
 	void clicked(DatabaseModel::DatabaseType type);
-	void openHistorySQLiteDatabase(QString szPath);
-	void openHistoryInfo(QString szPath);
 
 private:
-	QTabWidget* m_pConnectionTypeTabWidget;
-
-	// Explorer
-	QFileExplorerWidget *m_pFileExplorerWidget;
+	QStackedWidget* m_pStackedMenuConnWidget;
+	QWidget* m_pNewConnWidget;
+	QWidget* m_pSQLiteWidget;
+	QWidget* m_pMySQLWidget;
+	QWidget* m_pPSQLWidget;
 
 	// SQLite
 	QLineEdit* m_pSQLiteFilePathField;
@@ -117,16 +108,6 @@ private:
 	QPushButton* m_pSQLiteSelection;
 	QPushButton* m_pMySQLSelection;
 	QPushButton* m_pPSQLSelection;
-
-	//History Widgets
-	QTreeWidget* m_pHistoryTreeWidget;
-	QWidget* m_pHistoryInfoWidget;
-
-	QLabel* m_pHistoryNameLabel;
-	QLabel* m_pHistoryPathLabel;
-	QLabel* m_pHistoryHostLabel;
-	QLabel* m_pHistoryPortLabel;
-	QLabel* m_pHistoryUsernameLabel;
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

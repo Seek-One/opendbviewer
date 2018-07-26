@@ -11,11 +11,13 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 
+#include "Widget/QFileExplorerWidget.h"
 #include "Widget/QMidClickClosableTabWidget.h"
 
 class QAction;
 class QDatabaseConnectionView;
 class QOpenDatabaseView;
+class QOpenHistoryView;
 class QTabWidget;
 
 class QWindowMain : public QMainWindow
@@ -33,21 +35,19 @@ public:
 	QAction* getExplorerAction() const;
 	QAction* getNewConnAction() const;
 
-	QAction* getSQLiteAction() const;
-	QAction* getMySQLAction() const;
-	QAction* getPostgreSQLAction() const;
-
-	QOpenDatabaseView* getOpenDatabaseView() const;
 	QTabWidget* getDatabaseConnectionTab() const;
+	QOpenHistoryView* getOpenHistoryView() const;
+	QFileExplorerWidget* getFileExplorerWidget() const;
+	QOpenDatabaseView* getOpenDatabaseView() const;
+
+	QWidget * makeExplorerTab(QWidget* pParent);
+	QWidget* makeNoSelectionTab(QWidget* pParent);
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 	void showViewsTab();
 	void showHistoryTab();
 	void showExplorerTab();
-	void showNewConnMenuTab();
-	void openSQLiteTab();
-	void openMySQLTab();
-	void openPostgreSQLTab();
+	void showMenuConnTab();
 
 protected:
 	virtual void changeEvent(QEvent* pEvent);
@@ -62,16 +62,15 @@ private:
 
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 
-	QWidget * m_pHistWidget;
-	QWidget * m_pNewConnWidget;
 	QWidget * m_pExplorerWidget;
-	QWidget * m_pSQLiteWidget;
-	QWidget * m_pMySQLWidget;
-	QWidget * m_pPSQLWidget;
 	QWidget * m_pNoSelectWidget;
 
 	QOpenDatabaseView* m_pOpenDatabaseView;
+	QOpenHistoryView* m_pOpenHistoryView;
 	QToolBar * m_pWindowToolBar;
+
+	// Explorer
+	QFileExplorerWidget* m_pFileExplorerWidget;
 
 	// List of actions
 	QAction* m_pQuitAction;
@@ -81,10 +80,6 @@ private:
 	QAction* m_pHistAction;
 	QAction* m_pExplorerAction;
 	QAction* m_pNewConnAction;
-
-	QAction* m_pSQLiteAction;
-	QAction* m_pMySQLAction;
-	QAction* m_pPostgreSQLAction;
 };
 
 #endif /* SRC_MAINWINDOW_H_ */

@@ -24,43 +24,18 @@
 #include "QOpenDatabaseViewController.h"
 #include "Settings/QSettingsManager.h"
 
-QOpenDatabaseViewController::QOpenDatabaseViewController()
-{
-	m_pOpenDatabaseView = NULL;
-	m_pMainWindow = NULL;
-}
-
-QOpenDatabaseViewController::~QOpenDatabaseViewController()
-{
-
-}
-
-void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseView* pOpenDatabaseView)
+QOpenDatabaseViewController::QOpenDatabaseViewController(QWindowMain* pMainWindow, QWindowMainController* pMainWindowController)
 {
 	m_pMainWindow = pMainWindow;
-	m_pOpenDatabaseView = pOpenDatabaseView;
+	m_pMainWindowController = pMainWindowController;
+	m_pOpenDatabaseView = pMainWindow->getOpenDatabaseView();
 
 	//Search in SQL Form
 	connect(m_pOpenDatabaseView->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
+	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
 
 	//Forms Validation buttons
 	connect(m_pOpenDatabaseView, SIGNAL(clicked(DatabaseModel::DatabaseType)), this, SLOT(prepareConnection(DatabaseModel::DatabaseType)));
-
-	//File Explorer Buttons
-	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
-	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openSelectedFile(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
-	connect(m_pOpenDatabaseView->getFileExplorerWidget(), SIGNAL(openDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
-	connect(m_pOpenDatabaseView->getFileExplorerWidget()->getDropArea(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
-
-	//History Databases Selection
-	connect(m_pOpenDatabaseView, SIGNAL(openHistorySQLiteDatabase(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
-	connect(m_pOpenDatabaseView, SIGNAL(openHistoryInfo(const QString&)), this, SLOT(setHistoryInfo(const QString&)));
-
-	//Main ToolBar Slots
-	connect(m_pMainWindow->getViewsAction(), SIGNAL(triggered()), this, SLOT(openViews()));
-	connect(m_pMainWindow->getHistAction(), SIGNAL(triggered()), this, SLOT(openHist()));
-	connect(m_pMainWindow->getExplorerAction(), SIGNAL(triggered()), this, SLOT(openExplorer()));
-	connect(m_pMainWindow->getNewConnAction(), SIGNAL(triggered()), this, SLOT(openMenuConn()));
 
 	//Slots for buttons in Add Connection Menu
 	connect(m_pOpenDatabaseView->getSQLiteSelection(), SIGNAL(clicked()), this, SLOT(openSQLite()));
@@ -73,8 +48,11 @@ void QOpenDatabaseViewController::init(QWindowMain* pMainWindow, QOpenDatabaseVi
 	// Default values
 	m_pOpenDatabaseView->getPSQLHostField()->setText("127.0.0.1");
 	m_pOpenDatabaseView->getPSQLPortField()->setText("5432");
+}
 
-	initHistoryList();
+QOpenDatabaseViewController::~QOpenDatabaseViewController()
+{
+
 }
 
 void QOpenDatabaseViewController::openFileDialog()
@@ -83,34 +61,39 @@ void QOpenDatabaseViewController::openFileDialog()
 	m_pOpenDatabaseView->getSQLiteFilePathField()->setText(m_szFileUrl);
 }
 
+void QOpenDatabaseViewController::closeOpenDatabaseDialog()
+{
+	m_pOpenDatabaseView->close();
+}
+
+void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * database)
+{
+	database->setDatabaseName(m_pOpenDatabaseView->getMySQLDatabaseField()->text());
+	database->setDatabaseHost(m_pOpenDatabaseView->getMySQLHostField()->text());
+	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt());
+	database->setDatabaseUsername(m_pOpenDatabaseView->getMySQLUsernameField()->text());
+	database->setDatabasePassword(m_pOpenDatabaseView->getMySQLPasswordField()->text());
+}
+
+void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database)
+{
+	database->setDatabaseName(m_pOpenDatabaseView->getPSQLDatabaseField()->text());
+	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
+	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt());
+	database->setDatabaseUsername(m_pOpenDatabaseView->getPSQLUsernameField()->text());
+	database->setDatabasePassword(m_pOpenDatabaseView->getPSQLPasswordField()->text());
+}
+
+
+QString QOpenDatabaseViewController::getFileUrl() const
+{
+	return m_szFileUrl;
+}
+
 void QOpenDatabaseViewController::openSQLiteFile(const QString& szFileUrl)
 {
 	m_szFileUrl = szFileUrl;
 	prepareConnection(DatabaseModel::SQLiteType);
-}
-
-void QOpenDatabaseViewController::setHistoryInfo(const QString& szPath)
-{
-	QString qElidedText, szFName;
-	int iWidth = 220;
-
-	if (m_pOpenDatabaseView->getHistoryInfoWidget()->width()>iWidth) {
-		iWidth = m_pOpenDatabaseView->getHistoryInfoWidget()->width()-10;
-	}
-	szFName = szPath.section('/', -1);
-	qElidedText = szPath.section('/', 0, -2);
-
-	QFontMetrics metrics(m_pOpenDatabaseView->getHistoryPathLabel()->font());
-	qElidedText = metrics.elidedText(qElidedText, Qt::ElideLeft, iWidth);
-	m_pOpenDatabaseView->getHistoryInfoWidget()->setVisible(true);
-
-	m_pOpenDatabaseView->getHistoryNameLabel()->setText(szFName);
-	m_pOpenDatabaseView->getHistoryPathLabel()->setText(qElidedText);
-}
-
-void QOpenDatabaseViewController::closeOpenDatabaseDialog()
-{
-	m_pOpenDatabaseView->close();
 }
 
 void QOpenDatabaseViewController::prepareConnection(DatabaseModel::DatabaseType type) {
@@ -166,7 +149,7 @@ DatabaseModel QOpenDatabaseViewController::selectDatabase(DatabaseModel::Databas
 
 		ApplicationSettings::addHistoryDatabase(databaseModel);
 		QSettingsManager::getInstance().saveDatabaseSettings();
-		initHistoryList();
+		m_pMainWindowController->callInitHistoryList();
 		break;
 	case DatabaseModel::MySQLType:
 		recoverMySQLDatabaseInfo(&databaseModel);
@@ -243,79 +226,14 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 	}
 }
 
-void QOpenDatabaseViewController::recoverMySQLDatabaseInfo(DatabaseModel * database)
-{
-	database->setDatabaseName(m_pOpenDatabaseView->getMySQLDatabaseField()->text());
-	database->setDatabaseHost(m_pOpenDatabaseView->getMySQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getMySQLPortField()->text().toInt());
-	database->setDatabaseUsername(m_pOpenDatabaseView->getMySQLUsernameField()->text());
-	database->setDatabasePassword(m_pOpenDatabaseView->getMySQLPasswordField()->text());
-}
-
-void QOpenDatabaseViewController::recoverPostgreSQLInfo(DatabaseModel * database)
-{
-	database->setDatabaseName(m_pOpenDatabaseView->getPSQLDatabaseField()->text());
-	database->setDatabaseHost(m_pOpenDatabaseView->getPSQLHostField()->text());
-	database->setDatabasePort(m_pOpenDatabaseView->getPSQLPortField()->text().toInt());
-	database->setDatabaseUsername(m_pOpenDatabaseView->getPSQLUsernameField()->text());
-	database->setDatabasePassword(m_pOpenDatabaseView->getPSQLPasswordField()->text());
-}
-
-QString QOpenDatabaseViewController::getFileUrl() const
-{
-	return m_szFileUrl;
-}
-
-void QOpenDatabaseViewController::initHistoryList()
-{
-	HistoryDatabaseList list = ApplicationSettings::getHistoryList();
-	DatabaseModel database;
-	QString qElidedText;
-	int iWidth = 190;
-
-	m_pOpenDatabaseView->getHistoryTreeWidget()->clear();
-	for (int row = list.size() - 1 ; row >= 0 ; row--){
-		database = list.at(row);
-		QTreeWidgetItem *item = new QTreeWidgetItem(m_pOpenDatabaseView->getHistoryTreeWidget());
-
-		qElidedText = database.getDatabasePath().section('/', 0, -2);
-		QFontMetrics metrics(m_pOpenDatabaseView->getHistoryPathLabel()->font());
-		qElidedText = metrics.elidedText(qElidedText, Qt::ElideLeft, iWidth);
-
-		item->setText(0, database.getDatabaseName()+'\n'+qElidedText);
-		switch (database.getDatabaseType()) {
-		case DatabaseModel::SQLiteType:
-			item->setToolTip(0, database.getDatabasePath());
-			break;
-		//TODO case for MySQLiteType and PostgreSQLType (getDatabaseHost) -> Warning Password
-		}
-	}
-}
-
-void QOpenDatabaseViewController::openViews() {
-	m_pMainWindow->showViewsTab();
-}
-
-void QOpenDatabaseViewController::openHist() {
-	m_pMainWindow->showHistoryTab();
-}
-
-void QOpenDatabaseViewController::openExplorer() {
-	m_pMainWindow->showExplorerTab();
-}
-
-void QOpenDatabaseViewController::openMenuConn() {
-	m_pMainWindow->showNewConnMenuTab();
-}
-
 void QOpenDatabaseViewController::openSQLite() {
-	m_pMainWindow->openSQLiteTab();
+	m_pOpenDatabaseView->openSQLiteTab();
 }
 
 void QOpenDatabaseViewController::openMySQL() {
-	m_pMainWindow->openMySQLTab();
+	m_pOpenDatabaseView->openMySQLTab();
 }
 
 void QOpenDatabaseViewController::openPostgreSQL() {
-	m_pMainWindow->openPostgreSQLTab();
+	m_pOpenDatabaseView->openPostgreSQLTab();
 }

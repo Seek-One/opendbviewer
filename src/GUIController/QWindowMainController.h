@@ -10,7 +10,13 @@
 
 #include <QObject>
 
+#include "Model/DatabaseModel.h"
+#include "Database/DatabaseController.h"
+#include "QOpenDatabaseViewController.h"
+#include "QOpenHistoryViewController.h"
+
 class QOpenDatabaseViewController;
+class QOpenHistoryViewController;
 class QWidget;
 class QWindowMain;
 
@@ -22,15 +28,23 @@ public:
 	virtual ~QWindowMainController();
 
 	void init(QWindowMain* pMainWindow);
+	void callInitHistoryList();
 
 public slots:
 	void closeDatabaseConnectionTab(const int& index);
-
 	void about();
+
+	void callSQLiteFile(const QString& szFileUrl);
+
+	void openViews();
+	void openHist();
+	void openExplorer();
+	void openMenuConn();
 
 private:
 	QWindowMain* m_pMainWindow;
 	QOpenDatabaseViewController* m_pOpenDatabaseViewController;
+	QOpenHistoryViewController* m_pOpenHistoryViewController;
 };
 
 #endif /* SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_ */

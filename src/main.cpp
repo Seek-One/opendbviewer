@@ -82,11 +82,11 @@ int main(int argc, char *argv[])
 
 	// Init GUI
 	QWindowMain* pWindowMain = NULL;
-	QWindowMainController controller;
+	QWindowMainController pWindowMainController;
 	if(bGoOn){
 		qDebug("[Main] Initializing GUI");
 		pWindowMain = new QWindowMain();
-		controller.init(pWindowMain);
+		pWindowMainController.init(pWindowMain);
 	}
 
 	// Show GUI

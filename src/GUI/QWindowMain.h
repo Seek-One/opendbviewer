@@ -10,6 +10,7 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QSplitter>
 
 #include "Widget/QFileExplorerWidget.h"
 #include "Widget/QMidClickClosableTabWidget.h"
@@ -59,6 +60,7 @@ private:
 private:
 	QStackedWidget * m_pStackedMenuWidget;
 	QStackedWidget * m_pStackedDatabaseWidget;
+	QSplitter * m_pMainSplitter;
 
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
 

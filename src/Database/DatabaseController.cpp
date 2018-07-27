@@ -175,10 +175,10 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 		// Select with all column
 		QString szHeaders = listRowHeader.join(", ");
-		QString szQuery = "SELECT "+szHeaders+" FROM "+szTableName;
+		QString szQuery = "SELECT " + szHeaders + " FROM "+szTableName;
 		// Add filter if any
 		if(szFilter.isEmpty() == false){
-			szQuery += " WHERE "+szFilter;
+			szQuery += " WHERE " + szFilter;
 		}
 
 		int iCount = 0;

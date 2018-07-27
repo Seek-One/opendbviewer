@@ -29,6 +29,9 @@ public:
 	QLabel* getHistoryNameLabel() const;
 	QLabel* getHistoryPathLabel() const;
 
+protected:
+	virtual void resizeEvent(QResizeEvent *event);
+
 private:
 	QWidget* makeHistoryInfo(QWidget* pParent);
 
@@ -37,8 +40,9 @@ public slots:
 	void onHistoryItemDoubleClicked(const QModelIndex&);
 
 signals:
-	void openHistorySQLiteDatabase(const QModelIndex& index);
-	void openHistoryInfo(const QModelIndex& index);
+	void openHistorySQLiteDatabase(const QModelIndex&);
+	void openHistoryInfo(const QModelIndex&);
+	void improveDesign(int iWidth);
 
 private:
 	QTreeView* m_pHistoryTreeView;

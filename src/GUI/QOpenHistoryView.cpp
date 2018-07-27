@@ -21,14 +21,14 @@ QOpenHistoryView::QOpenHistoryView(QWidget* pParent)
 	pMainLayout->setSpacing(0);
 
 	m_pHistoryTreeView = new QTreeView(this);
-	m_pHistoryNameLabel = new QLabel();
-	m_pHistoryPathLabel = new QLabel();
-	m_pHistoryHostLabel = new QLabel();
-	m_pHistoryPortLabel = new QLabel();
-	m_pHistoryUsernameLabel = new QLabel();
+	m_pHistoryNameLabel = new QLabel(m_pHistoryInfoWidget);
+	m_pHistoryPathLabel = new QLabel(m_pHistoryInfoWidget);
+	m_pHistoryHostLabel = new QLabel(m_pHistoryInfoWidget);
+	m_pHistoryPortLabel = new QLabel(m_pHistoryInfoWidget);
+	m_pHistoryUsernameLabel = new QLabel(m_pHistoryInfoWidget);
 
 	m_pHistoryTreeView->setHeaderHidden(true);
-	m_pHistoryTreeView->header()->setDefaultAlignment(Qt::AlignCenter);
+	m_pHistoryTreeView->setRootIsDecorated(false);
 	pMainLayout->addWidget(m_pHistoryTreeView);
 
 	m_pHistoryInfoWidget = makeHistoryInfo(this);
@@ -56,6 +56,13 @@ QLabel* QOpenHistoryView::getHistoryNameLabel() const
 QLabel* QOpenHistoryView::getHistoryPathLabel() const
 {
 	return m_pHistoryPathLabel;
+}
+
+void QOpenHistoryView::resizeEvent(QResizeEvent *event)
+{
+	if (event->size().width()!=event->oldSize().width()) {
+		emit improveDesign(event->size().width());
+	}
 }
 
 QWidget* QOpenHistoryView::getHistoryInfoWidget() const

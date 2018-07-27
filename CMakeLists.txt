@@ -225,6 +225,8 @@ set(APPLICATION_SOURCES
 	src/GUIModel/QHistoryDatabaseItem.h
 	src/GUIModel/QHistoryDatabaseModel.cpp
 	src/GUIModel/QHistoryDatabaseModel.h
+	src/GUIModel/HTMLDelegate.cpp
+	src/GUIModel/HTMLDelegate.h
 	src/Image/QIconThemeFallback.cpp
 	src/Image/QIconThemeFallback.h
 	src/Database/DatabaseController.cpp

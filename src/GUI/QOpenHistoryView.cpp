@@ -35,6 +35,7 @@ QOpenHistoryView::QOpenHistoryView(QWidget* pParent)
 	pMainLayout->addWidget(m_pHistoryInfoWidget);
 	m_pHistoryInfoWidget->setHidden(true);
 
+	//TODO new signal for key up and down
 	connect(m_pHistoryTreeView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onHistoryItemClicked(const QModelIndex&)));
  	connect(m_pHistoryTreeView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(onHistoryItemDoubleClicked(const QModelIndex &)));
 }
@@ -86,9 +87,7 @@ QWidget* QOpenHistoryView::makeHistoryInfo(QWidget* pParent) {
 	int iSpace = 7;
 	QFormLayout* pFormLayout = new QFormLayout();
 	pGroupBox->setLayout(pFormLayout);
-	//set the color of the background without side effect on border
 
-	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 	pFormLayout->setContentsMargins(0,iSpace,0,0);
 	//Create a second QFormLayout for the MySQL/PostgreSQL database
 

@@ -349,17 +349,17 @@ vos fichiers ici</translation>
 <context>
     <name>QOpenHistoryView</name>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="82"/>
+        <location filename="../src/GUI/QOpenHistoryView.cpp" line="83"/>
         <source>Item Informations:</source>
         <translation>Informations de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="97"/>
+        <location filename="../src/GUI/QOpenHistoryView.cpp" line="96"/>
         <source>Name :</source>
         <translation>Nom :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="102"/>
+        <location filename="../src/GUI/QOpenHistoryView.cpp" line="101"/>
         <source>Path :</source>
         <translation>Chemin :</translation>
     </message>
@@ -400,47 +400,47 @@ vos fichiers ici</translation>
         <translation type="vanished">&amp;A propos</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="280"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="281"/>
         <source>No selection</source>
         <translation>Pas de sélection</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="193"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="194"/>
         <source>File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="194"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="195"/>
         <source>Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="197"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="198"/>
         <source>Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="198"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="199"/>
         <source>About</source>
         <translation>&amp;A propos</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="217"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="218"/>
         <source>Views</source>
         <translation>Vues</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="223"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="224"/>
         <source>History</source>
         <translation>Historique</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="231"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="232"/>
         <source>File Explorer</source>
         <translation>Explorateur de fichiers</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="241"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="242"/>
         <source>New Connection</source>
         <translation>Nouvelle Connexion</translation>
     </message>

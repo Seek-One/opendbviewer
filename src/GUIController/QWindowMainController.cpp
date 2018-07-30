@@ -109,6 +109,7 @@ void QWindowMainController::callSQLiteFile(const QString& szFileUrl)
 	m_pOpenDatabaseViewController->openSQLiteFile(szFileUrl);
 }
 
-void QWindowMainController::callInitHistoryList() {
+void QWindowMainController::callInitHistoryList()
+{
 	m_pOpenHistoryViewController->initHistoryList();
 }

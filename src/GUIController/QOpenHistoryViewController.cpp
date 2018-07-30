@@ -34,22 +34,39 @@ void QOpenHistoryViewController::getHistoryInfo(const QModelIndex& index)
 	QHistoryDatabaseItem* pItem = dynamic_cast<QHistoryDatabaseItem*>(m_pHistoryDatabaseModel->itemFromIndex(index));
 	m_databaseModel = pItem->getDatabaseModel();
 
-
 	//TODO Switch between types
 	setHistoryInfo();
 }
 
 void QOpenHistoryViewController::setHistoryInfo()
 {
-	QString qText, qElidedText, szFName;
+	QString szFName, qSection, qTemp;
 	szFName = m_databaseModel.getDatabasePath().section('/', -1);
-	qText = m_databaseModel.getDatabasePath().section('/', 0, -2);
 
-	QFontMetrics metrics(m_pOpenHistoryView->getHistoryInfoWidget()->font());
-	qElidedText = metrics.elidedText(qText, Qt::ElideMiddle, m_iWindowWidth);
-
+	int i = 1, j = 0, iCorrect = 60; //iCorrect correct a side effet on the Info History Widget
+	//Count the sections in the path
+	while (qSection!=m_databaseModel.getDatabasePath()) {
+		qSection = m_databaseModel.getDatabasePath().section('/', 0, i);
+		i++;
+	}
+	qSection = "";
+	//Set the History Path Label
+	while (j<i) {
+		qTemp = qSection + m_databaseModel.getDatabasePath().section('/', j, j+1) + '/';
+		if ( m_pOpenHistoryView->getHistoryPathLabel()->fontMetrics().width(qTemp)<m_iWindowWidth-iCorrect)
+		{
+			qSection = qTemp;
+		} else {
+			if (j > 0) {
+				qSection += "\n/";
+			}
+			qSection += m_databaseModel.getDatabasePath().section('/', j, j+1);
+		}
+		m_pOpenHistoryView->getHistoryPathLabel()->setText(qSection);
+		j+=2;
+	}
 	m_pOpenHistoryView->getHistoryNameLabel()->setText(szFName);
-	m_pOpenHistoryView->getHistoryPathLabel()->setText(qElidedText);
+
 }
 
 void QOpenHistoryViewController::initHistoryList()
@@ -77,7 +94,6 @@ void QOpenHistoryViewController::openSQLiteHistoryFile(const QModelIndex& index)
 
 void QOpenHistoryViewController::resizeHistory(int iWidth)
 {
-	QString qText, qElidedText;
 	m_iWindowWidth = iWidth;
 	m_pHistoryDatabaseModel->obtainInfoDesign(iWidth, m_pOpenHistoryView->getHistoryTreeView()->font());
 	setHistoryInfo();

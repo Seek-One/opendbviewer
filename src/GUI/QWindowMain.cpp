@@ -49,7 +49,6 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pStackedDatabaseWidget = new QStackedWidget();
     m_pMainSplitter->addWidget(m_pStackedDatabaseWidget);
 
-    m_pMainSplitter->setStretchFactor(0,1);
 
     //Databases Widgets
     m_pDatabaseConnectionTab = new QMidClickClosableTabWidget(this);
@@ -71,6 +70,8 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
 
     showViewsTab();
+    m_pMainSplitter->setStretchFactor(0,1);
+    m_pMainSplitter->setStretchFactor(1,10);
 }
 
 QWindowMain::~QWindowMain()
@@ -130,9 +131,10 @@ QFileExplorerWidget* QWindowMain::getFileExplorerWidget() const
 
 void QWindowMain::showViewsTab()
 {
-    int iMin = 180, iMax = 260;
-	m_pStackedMenuWidget->setMinimumWidth(iMin);
-	m_pStackedMenuWidget->setMaximumWidth(iMax);
+    int iMinMenu = 180, iMinView = 200;
+	m_pStackedDatabaseWidget->setMinimumWidth(iMinView);
+	m_pStackedMenuWidget->setMinimumWidth(iMinMenu);
+
 	m_pStackedMenuWidget->setHidden(true);
 	m_pStackedDatabaseWidget->setVisible(true);
 
@@ -162,7 +164,6 @@ void QWindowMain::showExplorerTab()
 {
 	m_pStackedDatabaseWidget->setHidden(true);
 	m_pStackedMenuWidget->setVisible(true);
-	m_pStackedMenuWidget->setMaximumWidth(m_pMainSplitter->width());
 	m_pStackedMenuWidget->setCurrentWidget(m_pExplorerWidget);
 }
 

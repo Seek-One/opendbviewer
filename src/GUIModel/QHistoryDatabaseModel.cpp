@@ -28,13 +28,12 @@ QVariant QHistoryDatabaseModel::data(const QModelIndex &index, int role) const
 		switch(databaseModel.getDatabaseType()) {
 		case DatabaseModel::SQLiteType:
 		  	QString qElidedText, qFinalText;
-		  	int iWidth = m_iWidth;
+		  	int iWidth = m_iWidth, iCorrect = 5; //iCorrect correct a side effet on the QTreeView
 			qElidedText = databaseModel.getDatabasePath().section('/', 0, -2);
 		  	QFontMetrics metrics(m_font);
-		  	qElidedText = metrics.elidedText(qElidedText, Qt::ElideMiddle, iWidth-5);
+		  	qElidedText = metrics.elidedText(qElidedText, Qt::ElideMiddle, iWidth-iCorrect);
 
 			qFinalText = "<b>" + databaseModel.getDatabaseName() + "</b><br/>" + qElidedText;
-
 			return qFinalText;
 		//TODO other case (for now MySQL and PostgreSQL type)
 		}

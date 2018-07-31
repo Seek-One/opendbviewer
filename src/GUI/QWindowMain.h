@@ -14,12 +14,12 @@
 
 #include "Widget/QFileExplorerWidget.h"
 #include "Widget/QMidClickClosableTabWidget.h"
+#include "Widget/QDropAreaWidget.h"
 
 class QAction;
 class QDatabaseConnectionView;
 class QOpenDatabaseView;
 class QOpenHistoryView;
-class QTabWidget;
 
 class QWindowMain : public QMainWindow
 {
@@ -30,19 +30,22 @@ public:
 
 	QAction* getQuitAction() const;
 	QAction* getAboutAction() const;
+	QDropAreaWidget* getDropArea() const;
 
 	QAction* getViewsAction() const;
 	QAction* getHistAction() const;
 	QAction* getExplorerAction() const;
 	QAction* getNewConnAction() const;
 
-	QTabWidget* getDatabaseConnectionTab() const;
+	QMidClickClosableTabWidget* getDatabaseConnectionTab() const;
 	QOpenHistoryView* getOpenHistoryView() const;
 	QFileExplorerWidget* getFileExplorerWidget() const;
 	QOpenDatabaseView* getOpenDatabaseView() const;
+	QStackedWidget* getStackedDatabaseWidget() const;
+	QWidget * getNoSelectionWidget() const;
 
-	QWidget * makeExplorerTab(QWidget* pParent);
-	QWidget* makeNoSelectionTab(QWidget* pParent);
+	QWidget * makeExplorerTab();
+	QWidget* makeNoSelectionTab();
 
 	void addDatabaseConnectionView(QDatabaseConnectionView* pDatabaseConnectionView, const QString& szTitle);
 	void showViewsTab();
@@ -61,9 +64,9 @@ private:
 	QStackedWidget * m_pStackedMenuWidget;
 	QStackedWidget * m_pStackedDatabaseWidget;
 	QSplitter * m_pMainSplitter;
+	QDropAreaWidget * m_pDropArea;
 
 	QMidClickClosableTabWidget *m_pDatabaseConnectionTab;
-
 	QWidget * m_pExplorerWidget;
 	QWidget * m_pNoSelectWidget;
 

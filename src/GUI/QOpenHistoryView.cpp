@@ -8,7 +8,6 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QFormLayout>
-#include <QHeaderView>
 
 #include "QOpenHistoryView.h"
 
@@ -21,21 +20,22 @@ QOpenHistoryView::QOpenHistoryView(QWidget* pParent)
 	pMainLayout->setSpacing(0);
 
 	m_pHistoryTreeView = new QTreeView(this);
-	m_pHistoryNameLabel = new QLabel(m_pHistoryInfoWidget);
-	m_pHistoryPathLabel = new QLabel(m_pHistoryInfoWidget);
-	m_pHistoryHostLabel = new QLabel(m_pHistoryInfoWidget);
-	m_pHistoryPortLabel = new QLabel(m_pHistoryInfoWidget);
-	m_pHistoryUsernameLabel = new QLabel(m_pHistoryInfoWidget);
+	m_pHistoryTreeView->installEventFilter(this);
 
 	m_pHistoryTreeView->setHeaderHidden(true);
 	m_pHistoryTreeView->setRootIsDecorated(false);
 	pMainLayout->addWidget(m_pHistoryTreeView);
 
+	m_pHistoryNameLabel = new QLabel();
+	m_pHistoryPathLabel = new QLabel();
+	m_pHistoryHostLabel = new QLabel();
+	m_pHistoryPortLabel = new QLabel();
+	m_pHistoryUsernameLabel = new QLabel();
+
 	m_pHistoryInfoWidget = makeHistoryInfo(this);
 	pMainLayout->addWidget(m_pHistoryInfoWidget);
 	m_pHistoryInfoWidget->setHidden(true);
 
-	//TODO new signal for key up and down
 	connect(m_pHistoryTreeView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onHistoryItemClicked(const QModelIndex&)));
  	connect(m_pHistoryTreeView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(onHistoryItemDoubleClicked(const QModelIndex &)));
 }
@@ -119,5 +119,24 @@ void QOpenHistoryView::onHistoryItemDoubleClicked(const QModelIndex& index)
 
 	//TODO Switch with the different functions to open other type databases
 	emit openHistorySQLiteDatabase(index);
+}
+
+bool QOpenHistoryView::eventFilter(QObject* pObject, QEvent* pEvent)
+{
+	if ((pObject == m_pHistoryTreeView) && (pEvent->type() == QEvent::KeyPress)) {
+		QKeyEvent* pKeyEvent = static_cast<QKeyEvent*>(pEvent);
+		QModelIndex currentIndex = m_pHistoryTreeView->currentIndex();
+			if (pKeyEvent->key() == Qt::Key_Up && m_pHistoryTreeView->indexAbove(currentIndex)!=QModelIndex()) {
+				m_pHistoryTreeView->setCurrentIndex(m_pHistoryTreeView->indexAbove(currentIndex));
+				emit openHistoryInfo(m_pHistoryTreeView->currentIndex());
+				return true;
+			}
+			if (pKeyEvent->key() == Qt::Key_Down && m_pHistoryTreeView->indexBelow(currentIndex)!=QModelIndex()) {
+				m_pHistoryTreeView->setCurrentIndex(m_pHistoryTreeView->indexBelow(currentIndex));
+				emit openHistoryInfo(m_pHistoryTreeView->currentIndex());
+				return true;
+			}
+	}
+	return QWidget::eventFilter(pObject, pEvent);
 }
 

@@ -72,11 +72,6 @@ QFileExplorerWidget::~QFileExplorerWidget()
 
 }
 
-QDropAreaWidget* QFileExplorerWidget::getDropArea()
-{
-	return m_pDropArea;
-}
-
 void QFileExplorerWidget::onFileTreeViewDoubleClicked(QModelIndex index)
 {
 	if (fileModel->isDir(index))
@@ -157,9 +152,6 @@ QWidget* QFileExplorerWidget::makeFileExplorerDropAreaWidget(QWidget* pParent, Q
 	m_pFileTreeView->setRootIndex(fileModel->setRootPath(szHomeUserPath));
 
 	pMainLayout->addWidget(m_pFileTreeView, 3);
-
-	m_pDropArea = new QDropAreaWidget(tr("Drag and drop your files here"));
-	pMainLayout->addWidget(m_pDropArea, 1);
 
 	return pMainWidget;
 }

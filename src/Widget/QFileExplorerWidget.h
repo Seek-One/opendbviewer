@@ -27,8 +27,6 @@ public:
 	QFileExplorerWidget(QWidget* parent = 0);
 	virtual ~QFileExplorerWidget();
 
-	QDropAreaWidget* getDropArea();
-
 public slots:
 	void onFileTreeViewDoubleClicked(QModelIndex index);
 	void onFolderTreeViewClicked(QModelIndex index);
@@ -43,8 +41,6 @@ private:
 
 	QTreeView *m_pFolderTreeView;
 	QTreeView *m_pFileTreeView;
-
-	QDropAreaWidget *m_pDropArea;
 
 	QWidget *m_pFileExplorerDropAreaWidget;
 

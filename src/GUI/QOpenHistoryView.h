@@ -13,7 +13,6 @@
 #include <QTreeWidget>
 
 #include "Model/DatabaseModel.h"
-#include "Widget/QDropAreaWidget.h"
 #include "Widget/QFileExplorerWidget.h"
 #include "GUIModel/QHistoryDatabaseItem.h"
 
@@ -31,6 +30,7 @@ public:
 
 protected:
 	virtual void resizeEvent(QResizeEvent *event);
+	virtual bool eventFilter(QObject* pObject, QEvent* pEvent);
 
 private:
 	QWidget* makeHistoryInfo(QWidget* pParent);

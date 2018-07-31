@@ -25,6 +25,7 @@ bool QMidClickClosableTabWidget::eventFilter(QObject* pObject, QEvent* pEvent)
 		QMouseEvent* pMouseEvent = static_cast<QMouseEvent*>(pEvent);
 		if (pMouseEvent->button() == Qt::MiddleButton) {
 			removeTab(tabBar()->tabAt(pMouseEvent->pos()));
+			emit tabCloseRequested(tabBar()->tabAt(pMouseEvent->pos()));
 			return true;
 		}
 	}

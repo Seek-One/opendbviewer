@@ -5,15 +5,6 @@
  *      Author: echopin
  */
 
-
-#include <QDialog>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QString>
-#include <QTabWidget>
-#include <QVBoxLayout>
-
 #include "GUI/QAboutDialog.h"
 #include "GUI/QWindowMain.h"
 #include "GUI/QOpenHistoryView.h"
@@ -53,14 +44,15 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 	m_pOpenDatabaseViewController = new QOpenDatabaseViewController(pMainWindow, this);
 	m_pOpenHistoryViewController = new QOpenHistoryViewController(pMainWindow, this);
 
-    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeDatabaseConnectionTab(int)));
+    //Top Menu Bar
     connect(m_pMainWindow->getAboutAction(), SIGNAL(triggered()), this, SLOT(about()));
     connect(m_pMainWindow->getQuitAction(), SIGNAL(triggered()), qApp, SLOT(quit()));
 
-	//File Explorer Buttons
+    connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeDatabaseConnectionTab(int)));
+
+    //File Explorer Buttons
 	connect(m_pMainWindow->getFileExplorerWidget(), SIGNAL(openSelectedFile(const QString&)), this, SLOT(callSQLiteFile(const QString&)));
 	connect(m_pMainWindow->getFileExplorerWidget(), SIGNAL(openDatabase(const QString&)), this, SLOT(callSQLiteFile(const QString&)));
-	connect(m_pMainWindow->getFileExplorerWidget()->getDropArea(), SIGNAL(fileDropped(const QString&)), this, SLOT(callSQLiteFile(const QString&)));
 
 	//Main ToolBar Slots
 	connect(m_pMainWindow->getViewsAction(), SIGNAL(triggered()), this, SLOT(openViews()));
@@ -75,6 +67,9 @@ void QWindowMainController::closeDatabaseConnectionTab(const int& index)
 	if(pTabItem){
 		m_pMainWindow->getDatabaseConnectionTab()->removeTab(index);
 		delete pTabItem;
+	}
+	if (m_pMainWindow->getDatabaseConnectionTab()->count() == 0) {
+		m_pMainWindow->getStackedDatabaseWidget()->setCurrentWidget(m_pMainWindow->getNoSelectionWidget());
 	}
 }
 

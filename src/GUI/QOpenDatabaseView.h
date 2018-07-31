@@ -12,9 +12,9 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QComboBox>
 
 #include "Model/DatabaseModel.h"
-#include "Widget/QDropAreaWidget.h"
 
 class QLineEdit;
 class QTabWidget;
@@ -24,15 +24,12 @@ class QOpenDatabaseView : public QWidget
 	Q_OBJECT
 
 public:
-	QOpenDatabaseView(QWidget* parent = 0);
+	QOpenDatabaseView(QWidget* parent);
 	virtual ~QOpenDatabaseView();
-
-	QStackedWidget* getStackedMenuConnWidget() const;
 
 	// SQLite
 	QPushButton* getSQLiteFileSelectionButton() const;
 	QLineEdit* getSQLiteFilePathField() const;
-	QDropAreaWidget* getDropAreaWidget() const;
 
 	// MySQL
 	QLineEdit* getMySQLHostField() const;
@@ -48,24 +45,14 @@ public:
 	QLineEdit* getPSQLPasswordField() const;
 	QLineEdit* getPSQLDatabaseField() const;
 
-	QPushButton* getSQLiteButton() const;
-	QPushButton* getMySQLConnectButton() const;
-	QPushButton* getPostgreSQLConnectButton() const;
+	//Common
+	QPushButton* getValidationButton() const;
+	QComboBox* getComboBoxSelection() const;
 
-	//Menu
-	QPushButton* getSQLiteSelection() const;
-	QPushButton* getMySQLSelection() const;
-	QPushButton* getPostgreSQLSelection() const;
-
-	QWidget* makeNewConnMenu(QWidget* pParent);
-	QWidget* makeSQLiteTab(QWidget* pParent);
-	QWidget* makeMySQLTab(QWidget* pParent);
-	QWidget* makePostgreSQLTab(QWidget* pParent);
-
-	void openNewConnMenuTab();
-	void openSQLiteTab();
-	void openMySQLTab();
-	void openPostgreSQLTab();
+	void openSQLiteMenu();
+	void openMySQLMenu();
+	void openPostgreSQLMenu();
+	void hideMenus();
 
 public slots:
 	void dispatchClicked();
@@ -74,16 +61,19 @@ signals :
 	void clicked(DatabaseModel::DatabaseType type);
 
 private:
-	QStackedWidget* m_pStackedMenuConnWidget;
-	QWidget* m_pNewConnWidget;
+	QWidget* makeSQLiteWidget();
+	QWidget* makeMySQLWidget();
+	QWidget* makePostgreSQLWidget();
+
+private:
 	QWidget* m_pSQLiteWidget;
 	QWidget* m_pMySQLWidget;
 	QWidget* m_pPSQLWidget;
+	QComboBox* m_pComboBoxSelection;
 
 	// SQLite
 	QLineEdit* m_pSQLiteFilePathField;
 	QPushButton* m_pSQLiteFileSelectionButton;
-	QDropAreaWidget* m_pDropAreaWidget;
 
 	// MySQL
 	QLineEdit* m_pMySQLHostField;
@@ -100,14 +90,7 @@ private:
 	QLineEdit* m_pPSQLDatabaseField;
 
 	// Validation button
-	QPushButton* m_pSQLiteButton;
-	QPushButton* m_pMySQLConnectButton;
-	QPushButton* m_pPostgreSQLConnectButton;
-
-	//Selection Button
-	QPushButton* m_pSQLiteSelection;
-	QPushButton* m_pMySQLSelection;
-	QPushButton* m_pPSQLSelection;
+	QPushButton* m_pValidationButton;
 };
 
 #endif /* SRC_GUI_QOPENDATABASEVIEW_H_ */

@@ -41,9 +41,7 @@ public slots:
 	void prepareConnection(DatabaseModel::DatabaseType type);
 	void openSQLiteFile(const QString& szFileUrl);
 
-	void openSQLite();
-	void openMySQL();
-	void openPostgreSQL();
+	void openConnectionMenu(int index);
 
 private:
 	QWindowMain* m_pMainWindow;

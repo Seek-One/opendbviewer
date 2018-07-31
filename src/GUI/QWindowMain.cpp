@@ -20,7 +20,7 @@
 QWindowMain::QWindowMain(QWidget* parent)
 	: QMainWindow(parent)
 {
-    //Set minimum window size
+	//Set minimum window size
     setMinimumSize(800, 600);
 
     //Creation of the menu bar and the toolbar
@@ -41,6 +41,10 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pMainSplitter->setChildrenCollapsible(false);
     pMainLayout->addWidget(m_pMainSplitter);
 
+    QString szName = tr("Drag'n'Drop");
+    m_pDropArea = new QDropAreaWidget(szName);
+    pMainLayout->addWidget(m_pDropArea);
+
     //Creation of the Menu Container
     m_pStackedMenuWidget = new QStackedWidget();
     m_pMainSplitter->addWidget(m_pStackedMenuWidget);
@@ -49,6 +53,12 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pStackedDatabaseWidget = new QStackedWidget();
     m_pMainSplitter->addWidget(m_pStackedDatabaseWidget);
 
+    int iMinMenu = 180, iMinView = 200;
+	m_pStackedDatabaseWidget->setMinimumWidth(iMinView);
+	m_pStackedMenuWidget->setMinimumWidth(iMinMenu);
+
+    m_pMainSplitter->setStretchFactor(0,1);
+    m_pMainSplitter->setStretchFactor(1,10);
 
     //Databases Widgets
     m_pDatabaseConnectionTab = new QMidClickClosableTabWidget(this);
@@ -56,8 +66,8 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pDatabaseConnectionTab->setMovable(true);
     m_pStackedDatabaseWidget->addWidget(m_pDatabaseConnectionTab);
 
-    m_pNoSelectWidget = makeNoSelectionTab(this);
-	m_pStackedDatabaseWidget->addWidget(m_pNoSelectWidget);
+    m_pNoSelectWidget = makeNoSelectionTab();
+    m_pStackedDatabaseWidget->addWidget(m_pNoSelectWidget);
 
     //Menu Widgets
     m_pOpenDatabaseView = new QOpenDatabaseView(this);
@@ -66,12 +76,10 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pOpenHistoryView = new QOpenHistoryView(this);
     m_pStackedMenuWidget->addWidget(m_pOpenHistoryView);
 
-    m_pExplorerWidget = makeExplorerTab(this);
+    m_pExplorerWidget = makeExplorerTab();
     m_pStackedMenuWidget->addWidget(m_pExplorerWidget);
 
     showViewsTab();
-    m_pMainSplitter->setStretchFactor(0,1);
-    m_pMainSplitter->setStretchFactor(1,10);
 }
 
 QWindowMain::~QWindowMain()
@@ -87,6 +95,11 @@ QAction* QWindowMain::getQuitAction() const
 QAction* QWindowMain::getAboutAction() const
 {
 	return m_pAboutAction;
+}
+
+QDropAreaWidget* QWindowMain::getDropArea() const
+{
+	return m_pDropArea;
 }
 
 QAction* QWindowMain::getViewsAction() const
@@ -119,7 +132,7 @@ QOpenHistoryView* QWindowMain::getOpenHistoryView() const
 	return m_pOpenHistoryView;
 }
 
-QTabWidget* QWindowMain::getDatabaseConnectionTab() const
+QMidClickClosableTabWidget* QWindowMain::getDatabaseConnectionTab() const
 {
 	return m_pDatabaseConnectionTab;
 }
@@ -129,12 +142,18 @@ QFileExplorerWidget* QWindowMain::getFileExplorerWidget() const
 	return m_pFileExplorerWidget;
 }
 
+QStackedWidget* QWindowMain::getStackedDatabaseWidget() const
+{
+	return m_pStackedDatabaseWidget;
+}
+
+QWidget * QWindowMain::getNoSelectionWidget() const
+{
+	return m_pNoSelectWidget;
+}
+
 void QWindowMain::showViewsTab()
 {
-    int iMinMenu = 180, iMinView = 200;
-	m_pStackedDatabaseWidget->setMinimumWidth(iMinView);
-	m_pStackedMenuWidget->setMinimumWidth(iMinMenu);
-
 	m_pStackedMenuWidget->setHidden(true);
 	m_pStackedDatabaseWidget->setVisible(true);
 
@@ -171,7 +190,6 @@ void QWindowMain::showMenuConnTab()
 {
 	showViewsTab();
 	m_pStackedMenuWidget->setVisible(true);
-	m_pOpenDatabaseView->openNewConnMenuTab();
 	m_pStackedMenuWidget->setCurrentWidget(m_pOpenDatabaseView);
 }
 
@@ -252,9 +270,9 @@ void QWindowMain::createToolbar() {
 	setContextMenuPolicy(Qt::NoContextMenu);
 }
 
-QWidget * QWindowMain::makeExplorerTab(QWidget* pParent)
+QWidget * QWindowMain::makeExplorerTab()
 {
-	QWidget* pMainWidget = new QWidget(pParent);
+	QWidget* pMainWidget = new QWidget(this);
 	m_pFileExplorerWidget = new QFileExplorerWidget();
 
 	QHBoxLayout* pMainLayout = new QHBoxLayout();
@@ -268,9 +286,9 @@ QWidget * QWindowMain::makeExplorerTab(QWidget* pParent)
 	return pMainWidget;
 }
 
-QWidget* QWindowMain::makeNoSelectionTab(QWidget* pParent)
+QWidget* QWindowMain::makeNoSelectionTab()
 {
-	QWidget* pMainWidget = new QWidget(pParent);
+	QWidget* pMainWidget = new QWidget(this);
 	QVBoxLayout* pMainLayout = new QVBoxLayout();
 	pMainWidget->setLayout(pMainLayout);
 

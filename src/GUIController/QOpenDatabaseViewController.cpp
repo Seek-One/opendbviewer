@@ -30,17 +30,13 @@ QOpenDatabaseViewController::QOpenDatabaseViewController(QWindowMain* pMainWindo
 	m_pMainWindowController = pMainWindowController;
 	m_pOpenDatabaseView = pMainWindow->getOpenDatabaseView();
 
+	connect(m_pOpenDatabaseView->getComboBoxSelection(), SIGNAL(activated(int)), this, SLOT(openConnectionMenu(int)));
+
 	//Search in SQL Form
 	connect(m_pOpenDatabaseView->getSQLiteFileSelectionButton(), SIGNAL(clicked()), this, SLOT(openFileDialog()));
-	connect(m_pOpenDatabaseView->getDropAreaWidget(), SIGNAL(fileDropped(const QString&)), this, SLOT(openSQLiteFile(const QString&)));
 
 	//Forms Validation buttons
 	connect(m_pOpenDatabaseView, SIGNAL(clicked(DatabaseModel::DatabaseType)), this, SLOT(prepareConnection(DatabaseModel::DatabaseType)));
-
-	//Slots for buttons in Add Connection Menu
-	connect(m_pOpenDatabaseView->getSQLiteSelection(), SIGNAL(clicked()), this, SLOT(openSQLite()));
-	connect(m_pOpenDatabaseView->getMySQLSelection(), SIGNAL(clicked()), this, SLOT(openMySQL()));
-	connect(m_pOpenDatabaseView->getPostgreSQLSelection(), SIGNAL(clicked()), this, SLOT(openPostgreSQL()));
 
 	// Default values
 	m_pOpenDatabaseView->getMySQLHostField()->setText("127.0.0.1");
@@ -226,14 +222,17 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 	}
 }
 
-void QOpenDatabaseViewController::openSQLite() {
-	m_pOpenDatabaseView->openSQLiteTab();
-}
-
-void QOpenDatabaseViewController::openMySQL() {
-	m_pOpenDatabaseView->openMySQLTab();
-}
-
-void QOpenDatabaseViewController::openPostgreSQL() {
-	m_pOpenDatabaseView->openPostgreSQLTab();
+void QOpenDatabaseViewController::openConnectionMenu(int index)
+{
+	switch (index) {
+		case 0:
+			m_pOpenDatabaseView->openSQLiteMenu();
+			break;
+		case 1:
+			m_pOpenDatabaseView->openMySQLMenu();
+			break;
+		case 2:
+			m_pOpenDatabaseView->openPostgreSQLMenu();
+			break;
+	}
 }

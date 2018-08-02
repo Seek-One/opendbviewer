@@ -22,6 +22,7 @@ QWindowMain::QWindowMain(QWidget* parent)
 {
 	//Set minimum window size
     setMinimumSize(800, 600);
+    setAcceptDrops(true);
 
     //Creation of the menu bar and the toolbar
     createMenu();
@@ -41,9 +42,8 @@ QWindowMain::QWindowMain(QWidget* parent)
     m_pMainSplitter->setChildrenCollapsible(false);
     pMainLayout->addWidget(m_pMainSplitter);
 
-    QString szName = tr("Drag'n'Drop");
-    m_pDropArea = new QDropAreaWidget(szName);
-    pMainLayout->addWidget(m_pDropArea);
+    QString szName = tr("Drop files here");
+    m_pDropArea = new QDropAreaWidget(szName, this);
 
     //Creation of the Menu Container
     m_pStackedMenuWidget = new QStackedWidget();
@@ -157,7 +157,7 @@ void QWindowMain::showViewsTab()
 	m_pStackedMenuWidget->setHidden(true);
 	m_pStackedDatabaseWidget->setVisible(true);
 
-	if (m_pDatabaseConnectionTab->count()==0) {
+	if (m_pDatabaseConnectionTab->count() == 0) {
 		m_pStackedDatabaseWidget->setCurrentWidget(m_pNoSelectWidget);
 	} else {
 		m_pStackedDatabaseWidget->setCurrentWidget(m_pDatabaseConnectionTab);
@@ -207,6 +207,26 @@ void QWindowMain::changeEvent(QEvent* pEvent)
 	pEvent->accept();
 }
 
+void QWindowMain::resizeEvent(QResizeEvent* pEvent)
+{
+    m_pDropArea->resize(this->size());
+}
+
+void QWindowMain::dragEnterEvent(QDragEnterEvent* pEvent)
+{
+	emit dragEnterTriggered(pEvent);
+}
+
+void QWindowMain::dragLeaveEvent(QDragLeaveEvent* pEvent)
+{
+	emit dragLeaveTriggered(pEvent);
+}
+
+void QWindowMain::dropEvent(QDropEvent* pEvent)
+{
+	emit dropTriggered(pEvent);
+}
+
 void QWindowMain::createMenu()
 {
     QMenu *pFileMenu = menuBar()->addMenu(tr("File"));
@@ -219,7 +239,7 @@ void QWindowMain::createMenu()
 }
 
 void QWindowMain::createToolbar() {
-	m_pWindowToolBar = new QToolBar();
+	m_pWindowToolBar = new QToolBar(this);
 
 	m_pWindowToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	m_pWindowToolBar->setWindowTitle("ToolBar");
@@ -300,4 +320,19 @@ QWidget* QWindowMain::makeNoSelectionTab()
 	pMainLayout->addWidget(pLabel, 1, Qt::AlignCenter);
 
 	return pMainWidget;
+}
+
+void QWindowMain::enableBlurEffect(bool bGo)
+{
+	if (bGo) {
+		m_pWindowToolBar->setGraphicsEffect(new QGraphicsBlurEffect);
+		m_pStackedDatabaseWidget->setGraphicsEffect(new QGraphicsBlurEffect);
+		m_pStackedMenuWidget->setGraphicsEffect(new QGraphicsBlurEffect);
+		menuBar()->setGraphicsEffect(new QGraphicsBlurEffect);
+	} else {
+		m_pWindowToolBar->setGraphicsEffect(0);
+		m_pStackedDatabaseWidget->setGraphicsEffect(0);
+		m_pStackedMenuWidget->setGraphicsEffect(0);
+		menuBar()->setGraphicsEffect(0);
+	}
 }

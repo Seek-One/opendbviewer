@@ -152,7 +152,7 @@ QWidget* QOpenDatabaseView::makeSQLiteWidget()
 	pMainLayout->setContentsMargins(0,iSpace,0,0);
 
 	QLabel * title = new QLabel();
-	title->setText(tr("SQLite Connection:"));
+	title->setText(tr("SQLite Connection :"));
 	title->setStyleSheet("font: bold;");
 
 	pMainLayout->addWidget(title);
@@ -181,7 +181,7 @@ QWidget* QOpenDatabaseView::makeMySQLWidget()
 	int iSpace = 5;
 	pMainLayout->setContentsMargins(0,iSpace,0,0);
 
-	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection:"), pMainWidget);
+	QGroupBox *pGroupBox = new QGroupBox(tr("MySQL Connection :"), pMainWidget);
 	pMainLayout->addWidget(pGroupBox);
 	iSpace = 20;
 	pGroupBox->setContentsMargins(0,iSpace,0,0);
@@ -193,26 +193,26 @@ QWidget* QOpenDatabaseView::makeMySQLWidget()
 
 	// Host field
 	{
-		pFormLayout->addRow(tr("Host:"), m_pMySQLHostField);
+		pFormLayout->addRow(tr("Host :"), m_pMySQLHostField);
 	}
 	// Port field
 	{
 		QValidator *pPortValidator = new QIntValidator(0, 65535, this);
 		m_pMySQLPortField->setValidator(pPortValidator);
-		pFormLayout->addRow(tr("Port:"), m_pMySQLPortField);
+		pFormLayout->addRow(tr("Port :"), m_pMySQLPortField);
 	}
 	// Username field
 	{
-		pFormLayout->addRow(tr("Username:"), m_pMySQLUsernameField);
+		pFormLayout->addRow(tr("Username :"), m_pMySQLUsernameField);
 	}
 	// Password field
 	{
 		m_pMySQLPasswordField->setEchoMode(QLineEdit::Password);
-		pFormLayout->addRow(tr("Password:"), m_pMySQLPasswordField);
+		pFormLayout->addRow(tr("Password :"), m_pMySQLPasswordField);
 	}
 	// Database field
 	{
-		pFormLayout->addRow(tr("Database:"), m_pMySQLDatabaseField);
+		pFormLayout->addRow(tr("Database :"), m_pMySQLDatabaseField);
 	}
 	pMainLayout->addStretch();
 
@@ -235,7 +235,7 @@ QWidget* QOpenDatabaseView::makePostgreSQLWidget()
 	pMainLayout->setContentsMargins(0,iSpace,0,0);
 
 
-	QGroupBox *pGroupBox = new QGroupBox(tr("PostgreSQL Connection:"), pMainWidget);
+	QGroupBox *pGroupBox = new QGroupBox(tr("PostgreSQL Connection :"), pMainWidget);
 	pMainLayout->addWidget(pGroupBox);
 
 	iSpace = 10;
@@ -246,26 +246,26 @@ QWidget* QOpenDatabaseView::makePostgreSQLWidget()
 
 	// Host field
 	{
-		pFormLayout->addRow(tr("Host:"), m_pPSQLHostField);
+		pFormLayout->addRow(tr("Host :"), m_pPSQLHostField);
 	}
 	// Port field
 	{
 		QValidator *pPortValidator = new QIntValidator(0, 65535, this);
 		m_pPSQLPortField->setValidator(pPortValidator);
-		pFormLayout->addRow(tr("Port:"), m_pPSQLPortField);
+		pFormLayout->addRow(tr("Port :"), m_pPSQLPortField);
 	}
 	// Username field
 	{
-		pFormLayout->addRow(tr("Username:"), m_pPSQLUsernameField);
+		pFormLayout->addRow(tr("Username :"), m_pPSQLUsernameField);
 	}
 	// Password field
 	{
 		m_pPSQLPasswordField->setEchoMode(QLineEdit::Password);
-		pFormLayout->addRow(tr("Password:"), m_pPSQLPasswordField);
+		pFormLayout->addRow(tr("Password :"), m_pPSQLPasswordField);
 	}
 	// Database field
 	{
-		pFormLayout->addRow(tr("Database:"), m_pPSQLDatabaseField);
+		pFormLayout->addRow(tr("Database :"), m_pPSQLDatabaseField);
 	}
 	pFormLayout->setRowWrapPolicy(QFormLayout::WrapAllRows);
 	pFormLayout->setContentsMargins(0,iSpace,0,0);

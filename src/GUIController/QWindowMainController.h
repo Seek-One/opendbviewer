@@ -9,6 +9,9 @@
 #define SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_
 
 #include <QObject>
+#include <QDragEnterEvent>
+#include <QMimeData>
+#include <QUrl>
 
 #include "Model/DatabaseModel.h"
 #include "Database/DatabaseController.h"
@@ -35,6 +38,9 @@ public slots:
 	void about();
 
 	void callSQLiteFile(const QString& szFileUrl);
+	void dragEnterReceived(QDragEnterEvent* pEvent);
+	void dragLeaveReceived(QDragLeaveEvent* pEvent);
+	void dropReceived(QDropEvent* pEvent);
 
 	void openViews();
 	void openHist();

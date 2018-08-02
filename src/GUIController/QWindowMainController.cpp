@@ -50,6 +50,10 @@ void QWindowMainController::init(QWindowMain* pMainWindow)
 
     connect(m_pMainWindow->getDatabaseConnectionTab(), SIGNAL(tabCloseRequested(int)), this, SLOT(closeDatabaseConnectionTab(int)));
 
+    connect(m_pMainWindow, SIGNAL(dragEnterTriggered(QDragEnterEvent*)), this, SLOT(dragEnterReceived(QDragEnterEvent*)));
+    connect(m_pMainWindow, SIGNAL(dragLeaveTriggered(QDragLeaveEvent*)), this, SLOT(dragLeaveReceived(QDragLeaveEvent*)));
+    connect(m_pMainWindow, SIGNAL(dropTriggered(QDropEvent*)), this, SLOT(dropReceived(QDropEvent*)));
+
     //File Explorer Buttons
 	connect(m_pMainWindow->getFileExplorerWidget(), SIGNAL(openSelectedFile(const QString&)), this, SLOT(callSQLiteFile(const QString&)));
 	connect(m_pMainWindow->getFileExplorerWidget(), SIGNAL(openDatabase(const QString&)), this, SLOT(callSQLiteFile(const QString&)));
@@ -107,4 +111,47 @@ void QWindowMainController::callSQLiteFile(const QString& szFileUrl)
 void QWindowMainController::callInitHistoryList()
 {
 	m_pOpenHistoryViewController->initHistoryList();
+}
+
+void QWindowMainController::dragEnterReceived(QDragEnterEvent* pEvent)
+{
+	const QMimeData* pMimeData = pEvent->mimeData();
+	if(pMimeData){
+		QList<QUrl> listUrls = pMimeData->urls();
+		QList<QUrl>::iterator iter;
+		QString szFileName;
+		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
+			szFileName = (*iter).path();
+			if(szFileName.endsWith(".sqlite") || szFileName.endsWith(".db")){
+				pEvent->acceptProposedAction();
+				break;
+			}
+		}
+	}
+	m_pMainWindow->enableBlurEffect(true);
+	m_pMainWindow->getDropArea()->startPaint();
+}
+
+void QWindowMainController::dragLeaveReceived(QDragLeaveEvent* pEvent)
+{
+	m_pMainWindow->enableBlurEffect(false);
+	m_pMainWindow->getDropArea()->stopPaint();
+}
+
+void QWindowMainController::dropReceived(QDropEvent* pEvent)
+{
+	m_pMainWindow->enableBlurEffect(false);
+	const QMimeData* pMimeData = pEvent->mimeData();
+	if(pMimeData){
+		QList<QUrl> listUrls = pMimeData->urls();
+		QList<QUrl>::iterator iter;
+		QString szUrl;
+		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
+			szUrl = (*iter).path();
+			if(szUrl.endsWith(".sqlite") || szUrl.endsWith(".db")){
+				callSQLiteFile(szUrl);
+			}
+		}
+	}
+	m_pMainWindow->getDropArea()->stopPaint();
 }

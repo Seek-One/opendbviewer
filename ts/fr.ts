@@ -245,48 +245,80 @@ vos fichiers ici</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="155"/>
-        <source>SQLite Connection:</source>
-        <translation>Connexion SQLite</translation>
+        <source>SQLite Connection :</source>
+        <translation>Connection SQLite :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="184"/>
-        <source>MySQL Connection:</source>
-        <translation>Connexion MySQL</translation>
+        <source>MySQL Connection :</source>
+        <translation>Connection MySQL :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="196"/>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="249"/>
-        <source>Host:</source>
+        <source>Host :</source>
         <translation>Hôte :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="202"/>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="255"/>
-        <source>Port:</source>
+        <source>Port :</source>
         <translation>Port :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="206"/>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="259"/>
-        <source>Username:</source>
+        <source>Username :</source>
         <translation>Nom d&apos;utilisateur :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="211"/>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="264"/>
-        <source>Password:</source>
+        <source>Password :</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="215"/>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="268"/>
-        <source>Database:</source>
-        <translation>Base de donnée :</translation>
+        <source>Database :</source>
+        <translation>Nom de la base de données :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="238"/>
+        <source>PostgreSQL Connection :</source>
+        <translation>Connection PostgreSQL :</translation>
+    </message>
+    <message>
+        <source>SQLite Connection:</source>
+        <translation type="vanished">Connexion SQLite</translation>
+    </message>
+    <message>
+        <source>MySQL Connection:</source>
+        <translation type="vanished">Connexion MySQL</translation>
+    </message>
+    <message>
+        <source>Host:</source>
+        <translation type="vanished">Hôte :</translation>
+    </message>
+    <message>
+        <source>Port:</source>
+        <translation type="vanished">Port :</translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="vanished">Nom d&apos;utilisateur :</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="vanished">Mot de passe :</translation>
+    </message>
+    <message>
+        <source>Database:</source>
+        <translation type="vanished">Base de donnée :</translation>
+    </message>
+    <message>
         <source>PostgreSQL Connection:</source>
-        <translation>Connexion PostgreSQL</translation>
+        <translation type="vanished">Connexion PostgreSQL</translation>
     </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="33"/>
@@ -397,52 +429,56 @@ vos fichiers ici</translation>
         <translation type="vanished">&amp;A propos</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="298"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="319"/>
         <source>No selection</source>
         <translation>Pas de sélection</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="211"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="232"/>
         <source>File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="43"/>
         <source>Drag&apos;n&apos;Drop</source>
-        <translation>Glisser - Déposer</translation>
+        <translation type="vanished">Glisser - Déposer</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="212"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="45"/>
+        <source>Drop files here</source>
+        <translation>Déposer vos fichiers ici</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QWindowMain.cpp" line="233"/>
         <source>Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="215"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="236"/>
         <source>Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="216"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="237"/>
         <source>About</source>
         <translation>&amp;A propos</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="235"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="256"/>
         <source>Views</source>
         <translation>Vues</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="241"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="262"/>
         <source>History</source>
         <translation>Historique</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="249"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="270"/>
         <source>File Explorer</source>
         <translation>Explorateur de fichiers</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QWindowMain.cpp" line="259"/>
+        <location filename="../src/GUI/QWindowMain.cpp" line="280"/>
         <source>New Connection</source>
         <translation>Nouvelle Connexion</translation>
     </message>

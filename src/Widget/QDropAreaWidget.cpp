@@ -5,10 +5,7 @@
  *      Author: cdegeorgi
  */
 
-#include <QDragEnterEvent>
-#include <QMimeData>
 #include <QPainter>
-#include <QUrl>
 
 #include "QDropAreaWidget.h"
 
@@ -17,8 +14,8 @@ QDropAreaWidget::QDropAreaWidget(const QString& dropAreaName, QWidget* parent)
 	: QFrame(parent)
 {
 	m_dropAreaName = dropAreaName;
-
-	setAcceptDrops(true);
+	m_bRepaint = false;
+	setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 QDropAreaWidget::~QDropAreaWidget()
@@ -26,54 +23,35 @@ QDropAreaWidget::~QDropAreaWidget()
 
 }
 
-void QDropAreaWidget::dragEnterEvent(QDragEnterEvent *event)
+void QDropAreaWidget::startPaint()
 {
-	const QMimeData* pMimeData = event->mimeData();
-	if(pMimeData){
-		QList<QUrl> listUrls = pMimeData->urls();
-		QList<QUrl>::iterator iter;
-		QString szFileName;
-		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
-			szFileName = (*iter).path();
-			if(szFileName.endsWith(".sqlite") || szFileName.endsWith(".db")){
-				event->acceptProposedAction();
-				break;
-			}
-		}
-	}
+	m_bRepaint = true;
+	update();
 }
 
-void QDropAreaWidget::dropEvent(QDropEvent *event)
+void QDropAreaWidget::stopPaint()
 {
-	const QMimeData* pMimeData = event->mimeData();
-	if(pMimeData){
-		QList<QUrl> listUrls = pMimeData->urls();
-		QList<QUrl>::iterator iter;
-		QString szUrl;
-		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
-			szUrl = (*iter).path();
-			if(szUrl.endsWith(".sqlite") || szUrl.endsWith(".db")){
-				emit fileDropped(szUrl);
-			}
-		}
-	}
+	m_bRepaint = false;
+	update();
 }
 
 void QDropAreaWidget::paintEvent(QPaintEvent* event)
 {
 	QPainter p(this);
-	p.setRenderHint(QPainter::Antialiasing);
 	QPainterPath path;
-	path.addRoundedRect(QRectF(0, 0, width(), height()), 10, 10);
 	QPen pen(Qt::black, 1);
-	pen.setStyle(Qt::DashLine);
-	p.setPen(pen);
-	p.fillPath(path, Qt::white);
-	p.drawPath(path);
-
 	QFont font = p.font();
-	font.setPointSize(font.pointSize()*1.5);
-	p.setFont(font);
+	font.setBold(true);
 
-	p.drawText(QRect(0, 0, width(), height()), Qt::AlignCenter, m_dropAreaName);
+	if (m_bRepaint) {
+		p.setRenderHint(QPainter::Antialiasing);
+		path.addRoundedRect(QRectF(0, 0, width(), height()), 0, 0);
+		pen.setStyle(Qt::DashLine);
+		pen.setWidth(5);
+		p.setPen(pen);
+		p.drawPath(path);
+		font.setPointSize(font.pointSize()*5);
+		p.setFont(font);
+		p.drawText(QRect(0, 0, width(), height()), Qt::AlignCenter, m_dropAreaName);
+	}
 }

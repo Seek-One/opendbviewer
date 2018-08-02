@@ -11,6 +11,8 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QSplitter>
+#include <QGraphicsEffect>
+#include <QGraphicsOpacityEffect>
 
 #include "Widget/QFileExplorerWidget.h"
 #include "Widget/QMidClickClosableTabWidget.h"
@@ -52,13 +54,23 @@ public:
 	void showHistoryTab();
 	void showExplorerTab();
 	void showMenuConnTab();
+	void enableBlurEffect(bool bGo);
 
 protected:
 	virtual void changeEvent(QEvent* pEvent);
+	void resizeEvent(QResizeEvent* pEvent);
+	void dragEnterEvent(QDragEnterEvent* pEvent);
+	void dragLeaveEvent(QDragLeaveEvent* pEvent);
+	void dropEvent(QDropEvent* pEvent);
 
 private:
 	void createMenu(); //Creates a menu bar
 	void createToolbar(); //Creates main toolbar
+
+signals:
+	void dragEnterTriggered(QDragEnterEvent*);
+	void dragLeaveTriggered(QDragLeaveEvent*);
+	void dropTriggered(QDropEvent*);
 
 private:
 	QStackedWidget * m_pStackedMenuWidget;

@@ -14,19 +14,18 @@ class QDropAreaWidget : public QFrame {
 	Q_OBJECT
 
 public:
-	QDropAreaWidget(const QString& dropAreaName, QWidget* parent = 0);
+	QDropAreaWidget(const QString& dropAreaName, QWidget* parent);
 	virtual ~QDropAreaWidget();
 
+	void startPaint();
+	void stopPaint();
+
 protected:
-	void dragEnterEvent(QDragEnterEvent *event);
-	void dropEvent(QDropEvent *event);
 	void paintEvent(QPaintEvent* event);
 
 private:
 	QString m_dropAreaName;
-
-signals:
-	void fileDropped(const QString& szFileUrl);
+	bool m_bRepaint;
 };
 
 #endif /* SRC_WIDGET_QDROPAREAWIDGET_H_ */

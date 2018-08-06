@@ -124,9 +124,9 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 	return m_pStructureModel;
 }
 
-QTreeView* QDatabaseTableView::getDataTreeView() const
+QTableView* QDatabaseTableView::getDataTableView() const
 {
-	return m_pQueryResultView->getDataTreeView();
+	return m_pQueryResultView->getDataTableView();
 }
 
 QStandardItemModel* QDatabaseTableView::getDataResultsModel() const

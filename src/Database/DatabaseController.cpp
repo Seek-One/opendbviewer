@@ -49,7 +49,7 @@ bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 		}
 
 		closeDataBase();
-	}else{
+	} else {
 		qCritical("[DatabaseController] Cannot open database for table loading");
 	}
 

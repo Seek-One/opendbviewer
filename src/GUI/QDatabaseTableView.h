@@ -21,6 +21,7 @@
 #include <QDebug>
 
 class QTreeView;
+class QTableView;
 class QQueryResultView;
 
 class QDatabaseTableView : public QWidget
@@ -35,7 +36,7 @@ public:
 	QStandardItemModel* getStructureModel() const;
 
 	// Data tab
-	QTreeView* getDataTreeView() const;
+	QTableView* getDataTableView() const;
 	QStandardItemModel* getDataResultsModel() const;
 	QPushButton* getRefreshButton() const;
 	QPushButton* getClearButton() const;

@@ -6,7 +6,7 @@
  */
 
 #include <QVBoxLayout>
-#include <QTreeView>
+#include <QTableView>
 #include <QTextEdit>
 #include <QStandardItemModel>
 
@@ -28,12 +28,11 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 		pWidget->setLayout(pTmpVLayout);
 
 		//Creation of a tree view and model for results tabs
-		m_pDataTreeView = new QTreeView();
-		m_pDataTreeView->setRootIsDecorated(false);
-		pTmpVLayout->addWidget(m_pDataTreeView);
+		m_pDataTableView = new QTableView();
+		pTmpVLayout->addWidget(m_pDataTableView);
 
 		m_pDataResultsModel = new QStandardItemModel();
-		m_pDataTreeView->setModel(m_pDataResultsModel);
+		m_pDataTableView->setModel(m_pDataResultsModel);
 	}
 
 	// Adds the console Tab
@@ -60,9 +59,9 @@ QTextEdit* QQueryResultView::getConsoleTextEdit() const
 	return m_pConsoleTextEdit;
 }
 
-QTreeView* QQueryResultView::getDataTreeView() const
+QTableView* QQueryResultView::getDataTableView() const
 {
-	return m_pDataTreeView;
+	return m_pDataTableView;
 }
 
 QStandardItemModel* QQueryResultView::getDataResultsModel() const

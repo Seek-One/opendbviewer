@@ -7,7 +7,7 @@
 
 #include <QApplication>
 #include <QPalette>
-#include <QTreeView>
+#include <QTableView>
 
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
@@ -86,7 +86,7 @@ void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QStri
 
 	if(step == DBQueryStepStart){
 		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->setHorizontalHeaderLabels(listRowHeader);
-		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
+		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetTableView()->resizeColumnsToContents();
 	}
 
 	//Creating a QList<QStandardItem> in order to append a row to the model

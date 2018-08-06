@@ -10,7 +10,7 @@
 
 #include <QTabWidget>
 
-class QTreeView;
+class QTableView;
 class QTextEdit;
 class QStandardItemModel;
 
@@ -20,7 +20,7 @@ public:
 	QQueryResultView(QWidget* pParent = NULL);
 	virtual ~QQueryResultView();
 
-	QTreeView* getDataTreeView() const;
+	QTableView* getDataTableView() const;
 	QStandardItemModel* getDataResultsModel() const;
 	QTextEdit* getConsoleTextEdit() const;;
 
@@ -28,7 +28,7 @@ public:
 	void showTabConsole();
 
 private:
-	QTreeView* m_pDataTreeView;
+	QTableView* m_pDataTableView;
 	QTextEdit* m_pConsoleTextEdit;
 	QStandardItemModel* m_pDataResultsModel;
 };

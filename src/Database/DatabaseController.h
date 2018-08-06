@@ -8,6 +8,7 @@
 #ifndef SRC_DATABASE_DATABASECONTROLLER_H_
 #define SRC_DATABASE_DATABASECONTROLLER_H_
 
+#include <QSqlTableModel>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -32,8 +33,10 @@ public:
 	bool loadTables(DbLoadTableCB func, void* user_data);
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
+
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 	bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
+
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
 	bool loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data);
 
@@ -54,6 +57,7 @@ private:
 
 protected:
 	DatabaseModel m_databaseModel;
+	QSqlTableModel m_dbModel;
 	QSqlDatabase m_db;
 	QString m_szResultString;
 

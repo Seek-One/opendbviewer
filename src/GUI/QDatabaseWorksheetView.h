@@ -30,7 +30,7 @@ public:
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 	QStandardItemModel* getWorksheetResultsModel() const;
-	QTreeView* getWorksheetTreeView() const;
+	QTableView* getWorksheetTableView() const;
 
 	void showTabData();
 	void showTabConsole();

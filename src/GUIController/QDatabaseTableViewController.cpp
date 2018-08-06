@@ -8,6 +8,7 @@
 #include <QApplication>
 #include <QPalette>
 #include <QTreeView>
+#include <QTableView>
 
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUI/QDatabaseTableView.h"
@@ -148,7 +149,9 @@ void QDatabaseTableViewController::onDbLoadTableData(const QStringList& listRowH
 
 	if(step == DBQueryStepStart){
 		pDatabaseTableViewController->m_pDatabaseTableView->getDataResultsModel()->setHorizontalHeaderLabels(listRowHeader);
-		pDatabaseTableViewController->m_pDatabaseTableView->getDataTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
+		pDatabaseTableViewController->m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
+		pDatabaseTableViewController->m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+		pDatabaseTableViewController->m_pDatabaseTableView->getDataTableView()->verticalHeader()->setVisible(false);
 	}
 
 	//Creating a QList<QStandardItem> in order to append a row to the model

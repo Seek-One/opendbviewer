@@ -6,6 +6,7 @@
  */
 
 #include <QTreeView>
+#include <QTableView>
 
 #include "QDatabaseWorksheetView.h"
 #include "QSqlSourceView.h"
@@ -91,9 +92,9 @@ QStandardItemModel* QDatabaseWorksheetView::getWorksheetResultsModel() const
 	return m_pQueryResultView->getDataResultsModel();
 }
 
-QTreeView* QDatabaseWorksheetView::getWorksheetTreeView() const
+QTableView* QDatabaseWorksheetView::getWorksheetTableView() const
 {
-	return m_pQueryResultView->getDataTreeView();
+	return m_pQueryResultView->getDataTableView();
 }
 
 

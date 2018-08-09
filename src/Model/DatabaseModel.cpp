@@ -92,7 +92,7 @@ const QString& DatabaseModel::getDatabasePassword() const
 
 void DatabaseModel::setDatabasePassword(const QString& szDatabasePassword)
 {
-	m_szDatabaseUsername = szDatabasePassword;
+	m_szDatabasePassword = szDatabasePassword;
 }
 
 bool DatabaseModel::operator==(const DatabaseModel& other) const
@@ -102,7 +102,8 @@ bool DatabaseModel::operator==(const DatabaseModel& other) const
 			m_szDatabasePath == other.m_szDatabasePath &&
 			m_DatabaseType == other.m_DatabaseType &&
 			m_iDatabasePort == other.m_iDatabasePort &&
-			m_szDatabaseUsername == other.m_szDatabaseUsername);
+			m_szDatabaseUsername == other.m_szDatabaseUsername &&
+			m_szDatabasePassword == other.m_szDatabasePassword);
 }
 
 bool DatabaseModel::operator!=(const DatabaseModel& other) const
@@ -112,5 +113,6 @@ bool DatabaseModel::operator!=(const DatabaseModel& other) const
 			m_szDatabasePath != other.m_szDatabasePath ||
 			m_DatabaseType != other.m_DatabaseType ||
 			m_iDatabasePort != other.m_iDatabasePort ||
-			m_szDatabaseUsername != other.m_szDatabaseUsername);
+			m_szDatabaseUsername != other.m_szDatabaseUsername ||
+			m_szDatabasePassword != other.m_szDatabasePassword);
 }

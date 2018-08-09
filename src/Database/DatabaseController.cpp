@@ -21,7 +21,11 @@ DatabaseController::~DatabaseController()
 
 bool DatabaseController::openDatabase()
 {
-	return m_db.open();
+	bool bRet = m_db.open();
+	if(!bRet){
+		qDebug(qPrintable("[DatabaseController] Error: " + m_db.lastError().text()));
+	}
+	return bRet;
 }
 
 void DatabaseController::closeDataBase()

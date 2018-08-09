@@ -172,6 +172,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 		*ppTableModel = new QSqlTableModel(NULL, m_db);
 
 		(*ppTableModel)->setTable(szTableName);
+		(*ppTableModel)->setEditStrategy(QSqlTableModel::OnFieldChange);
 
 		if (!szFilter.isEmpty()) {
 			(*ppTableModel)->setFilter(szFilter);

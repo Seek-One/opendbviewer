@@ -62,7 +62,6 @@ QString DatabaseControllerSqlite::makeTableCreationScriptQueryResult(const QSqlQ
 QStringList DatabaseControllerSqlite::listColumnNames(const QString& szTableName)
 {
 	QStringList szListColumnName;
-	szListColumnName << "rowid";//appending rowid to the list
 	QSqlQuery tableInfoQuery(m_db);
 	tableInfoQuery.exec(loadTableDescriptionQuery(szTableName));
 	while (tableInfoQuery.next())

@@ -87,16 +87,10 @@ QTextEdit* QDatabaseWorksheetView::getWorksheetConsoleTextEdit() const
 	return m_pQueryResultView->getConsoleTextEdit();
 }
 
-QStandardItemModel* QDatabaseWorksheetView::getWorksheetResultsModel() const
-{
-	return m_pQueryResultView->getDataResultsModel();
-}
-
 QTableView* QDatabaseWorksheetView::getWorksheetTableView() const
 {
 	return m_pQueryResultView->getDataTableView();
 }
-
 
 void QDatabaseWorksheetView::showTabData()
 {

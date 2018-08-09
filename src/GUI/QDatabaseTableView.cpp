@@ -8,7 +8,6 @@
 #include <QTreeView>
 
 #include "QDatabaseTableView.h"
-#include "QQueryResultView.h"
 
 QDatabaseTableView::QDatabaseTableView(QWidget* parent)
 	: QWidget(parent)
@@ -127,11 +126,6 @@ QStandardItemModel* QDatabaseTableView::getStructureModel() const
 QTableView* QDatabaseTableView::getDataTableView() const
 {
 	return m_pQueryResultView->getDataTableView();
-}
-
-QStandardItemModel* QDatabaseTableView::getDataResultsModel() const
-{
-	return m_pQueryResultView->getDataResultsModel();
 }
 
 QPushButton* QDatabaseTableView::getRefreshButton() const

@@ -17,12 +17,14 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QStandardItemModel>
+#include <QSqlTableModel>
 #include <QHeaderView>
 #include <QDebug>
 
+#include "QQueryResultView.h"
+
 class QTreeView;
 class QTableView;
-class QQueryResultView;
 
 class QDatabaseTableView : public QWidget
 {
@@ -37,7 +39,6 @@ public:
 
 	// Data tab
 	QTableView* getDataTableView() const;
-	QStandardItemModel* getDataResultsModel() const;
 	QPushButton* getRefreshButton() const;
 	QPushButton* getClearButton() const;
 	QLineEdit* getFilterLine() const;

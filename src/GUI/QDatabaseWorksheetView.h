@@ -29,7 +29,8 @@ public:
 	QPushButton* getClearTextButton() const;
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
-	QStandardItemModel* getWorksheetResultsModel() const;
+
+	QSqlTableModel* getWorksheetResultsModel() const;
 	QTableView* getWorksheetTableView() const;
 
 	void showTabData();

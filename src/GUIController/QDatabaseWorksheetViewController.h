@@ -32,13 +32,11 @@ public slots:
 	void clearWorksheetText();
 
 private:
-	static void onDbLoadWorksheetQueryResults(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);
-
-private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	QString m_szFileName;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
+	QSqlTableModel* m_pDatabaseTableModel;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

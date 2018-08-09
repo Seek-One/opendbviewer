@@ -13,9 +13,6 @@
 #include <QString>
 #include <QAbstractButton>
 
-/*
- *
- */
 class QAboutDialog : public QDialog {
 	Q_OBJECT
 public:

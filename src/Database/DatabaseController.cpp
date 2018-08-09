@@ -160,7 +160,37 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	return bRes;
 }
 
-bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data)
+bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlTableModel** ppTableModel)
+{
+	bool bRes;
+
+	QStringList listRowHeader;
+
+	bRes = openDatabase();
+	if(bRes){
+		listRowHeader = listColumnNames(szTableName);
+		*ppTableModel = new QSqlTableModel(NULL, m_db);
+
+		(*ppTableModel)->setTable(szTableName);
+
+		if (!szFilter.isEmpty()) {
+			(*ppTableModel)->setFilter(szFilter);
+		}
+
+		//Set the headers
+		for (int i = 0; i < listRowHeader.size(); i++) {
+			(*ppTableModel)->setHeaderData(i , Qt::Horizontal, listRowHeader.at(i));
+		}
+		bRes = (*ppTableModel)->select();
+
+	} else {
+		qCritical("[DatabaseController] Cannot open database for table data loading");
+	}
+
+	return bRes;
+}
+
+bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlTableModel** ppTableModel)
 {
 	bool bRes;
 
@@ -169,50 +199,30 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 	bRes = openDatabase();
 	if(bRes){
-		// Get the list of column names from the table
-		listRowHeader = listColumnNames(szTableName);
-		func(listRowHeader, listRowData, DBQueryStepStart, user_data);
-
-		// Select with all column
-		QString szHeaders = listRowHeader.join(", ");
-		QString szQuery = "SELECT " + szHeaders + " FROM "+szTableName;
-		// Add filter if any
-		if(szFilter.isEmpty() == false){
-			szQuery += " WHERE " + szFilter;
-		}
-
-		int iCount = 0;
-
-		int iColumnCount = listRowHeader.size();
-		int col;
-
-		// Execute the query
 		QSqlQuery query(m_db);
-		bRes = query.exec(szQuery);
-		if(bRes){
-			QVariant variant;
+		if (!szWorksheetQuery.isEmpty()) {
+			bRes = query.exec(szWorksheetQuery);
 
-			// Get rows
-			while(query.next())
-			{
-				for (col=0; col<iColumnCount; col++)
+			if (bRes) {
+				*ppTableModel = new QSqlTableModel(NULL, m_db);
+				(*ppTableModel)->setTable("New Query");
+
+				int iCurrentColumn;
+				//Set Headers
+				for (iCurrentColumn = 0; iCurrentColumn < query.record().count(); iCurrentColumn++)
 				{
-					variant = query.value(col);
-					listRowData << variant.toString();
+					QSqlField field = query.record().field(iCurrentColumn);
+					(*ppTableModel)->setHeaderData(iCurrentColumn , Qt::Horizontal, field.name());
 				}
-				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
-				listRowData.clear();
-				iCount++;
+				bRes = (*ppTableModel)->select();
 			}
 		}
 
-		func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
-
-		m_szResultString = makeQueryResultString(query, iCount);
+		m_szResultString = makeQueryResultString(query);
 
 		closeDataBase();
-	}else{
-		qCritical("[DatabaseController] Cannot open database for table description loading");
+	} else {
+		qCritical("[DatabaseController] Cannot open database for new query loading");
 	}
 
 	return bRes;
@@ -225,7 +235,6 @@ bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbL
 	QString szQuery = loadTableCreationScriptQuery(szTableName);
 
 	if(!szQuery.isEmpty()){
-		bRes = openDatabase();
 		if(bRes){
 
 			QSqlQuery query(m_db);
@@ -239,65 +248,9 @@ bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbL
 				func(szTmp, user_data);
 			}
 
-			closeDataBase();
-		}else{
+		} else {
 			qCritical("[DatabaseController] Cannot open database for table creation script loading");
 		}
-	}
-
-	return bRes;
-}
-
-bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data)
-{
-	bool bRes;
-
-	QStringList listRowHeader;
-	QStringList listRowData;
-
-	bRes = openDatabase();
-	if(bRes){
-
-		int iCount = 0;
-
-		QSqlQuery query(m_db);
-		bRes = query.exec(szWorksheetQuery);
-		if(bRes){
-			QVariant variant;
-
-			QStringList listRowHeader;
-			QStringList listRowData;
-
-			int currentColumnNumber;
-			//appending column names to columnNameList
-			for (currentColumnNumber = 0; currentColumnNumber < query.record().count(); currentColumnNumber++)
-			{
-				QSqlField field = query.record().field(currentColumnNumber);
-				listRowHeader << field.name();
-			}
-
-			func(listRowHeader, listRowData, DBQueryStepStart, user_data);
-
-			while(query.next())
-			{
-				int currentColumnNumber;
-				for (currentColumnNumber = 0; currentColumnNumber < query.record().count(); currentColumnNumber++)
-				{
-					variant = query.value(currentColumnNumber);
-					listRowData << variant.toString();
-				}
-
-				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
-				//Clearing pRowData to have an empty list when starting the while loop again
-				listRowData.clear();
-				iCount++;
-			}
-
-			func(listRowHeader, listRowData, DBQueryStepEnd, user_data);
-		}
-		m_szResultString = makeQueryResultString(query, iCount);
-
-		closeDataBase();
 	}
 
 	return bRes;
@@ -314,7 +267,7 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iN
 		if(iNbRow == -1){
 			iNbRow = iNbRowsSelected;
 		}
-	}else{
+	} else {
 		iNbRow = query.numRowsAffected();
 	}
 
@@ -330,9 +283,9 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iN
 	szResultString += QString::number(iNbRow)+" row(s) selected/affected\n";
 	// Write query
 	if(!query.lastQuery().isEmpty()){
-		szResultString+="   "+query.lastQuery()+"\n";
+		szResultString += "   " + query.lastQuery() + "\n";
 	}
-	szResultString+="\n";
+	szResultString += "\n";
 
 	return szResultString;
 }

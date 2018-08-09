@@ -21,6 +21,7 @@ QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 	m_szFileName = "";
 	m_pDatabaseController = NULL;
 	m_pSqlHighlighterController = NULL;
+	m_pDatabaseTableModel = NULL;
 }
 
 QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
@@ -48,10 +49,11 @@ void QDatabaseWorksheetViewController::executeQuery()
 {
 	bool bRes;
 
-	m_pDatabaseWorksheetView->getWorksheetResultsModel()->clear();
 	QString szWorksheetQuery = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText();
-	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, onDbLoadWorksheetQueryResults, this);
+	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, &m_pDatabaseTableModel);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	showWorksheetQueryInformation();
+
 	if(bRes){
 		m_pDatabaseWorksheetView->showTabData();
 	}else{
@@ -61,7 +63,6 @@ void QDatabaseWorksheetViewController::executeQuery()
 
 void QDatabaseWorksheetViewController::reformatSqlText()
 {
-
 	qDebug() << "Test reformat button";
 }
 
@@ -77,46 +78,4 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 	cursor.movePosition(QTextCursor::Start);//Moves the cursor to the start
 	m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->setTextCursor(cursor);//Sets the cursor position
 	m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->insertPlainText(szQueryInformation);//insert text at the cursor position
-}
-
-
-void QDatabaseWorksheetViewController::onDbLoadWorksheetQueryResults(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data)
-{
-	QDatabaseWorksheetViewController* pWorksheetController = (QDatabaseWorksheetViewController*) (user_data);
-
-	if(step == DBQueryStepStart){
-		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->setHorizontalHeaderLabels(listRowHeader);
-		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetTableView()->resizeColumnsToContents();
-	}
-
-	//Creating a QList<QStandardItem> in order to append a row to the model
-	if(step == DBQueryStepRow){
-		QList<QStandardItem*> listRowDataItemList;
-		QList<QString>::const_iterator iter = listRowData.begin();
-
-		QStandardItem* pStandardItem;
-		QFont font;
-
-		QPalette palette = QApplication::palette(pWorksheetController->m_pDatabaseWorksheetView);
-		QBrush nullbrush = palette.brush(QPalette::Disabled, QPalette::Text);
-
-		while(iter != listRowData.end())
-		{
-			//Getting an item from QList<QString> to add it to a QList<QStandardItem>
-			if((*iter).isNull()){
-				pStandardItem = new QStandardItem(QString("NULL"));
-				font = pStandardItem->font();
-				font.setItalic(true);
-				pStandardItem->setFont(font);
-				pStandardItem->setForeground(nullbrush);
-			}else{
-				pStandardItem = new QStandardItem(*iter);
-			}
-			pStandardItem->setEditable(true);
-			listRowDataItemList.append(pStandardItem);
-			iter++;
-		}
-		//Appending the row with the QList<QStandardItem>
-		pWorksheetController->m_pDatabaseWorksheetView->getWorksheetResultsModel()->appendRow(listRowDataItemList);
-	}
 }

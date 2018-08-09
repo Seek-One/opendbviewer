@@ -8,13 +8,12 @@
 #include <QVBoxLayout>
 #include <QTableView>
 #include <QTextEdit>
-#include <QStandardItemModel>
 
 #include "QQueryResultView.h"
 
 QQueryResultView::QQueryResultView(QWidget* pParent)
 {
-	setTabPosition(QTabWidget::East);
+	setTabPosition(QTabWidget::South);
 
 	QWidget *pWidget;
 	QVBoxLayout *pTmpVLayout;
@@ -27,12 +26,9 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 		pTmpVLayout = new QVBoxLayout();
 		pWidget->setLayout(pTmpVLayout);
 
-		//Creation of a tree view and model for results tabs
+		//Creation of a table view and model for results tabs
 		m_pDataTableView = new QTableView();
 		pTmpVLayout->addWidget(m_pDataTableView);
-
-		m_pDataResultsModel = new QStandardItemModel();
-		m_pDataTableView->setModel(m_pDataResultsModel);
 	}
 
 	// Adds the console Tab
@@ -51,8 +47,8 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 
 QQueryResultView::~QQueryResultView()
 {
-
 }
+
 
 QTextEdit* QQueryResultView::getConsoleTextEdit() const
 {
@@ -62,11 +58,6 @@ QTextEdit* QQueryResultView::getConsoleTextEdit() const
 QTableView* QQueryResultView::getDataTableView() const
 {
 	return m_pDataTableView;
-}
-
-QStandardItemModel* QQueryResultView::getDataResultsModel() const
-{
-	return m_pDataResultsModel;
 }
 
 void QQueryResultView::showTabData()

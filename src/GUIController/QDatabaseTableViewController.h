@@ -10,6 +10,8 @@
 
 #include <QWidget>
 #include <QList>
+#include <QSqlTableModel>
+#include <QSortFilterProxyModel>
 
 #include "Database/DatabaseCallback.h"
 
@@ -37,7 +39,6 @@ public slots:
 
 private:
 	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);
-	static void onDbLoadTableData(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);
 	static void onDbLoadTableCreationScript(const QString& szCreationScriptString, void* user_data);
 
 	QList<QStandardItem*> makeStandardItemListFromStringList(const QList<QString>& szStringList);
@@ -47,6 +48,7 @@ private:
 	QString m_szTableName;
 	DatabaseController* m_pDatabaseController;
 	QString m_szFieldName;
+	QSqlTableModel* m_pDatabaseTableModel;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_ */

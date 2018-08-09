@@ -34,11 +34,11 @@ public:
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 
+	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlTableModel** ppTableModel);
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
-	bool loadTableData(const QString& szTableName, const QString& szFilter, DbLoadTableData func, void* user_data);
 
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
-	bool loadWorksheetQueryResults(QString& szWorksheetQuery, DbLoadWorksheetQueryResults func, void* user_data);
+	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlTableModel** ppTableModel);
 
 	QString getQueryResultString() const;
 
@@ -50,14 +50,12 @@ protected:
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName) = 0;
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query) = 0;
 
-
 private:
-	QString makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected);
+	QString makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected = 0);
 
 
 protected:
 	DatabaseModel m_databaseModel;
-	QSqlTableModel m_dbModel;
 	QSqlDatabase m_db;
 	QString m_szResultString;
 

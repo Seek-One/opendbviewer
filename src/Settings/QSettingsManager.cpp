@@ -24,6 +24,9 @@ static const QString DATABASE_GROUP_DATABASE_ITER = "database_";
 static const QString DATABASE_KEY_DATABASE_NAME = "name";
 static const QString DATABASE_KEY_DATABASE_PATH = "path";
 static const QString DATABASE_KEY_DATABASE_TYPE = "type";
+static const QString DATABASE_KEY_DATABASE_USER = "username";
+static const QString DATABASE_KEY_DATABASE_HOST = "host";
+static const QString DATABASE_KEY_DATABASE_PORT = "port";
 
 QSettingsManager::QSettingsManager()
 {
@@ -87,35 +90,73 @@ void QSettingsManager::loadDatabaseSettings()
 
 		QString szGroup;
 		QString szName;
-		QString szPath;
 		DatabaseModel::DatabaseType type;
+		QString szPath;
+		QString szHost;
+		int iPort;
+		QString szUsername;
+
 		QVariant databaseName;
 		QVariant databasePath;
 		QVariant databaseType;
+		QVariant databaseHost;
+		QVariant databasePort;
+		QVariant databaseUsername;
 
 		for(int i = 0; i < iDatabaseCount; ++i){
 			szGroup = DATABASE_GROUP_DATABASE_ITER + QString::number(i);
 
 			m_pDatabaseSettings->beginGroup(szGroup);
 			databaseName = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_NAME, "");
-			databasePath = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_PATH, "");
 			databaseType = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_TYPE, "");
+			databasePath = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_PATH, "");
+			databaseHost = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_HOST, "");
+			databasePort = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_PORT, "");
+			databaseUsername = m_pDatabaseSettings->value(DATABASE_KEY_DATABASE_USER, "");
 			m_pDatabaseSettings->endGroup();
 
+			DatabaseModel databaseModel;
 			if(!databaseName.isNull()){
 				szName = databaseName.toString();
+			}
+			if(!databaseType.isNull()){
+				type = (DatabaseModel::DatabaseType)databaseType.toInt();
+			} else {
+				type = DatabaseModel::UnknownType;
 			}
 			if(!databasePath.isNull()){
 				szPath = databasePath.toString();
 			}
-			if(!databaseType.isNull()){
-				type = (DatabaseModel::DatabaseType)databaseType.toInt();
+			if(!databaseHost.isNull()){
+				szHost = databaseHost.toString();
+			}
+			if(!databasePort.isNull()){
+				iPort = databasePort.toInt();
+			}
+			if(!databaseUsername.isNull()){
+				szUsername = databaseUsername.toString();
 			}
 
-			DatabaseModel databaseModel;
 			databaseModel.setDatabaseName(szName);
-			databaseModel.setDatabasePath(szPath);
 			databaseModel.setDatabaseType(type);
+
+			switch(type) {
+			case DatabaseModel::SQLiteType:
+				databaseModel.setDatabasePath(szPath);
+				break;
+			case DatabaseModel::MySQLType:
+				databaseModel.setDatabaseHost(szHost);
+				databaseModel.setDatabasePort(iPort);
+				databaseModel.setDatabaseUsername(szUsername);
+				break;
+			case DatabaseModel::PostgreSQLType:
+				databaseModel.setDatabaseHost(szHost);
+				databaseModel.setDatabasePort(iPort);
+				databaseModel.setDatabaseUsername(szUsername);
+				break;
+			default:
+				break;
+			}
 			historyList.append(databaseModel);
 		}
 		ApplicationSettings::setHistoryList(historyList);
@@ -127,15 +168,35 @@ void QSettingsManager::saveDatabaseSettings()
 	if(m_pDatabaseSettings){
 		HistoryDatabaseList historyList = ApplicationSettings::getHistoryList();
 		DatabaseModel database;
+		DatabaseModel::DatabaseType type;
+
 
 		m_pDatabaseSettings->setValue(DATABASE_GROUP_GLOBAL + "/" + DATABASE_KEY_DATABASE_COUNT, historyList.size());
 
 		for(int i = 0 ; i < historyList.size() ; i++){
 			database = historyList.at(i);
+			type = database.getDatabaseType();
 			m_pDatabaseSettings->beginGroup(DATABASE_GROUP_DATABASE_ITER + QString::number(i) );
 			m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_NAME, database.getDatabaseName());
-			m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_PATH, database.getDatabasePath());
 			m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_TYPE, database.getDatabaseType());
+
+			switch(type) {
+			case DatabaseModel::SQLiteType:
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_PATH, database.getDatabasePath());
+				break;
+			case DatabaseModel::MySQLType:
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_HOST, database.getDatabaseHost());
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_USER, database.getDatabaseUsername());
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_PORT, database.getDatabasePort());
+				break;
+			case DatabaseModel::PostgreSQLType:
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_HOST, database.getDatabaseHost());
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_USER, database.getDatabaseUsername());
+				m_pDatabaseSettings->setValue(DATABASE_KEY_DATABASE_PORT, database.getDatabasePort());
+				break;
+			default:
+				break;
+			}
 			m_pDatabaseSettings->endGroup();
 		}
 	}

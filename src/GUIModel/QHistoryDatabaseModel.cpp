@@ -24,19 +24,27 @@ QVariant QHistoryDatabaseModel::data(const QModelIndex &index, int role) const
 		QHistoryDatabaseItem* pItem = dynamic_cast<QHistoryDatabaseItem*>(itemFromIndex(index));
 		DatabaseModel databaseModel = pItem->getDatabaseModel();
 		pItem->setEditable(false);
+		DatabaseModel::DatabaseType type = databaseModel.getDatabaseType();
+		QString qFinalText, qElidedText;
+	  	int iWidth = m_iWidth, iCorrect = 5; //iCorrect correct a side effet on the QTreeView
+	  	QFontMetrics metrics(m_font);
 
-		switch(databaseModel.getDatabaseType()) {
+		switch(type) {
 		case DatabaseModel::SQLiteType:
-		  	QString qElidedText, qFinalText;
-		  	int iWidth = m_iWidth, iCorrect = 5; //iCorrect correct a side effet on the QTreeView
 			qElidedText = databaseModel.getDatabasePath().section('/', 0, -2);
-		  	QFontMetrics metrics(m_font);
 		  	qElidedText = metrics.elidedText(qElidedText, Qt::ElideMiddle, iWidth-iCorrect);
-
 			qFinalText = "<b>" + databaseModel.getDatabaseName() + "</b><br/>" + qElidedText;
-			return qFinalText;
-		//TODO other case (for now MySQL and PostgreSQL type)
+			break;
+		case DatabaseModel::MySQLType:
+			qFinalText = "<b>" + databaseModel.getDatabaseName() + "</b><br/>" + databaseModel.getDatabaseHost() + "&nbsp;&nbsp;&nbsp;" + databaseModel.getDatabaseUsername();
+			break;
+		case DatabaseModel::PostgreSQLType:
+			qFinalText = "<b>" + databaseModel.getDatabaseName() + "</b><br/>" + databaseModel.getDatabaseHost() + "&nbsp;&nbsp;&nbsp;" + databaseModel.getDatabaseUsername();
+			break;
+		default:
+			break;
 		}
+		return qFinalText;
 	}
 	return QVariant();
 }

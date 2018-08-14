@@ -23,7 +23,7 @@ public:
 	QDatabaseWorksheetViewController();
 	virtual ~QDatabaseWorksheetViewController();
 
-	void init(QDatabaseWorksheetView* pDatabaseWorksheetView, QString& szFileName, DatabaseController* pDatabaseController);
+	void init(QDatabaseWorksheetView* pDatabaseWorksheetView, DatabaseController* pDatabaseController);
 	void showWorksheetQueryInformation();
 
 public slots:
@@ -33,7 +33,6 @@ public slots:
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
-	QString m_szFileName;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
 	QSqlTableModel* m_pDatabaseTableModel;

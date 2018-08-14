@@ -29,6 +29,8 @@ public:
 	QString getFileUrl() const;
 	DatabaseModel selectDatabase(DatabaseModel::DatabaseType type);
 	void loadDatabase(const DatabaseModel&  databaseModel);
+	void openSQLiteFile(const QString& szFileUrl);
+	void resetForms();
 
 private:
 	void recoverMySQLDatabaseInfo(DatabaseModel * database);
@@ -39,7 +41,7 @@ public slots:
 	void closeOpenDatabaseDialog();
 
 	void prepareConnection(DatabaseModel::DatabaseType type);
-	void openSQLiteFile(const QString& szFileUrl);
+	void loadHistoryDatabase(const DatabaseModel& databaseModel);
 
 	void openConnectionMenu(int index);
 
@@ -47,7 +49,6 @@ private:
 	QWindowMain* m_pMainWindow;
 	QWindowMainController* m_pMainWindowController;
 	QOpenDatabaseView* m_pOpenDatabaseView;
-	QString m_szFileUrl;
 };
 
 #endif /* SRC_GUICONTROLLER_QOPENDATABASEVIEWCONTROLLER_H_ */

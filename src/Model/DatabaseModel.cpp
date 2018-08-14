@@ -45,7 +45,7 @@ void DatabaseModel::setDatabasePath(const QString& szDatabasePath)
 
 }
 
-int DatabaseModel::getDatabaseType() const
+DatabaseModel::DatabaseType DatabaseModel::getDatabaseType() const
 {
 	return m_DatabaseType;
 }
@@ -102,17 +102,5 @@ bool DatabaseModel::operator==(const DatabaseModel& other) const
 			m_szDatabasePath == other.m_szDatabasePath &&
 			m_DatabaseType == other.m_DatabaseType &&
 			m_iDatabasePort == other.m_iDatabasePort &&
-			m_szDatabaseUsername == other.m_szDatabaseUsername &&
-			m_szDatabasePassword == other.m_szDatabasePassword);
-}
-
-bool DatabaseModel::operator!=(const DatabaseModel& other) const
-{
-	return (m_szDatabaseName != other.m_szDatabaseName ||
-			m_szDatabaseHost != other.m_szDatabaseHost ||
-			m_szDatabasePath != other.m_szDatabasePath ||
-			m_DatabaseType != other.m_DatabaseType ||
-			m_iDatabasePort != other.m_iDatabasePort ||
-			m_szDatabaseUsername != other.m_szDatabaseUsername ||
-			m_szDatabasePassword != other.m_szDatabasePassword);
+			m_szDatabaseUsername == other.m_szDatabaseUsername);
 }

@@ -37,6 +37,7 @@ public slots:
 	void closeDatabaseConnectionTab(const int& index);
 	void about();
 
+	void callHistoryDatabaseLoading(const DatabaseModel& databaseModel);
 	void callSQLiteFile(const QString& szFileUrl);
 	void dragEnterReceived(QDragEnterEvent* pEvent);
 	void dragLeaveReceived(QDragLeaveEvent* pEvent);

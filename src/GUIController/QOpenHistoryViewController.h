@@ -28,11 +28,16 @@ public:
 	virtual ~QOpenHistoryViewController();
 	void initHistoryList();
 	void setHistoryInfo();
+	void setSQLiteInfo();
+	void clearStackedWidget();
 
 public slots:
-	void openSQLiteHistoryFile(const QModelIndex& index);
+	void openHistoryDatabase(const QModelIndex& index);
 	void getHistoryInfo(const QModelIndex& index);
 	void resizeHistory(int iWidth);
+
+private:
+	QWidget* makeHistoryInfo(DatabaseModel::DatabaseType type);
 
 private:
 	QWindowMain * m_pMainWindow;

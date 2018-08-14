@@ -15,9 +15,8 @@
 #include "Database/DatabaseControllerSqlite.h"
 #include "Database/DatabaseControllerMysql.h"
 
-QDatabaseConnectionViewController::QDatabaseConnectionViewController(const QString& szFileName, DatabaseController* pDatabaseController)
+QDatabaseConnectionViewController::QDatabaseConnectionViewController(DatabaseController* pDatabaseController)
 {
-	m_szFileName = szFileName;
 	m_pDatabaseConnectionView = NULL;
 	m_pDatabaseController = pDatabaseController;
 	m_pListTableModel = new QStandardItemModel();
@@ -48,7 +47,7 @@ void QDatabaseConnectionViewController::openNewWorksheet()
 	m_pDatabaseConnectionView->addWorksheetView(pDatabaseWorksheetView, tr("Worksheet"));
 
 	QDatabaseWorksheetViewController* pDatabaseWorksheetViewController = new QDatabaseWorksheetViewController;
-	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_szFileName, m_pDatabaseController);
+	pDatabaseWorksheetViewController->init(pDatabaseWorksheetView, m_pDatabaseController);
 }
 
 void QDatabaseConnectionViewController::refreshDatabaseTables()

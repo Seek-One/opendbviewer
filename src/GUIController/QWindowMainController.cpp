@@ -103,6 +103,11 @@ void QWindowMainController::openMenuConn()
 	m_pMainWindow->showMenuConnTab();
 }
 
+void QWindowMainController::callHistoryDatabaseLoading(const DatabaseModel& databaseModel)
+{
+	m_pOpenDatabaseViewController->loadHistoryDatabase(databaseModel);
+}
+
 void QWindowMainController::callSQLiteFile(const QString& szFileUrl)
 {
 	m_pOpenDatabaseViewController->openSQLiteFile(szFileUrl);
@@ -145,11 +150,11 @@ void QWindowMainController::dropReceived(QDropEvent* pEvent)
 	if(pMimeData){
 		QList<QUrl> listUrls = pMimeData->urls();
 		QList<QUrl>::iterator iter;
-		QString szUrl;
+		QString szPath;
 		for(iter = listUrls.begin(); iter != listUrls.end(); ++iter){
-			szUrl = (*iter).path();
-			if(szUrl.endsWith(".sqlite") || szUrl.endsWith(".db")){
-				callSQLiteFile(szUrl);
+			szPath = (*iter).path();
+			if(szPath.endsWith(".sqlite") || szPath.endsWith(".db")){
+				callSQLiteFile(szPath);
 			}
 		}
 	}

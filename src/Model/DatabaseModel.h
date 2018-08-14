@@ -26,7 +26,7 @@ public:
 
 	const QString& getDatabaseName() const;
 	void setDatabaseName(const QString& szDatabaseName);
-	int getDatabaseType() const;
+	DatabaseModel::DatabaseType getDatabaseType() const;
 	void setDatabaseType(DatabaseModel::DatabaseType DatabaseType);
 	const QString& getDatabasePath() const;
 	void setDatabasePath(const QString& szDatabasePath);
@@ -39,9 +39,8 @@ public:
 	const QString& getDatabasePassword() const;
 	void setDatabasePassword(const QString& szDatabasePassword);
 
-
 	bool operator==(const DatabaseModel& other) const;
-	bool operator!=(const DatabaseModel& other) const;
+
 private:
 	QString m_szDatabaseName;
 	DatabaseModel::DatabaseType m_DatabaseType;

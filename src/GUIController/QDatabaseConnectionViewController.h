@@ -25,7 +25,7 @@ class QDatabaseConnectionViewController : public QWidget
 {
 	Q_OBJECT
 public:
-	QDatabaseConnectionViewController(const QString& szFileName, DatabaseController* pDatabaseController);
+	QDatabaseConnectionViewController(DatabaseController* pDatabaseController);
 	virtual ~QDatabaseConnectionViewController();
 
 	void init(QDatabaseConnectionView* pDatabaseConnectionView);

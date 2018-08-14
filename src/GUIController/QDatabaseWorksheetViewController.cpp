@@ -18,7 +18,6 @@
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 {
 	m_pDatabaseWorksheetView = NULL;
-	m_szFileName = "";
 	m_pDatabaseController = NULL;
 	m_pSqlHighlighterController = NULL;
 	m_pDatabaseTableModel = NULL;
@@ -32,10 +31,9 @@ QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
 	}
 }
 
-void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWorksheetView, QString& szFileName, DatabaseController* pDatabaseController)
+void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWorksheetView, DatabaseController* pDatabaseController)
 {
 	m_pDatabaseWorksheetView = pDatabaseWorksheetView;
-	m_szFileName = szFileName;
 	m_pDatabaseController = pDatabaseController;
 
 	m_pSqlHighlighterController = new QSqlHighlighterController(m_pDatabaseWorksheetView->getWorksheetTextEdit()->document());

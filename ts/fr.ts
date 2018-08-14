@@ -83,23 +83,23 @@
 <context>
     <name>QDatabaseConnectionViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="48"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="47"/>
         <source>Worksheet</source>
         <translation>Feuille de travail</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="64"/>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="89"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="63"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="88"/>
         <source>Database problem</source>
         <translation>Problème de base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="64"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="63"/>
         <source>Problem while loading database tables</source>
         <translation>Problème durant le chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="89"/>
+        <location filename="../src/GUIController/QDatabaseConnectionViewController.cpp" line="88"/>
         <source>Problem while loading database table informations</source>
         <translation>Problème durant le chargement des informations de la table</translation>
     </message>
@@ -107,38 +107,38 @@
 <context>
     <name>QDatabaseTableView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="26"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="25"/>
         <source>Structure</source>
         <translation>Structure</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="31"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="30"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="36"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="35"/>
         <source>Original SQL creation script</source>
         <translation>Script SQL original de création</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="74"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="73"/>
         <source>Filter:</source>
         <translation>Filtrer :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="81"/>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="111"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="80"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="110"/>
         <source>Refresh</source>
         <translation>Rafraîchir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="113"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="112"/>
         <source>Execute</source>
         <translation>Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseTableView.cpp" line="84"/>
+        <location filename="../src/GUI/QDatabaseTableView.cpp" line="83"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -146,17 +146,17 @@
 <context>
     <name>QDatabaseWorksheetView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="48"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="49"/>
         <source>Execute</source>
         <translation>Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="52"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="53"/>
         <source>Reformat</source>
         <translation>Reformater</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="57"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="58"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -329,48 +329,48 @@ vos fichiers ici</translation>
 <context>
     <name>QOpenDatabaseViewController</name>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="56"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="57"/>
         <source>Select a file</source>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="56"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="57"/>
         <source>SQLite files (*.sqlite *.db)</source>
         <translation>Fichier SQLite (*.sqlite *.db)</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="108"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="152"/>
         <source>Please select a valid SQLite file</source>
         <translation>Veuillez choisir un fichier SQLite valide</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="116"/>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="124"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="160"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="168"/>
         <source>Please enter the necessary information.</source>
         <translation>Veuillez entrez les informations nécessaires.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="134"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="178"/>
         <source>Invalid Informations</source>
         <translation>Informations invalides</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="194"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="239"/>
         <source>Unable to connect to the database, please check the connection information.</source>
         <translation>Impossible de se connecter à la base de donnée, veuillez vérifier les informations de connexion.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="209"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
         <source>Database problem</source>
         <translation>Problème de base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="209"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
         <source>Problem while loading database tables</source>
         <translation>Problème durant le chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="221"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="265"/>
         <source>Connection error</source>
         <translation>Erreur de connexion</translation>
     </message>
@@ -378,30 +378,63 @@ vos fichiers ici</translation>
 <context>
     <name>QOpenHistoryView</name>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="83"/>
+        <source>Item Informations:</source>
+        <translation type="vanished">Informations de la base de données</translation>
+    </message>
+    <message>
+        <source>Name :</source>
+        <translation type="vanished">Nom :</translation>
+    </message>
+    <message>
+        <source>Path :</source>
+        <translation type="vanished">Chemin :</translation>
+    </message>
+</context>
+<context>
+    <name>QOpenHistoryViewController</name>
+    <message>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="58"/>
         <source>Item Informations:</source>
         <translation>Informations de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="96"/>
-        <source>Name :</source>
-        <translation>Nom :</translation>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="71"/>
+        <source>Name:</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/GUI/QOpenHistoryView.cpp" line="101"/>
-        <source>Path :</source>
-        <translation>Chemin :</translation>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="76"/>
+        <source>Path:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="82"/>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="90"/>
+        <source>Host:</source>
+        <translation>Hôte :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="83"/>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="91"/>
+        <source>Port:</source>
+        <translation>Port :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="84"/>
+        <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="92"/>
+        <source>Username:</source>
+        <translation>Nom d&apos;utilisateur :</translation>
     </message>
 </context>
 <context>
     <name>QQueryResultView</name>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="25"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="24"/>
         <source>Results</source>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="42"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="37"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>

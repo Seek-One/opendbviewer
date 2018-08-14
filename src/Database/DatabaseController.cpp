@@ -184,7 +184,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 		//Set the headers
 		for (int i = 0; i < listRowHeader.size(); i++) {
-			(*ppTableModel)->setHeaderData(i , Qt::Horizontal, listRowHeader.at(i));
+			(*ppTableModel)->setHeaderData(i , Qt::Horizontal, listRowHeader.at(i), Qt::TextAlignmentRole);
 		}
 		bRes = (*ppTableModel)->select();
 
@@ -207,10 +207,8 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 		QSqlQuery query(m_db);
 		if (!szWorksheetQuery.isEmpty()) {
 			bRes = query.exec(szWorksheetQuery);
-
 			if (bRes) {
 				*ppTableModel = new QSqlTableModel(NULL, m_db);
-				(*ppTableModel)->setTable("New Query");
 
 				int iCurrentColumn;
 				//Set Headers

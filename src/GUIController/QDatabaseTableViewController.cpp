@@ -65,6 +65,7 @@ bool QDatabaseTableViewController::loadDatabaseTableData()
 	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
 	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
 	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setVisible(false);
+	m_pDatabaseTableView->getDataTableView()->resizeRowsToContents();
 	m_pDatabaseTableView->getDataTableView()->sortByColumn(0, Qt::AscendingOrder);
 
 	showQueryInformation();

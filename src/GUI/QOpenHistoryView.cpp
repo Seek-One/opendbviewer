@@ -35,8 +35,8 @@ QOpenHistoryView::QOpenHistoryView(QWidget* pParent)
 	m_pHistoryInfoStackedWidget->setMinimumWidth(m_pHistoryTreeView->width());
 	m_pHistoryInfoStackedWidget->setHidden(true);
 
-	connect(m_pHistoryTreeView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onHistoryItemClicked(const QModelIndex&)));
- 	connect(m_pHistoryTreeView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(onHistoryItemDoubleClicked(const QModelIndex &)));
+	connect(m_pHistoryTreeView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(onHistoryItemClicked(const QModelIndex&)));
+ 	connect(m_pHistoryTreeView, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(onHistoryItemDoubleClicked(const QModelIndex &)));
 }
 
 QOpenHistoryView::~QOpenHistoryView()

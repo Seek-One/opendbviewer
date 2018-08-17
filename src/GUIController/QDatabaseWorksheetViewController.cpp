@@ -49,7 +49,15 @@ void QDatabaseWorksheetViewController::executeQuery()
 
 	QString szWorksheetQuery = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText();
 	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, &m_pDatabaseTableModel);
+
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setModel(m_pDatabaseTableModel);
 	m_pDatabaseWorksheetView->getWorksheetTableView()->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->resizeColumnsToContents();
+	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->setStretchLastSection(true);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setVisible(false);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->resizeRowsToContents();
+	m_pDatabaseWorksheetView->getWorksheetTableView()->sortByColumn(0, Qt::AscendingOrder);
+
 	showWorksheetQueryInformation();
 
 	if(bRes){

@@ -201,15 +201,29 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 
 	QStringList listRowHeader;
 	QStringList listRowData;
+	QString szTable_Name, szRequest;
 
 	bRes = openDatabase();
 	if(bRes){
 		QSqlQuery query(m_db);
 		if (!szWorksheetQuery.isEmpty()) {
 			bRes = query.exec(szWorksheetQuery);
+
+			//Search the table name
+			szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
+			if (szRequest == "SELECT") {
+				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 3, 3, QString::SectionSkipEmpty);
+			} else if (szRequest == "UPDATE") {
+				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 1, 1, QString::SectionSkipEmpty);
+			} else if (szRequest == "ALTER" || szRequest == "CREATE" || szRequest == "TRUNCATE") {
+				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 2, 2, QString::SectionSkipEmpty);
+			} else {
+				szTable_Name = "";
+			}
+
 			if (bRes) {
 				*ppTableModel = new QSqlTableModel(NULL, m_db);
-
+				(*ppTableModel)->setTable(szTable_Name);
 				int iCurrentColumn;
 				//Set Headers
 				for (iCurrentColumn = 0; iCurrentColumn < query.record().count(); iCurrentColumn++)
@@ -222,8 +236,6 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 		}
 
 		m_szResultString = makeQueryResultString(query);
-
-		closeDataBase();
 	} else {
 		qCritical("[DatabaseController] Cannot open database for new query loading");
 	}
@@ -278,7 +290,7 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iN
 	szResultString += time.currentTime().toString()+" => ";
 	// Write sql error
 	if(query.lastError().isValid()){
-		szResultString += "Query executed with error(s) (" + query.lastError().text() + "): ";
+		szResultString += "Query executed with error(s) (" + query.lastError().text() + "): \n";
 	}else{
 		szResultString += "Query executed successfully: ";
 	}
@@ -286,7 +298,7 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iN
 	szResultString += QString::number(iNbRow)+" row(s) selected/affected\n";
 	// Write query
 	if(!query.lastQuery().isEmpty()){
-		szResultString += "   " + query.lastQuery() + "\n";
+		szResultString += query.lastQuery() + "\n";
 	}
 	szResultString += "\n";
 

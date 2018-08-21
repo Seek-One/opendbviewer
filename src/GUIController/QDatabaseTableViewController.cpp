@@ -17,9 +17,9 @@
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
 	m_pDatabaseTableView = NULL;
-	m_szTableName = "";
 	m_pDatabaseController = NULL;
 	m_pDatabaseTableModel = NULL;
+	m_szTableName = "";
 }
 
 QDatabaseTableViewController::~QDatabaseTableViewController()
@@ -63,11 +63,11 @@ bool QDatabaseTableViewController::loadDatabaseTableData()
 	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, &m_pDatabaseTableModel); //Load the data
 
 	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
+	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
 	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
-	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setVisible(false);
-	m_pDatabaseTableView->getDataTableView()->resizeRowsToContents();
+	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setDefaultSectionSize(20);
+	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setHidden(true);
 	m_pDatabaseTableView->getDataTableView()->sortByColumn(0, Qt::AscendingOrder);
-
 	showQueryInformation();
 
 	return bRes;
@@ -107,7 +107,7 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 			font.setItalic(true);
 			pStandardItem->setFont(font);
 			pStandardItem->setForeground(nullbrush);
-		}else{
+		} else {
 			pStandardItem = new QStandardItem(*iter);
 		}
 		pStandardItem->setEditable(true);
@@ -133,17 +133,13 @@ void QDatabaseTableViewController::onDbLoadTableDescription(const QStringList& l
 	if(step == DBQueryStepStart){
 		pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->setHorizontalHeaderLabels(listRowHeader);
 	}
-
 	//Creating a QList<QStandardItem> in order to append a row to the model
-
 	if(step == DBQueryStepRow){
 		QList<QStandardItem*> listRowDataItem;
 		listRowDataItem = pDatabaseTableViewController->makeStandardItemListFromStringList(listRowData);
-
 		//Adds a row to the table
 		pDatabaseTableViewController->m_pDatabaseTableView->getStructureModel()->appendRow(listRowDataItem);
 	}
-
 	if(step == DBQueryStepEnd){
 		pDatabaseTableViewController->m_pDatabaseTableView->getStructureTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
 	}

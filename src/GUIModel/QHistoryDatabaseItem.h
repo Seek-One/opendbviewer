@@ -20,9 +20,6 @@ public:
 
 	const DatabaseModel& getDatabaseModel() const;
 
-//signals:
-//	void itemClicked();
-
 private:
 	DatabaseModel m_databaseModel;
 };

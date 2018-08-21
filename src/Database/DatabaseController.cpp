@@ -195,47 +195,32 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	return bRes;
 }
 
-bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlTableModel** ppTableModel)
+bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlQueryModel** ppTableModel)
 {
 	bool bRes;
 
 	QStringList listRowHeader;
 	QStringList listRowData;
-	QString szTable_Name, szRequest;
+	QString szRequest;
 
 	bRes = openDatabase();
-	if(bRes){
-		QSqlQuery query(m_db);
-		if (!szWorksheetQuery.isEmpty()) {
-			bRes = query.exec(szWorksheetQuery);
-
-			//Search the table name
-			szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
-			if (szRequest == "SELECT") {
-				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 3, 3, QString::SectionSkipEmpty);
-			} else if (szRequest == "UPDATE") {
-				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 1, 1, QString::SectionSkipEmpty);
-			} else if (szRequest == "ALTER" || szRequest == "CREATE" || szRequest == "TRUNCATE") {
-				szTable_Name = szWorksheetQuery.section(QRegExp("\\s+"), 2, 2, QString::SectionSkipEmpty);
-			} else {
-				szTable_Name = "";
+	if(bRes && !szWorksheetQuery.isEmpty()){
+		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
+		if (szRequest == "SELECT") {
+			*ppTableModel = new QSqlQueryModel();
+			(*ppTableModel)->setQuery(szWorksheetQuery, m_db);
+			if (!(*ppTableModel)->query().lastError().isValid()) {
+				bRes = false;
 			}
-
-			if (bRes) {
-				*ppTableModel = new QSqlTableModel(NULL, m_db);
-				(*ppTableModel)->setTable(szTable_Name);
-				int iCurrentColumn;
-				//Set Headers
-				for (iCurrentColumn = 0; iCurrentColumn < query.record().count(); iCurrentColumn++)
-				{
-					QSqlField field = query.record().field(iCurrentColumn);
-					(*ppTableModel)->setHeaderData(iCurrentColumn , Qt::Horizontal, field.name());
-				}
-				bRes = (*ppTableModel)->select();
-			}
+			m_szResultString = makeQueryResultString((*ppTableModel)->query());
+		} else {
+			QSqlQuery query(m_db);
+			query.exec(szWorksheetQuery);
+			bRes = false; 	//No results to display in this case
+			m_szResultString = makeQueryResultString(query);
 		}
 
-		m_szResultString = makeQueryResultString(query);
+		closeDataBase();
 	} else {
 		qCritical("[DatabaseController] Cannot open database for new query loading");
 	}

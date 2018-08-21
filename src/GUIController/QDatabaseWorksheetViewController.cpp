@@ -20,7 +20,7 @@ QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 	m_pDatabaseWorksheetView = NULL;
 	m_pDatabaseController = NULL;
 	m_pSqlHighlighterController = NULL;
-	m_pDatabaseTableModel = NULL;
+	m_pDatabaseDisplayModel = NULL;
 }
 
 QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
@@ -48,21 +48,20 @@ void QDatabaseWorksheetViewController::executeQuery()
 	bool bRes;
 
 	QString szWorksheetQuery = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText();
-	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, &m_pDatabaseTableModel);
+	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, &m_pDatabaseDisplayModel);
 
-	m_pDatabaseWorksheetView->getWorksheetTableView()->setModel(m_pDatabaseTableModel);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setModel(m_pDatabaseDisplayModel);
 	m_pDatabaseWorksheetView->getWorksheetTableView()->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->resizeColumnsToContents();
+	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
 	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->setStretchLastSection(true);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setVisible(false);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->resizeRowsToContents();
+	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setDefaultSectionSize(20);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setHidden(true);
 	m_pDatabaseWorksheetView->getWorksheetTableView()->sortByColumn(0, Qt::AscendingOrder);
-
 	showWorksheetQueryInformation();
 
 	if(bRes){
 		m_pDatabaseWorksheetView->showTabData();
-	}else{
+	} else {
 		m_pDatabaseWorksheetView->showTabConsole();
 	}
 }

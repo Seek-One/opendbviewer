@@ -206,7 +206,7 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 	bRes = openDatabase();
 	if(bRes && !szWorksheetQuery.isEmpty()){
 		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
-		if (szRequest == "SELECT") {
+		if (szRequest.toLower() == "select") {
 			*ppTableModel = new QSqlDisplayQueryModel();
 			(*ppTableModel)->setQuery(szWorksheetQuery, m_db);
 			if ((*ppTableModel)->query().lastError().text()!=" ") {

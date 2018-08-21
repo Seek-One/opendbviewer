@@ -63,6 +63,7 @@ bool QDatabaseTableViewController::loadDatabaseTableData()
 	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, &m_pDatabaseTableModel); //Load the data
 
 	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
+	m_pDatabaseTableView->getDataTableView()->setShowGrid(false);
 	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
 	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
 	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setDefaultSectionSize(20);

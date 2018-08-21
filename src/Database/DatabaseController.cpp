@@ -164,7 +164,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	return bRes;
 }
 
-bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlTableModel** ppTableModel)
+bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel** ppTableModel)
 {
 	bool bRes;
 
@@ -173,7 +173,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	bRes = openDatabase();
 	if(bRes){
 		listRowHeader = listColumnNames(szTableName);
-		*ppTableModel = new QSqlTableModel(NULL, m_db);
+		*ppTableModel = new QSqlDisplayTableModel(NULL, m_db);
 
 		(*ppTableModel)->setTable(szTableName);
 		(*ppTableModel)->setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -195,7 +195,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	return bRes;
 }
 
-bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlQueryModel** ppTableModel)
+bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppTableModel)
 {
 	bool bRes;
 
@@ -207,9 +207,9 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 	if(bRes && !szWorksheetQuery.isEmpty()){
 		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
 		if (szRequest == "SELECT") {
-			*ppTableModel = new QSqlQueryModel();
+			*ppTableModel = new QSqlDisplayQueryModel();
 			(*ppTableModel)->setQuery(szWorksheetQuery, m_db);
-			if (!(*ppTableModel)->query().lastError().isValid()) {
+			if ((*ppTableModel)->query().lastError().text()!=" ") {
 				bRes = false;
 			}
 			m_szResultString = makeQueryResultString((*ppTableModel)->query());

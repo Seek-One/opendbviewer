@@ -223,6 +223,10 @@ set(APPLICATION_SOURCES
 	src/GUIController/QSqlHighlighterController.h
 	src/GUIModel/QHistoryDatabaseItem.cpp
 	src/GUIModel/QHistoryDatabaseItem.h
+	src/GUIModel/QSqlDisplayQueryModel.cpp
+	src/GUIModel/QSqlDisplayQueryModel.h
+	src/GUIModel/QSqlDisplayTableModel.cpp
+	src/GUIModel/QSqlDisplayTableModel.h
 	src/GUIModel/QHistoryDatabaseModel.cpp
 	src/GUIModel/QHistoryDatabaseModel.h
 	src/GUIModel/HTMLDelegate.cpp

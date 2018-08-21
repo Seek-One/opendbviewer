@@ -14,6 +14,7 @@
 #include <QSortFilterProxyModel>
 
 #include "Database/DatabaseCallback.h"
+#include "GUIModel/QSqlDisplayTableModel.h"
 
 class QStandardItem;
 class QDatabaseTableView;
@@ -48,7 +49,7 @@ private:
 	QString m_szTableName;
 	DatabaseController* m_pDatabaseController;
 	QString m_szFieldName;
-	QSqlTableModel* m_pDatabaseTableModel;
+	QSqlDisplayTableModel* m_pDatabaseTableModel;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASETABLEVIEWCONTROLLER_H_ */

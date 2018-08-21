@@ -35,7 +35,7 @@ private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
-	QSqlQueryModel* m_pDatabaseDisplayModel;
+	QSqlDisplayQueryModel* m_pDatabaseDisplayModel;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

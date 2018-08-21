@@ -20,6 +20,8 @@
 #include <QDebug>
 
 #include "DatabaseCallback.h"
+#include "GUIModel/QSqlDisplayQueryModel.h"
+#include "GUIModel/QSqlDisplayTableModel.h"
 
 class DatabaseController
 {
@@ -34,11 +36,11 @@ public:
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 
-	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlTableModel** ppTableModel);
+	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel** ppTableModel);
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
-	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlQueryModel** ppTableModel);
+	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppTableModel);
 
 	QString getQueryResultString() const;
 

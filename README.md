@@ -22,9 +22,12 @@ Requirements
 ------------
 
 - Qt version 4 or Qt version 5
+- ImageMagick
 
 Compiling from source
 ---------------------
+
+> for Archlinux users, a package [`opendbviewer-git`](https://aur.archlinux.org/packages/opendbviewer-git) is available in AUR
 
 Install dependencies:
 

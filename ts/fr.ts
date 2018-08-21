@@ -400,12 +400,12 @@ vos fichiers ici</translation>
     <message>
         <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="71"/>
         <source>Name:</source>
-        <translation></translation>
+        <translation>Nom :</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="76"/>
         <source>Path:</source>
-        <translation></translation>
+        <translation>Chemin :</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenHistoryViewController.cpp" line="82"/>

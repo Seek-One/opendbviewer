@@ -28,6 +28,7 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 
 		//Creation of a table view and model for results tabs
 		m_pDataTableView = new QTableView();
+		m_pDataTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 		pTmpVLayout->addWidget(m_pDataTableView);
 	}
 

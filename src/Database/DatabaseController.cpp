@@ -195,7 +195,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	return bRes;
 }
 
-bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppTableModel)
+bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppQueryModel)
 {
 	bool bRes;
 
@@ -207,12 +207,12 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 	if(bRes && !szWorksheetQuery.isEmpty()){
 		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
 		if (szRequest.toLower() == "select") {
-			*ppTableModel = new QSqlDisplayQueryModel();
-			(*ppTableModel)->setQuery(szWorksheetQuery, m_db);
-			if ((*ppTableModel)->query().lastError().text()!=" ") {
+			*ppQueryModel = new QSqlDisplayQueryModel();
+			(*ppQueryModel)->setQuery(szWorksheetQuery, m_db);
+			if ((*ppQueryModel)->query().lastError().text()!=" ") {
 				bRes = false;
 			}
-			m_szResultString = makeQueryResultString((*ppTableModel)->query());
+			m_szResultString = makeQueryResultString((*ppQueryModel)->query());
 		} else {
 			QSqlQuery query(m_db);
 			query.exec(szWorksheetQuery);

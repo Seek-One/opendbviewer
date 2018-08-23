@@ -40,7 +40,7 @@ public:
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
-	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppTableModel);
+	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppQueryModel);
 
 	QString getQueryResultString() const;
 

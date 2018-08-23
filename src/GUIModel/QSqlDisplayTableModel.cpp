@@ -9,6 +9,9 @@
 
 #include <QColor>
 #include <QFont>
+#include <QMessageBox>
+#include <QSqlError>
+#include <QWidget>
 
 QSqlDisplayTableModel::QSqlDisplayTableModel(QObject* parent, QSqlDatabase db) : QSqlTableModel(parent, db)
 {
@@ -43,5 +46,14 @@ QVariant QSqlDisplayTableModel::data(const QModelIndex &item, int role) const
 		return QVariant("NULL");
 	}
 	return QSqlTableModel::data(item, role);
+}
+
+bool QSqlDisplayTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	bool bSet = QSqlTableModel::setData(index, value, role);
+	if (QSqlTableModel::editStrategy() == OnFieldChange && !bSet) {
+		QMessageBox::warning(qobject_cast<QWidget*>(parent()), "Erreur","Erreur: <br/><b>" + QSqlTableModel::lastError().text() + "</b>");
+	}
+	return bSet;
 }
 

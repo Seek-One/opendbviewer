@@ -48,7 +48,6 @@ private:
 	QDatabaseTableView* m_pDatabaseTableView;
 	QString m_szTableName;
 	DatabaseController* m_pDatabaseController;
-	QString m_szFieldName;
 	QSqlDisplayTableModel* m_pDatabaseTableModel;
 };
 

@@ -20,7 +20,7 @@ public:
 	virtual ~QQueryResultView();
 
 	QTableView* getDataTableView() const;
-	QTextEdit* getConsoleTextEdit() const;;
+	QTextEdit* getConsoleTextEdit() const;
 
 	void showTabData();
 	void showTabConsole();

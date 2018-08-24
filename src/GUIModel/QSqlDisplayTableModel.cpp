@@ -67,9 +67,8 @@ bool QSqlDisplayTableModel::setData(const QModelIndex &index, const QVariant &va
 			m_ErrorIndexVector.push_back(index);
 			emit databaseError();
 		} else {
-			int iOccur = m_ErrorIndexVector.indexOf(index);
-			if (iOccur != -1) {
-				m_ErrorIndexVector.remove(iOccur);
+			while (m_ErrorIndexVector.count() > 0) {
+				m_ErrorIndexVector.removeLast();
 			}
 		}
 	}

@@ -22,6 +22,9 @@ public:
 
 signals:
 	void databaseError();
+
+private:
+	QVector<QModelIndex> m_ErrorIndexVector;
 };
 
 #endif /* SRC_GUIMODEL_QSQLDISPLAYTABLEMODEL_H_ */

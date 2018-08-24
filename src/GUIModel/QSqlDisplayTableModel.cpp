@@ -22,7 +22,8 @@ QSqlDisplayTableModel::~QSqlDisplayTableModel()
 
 QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 {
-	QVariant value = QSqlQueryModel::data(index, role);
+	QVariant value = QSqlTableModel::data(index, role);
+	int iOccur = m_ErrorIndexVector.indexOf(index);
 	if (!index.isValid()) {
 		return QVariant();
 	}
@@ -33,10 +34,18 @@ QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 			italicFont.setItalic(true);
 			return italicFont;
 		}
+		if (iOccur != -1) {
+			QFont boldFont;
+			boldFont.setBold(true);
+			return boldFont;
+		}
 		break;
 	case Qt::ForegroundRole:
 		if (QSqlTableModel::data(index).isNull()) {
 			return QBrush(Qt::darkGray);
+		}
+		if (iOccur != -1) {
+			return QBrush(Qt::red);
 		}
 		break;
 	case Qt::DisplayRole:
@@ -47,14 +56,22 @@ QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 	default:
 		break;
 	}
-	return QSqlTableModel::data(index, role);
+	return value;
 }
 
 bool QSqlDisplayTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
 	bool bSet = QSqlTableModel::setData(index, value, role);
-	if (QSqlTableModel::editStrategy() == OnFieldChange && !bSet) {
-		emit databaseError();
+	if (QSqlTableModel::editStrategy() == OnFieldChange){
+		if(!bSet) {
+			m_ErrorIndexVector.push_back(index);
+			emit databaseError();
+		} else {
+			int iOccur = m_ErrorIndexVector.indexOf(index);
+			if (iOccur != -1) {
+				m_ErrorIndexVector.remove(iOccur);
+			}
+		}
 	}
 	return bSet;
 }

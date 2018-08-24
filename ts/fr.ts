@@ -153,7 +153,7 @@
     <message>
         <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="101"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
-        <translation></translation>
+        <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

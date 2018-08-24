@@ -269,6 +269,8 @@ set(APPLICATION_MOC_HEADERS
 	src/GUIController/QOpenDatabaseViewController.h
     src/GUIController/QOpenHistoryViewController.h
 	src/GUIController/QSqlHighlighterController.h
+	src/GUIModel/QSqlDisplayTableModel.cpp
+	src/GUIModel/QSqlDisplayTableModel.h
 	src/Widget/QDropAreaWidget.h
    	src/Widget/QFileExplorerWidget.h
 )

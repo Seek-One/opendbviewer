@@ -33,6 +33,11 @@ void DatabaseController::closeDataBase()
 	m_db.close();
 }
 
+QSqlDatabase DatabaseController::getSqlDatabase()
+{
+	return m_db;
+}
+
 bool DatabaseController::loadTables(DbLoadTableCB func, void* user_data)
 {
 	bool bRes;
@@ -164,7 +169,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	return bRes;
 }
 
-bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel** ppTableModel)
+bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel* pTableModel)
 {
 	bool bRes;
 
@@ -173,20 +178,19 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	bRes = openDatabase();
 	if(bRes){
 		listRowHeader = listColumnNames(szTableName);
-		*ppTableModel = new QSqlDisplayTableModel(NULL, m_db);
 
-		(*ppTableModel)->setTable(szTableName);
-		(*ppTableModel)->setEditStrategy(QSqlTableModel::OnFieldChange);
+		pTableModel->setTable(szTableName);
+		pTableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
 
 		if (!szFilter.isEmpty()) {
-			(*ppTableModel)->setFilter(szFilter);
+			pTableModel->setFilter(szFilter);
 		}
 
 		//Set the headers
 		for (int i = 0; i < listRowHeader.size(); i++) {
-			(*ppTableModel)->setHeaderData(i , Qt::Horizontal, listRowHeader.at(i), Qt::TextAlignmentRole);
+			pTableModel->setHeaderData(i , Qt::Horizontal, listRowHeader.at(i), Qt::TextAlignmentRole);
 		}
-		bRes = (*ppTableModel)->select();
+		bRes = pTableModel->select();
 
 	} else {
 		qCritical("[DatabaseController] Cannot open database for table data loading");

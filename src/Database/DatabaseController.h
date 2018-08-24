@@ -32,11 +32,13 @@ public:
 	bool openDatabase();
 	void closeDataBase();
 
+	QSqlDatabase getSqlDatabase();
+
 	bool loadTables(DbLoadTableCB func, void* user_data);
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 
-	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel** ppTableModel);
+	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel* pTableModel);
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);

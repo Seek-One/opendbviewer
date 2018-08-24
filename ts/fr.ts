@@ -144,6 +144,19 @@
     </message>
 </context>
 <context>
+    <name>QDatabaseTableViewController</name>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="101"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="101"/>
+        <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>QDatabaseWorksheetView</name>
     <message>
         <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="49"/>
@@ -434,7 +447,7 @@ vos fichiers ici</translation>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="37"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="38"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>

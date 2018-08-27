@@ -21,7 +21,12 @@ HTMLDelegate::~HTMLDelegate()
 
 void HTMLDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 	QStyleOptionViewItem options = option;
+#else
+	QStyleOptionViewItemV4 options = option;
+#endif
+
 	initStyleOption(&options, index);
 
 	painter->save();
@@ -47,7 +52,12 @@ void HTMLDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
 QSize HTMLDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QStyleOptionViewItem options = option;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+	QStyleOptionViewItem options = option;
+#else
+	QStyleOptionViewItemV4 options = option;
+#endif
+
     initStyleOption(&options, index);
 
     QTextDocument doc;

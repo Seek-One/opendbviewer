@@ -90,7 +90,7 @@ void QSettingsManager::loadDatabaseSettings()
 
 		QString szGroup;
 		QString szName;
-		DatabaseModel::DatabaseType type;
+		DatabaseModel::DatabaseType type = DatabaseModel::UnknownType;
 		QString szPath;
 		QString szHost;
 		int iPort;
@@ -145,10 +145,6 @@ void QSettingsManager::loadDatabaseSettings()
 				databaseModel.setDatabasePath(szPath);
 				break;
 			case DatabaseModel::MySQLType:
-				databaseModel.setDatabaseHost(szHost);
-				databaseModel.setDatabasePort(iPort);
-				databaseModel.setDatabaseUsername(szUsername);
-				break;
 			case DatabaseModel::PostgreSQLType:
 				databaseModel.setDatabaseHost(szHost);
 				databaseModel.setDatabasePort(iPort);

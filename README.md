@@ -1,7 +1,7 @@
 OpenDBViewer
 ============
 
-OpenDBViewer is a simple database explorer for Windows, Linux and Max OS X.
+OpenDBViewer is a simple database explorer for Windows, Linux and Mac OS X.
 
 - Github: https://github.com/Jet1oeil/opendbviewer
 - Developer website: http://www.jet1oeil.com/

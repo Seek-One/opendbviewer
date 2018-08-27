@@ -23,7 +23,7 @@ QSqlDisplayTableModel::~QSqlDisplayTableModel()
 QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 {
 	QVariant value = QSqlTableModel::data(index, role);
-	int iOccur = m_ErrorIndexVector.indexOf(index);
+	int iOccur = m_errorIndexVector.indexOf(index);
 	if (!index.isValid()) {
 		return QVariant();
 	}
@@ -64,11 +64,11 @@ bool QSqlDisplayTableModel::setData(const QModelIndex &index, const QVariant &va
 	bool bSet = QSqlTableModel::setData(index, value, role);
 	if (QSqlTableModel::editStrategy() == OnFieldChange){
 		if(!bSet) {
-			m_ErrorIndexVector.push_back(index);
+			m_errorIndexVector.push_back(index);
 			emit databaseError();
 		} else {
-			while (m_ErrorIndexVector.count() > 0) {
-				m_ErrorIndexVector.removeLast();
+			while (m_errorIndexVector.count() > 0) {
+				m_errorIndexVector.removeLast();
 			}
 		}
 	}

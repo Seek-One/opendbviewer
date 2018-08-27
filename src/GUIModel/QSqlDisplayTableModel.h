@@ -9,6 +9,7 @@
 #define SRC_GUIMODEL_QSQLDISPLAYTABLEMODEL_H_
 
 #include <QSqlTableModel>
+#include <QVector>
 
 class QSqlDisplayTableModel : public QSqlTableModel
 {
@@ -24,7 +25,7 @@ signals:
 	void databaseError();
 
 private:
-	QVector<QModelIndex> m_ErrorIndexVector;
+	QVector<QModelIndex> m_errorIndexVector;
 };
 
 #endif /* SRC_GUIMODEL_QSQLDISPLAYTABLEMODEL_H_ */

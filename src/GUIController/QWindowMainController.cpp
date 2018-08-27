@@ -129,12 +129,12 @@ void QWindowMainController::dragEnterReceived(QDragEnterEvent* pEvent)
 			szFileName = (*iter).path();
 			if(szFileName.endsWith(".sqlite") || szFileName.endsWith(".db")){
 				pEvent->acceptProposedAction();
+				m_pMainWindow->enableBlurEffect(true);
+				m_pMainWindow->getDropArea()->startPaint();
 				break;
 			}
 		}
 	}
-	m_pMainWindow->enableBlurEffect(true);
-	m_pMainWindow->getDropArea()->startPaint();
 }
 
 void QWindowMainController::dragLeaveReceived(QDragLeaveEvent* pEvent)

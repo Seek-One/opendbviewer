@@ -1,6 +1,26 @@
+Version 1.1.0 (2018-08-27)
+
+    - New UI "toolbar based"
+    - Save the window-maximized state
+    - Keep last selected directory information
+    - Remove the "open database" dialog
+    - Open SQLite database by dragging and dropping file in form
+    - Historize connections
+    - Dynamic data loading
+    - Update database from treeview
+    - Postgresql support
+
+  Bug fixes:
+    - First tab cannot be closed with a middle click
+    - Bug when the same SQLite database is opened twice
+    - make command error
+    - QSqlDatabase: QMYSQL driver not loaded
+
 Version 1.0.1 (2017-09-13)
-  - Fix MySQL connection
+
+    - Fix MySQL connection
 
 Version 1.0.1 (2017-09-11)
-  - Various bug fixes
-  - Large code refactoring
+
+    - Various bug fixes
+    - Large code refactoring

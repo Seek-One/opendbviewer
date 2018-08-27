@@ -93,7 +93,7 @@ void QSettingsManager::loadDatabaseSettings()
 		DatabaseModel::DatabaseType type = DatabaseModel::UnknownType;
 		QString szPath;
 		QString szHost;
-		int iPort;
+		int iPort = 0;
 		QString szUsername;
 
 		QVariant databaseName;

@@ -23,7 +23,7 @@ bool DatabaseController::openDatabase()
 {
 	bool bRet = m_db.open();
 	if(!bRet){
-		qDebug(qPrintable("[DatabaseController] Error: " + m_db.lastError().text()));
+		qDebug("[DatabaseController] Error: %s", qPrintable(m_db.lastError().text()));
 	}
 	return bRet;
 }

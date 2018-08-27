@@ -37,6 +37,7 @@ public:
 public slots:
 	void updateTableData();
 	void clearFilterField();
+	void displayError();
 
 private:
 	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);

@@ -9,6 +9,8 @@
 #include <QPalette>
 #include <QTreeView>
 #include <QTableView>
+#include <QMessageBox>
+#include <QSqlError>
 
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUI/QDatabaseTableView.h"
@@ -24,7 +26,9 @@ QDatabaseTableViewController::QDatabaseTableViewController()
 
 QDatabaseTableViewController::~QDatabaseTableViewController()
 {
-
+	if (m_pDatabaseTableModel) {
+		delete m_pDatabaseTableModel;
+	}
 }
 
 void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController)
@@ -32,9 +36,11 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 	m_pDatabaseTableView = pDatabaseTableView;
 	m_szTableName = szTableName;
 	m_pDatabaseController = pDatabaseController;
+	m_pDatabaseTableModel = new QSqlDisplayTableModel(NULL, pDatabaseController->getSqlDatabase());
 
 	connect(m_pDatabaseTableView->getRefreshButton(), SIGNAL(clicked()), this, SLOT(updateTableData()));
 	connect(m_pDatabaseTableView->getClearButton(), SIGNAL(clicked()), this, SLOT(clearFilterField()));
+	connect(m_pDatabaseTableModel, SIGNAL(databaseError()), this, SLOT(displayError()));
 }
 
 bool QDatabaseTableViewController::loadDatabaseTableInfos()
@@ -61,7 +67,7 @@ bool QDatabaseTableViewController::loadDatabaseTableData()
 	bool bRes;
 	int iDefaultSize = 20;
 	QString szFilter = m_pDatabaseTableView->getFilterLine()->text();
-	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, &m_pDatabaseTableModel); //Load the data
+	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, m_pDatabaseTableModel); //Load the data
 
 	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
 	m_pDatabaseTableView->getDataTableView()->setShowGrid(false);
@@ -88,6 +94,11 @@ void QDatabaseTableViewController::clearFilterField()
 {
 	m_pDatabaseTableView->getFilterLine()->clear();
 	updateTableData();
+}
+
+void QDatabaseTableViewController::displayError()
+{
+	QMessageBox::warning(m_pDatabaseTableView, tr("Error"), tr("Error: <br/><b>%1</b>").arg(m_pDatabaseTableModel->lastError().text()));
 }
 
 QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStringList(const QList<QString>& szStringList)

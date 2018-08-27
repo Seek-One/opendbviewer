@@ -258,7 +258,7 @@ set(APPLICATION_MOC_HEADERS
 	src/GUI/QDatabaseTableView.h
 	src/GUI/QDatabaseWorksheetView.h
 	src/GUI/QOpenDatabaseView.h
-    src/GUI/QOpenHistoryView.h
+  	  src/GUI/QOpenHistoryView.h
 	src/GUI/QQueryResultView.h
 	src/GUI/QWindowMain.h
 	src/GUI/QSqlSourceView.h
@@ -267,8 +267,9 @@ set(APPLICATION_MOC_HEADERS
 	src/GUIController/QDatabaseTableViewController.h
 	src/GUIController/QDatabaseWorksheetViewController.h
 	src/GUIController/QOpenDatabaseViewController.h
-    src/GUIController/QOpenHistoryViewController.h
+    	src/GUIController/QOpenHistoryViewController.h
 	src/GUIController/QSqlHighlighterController.h
+	src/GUIModel/QSqlDisplayTableModel.h
 	src/Widget/QDropAreaWidget.h
    	src/Widget/QFileExplorerWidget.h
 )
@@ -288,10 +289,11 @@ set (I18N_FILES
 	src/GUI/QDatabaseTableView.cpp
 	src/GUI/QDatabaseWorksheetView.cpp
 	src/GUI/QOpenDatabaseView.cpp
-    src/GUI/QOpenHistoryView.cpp
+    	src/GUI/QOpenHistoryView.cpp
 	src/GUI/QQueryResultView.cpp
 	src/GUI/QWindowMain.cpp
 	src/GUIController/QDatabaseConnectionViewController.cpp
+	src/GUIController/QDatabaseTableViewController.cpp
 	src/GUIController/QDatabaseWorksheetViewController.cpp
 	src/GUIController/QOpenDatabaseViewController.cpp
 	src/GUIController/QOpenHistoryViewController.cpp

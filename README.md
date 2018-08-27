@@ -12,6 +12,10 @@ Features
 - Compatibility with SQLITE, MySQL, PostgreSQL database.
 - SQL syntax highlightings
 - Multi database, table and worksheet view
+- Big database loading
+- Open SQLite table directly with drag'n drop
+- History of last connection
+- Edit database directly from the table view
 
 License
 -------
@@ -31,11 +35,11 @@ Compiling from source
 
 Install dependencies:
 
-    apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql
+    apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
 
 Or:
 
-    apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql
+    apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
 
 Get the code:
 

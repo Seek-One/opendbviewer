@@ -60,7 +60,7 @@ QFileExplorerWidget::QFileExplorerWidget(QWidget* parent)
 	pMainLayout->addWidget(pSplitter);
 
 	m_pOpenDatabaseButton = new QPushButton(tr("Open"));
-	pMainLayout->addWidget(m_pOpenDatabaseButton, 1, Qt::AlignRight);
+	pMainLayout->addWidget(m_pOpenDatabaseButton, 0, Qt::AlignRight);
 
 	connect(m_pFolderTreeView, SIGNAL(clicked(const QModelIndex)), this, SLOT(onFolderTreeViewClicked(const QModelIndex)));
 	connect(m_pFileTreeView, SIGNAL(doubleClicked(const QModelIndex)), this, SLOT(onFileTreeViewDoubleClicked(const QModelIndex)));

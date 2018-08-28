@@ -326,7 +326,7 @@ configure_file (
 )
 
 # Theme resource file
-product_image_generate_icon(${PROJECT_BINARY_DIR}/data/theme/icons_src/svg ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
+product_image_generate_icon(${PROJECT_SOURCE_DIR}/data/theme/icons_src/svg ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
 
 # Icon resource file
 file(COPY ${PROJECT_SOURCE_DIR}/data/theme/icons_src/author DESTINATION ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)

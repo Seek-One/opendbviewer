@@ -35,17 +35,17 @@ Compiling from source
 
 Install dependencies:
   * in debian OS :
-
+```
     apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
-
+```
 Or:
-
+```
     apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
-
+```
   * in fedora OS : 
-
+```
     dnf install cmake ImageMagick gcc-c++ qt5-devel qt5-qtbase-mysql qt5-qtbase-postgresql
-
+```
 Get the code:
 
     git clone https://github.com/Jet1oeil/opendbviewer.git && cd opendbviewer

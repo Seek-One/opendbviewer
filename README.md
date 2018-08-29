@@ -34,11 +34,11 @@ Compiling from source
 > for Archlinux users, a package [`opendbviewer-git`](https://aur.archlinux.org/packages/opendbviewer-git) is available in AUR
 
 Install dependencies:
-  * in debian OS :
+  * in debian OS (with Qt4) :
 ```
     apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
 ```
-Or:
+  * in debian OS (with Qt5) :
 ```
     apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
 ```

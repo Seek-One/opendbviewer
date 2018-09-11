@@ -25,6 +25,7 @@ This program is licensed under the terms of the GNU GENERAL PUBLIC LICENSE Versi
 Requirements
 ------------
 
+- CMake
 - Qt version 4 or Qt version 5
 - ImageMagick
 
@@ -36,11 +37,11 @@ Compiling from source
 Install dependencies:
   * in debian OS (with Qt4) :
 ```
-    apt-get install libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
+    apt-get install git cmake libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
 ```
   * in debian OS (with Qt5) :
 ```
-    apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
+    apt-get install git cmake qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
 ```
   * in fedora OS : 
 ```

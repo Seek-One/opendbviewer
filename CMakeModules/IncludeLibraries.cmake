@@ -367,7 +367,7 @@ if(WITH_QT)
 
             if(TMP_COMPONENT STREQUAL "qsqlmysql")
                 set(TMP_MODULE "mysql")
-            else if(TMP_COMPONENT STREQUAL "qsqlpsql")
+            elseif(TMP_COMPONENT STREQUAL "qsqlpsql")
                 set(TMP_MODULE "psql")
             else()
                 string(SUBSTRING ${TMP_COMPONENT} 1 -1 TMP_MODULE)

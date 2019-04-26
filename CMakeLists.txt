@@ -365,6 +365,7 @@ IF(WIN32)
         "${PROJECT_BINARY_DIR}/data/logos/icon.rc"
         "platforms/win32/versioninfo.rc"
     )
+	file(COPY ${PROJECT_SOURCE_DIR}/data/logos/@APPLICATION_PACKAGE_NAME@.ico DESTINATION ${PROJECT_BINARY_DIR}/data/logos/@APPLICATION_PACKAGE_NAME@.ico)
     # Fix resource compiler with MinGW
     if(MINGW)
         set(CMAKE_RC_COMPILER_INIT windres)

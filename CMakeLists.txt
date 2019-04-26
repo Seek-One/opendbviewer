@@ -485,7 +485,7 @@ endif(UNIX AND NOT WIN32)
 
 # Application icons
 if(UNIX AND NOT WIN32)
-    file(GLOB LIST_ICONS RELATIVE ${PROJECT_BINARY_DIR}/data/logos ${PROJECT_BINARY_DIR}/data/logos/*${APPLICATION_PACKAGE_NAME}.png)
+    file(GLOB LIST_ICONS RELATIVE ${PROJECT_SOURCE_DIR}/data/logos ${PROJECT_SOURCE_DIR}/data/logos/*${APPLICATION_PACKAGE_NAME}.png)
     foreach(ICON ${LIST_ICONS})
         set(ICON_DST "")
         if(${ICON} MATCHES "_[^_]*${APPLICATION_PACKAGE_NAME}.png")
@@ -495,7 +495,7 @@ if(UNIX AND NOT WIN32)
         else()
             set(ICON_DST ${INSTALL_PATH_ICONS})
         endif()
-        install(FILES ${PROJECT_BINARY_DIR}/data/logos/${ICON}
+        install(FILES ${PROJECT_SOURCE_DIR}/data/logos/${ICON}
             DESTINATION ${ICON_DST} RENAME ${APPLICATION_PACKAGE_NAME}.png
             PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ WORLD_READ WORLD_EXECUTE
         )

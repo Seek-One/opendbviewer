@@ -1,3 +1,9 @@
+Version 1.1.1 (2019-04-26)
+    - Don't clear connection information if connection fail (Closes #29) 
+    - Fix installation on debian buster (Closes #30)
+    - Fix icon on Windows and Linux
+    - Disable GUI console
+
 Version 1.1.0 (2018-08-27)
 
     - New UI "toolbar based"

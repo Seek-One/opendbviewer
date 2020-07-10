@@ -123,6 +123,12 @@ set(QT4_COMPONENTS QtCore QtGui QtNetwork QtSql QtTest)
 set(QT5_COMPONENTS Core Gui Widgets Network Sql Test)
 set(QT_IMAGEFORMATS_COMPONENTS qjpeg)
 set(QT_SQL_COMPONENTS qsqlite qsqlmysql qsqlpsql)
+if(APPLE)
+    set(QT_PLATFORMS_COMPONENTS qcocoa)
+endif()
+if(WIN32)
+    set(QT_PLATFORMS_COMPONENTS qwindows)
+endif()
 
 # Define output variable
 set (PACKAGE_DEPS)
@@ -328,7 +334,6 @@ configure_file (
 if (WIN32)
   set (QT_TS_FILES
     "${QT_TRANSLATIONS_DIR}/qt_fr.qm"
-    "${QT_TRANSLATIONS_DIR}/qt_sv.qm"
   )
   INSTALL(FILES ${QT_TS_FILES} DESTINATION ${INSTALL_PATH_SHARE}/translations)
 endif()

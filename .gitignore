@@ -1,5 +1,7 @@
 .project
 .cproject
+cmake-build-*
+.idea
 CMakeFiles
 Makefile
 CMakeCache.txt

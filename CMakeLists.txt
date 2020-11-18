@@ -68,8 +68,6 @@ endif(WIN32)
 ##################
 
 if(NOT MSVC)
-    set (CMAKE_C_FLAGS -std=gnu89)
-    set (CMAKE_CXX_FLAGS -std=gnu++98)
     add_definitions (-Wall)
 endif(NOT MSVC)
 

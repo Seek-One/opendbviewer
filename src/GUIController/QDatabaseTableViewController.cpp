@@ -11,6 +11,9 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
 
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUI/QDatabaseTableView.h"
@@ -40,6 +43,7 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 
 	connect(m_pDatabaseTableView->getRefreshButton(), SIGNAL(clicked()), this, SLOT(updateTableData()));
 	connect(m_pDatabaseTableView->getClearButton(), SIGNAL(clicked()), this, SLOT(clearFilterField()));
+	connect(m_pDatabaseTableView->getExportDataButton(), SIGNAL(clicked()), this, SLOT(exportData()));
 	connect(m_pDatabaseTableModel, SIGNAL(databaseError()), this, SLOT(displayError()));
 }
 
@@ -94,6 +98,64 @@ void QDatabaseTableViewController::clearFilterField()
 {
 	m_pDatabaseTableView->getFilterLine()->clear();
 	updateTableData();
+}
+
+void QDatabaseTableViewController::exportData()
+{
+	bool bGoOn = true;
+
+	QString szFilePath = QFileDialog::getSaveFileName(this, tr("Export"), QDir::currentPath(), tr("CSV files (*.csv)"));
+
+	if(szFilePath.replace(" ", "").isEmpty())
+	{
+		bGoOn = false;
+	}
+
+	// Check if extension is present
+	if(bGoOn){
+		QFileInfo info(szFilePath);
+		if (info.suffix().isEmpty())
+		{
+			szFilePath += ".csv";
+		}
+	}else{
+		bGoOn = false;
+	}
+
+	if(bGoOn)
+	{
+		QFile fileToWrite(szFilePath);
+		bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
+		if(bGoOn){
+			QTextStream stream(&fileToWrite);
+
+			for(int i = 0; i < m_pDatabaseTableModel->columnCount(); ++i)
+			{
+				stream << m_pDatabaseTableModel->headerData(i, Qt::Orientation::Horizontal, 0).toString() << ",";
+			}
+
+			stream << "\n";
+
+			QModelIndex index;
+
+			for(int i = 0; i < m_pDatabaseTableModel->rowCount(); ++i)
+			{
+				for(int j = 0; j < m_pDatabaseTableModel->columnCount(); ++j)
+				{
+					index = m_pDatabaseTableModel->index(i, j);
+					stream << m_pDatabaseTableModel->data(index, 0).toString() << "," ;
+				}
+				stream << "\n";
+			}
+			fileToWrite.flush();
+			fileToWrite.close();
+		}
+	}
+
+	if(!bGoOn){
+		QMessageBox::warning(m_pDatabaseTableView, tr("Error"), tr("<b>Data not exported</b>"));
+	}
+
 }
 
 void QDatabaseTableViewController::displayError()

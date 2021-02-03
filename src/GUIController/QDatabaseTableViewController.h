@@ -37,6 +37,7 @@ public:
 public slots:
 	void updateTableData();
 	void clearFilterField();
+	void exportData();
 	void displayError();
 
 private:

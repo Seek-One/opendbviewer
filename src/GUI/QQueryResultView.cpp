@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QTableView>
 #include <QTextEdit>
+#include <QPushButton>
 
 #include "QQueryResultView.h"
 
@@ -18,7 +19,7 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 	QWidget *pWidget;
 	QVBoxLayout *pTmpVLayout;
 
-	// Adds the result tabs
+	// Add the result tabs
 	{
 		pWidget = new QWidget(this);
 		addTab(pWidget, tr("Results"));
@@ -32,7 +33,7 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 		pTmpVLayout->addWidget(m_pDataTableView);
 	}
 
-	// Adds the console Tab
+	// Add the console Tab
 	{
 		pWidget = new QWidget();
 		addTab(pWidget, tr("Console"));
@@ -43,6 +44,12 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 		m_pConsoleTextEdit = new QTextEdit;
 		m_pConsoleTextEdit->setReadOnly(true);
 		pTmpVLayout->addWidget(m_pConsoleTextEdit);
+	}
+
+	// Add the export button
+	{
+		m_pExportDataButton = new QPushButton(tr("Export"));
+		setCornerWidget(m_pExportDataButton, Qt::BottomRightCorner);
 	}
 }
 
@@ -59,6 +66,11 @@ QTextEdit* QQueryResultView::getConsoleTextEdit() const
 QTableView* QQueryResultView::getDataTableView() const
 {
 	return m_pDataTableView;
+}
+
+QPushButton* QQueryResultView::getExportDataButton() const
+{
+	return m_pExportDataButton;
 }
 
 void QQueryResultView::showTabData()

@@ -12,6 +12,7 @@
 
 class QTableView;
 class QTextEdit;
+class QPushButton;
 
 class QQueryResultView : public QTabWidget {
 	Q_OBJECT
@@ -21,6 +22,7 @@ public:
 
 	QTableView* getDataTableView() const;
 	QTextEdit* getConsoleTextEdit() const;
+	QPushButton* getExportDataButton() const;
 
 	void showTabData();
 	void showTabConsole();
@@ -28,6 +30,7 @@ public:
 private:
 	QTableView* m_pDataTableView;
 	QTextEdit* m_pConsoleTextEdit;
+	QPushButton* m_pExportDataButton;
 };
 
 #endif /* SRC_GUI_QQUERYRESULTVIEW_H_ */

@@ -146,12 +146,28 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="101"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="107"/>
+        <source>Export</source>
+        <translation>Exporter</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="107"/>
+        <source>CSV files (*.csv)</source>
+        <translation>Fichiers CSV (*.csv)</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="156"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="101"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="156"/>
+        <source>&lt;b&gt;Data not exported&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Données non exportées&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -442,14 +458,19 @@ vos fichiers ici</translation>
 <context>
     <name>QQueryResultView</name>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="24"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="25"/>
         <source>Results</source>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="38"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="39"/>
         <source>Console</source>
         <translation>Console</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="51"/>
+        <source>Export</source>
+        <translation>Exporter</translation>
     </message>
 </context>
 <context>

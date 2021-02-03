@@ -41,6 +41,7 @@ public:
 	QTableView* getDataTableView() const;
 	QPushButton* getRefreshButton() const;
 	QPushButton* getClearButton() const;
+	QPushButton* getExportDataButton() const;
 	QLineEdit* getFilterLine() const;
 	QTextEdit* getConsoleTextEdit() const;
 	void showTabData();

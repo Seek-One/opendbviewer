@@ -125,6 +125,7 @@ void QDatabaseTableViewController::exportData()
 	{
 		szFieldSeparator = dialogExportParams.getTextFieldSeparator();
 		szStringSeparator = dialogExportParams.getTextStringSeparator();
+		szLineBreakSeparator = dialogExportParams.getTextLineBreakSeparator();
 		szFilePath = dialogExportParams.getFilePath();
 		bIncludesHeaders = dialogExportParams.isIncludesHeaders();
 
@@ -180,7 +181,7 @@ void QDatabaseTableViewController::exportData()
 						fileTextStream << szStringSeparator;
 						fileTextStream << m_pDatabaseTableModel->data(index, 0).toString();
 						fileTextStream << szStringSeparator;
-						if(i<iColumnCount-1){
+						if(j<iColumnCount-1){
 							fileTextStream << szFieldSeparator;
 						}
 					}

@@ -200,6 +200,8 @@ set(APPLICATION_SOURCES
     src/GUI/QDatabaseConnectionView.h
     src/GUI/QDatabaseWorksheetView.cpp
     src/GUI/QDatabaseWorksheetView.h
+    src/GUI/QExportParametersDialog.cpp
+    src/GUI/QExportParametersDialog.h
     src/GUI/QLineNumberAreaView.h
     src/GUI/QOpenDatabaseView.cpp
     src/GUI/QOpenDatabaseView.h
@@ -261,8 +263,9 @@ set(APPLICATION_MOC_HEADERS
     src/GUI/QDatabaseConnectionView.h
     src/GUI/QDatabaseTableView.h
     src/GUI/QDatabaseWorksheetView.h
+    src/GUI/QExportParametersDialog.h
     src/GUI/QOpenDatabaseView.h
-        src/GUI/QOpenHistoryView.h
+    src/GUI/QOpenHistoryView.h
     src/GUI/QQueryResultView.h
     src/GUI/QWindowMain.h
     src/GUI/QSqlSourceView.h
@@ -271,11 +274,11 @@ set(APPLICATION_MOC_HEADERS
     src/GUIController/QDatabaseTableViewController.h
     src/GUIController/QDatabaseWorksheetViewController.h
     src/GUIController/QOpenDatabaseViewController.h
-        src/GUIController/QOpenHistoryViewController.h
+    src/GUIController/QOpenHistoryViewController.h
     src/GUIController/QSqlHighlighterController.h
     src/GUIModel/QSqlDisplayTableModel.h
     src/Widget/QDropAreaWidget.h
-       src/Widget/QFileExplorerWidget.h
+    src/Widget/QFileExplorerWidget.h
 )
 qt_wrap_cpp(
     APPLICATION_MOC_OUTFILES
@@ -292,8 +295,9 @@ set (I18N_FILES
     src/GUI/QDatabaseConnectionView.cpp
     src/GUI/QDatabaseTableView.cpp
     src/GUI/QDatabaseWorksheetView.cpp
+    src/GUI/QExportParametersDialog.cpp
     src/GUI/QOpenDatabaseView.cpp
-        src/GUI/QOpenHistoryView.cpp
+    src/GUI/QOpenHistoryView.cpp
     src/GUI/QQueryResultView.cpp
     src/GUI/QWindowMain.cpp
     src/GUIController/QDatabaseConnectionViewController.cpp
@@ -303,7 +307,7 @@ set (I18N_FILES
     src/GUIController/QOpenHistoryViewController.cpp
     src/GUIController/QWindowMainController.cpp
     src/Widget/QDropAreaWidget.cpp
-       src/Widget/QFileExplorerWidget.cpp
+    src/Widget/QFileExplorerWidget.cpp
 )
 
 set (TS_FILES

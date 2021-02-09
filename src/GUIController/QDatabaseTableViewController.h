@@ -19,6 +19,7 @@
 class QStandardItem;
 class QDatabaseTableView;
 class DatabaseController;
+class QExportParametersDialog;
 
 class QDatabaseTableViewController : public QWidget
 {

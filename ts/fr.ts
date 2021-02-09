@@ -146,28 +146,33 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="107"/>
-        <source>Export</source>
-        <translation>Exporter</translation>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="134"/>
+        <source>The file path is empty.</source>
+        <translation>Le chemin du fichier est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="107"/>
-        <source>CSV files (*.csv)</source>
-        <translation>Fichiers CSV (*.csv)</translation>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="144"/>
+        <source>The file path is a directory.</source>
+        <translation>Le chemin du fichier est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="156"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="193"/>
+        <source>The file cannot be open for writing.</source>
+        <translation>Le fichier ne peut pas être ouvert pour écriture.</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="156"/>
-        <source>&lt;b&gt;Data not exported&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Données non exportées&lt;/b&gt;</translation>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
+        <source>Unable to export the data into the file:</source>
+        <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -191,77 +196,83 @@
     </message>
 </context>
 <context>
+    <name>QExportParametersDialog</name>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="42"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="53"/>
+        <source>{Space}</source>
+        <translation>{Espace}</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="54"/>
+        <source>{Tab key}</source>
+        <translation>{Tabulation}</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="60"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="29"/>
+        <source>Export to csv file</source>
+        <translation>Exporter vers un fichier CSV</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
+        <source>Data separator:</source>
+        <translation>Séparateur de données :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="63"/>
+        <source>String separator:</source>
+        <translation>Séparateur de chaînes de caractères :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="69"/>
+        <source>Line break separator:</source>
+        <translation>Séparateur de saut de lignes :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="75"/>
+        <source>Add column title:</source>
+        <translation>Ajouter le titre des colonnes :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="80"/>
+        <source>File path</source>
+        <translation>Emplacement du fichier</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="89"/>
+        <source>Explore</source>
+        <translation>Parcourir</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="114"/>
+        <source>Export</source>
+        <translation>Exporter</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="114"/>
+        <source>CSV files (*.csv)</source>
+        <translation>Fichiers CSV (*.csv)</translation>
+    </message>
+</context>
+<context>
     <name>QFileExplorerWidget</name>
     <message>
         <location filename="../src/Widget/QFileExplorerWidget.cpp" line="62"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
-    <message>
-        <source>Drag and drop your files here</source>
-        <translation type="vanished">Glisser - Déposer vos fichiers ici</translation>
-    </message>
 </context>
 <context>
     <name>QOpenDatabaseView</name>
-    <message>
-        <source>SQLite</source>
-        <translation type="vanished">SQLite</translation>
-    </message>
-    <message>
-        <source>MySQL</source>
-        <translation type="vanished">MySQL</translation>
-    </message>
-    <message>
-        <source>PostgreSQL</source>
-        <translation type="vanished">PostgreSQL</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">OK</translation>
-    </message>
-    <message>
-        <source>Connection:</source>
-        <translation type="vanished">Connexion :</translation>
-    </message>
-    <message>
-        <source>File Explorer</source>
-        <translation type="vanished">Explorateur de fichiers</translation>
-    </message>
-    <message>
-        <source>Browse</source>
-        <translation type="vanished">Parcourir</translation>
-    </message>
-    <message>
-        <source>File:</source>
-        <translation type="vanished">Fichier :</translation>
-    </message>
-    <message>
-        <source>Drag and drop 
- your files here</source>
-        <translation type="vanished">Glisser - Déposer
-vos fichiers ici</translation>
-    </message>
-    <message>
-        <source>Open SQLite Database</source>
-        <translation type="vanished">Ouvrir une base de données SQLite</translation>
-    </message>
-    <message>
-        <source>Open MySQL Database</source>
-        <translation type="vanished">Ouvrir une base de données MySQL</translation>
-    </message>
-    <message>
-        <source>Open PostgreSQL Database</source>
-        <translation type="vanished">Ouvrir une base de données PostgreSQL</translation>
-    </message>
-    <message>
-        <source>No selection</source>
-        <translation type="vanished">Pas de sélection</translation>
-    </message>
-    <message>
-        <source>History</source>
-        <translation type="vanished">Historique</translation>
-    </message>
     <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="39"/>
         <source>Connection Database choice :</source>
@@ -318,38 +329,6 @@ vos fichiers ici</translation>
         <translation>Connection PostgreSQL :</translation>
     </message>
     <message>
-        <source>SQLite Connection:</source>
-        <translation type="vanished">Connexion SQLite</translation>
-    </message>
-    <message>
-        <source>MySQL Connection:</source>
-        <translation type="vanished">Connexion MySQL</translation>
-    </message>
-    <message>
-        <source>Host:</source>
-        <translation type="vanished">Hôte :</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation type="vanished">Port :</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="vanished">Nom d&apos;utilisateur :</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="vanished">Mot de passe :</translation>
-    </message>
-    <message>
-        <source>Database:</source>
-        <translation type="vanished">Base de donnée :</translation>
-    </message>
-    <message>
-        <source>PostgreSQL Connection:</source>
-        <translation type="vanished">Connexion PostgreSQL</translation>
-    </message>
-    <message>
         <location filename="../src/GUI/QOpenDatabaseView.cpp" line="33"/>
         <source>Connect</source>
         <translation>Connecter</translation>
@@ -365,7 +344,7 @@ vos fichiers ici</translation>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="57"/>
         <source>SQLite files (*.sqlite *.db)</source>
-        <translation>Fichier SQLite (*.sqlite *.db)</translation>
+        <translation>Fichiers SQLite (*.sqlite *.db)</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="152"/>
@@ -376,7 +355,7 @@ vos fichiers ici</translation>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="160"/>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="168"/>
         <source>Please enter the necessary information.</source>
-        <translation>Veuillez entrez les informations nécessaires.</translation>
+        <translation>Veuillez entrer les informations nécessaires.</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="178"/>
@@ -386,12 +365,12 @@ vos fichiers ici</translation>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="239"/>
         <source>Unable to connect to the database, please check the connection information.</source>
-        <translation>Impossible de se connecter à la base de donnée, veuillez vérifier les informations de connexion.</translation>
+        <translation>Impossible de se connecter à la base de données, veuillez vérifier les informations de connexion.</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
         <source>Database problem</source>
-        <translation>Problème de base de donnée</translation>
+        <translation>Problème de base de données</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
@@ -402,21 +381,6 @@ vos fichiers ici</translation>
         <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="265"/>
         <source>Connection error</source>
         <translation>Erreur de connexion</translation>
-    </message>
-</context>
-<context>
-    <name>QOpenHistoryView</name>
-    <message>
-        <source>Item Informations:</source>
-        <translation type="vanished">Informations de la base de données</translation>
-    </message>
-    <message>
-        <source>Name :</source>
-        <translation type="vanished">Nom :</translation>
-    </message>
-    <message>
-        <source>Path :</source>
-        <translation type="vanished">Chemin :</translation>
     </message>
 </context>
 <context>
@@ -476,26 +440,6 @@ vos fichiers ici</translation>
 <context>
     <name>QWindowMain</name>
     <message>
-        <source>&amp;File</source>
-        <translation type="vanished">&amp;Fichier</translation>
-    </message>
-    <message>
-        <source>New connection</source>
-        <translation type="vanished">Nouvelle connexion</translation>
-    </message>
-    <message>
-        <source>&amp;Quit</source>
-        <translation type="vanished">&amp;Quitter</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="vanished">&amp;Aide</translation>
-    </message>
-    <message>
-        <source>&amp;About</source>
-        <translation type="vanished">&amp;A propos</translation>
-    </message>
-    <message>
         <location filename="../src/GUI/QWindowMain.cpp" line="319"/>
         <source>No selection</source>
         <translation>Pas de sélection</translation>
@@ -504,10 +448,6 @@ vos fichiers ici</translation>
         <location filename="../src/GUI/QWindowMain.cpp" line="232"/>
         <source>File</source>
         <translation>&amp;Fichier</translation>
-    </message>
-    <message>
-        <source>Drag&apos;n&apos;Drop</source>
-        <translation type="vanished">Glisser - Déposer</translation>
     </message>
     <message>
         <location filename="../src/GUI/QWindowMain.cpp" line="45"/>

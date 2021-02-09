@@ -5,6 +5,7 @@
  *      Author: echopin
  */
 
+
 #include <QApplication>
 #include <QPalette>
 #include <QTreeView>
@@ -14,10 +15,15 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QRadioButton>
+#include <QDialogButtonBox>
+
+#include "Database/DatabaseController.h"
+
+#include "GUI/QDatabaseTableView.h"
+#include "GUI/QExportParametersDialog.h"
 
 #include "GUIController/QDatabaseTableViewController.h"
-#include "GUI/QDatabaseTableView.h"
-#include "Database/DatabaseController.h"
 
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
@@ -103,59 +109,95 @@ void QDatabaseTableViewController::clearFilterField()
 void QDatabaseTableViewController::exportData()
 {
 	bool bGoOn = true;
+	QString szErrorMessage = "";
 
-	QString szFilePath = QFileDialog::getSaveFileName(this, tr("Export"), QDir::currentPath(), tr("CSV files (*.csv)"));
+	QString szFilePath;
 
-	if(szFilePath.replace(" ", "").isEmpty())
+	QString szFieldSeparator;
+	QString szStringSeparator;
+	QString szLineBreakSeparator;
+	bool bIncludesHeaders = true;
+
+	// Open the parameters dialog
+	QExportParametersDialog dialogExportParams;
+	int iRes = dialogExportParams.exec();
+	if(iRes == QDialog::Accepted)
 	{
-		bGoOn = false;
-	}
+		szFieldSeparator = dialogExportParams.getTextFieldSeparator();
+		szStringSeparator = dialogExportParams.getTextStringSeparator();
+		szFilePath = dialogExportParams.getFilePath();
+		bIncludesHeaders = dialogExportParams.isIncludesHeaders();
 
-	// Check if extension is present
-	if(bGoOn){
-		QFileInfo info(szFilePath);
-		if (info.suffix().isEmpty())
+		// Check if the path is not empty
+		if(szFilePath.replace(" ", "").isEmpty()) {
+			bGoOn = false;
+			szErrorMessage = tr("The file path is empty.");
+		}
+
+		// Check if extension is file is not a directory
+		if(bGoOn)
 		{
-			szFilePath += ".csv";
-		}
-	}else{
-		bGoOn = false;
-	}
-
-	if(bGoOn)
-	{
-		QFile fileToWrite(szFilePath);
-		bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
-		if(bGoOn){
-			QTextStream stream(&fileToWrite);
-
-			for(int i = 0; i < m_pDatabaseTableModel->columnCount(); ++i)
+			QFileInfo info(szFilePath);
+			if(info.isDir())
 			{
-				stream << m_pDatabaseTableModel->headerData(i, Qt::Orientation::Horizontal, 0).toString() << ",";
+				bGoOn = false;
+				szErrorMessage = tr("The file path is a directory.");
 			}
+		}
 
-			stream << "\n";
-
-			QModelIndex index;
-
-			for(int i = 0; i < m_pDatabaseTableModel->rowCount(); ++i)
+		// Perform the file write
+		if(bGoOn)
+		{
+			QFile fileToWrite(szFilePath);
+			bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
+			if(bGoOn)
 			{
-				for(int j = 0; j < m_pDatabaseTableModel->columnCount(); ++j)
+				QTextStream fileTextStream(&fileToWrite);
+				QModelIndex index;
+
+				int iColumnCount = m_pDatabaseTableModel->columnCount();
+
+				if(bIncludesHeaders)
 				{
-					index = m_pDatabaseTableModel->index(i, j);
-					stream << m_pDatabaseTableModel->data(index, 0).toString() << "," ;
+					for(int i = 0; i < iColumnCount; i++)
+					{
+						fileTextStream << szStringSeparator;
+						fileTextStream << m_pDatabaseTableModel->headerData(i, m_pDatabaseTableView->getStructureTreeView()->header()->orientation(), 0).toString();
+						fileTextStream << szStringSeparator;
+						if(i<iColumnCount-1){
+							fileTextStream << szFieldSeparator;
+						}
+					}
+
+					fileTextStream << szLineBreakSeparator;
 				}
-				stream << "\n";
+
+				for(int i = 0; i < m_pDatabaseTableModel->rowCount(); i++)
+				{
+					for(int j = 0; j < iColumnCount; j++)
+					{
+						index = m_pDatabaseTableModel->index(i, j);
+						fileTextStream << szStringSeparator;
+						fileTextStream << m_pDatabaseTableModel->data(index, 0).toString();
+						fileTextStream << szStringSeparator;
+						if(i<iColumnCount-1){
+							fileTextStream << szFieldSeparator;
+						}
+					}
+					fileTextStream << szLineBreakSeparator;
+				}
+				fileToWrite.flush();
+				fileToWrite.close();
 			}
-			fileToWrite.flush();
-			fileToWrite.close();
+			else{
+				szErrorMessage = tr("The file cannot be open for writing.");
+			}
+		}
+
+		if(!bGoOn){
+			QMessageBox::critical(m_pDatabaseTableView, tr("Error"), tr("Unable to export the data into the file:") + "<br/>" + szErrorMessage);
 		}
 	}
-
-	if(!bGoOn){
-		QMessageBox::warning(m_pDatabaseTableView, tr("Error"), tr("<b>Data not exported</b>"));
-	}
-
 }
 
 void QDatabaseTableViewController::displayError()

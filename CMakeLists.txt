@@ -259,6 +259,7 @@ set(APPLICATION_SOURCES
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
+    src/Database/DatabaseController.h
     src/GUI/QAboutDialog.h
     src/GUI/QDatabaseConnectionView.h
     src/GUI/QDatabaseTableView.h
@@ -291,6 +292,7 @@ qt_wrap_cpp(
 
 set (I18N_FILES
     src/main.cpp
+    src/Database/DatabaseController.cpp
     src/GUI/QAboutDialog.cpp
     src/GUI/QDatabaseConnectionView.cpp
     src/GUI/QDatabaseTableView.cpp

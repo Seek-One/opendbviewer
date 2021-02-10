@@ -2,6 +2,24 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>DatabaseController</name>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="289"/>
+        <source>Query executed with error(s) (%0):</source>
+        <translation>Requête executée avec erreur(s) (%0) :</translation>
+    </message>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="292"/>
+        <source>Query executed successfully in %0 ms:</source>
+        <translation>Requête executée avec succès en %0 ms :</translation>
+    </message>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="297"/>
+        <source>%0 row(s) selected/affected</source>
+        <translation>%0 ligne(s) selectionnée(s)/affectée(s)</translation>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <location filename="../src/main.cpp" line="113"/>
@@ -146,33 +164,33 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="134"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="135"/>
         <source>The file path is empty.</source>
         <translation>Le chemin du fichier est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="144"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="145"/>
         <source>The file path is a directory.</source>
         <translation>Le chemin du fichier est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="193"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="194"/>
         <source>The file cannot be open for writing.</source>
         <translation>Le fichier ne peut pas être ouvert pour écriture.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="199"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="206"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="199"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="206"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>

@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QElapsedTimer>
+
 #include "DatabaseController.h"
 
 int DatabaseController::g_iConnectionIdentifier = 0;
@@ -128,6 +130,8 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	QStringList listRowHeader;
 	QStringList listRowData;
 
+	QElapsedTimer timerQuery;
+	timerQuery.start();
 
 	bRes = openDatabase();
 	if(bRes){
@@ -136,7 +140,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 		int iCount = 0;
 
 		QSqlQuery query(m_db);
-		bRes = query.exec(szQuery);//loading the query according to the type of database used
+		bRes = query.exec(szQuery); // Loading the query according to the type of database used
 		if(bRes){
 			// Get headers
 			listRowHeader = loadTableDescriptionColumnNames(query);
@@ -158,8 +162,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 			qCritical("[DatabaseController] Cannot execute query for table description loading");
 		}
 
-		QString szQueryOutput("Query executed successfully");
-		m_szResultString = makeQueryResultString(query, iCount);
+		m_szResultString = makeQueryResultString(query, timerQuery.elapsed(), iCount);
 
 		closeDataBase();
 	}else{
@@ -207,6 +210,9 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 	QStringList listRowData;
 	QString szRequest;
 
+	QElapsedTimer timerQuery;
+	timerQuery.start();
+
 	bRes = openDatabase();
 	if(bRes && !szWorksheetQuery.isEmpty()){
 		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
@@ -216,12 +222,13 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 			if ((*ppQueryModel)->query().lastError().text()!=" ") {
 				bRes = false;
 			}
-			m_szResultString = makeQueryResultString((*ppQueryModel)->query());
+			QSqlQuery query = (*ppQueryModel)->query();
+			m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
 		} else {
 			QSqlQuery query(m_db);
 			query.exec(szWorksheetQuery);
 			bRes = false; 	//No results to display in this case
-			m_szResultString = makeQueryResultString(query);
+			m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
 		}
 
 		closeDataBase();
@@ -260,7 +267,7 @@ bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbL
 	return bRes;
 }
 
-QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected)
+QString DatabaseController::makeQueryResultString(const QSqlQuery& query, qint64 iTimeMS, int iNbRowsSelected)
 {
 	QString szResultString;
 	QTime time;
@@ -279,12 +286,16 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, int iN
 	szResultString += time.currentTime().toString()+" => ";
 	// Write sql error
 	if(query.lastError().isValid()){
-		szResultString += "Query executed with error(s) (" + query.lastError().text() + "): \n";
+		szResultString += tr("Query executed with error(s) (%0):").arg(query.lastError().text());
+		szResultString += "\n";
 	}else{
-		szResultString += "Query executed successfully: ";
+		szResultString += tr("Query executed successfully in %0 ms:").arg(QString::number(iTimeMS));
+		// Write time
+		szResultString += " ";
 	}
 	// Write number of rows
-	szResultString += QString::number(iNbRow)+" row(s) selected/affected\n";
+	szResultString += tr("%0 row(s) selected/affected").arg(QString::number(iNbRow));
+	szResultString += "\n";
 	// Write query
 	if(!query.lastQuery().isEmpty()){
 		szResultString += query.lastQuery() + "\n";

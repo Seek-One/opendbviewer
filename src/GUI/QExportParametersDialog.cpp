@@ -21,6 +21,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QFile>
 
 #include "GUI/QExportParametersDialog.h"
 
@@ -32,8 +33,6 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 	setLayout(pMainLayout);
 
 	setMinimumSize(370, 300);
-
-	m_bIncludesHeaders = true;
 
 	QBoxLayout* pTmpBoxLayout;
 
@@ -52,14 +51,21 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 		m_pComboBoxFieldSeparator->addItem(":", FieldSeparatorType_Colon);
 		m_pComboBoxFieldSeparator->addItem(tr("{Space}"), FieldSeparatorType_Space);
 		m_pComboBoxFieldSeparator->addItem(tr("{Tab key}"), FieldSeparatorType_TabKey);
+		m_pComboBoxFieldSeparator->addItem(tr("Personnalised"), FieldSeparatorType_Personnalised);
+		m_pComboBoxFieldSeparator->insertSeparator(FieldSeparatorType_Personnalised);
 		m_pComboBoxFieldSeparator->setEditable(true);
+		m_pComboBoxFieldSeparator->setCurrentIndex(FieldSeparatorType_Comma);
 		pFieldFormLayout->addRow(tr("Data separator:"), m_pComboBoxFieldSeparator);
 
 		// String separator
 		m_pComboBoxStringSeparator = new QComboBox();
-		m_pComboBoxStringSeparator->addItem(tr("None"), StringSeparatorType_None);
 		m_pComboBoxStringSeparator->addItem("\"", StringSeparatorType_DoubleQuote);
 		m_pComboBoxStringSeparator->addItem("\'", StringSeparatorType_SimpleQuote);
+		m_pComboBoxStringSeparator->addItem(tr("None"), StringSeparatorType_None);
+		m_pComboBoxStringSeparator->addItem(tr("Personnalised"), StringSeparatorType_Personnalised);
+		m_pComboBoxStringSeparator->insertSeparator(StringSeparatorType_Personnalised);
+		m_pComboBoxStringSeparator->setEditable(true);
+		m_pComboBoxStringSeparator->setCurrentIndex(StringSeparatorType_DoubleQuote);
 		pFieldFormLayout->addRow(tr("String separator:"), m_pComboBoxStringSeparator);
 
 		// Line break separator
@@ -111,7 +117,9 @@ QExportParametersDialog::~QExportParametersDialog()
 
 void QExportParametersDialog::explore()
 {
-	QString szFilePath = QFileDialog::getSaveFileName(this, tr("Export"), QDir::currentPath(), tr("CSV files (*.csv)"));
+	QString szFilePath = QFileDialog::getSaveFileName(this, tr("Export"), m_szCurrentPath, tr("CSV files (*.csv)"));
+	QFileInfo info(szFilePath);
+	m_szCurrentPath = info.absoluteDir().path();
 	if(!szFilePath.isEmpty()){
 		m_pFileExplorerLineEdit->setText(szFilePath);
 	}
@@ -124,40 +132,45 @@ QString QExportParametersDialog::getFilePath() const
 
 QString QExportParametersDialog::getTextFieldSeparator() const
 {
-	if (m_pComboBoxFieldSeparator->currentIndex() == FieldSeparatorType_Space){
-		return " ";
-	}
-	if (m_pComboBoxFieldSeparator->currentIndex() == FieldSeparatorType_TabKey){
-		return "\t";
+	int iFieldSeparatorCurrentIndex = m_pComboBoxFieldSeparator->currentIndex();
+
+	switch(iFieldSeparatorCurrentIndex){
+		case FieldSeparatorType_Space:
+			return " ";
+		case FieldSeparatorType_TabKey:
+			return "\t";
+		default:
+			break;
 	}
 	return m_pComboBoxFieldSeparator->currentText();
 }
 
 QString QExportParametersDialog::getTextStringSeparator() const
 {
-	switch(m_pComboBoxStringSeparator->currentIndex()){
-		case StringSeparatorType_None :
-			return "";
-		case StringSeparatorType_SimpleQuote :
-			return "\'";
-		case StringSeparatorType_DoubleQuote :
+	int iStringSeparatorCurrentIndex = m_pComboBoxStringSeparator->currentIndex();
+
+	switch(iStringSeparatorCurrentIndex){
+		case StringSeparatorType_DoubleQuote:
 			return "\"";
+		case StringSeparatorType_SimpleQuote:
+			return "\'";
+		case StringSeparatorType_None:
+			return "";
 		default:
 			break;
 	}
-	return "";
+	return m_pComboBoxStringSeparator->currentText();
 }
 
 QString QExportParametersDialog::getTextLineBreakSeparator() const
 {
 	if (m_pComboBoxLineBreakSeparator->currentIndex() == LineBreakSeparatorType_CRLF){
 		return "\r\n";
-	}else{
-		return "\n";
 	}
+	return "\n";
 }
 
 bool QExportParametersDialog::isIncludesHeaders()
 {
-	return m_bIncludesHeaders;
+	return m_pCheckBoxHeader->isChecked();
 }

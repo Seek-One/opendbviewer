@@ -21,12 +21,14 @@ public:
 		FieldSeparatorType_Colon,
 		FieldSeparatorType_Space,
 		FieldSeparatorType_TabKey,
+		FieldSeparatorType_Personnalised,
 	};
 
 	enum StringSeparatorType {
-		StringSeparatorType_None,
-		StringSeparatorType_SimpleQuote,
 		StringSeparatorType_DoubleQuote,
+		StringSeparatorType_SimpleQuote,
+		StringSeparatorType_None,
+		StringSeparatorType_Personnalised,
 	};
 
 	enum LineBreakSeparatorType {
@@ -54,8 +56,7 @@ private:
 	QCheckBox* m_pCheckBoxHeader;
 	QLineEdit* m_pFileExplorerLineEdit;
 
-	bool m_bIncludesHeaders;
-
+	QString m_szCurrentPath;
 };
 
 #endif /* QEXPORTPARAMETERSDIALOG_H_ */

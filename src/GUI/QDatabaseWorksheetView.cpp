@@ -33,6 +33,7 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	//Creation of a tab widget for query results and console
 
 	m_pQueryResultView = new QQueryResultView();
+	m_pQueryResultView->getExportDataButton()->hide();
 	pWorksheetViewLayout->addWidget(m_pQueryResultView);
 }
 

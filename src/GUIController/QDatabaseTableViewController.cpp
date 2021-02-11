@@ -178,12 +178,21 @@ void QDatabaseTableViewController::exportData()
 					for(int j = 0; j < iColumnCount; j++)
 					{
 						index = m_pDatabaseTableModel->index(i, j);
-						fileTextStream << szStringSeparator;
-						fileTextStream << m_pDatabaseTableModel->data(index, 0).toString();
-						fileTextStream << szStringSeparator;
-						if(j<iColumnCount-1){
-							fileTextStream << szFieldSeparator;
+						
+						int iTypeRole = -1;
+						QVariant typeRole = m_pDatabaseTableModel->data(index, DataTypeRole);
+						if(!typeRole.isNull()){
+							iTypeRole = typeRole.toInt();
 						}
+
+						QString szDisplayText;
+						if(iTypeRole != DataTypeNull){
+							szDisplayText = m_pDatabaseTableModel->data(index, Qt::DisplayRole).toString();
+						}
+						fileTextStream << szStringSeparator;
+						fileTextStream << getEscapedText(szDisplayText, szFieldSeparator, szStringSeparator);
+						fileTextStream << szStringSeparator;
+						fileTextStream << szFieldSeparator;
 					}
 					fileTextStream << szLineBreakSeparator;
 				}
@@ -199,6 +208,16 @@ void QDatabaseTableViewController::exportData()
 			QMessageBox::critical(m_pDatabaseTableView, tr("Error"), tr("Unable to export the data into the file:") + "<br/>" + szErrorMessage);
 		}
 	}
+}
+
+QString QDatabaseTableViewController::getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator) const
+{
+	if(szStringSeparator == "\""){
+		QString szNewText = szData;
+		szNewText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
+		return szNewText;
+	}
+	return szData;
 }
 
 void QDatabaseTableViewController::displayError()
@@ -221,6 +240,7 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 		//Getting an item from QList<QString> to add it to a QList<QStandardItem>
 		if((*iter).isNull()){
 			pStandardItem = new QStandardItem(QString("NULL"));
+			pStandardItem->setData(DataTypeNull, DataTypeRole);
 			font = pStandardItem->font();
 			font.setItalic(true);
 			pStandardItem->setFont(font);

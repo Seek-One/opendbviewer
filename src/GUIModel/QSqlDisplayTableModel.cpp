@@ -53,6 +53,14 @@ QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 			return QVariant("NULL");
 		}
 		break;
+	case DataTypeRole:
+	{
+		QVariant valueText = QSqlTableModel::data(index, Qt::DisplayRole);
+		if (valueText.isNull()) {
+			return DataTypeNull;
+		}
+		return -1;
+	}
 	default:
 		break;
 	}
@@ -72,4 +80,3 @@ bool QSqlDisplayTableModel::setData(const QModelIndex &index, const QVariant &va
 	}
 	return bSet;
 }
-

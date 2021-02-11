@@ -11,6 +11,9 @@
 #include <QSqlTableModel>
 #include <QVector>
 
+#define DataTypeRole Qt::UserRole + 1
+#define DataTypeNull 1
+
 class QSqlDisplayTableModel : public QSqlTableModel
 {
 	Q_OBJECT

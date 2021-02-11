@@ -146,33 +146,33 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="134"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="135"/>
         <source>The file path is empty.</source>
         <translation>Le chemin du fichier est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="144"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="145"/>
         <source>The file path is a directory.</source>
         <translation>Le chemin du fichier est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="193"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="203"/>
         <source>The file cannot be open for writing.</source>
         <translation>Le fichier ne peut pas être ouvert pour écriture.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="208"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="225"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="198"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="208"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="205"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="225"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -180,17 +180,17 @@
 <context>
     <name>QDatabaseWorksheetView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="49"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="50"/>
         <source>Execute</source>
         <translation>Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="53"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="54"/>
         <source>Reformat</source>
         <translation>Reformater</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="58"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="59"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -198,67 +198,73 @@
 <context>
     <name>QExportParametersDialog</name>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="42"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="41"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="53"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="52"/>
         <source>{Space}</source>
         <translation>{Espace}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="54"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="53"/>
         <source>{Tab key}</source>
         <translation>{Tabulation}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="60"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="64"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="29"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="30"/>
         <source>Export to csv file</source>
         <translation>Exporter vers un fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="58"/>
         <source>Data separator:</source>
         <translation>Séparateur de données :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="63"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="54"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="65"/>
+        <source>Personnalised</source>
+        <translation>Personnalisé</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="69"/>
         <source>String separator:</source>
         <translation>Séparateur de chaînes de caractères :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="69"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="75"/>
         <source>Line break separator:</source>
         <translation>Séparateur de saut de lignes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="75"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="81"/>
         <source>Add column title:</source>
         <translation>Ajouter le titre des colonnes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="80"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="86"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="89"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="95"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="114"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="114"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
         <source>CSV files (*.csv)</source>
         <translation>Fichiers CSV (*.csv)</translation>
     </message>

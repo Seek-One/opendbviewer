@@ -23,8 +23,9 @@
 #include "GUIModel/QSqlDisplayQueryModel.h"
 #include "GUIModel/QSqlDisplayTableModel.h"
 
-class DatabaseController
+class DatabaseController : public QObject
 {
+	Q_OBJECT
 public:
 	DatabaseController(const DatabaseModel&  databaseModel);
 	virtual ~DatabaseController();
@@ -55,7 +56,7 @@ protected:
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query) = 0;
 
 private:
-	QString makeQueryResultString(const QSqlQuery& query, int iNbRowsSelected = 0);
+	QString makeQueryResultString(const QSqlQuery& query, qint64 iTimeMS, int iNbRowsSelected = 0);
 
 
 protected:

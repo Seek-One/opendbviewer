@@ -259,6 +259,7 @@ set(APPLICATION_SOURCES
 
 # Creating MOC file for sources file using "slots" or Q_OBJECT macro
 set(APPLICATION_MOC_HEADERS
+    src/Database/DatabaseController.h
     src/GUI/QAboutDialog.h
     src/GUI/QDatabaseConnectionView.h
     src/GUI/QDatabaseTableView.h
@@ -291,6 +292,7 @@ qt_wrap_cpp(
 
 set (I18N_FILES
     src/main.cpp
+    src/Database/DatabaseController.cpp
     src/GUI/QAboutDialog.cpp
     src/GUI/QDatabaseConnectionView.cpp
     src/GUI/QDatabaseTableView.cpp
@@ -338,6 +340,15 @@ if (WIN32)
     "${QT_TRANSLATIONS_DIR}/qt_fr.qm"
   )
   INSTALL(FILES ${QT_TS_FILES} DESTINATION ${INSTALL_PATH_SHARE}/translations)
+
+  if(NOT QT_USE_VERSION LESS 5)
+    set (QT_TS_FILES
+      "${QT_TRANSLATIONS_DIR}/qt_en.qm"
+      "${QT_TRANSLATIONS_DIR}/qtbase_en.qm"
+      "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+    )
+    INSTALL(FILES ${QT_TS_FILES} DESTINATION ${INSTALL_PATH_SHARE}/translations)
+  endif()
 endif()
 
 # Theme resource file
@@ -405,7 +416,6 @@ add_executable (${APPLICATION_EXE_NAME}
     ${APPLICATION_MOC_OUTFILES}
     ${RCS_OUTFILES}
     ${RCS_TS_OUTFILES}
-    ${qm_FILES}
 )
 target_link_libraries (${APPLICATION_EXE_NAME}
     ${QT_LIBRARIES}

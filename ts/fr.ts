@@ -2,6 +2,24 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>DatabaseController</name>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="289"/>
+        <source>Query executed with error(s) (%0):</source>
+        <translation>Requête executée avec erreur(s) (%0) :</translation>
+    </message>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="292"/>
+        <source>Query executed successfully in %0 ms:</source>
+        <translation>Requête executée avec succès en %0 ms :</translation>
+    </message>
+    <message>
+        <location filename="../src/Database/DatabaseController.cpp" line="297"/>
+        <source>%0 row(s) selected/affected</source>
+        <translation>%0 ligne(s) selectionnée(s)/affectée(s)</translation>
+    </message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <location filename="../src/main.cpp" line="113"/>

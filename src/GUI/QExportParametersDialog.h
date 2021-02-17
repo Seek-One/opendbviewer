@@ -21,19 +21,16 @@ public:
 		FieldSeparatorType_Colon,
 		FieldSeparatorType_Space,
 		FieldSeparatorType_TabKey,
-		FieldSeparatorType_Personnalised,
 	};
 
 	enum StringSeparatorType {
 		StringSeparatorType_DoubleQuote,
 		StringSeparatorType_SimpleQuote,
-		StringSeparatorType_None,
-		StringSeparatorType_Personnalised,
 	};
 
 	enum LineBreakSeparatorType {
-		LineBreakSeparatorType_LF,
 		LineBreakSeparatorType_CRLF,
+		LineBreakSeparatorType_LF,
 	};
 
 public:

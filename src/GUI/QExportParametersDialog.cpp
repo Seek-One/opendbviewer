@@ -10,20 +10,46 @@
 #endif
 
 #include <QApplication>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
+#include <QPushButton>
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QFormLayout>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QFileDialog>
-#include <QFile>
 
 #include "GUI/QExportParametersDialog.h"
+
+class QComboBoxEventFilter : public QObject
+{
+private:
+	QComboBox* m_pComboBox;
+
+public:
+	QComboBoxEventFilter(QComboBox* pComboBox)
+	{
+		m_pComboBox = pComboBox;
+	}
+
+	virtual ~QComboBoxEventFilter()
+	{
+
+	}
+
+protected:
+	bool eventFilter(QObject *obj, QEvent *event)
+	{
+		if(event->type() == QEvent::KeyPress){
+			// Set index for a personalised item
+			if(m_pComboBox->currentIndex() != -1){
+				m_pComboBox->setCurrentIndex(-1);
+			}
+		}
+		return false;
+	}
+
+};
 
 QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 {
@@ -51,22 +77,21 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 		m_pComboBoxFieldSeparator->addItem(":", FieldSeparatorType_Colon);
 		m_pComboBoxFieldSeparator->addItem(tr("{Space}"), FieldSeparatorType_Space);
 		m_pComboBoxFieldSeparator->addItem(tr("{Tab key}"), FieldSeparatorType_TabKey);
-		m_pComboBoxFieldSeparator->addItem(tr("Personnalised"), FieldSeparatorType_Personnalised);
-		m_pComboBoxFieldSeparator->insertSeparator(FieldSeparatorType_Personnalised);
 		m_pComboBoxFieldSeparator->setEditable(true);
 		m_pComboBoxFieldSeparator->setCurrentIndex(FieldSeparatorType_Comma);
 		pFieldFormLayout->addRow(tr("Data separator:"), m_pComboBoxFieldSeparator);
+
+		m_pComboBoxFieldSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxFieldSeparator));
 
 		// String separator
 		m_pComboBoxStringSeparator = new QComboBox();
 		m_pComboBoxStringSeparator->addItem("\"", StringSeparatorType_DoubleQuote);
 		m_pComboBoxStringSeparator->addItem("\'", StringSeparatorType_SimpleQuote);
-		m_pComboBoxStringSeparator->addItem(tr("None"), StringSeparatorType_None);
-		m_pComboBoxStringSeparator->addItem(tr("Personnalised"), StringSeparatorType_Personnalised);
-		m_pComboBoxStringSeparator->insertSeparator(StringSeparatorType_Personnalised);
 		m_pComboBoxStringSeparator->setEditable(true);
 		m_pComboBoxStringSeparator->setCurrentIndex(StringSeparatorType_DoubleQuote);
 		pFieldFormLayout->addRow(tr("String separator:"), m_pComboBoxStringSeparator);
+
+		m_pComboBoxStringSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxStringSeparator));
 
 		// Line break separator
 		m_pComboBoxLineBreakSeparator = new QComboBox();
@@ -132,9 +157,9 @@ QString QExportParametersDialog::getFilePath() const
 
 QString QExportParametersDialog::getTextFieldSeparator() const
 {
-	int iFieldSeparatorCurrentIndex = m_pComboBoxFieldSeparator->currentIndex();
+	QString szCurrText = m_pComboBoxFieldSeparator->currentText();
 
-	switch(iFieldSeparatorCurrentIndex){
+	switch(m_pComboBoxFieldSeparator->currentIndex()){
 		case FieldSeparatorType_Space:
 			return " ";
 		case FieldSeparatorType_TabKey:
@@ -142,24 +167,22 @@ QString QExportParametersDialog::getTextFieldSeparator() const
 		default:
 			break;
 	}
-	return m_pComboBoxFieldSeparator->currentText();
+	return szCurrText;
 }
 
 QString QExportParametersDialog::getTextStringSeparator() const
 {
-	int iStringSeparatorCurrentIndex = m_pComboBoxStringSeparator->currentIndex();
+	QString szCurrText = m_pComboBoxStringSeparator->currentText();
 
-	switch(iStringSeparatorCurrentIndex){
+	switch(m_pComboBoxStringSeparator->currentIndex()){
 		case StringSeparatorType_DoubleQuote:
 			return "\"";
 		case StringSeparatorType_SimpleQuote:
 			return "\'";
-		case StringSeparatorType_None:
-			return "";
 		default:
 			break;
 	}
-	return m_pComboBoxStringSeparator->currentText();
+	return szCurrText;
 }
 
 QString QExportParametersDialog::getTextLineBreakSeparator() const

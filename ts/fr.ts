@@ -216,73 +216,62 @@
 <context>
     <name>QExportParametersDialog</name>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="41"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="67"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="52"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="78"/>
         <source>{Space}</source>
         <translation>{Espace}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="53"/>
-        <source>{Tab key}</source>
-        <translation>{Tabulation}</translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="64"/>
-        <source>None</source>
-        <translation>Aucun</translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="30"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
         <source>Export to csv file</source>
         <translation>Exporter vers un fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="58"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="79"/>
+        <source>{Tab key}</source>
+        <translation>{Tabulation}</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="82"/>
         <source>Data separator:</source>
         <translation>Séparateur de données :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="54"/>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="65"/>
-        <source>Personnalised</source>
-        <translation>Personnalisé</translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="69"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="92"/>
         <source>String separator:</source>
         <translation>Séparateur de chaînes de caractères :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="75"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="100"/>
         <source>Line break separator:</source>
         <translation>Séparateur de saut de lignes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="81"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="106"/>
         <source>Add column title:</source>
         <translation>Ajouter le titre des colonnes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="86"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="111"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="95"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="145"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="145"/>
         <source>CSV files (*.csv)</source>
         <translation>Fichiers CSV (*.csv)</translation>
     </message>

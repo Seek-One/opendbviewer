@@ -33,7 +33,6 @@ QDatabaseWorksheetView::QDatabaseWorksheetView(QWidget* parent)
 	//Creation of a tab widget for query results and console
 
 	m_pQueryResultView = new QQueryResultView();
-	m_pQueryResultView->getExportDataButton()->hide();
 	pWorksheetViewLayout->addWidget(m_pQueryResultView);
 }
 
@@ -76,6 +75,11 @@ QPushButton* QDatabaseWorksheetView::getReformatButton() const
 QPushButton* QDatabaseWorksheetView::getClearTextButton() const
 {
 	return m_pClearTextButton;
+}
+
+QPushButton* QDatabaseWorksheetView::getExportDataButton() const
+{
+	return m_pQueryResultView->getExportDataButton();
 }
 
 QSqlSourceView* QDatabaseWorksheetView::getWorksheetTextEdit() const

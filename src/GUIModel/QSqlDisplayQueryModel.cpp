@@ -25,22 +25,38 @@ QVariant QSqlDisplayQueryModel::data(const QModelIndex &item, int role) const
 		return QVariant();
 	}
 
-	if (role == Qt::FontRole) {
+	switch(role){
+	case Qt::FontRole:
+	{
 		if (QSqlQueryModel::data(this->index(item.row(), item.column())).isNull()) {
 			QFont italicFont;
 			italicFont.setItalic(true);
 			return italicFont;
 		}
 	}
-
-	if (role == Qt::ForegroundRole) {
+	break;
+	case Qt::ForegroundRole:
+	{
 		if (QSqlQueryModel::data(this->index(item.row(), item.column())).isNull()) {
 			return QColor(Qt::darkGray);
 		}
 	}
-
-	if (role == Qt::DisplayRole && value.isNull()) {
-		return QVariant("NULL");
+	break;
+	case Qt::DisplayRole:
+	{
+		if (value.isNull()) {
+			return QVariant("NULL");
+		}
+	}
+	break;
+	case DataTypeRole : {
+		QVariant value = QSqlQueryModel::data(item, Qt::DisplayRole);
+		if (value.isNull()) {
+			return DataTypeNull;
+		}
+	}
+	break;
+	default: break;
 	}
 	return value;
 }

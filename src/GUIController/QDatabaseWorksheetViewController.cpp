@@ -8,11 +8,18 @@
 #include <QApplication>
 #include <QPalette>
 #include <QTableView>
+#include <QMessageBox>
+#include <QFileInfo>
+
+
+#include "Database/DatabaseController.h"
+
+#include "GUI/QDatabaseWorksheetView.h"
+#include "GUI/QExportParametersDialog.h"
 
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
-#include "GUI/QDatabaseWorksheetView.h"
-#include "Database/DatabaseController.h"
+#include "GUIController/QWindowMainController.h"
 
 
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
@@ -21,6 +28,7 @@ QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 	m_pDatabaseController = NULL;
 	m_pSqlHighlighterController = NULL;
 	m_pDatabaseDisplayModel = NULL;
+	m_bExportAvailable = false;
 }
 
 QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
@@ -41,6 +49,7 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 	connect(m_pDatabaseWorksheetView->getExecuteButton(), SIGNAL(clicked()), this, SLOT(executeQuery()));
 	connect(m_pDatabaseWorksheetView->getReformatButton(), SIGNAL(clicked()), this, SLOT(reformatSqlText()));
 	connect(m_pDatabaseWorksheetView->getClearTextButton(), SIGNAL(clicked()), this, SLOT(clearWorksheetText()));
+	connect(m_pDatabaseWorksheetView->getExportDataButton(), SIGNAL(clicked()), this, SLOT(exportDataWorksheet()));
 }
 
 void QDatabaseWorksheetViewController::executeQuery()
@@ -62,6 +71,9 @@ void QDatabaseWorksheetViewController::executeQuery()
 
 	if(bRes){
 		m_pDatabaseWorksheetView->showTabData();
+		if(!szWorksheetQuery.isEmpty()){
+			m_bExportAvailable = true;
+		}
 	} else {
 		m_pDatabaseWorksheetView->showTabConsole();
 	}
@@ -84,4 +96,15 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 	cursor.movePosition(QTextCursor::Start);//Moves the cursor to the start
 	m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->setTextCursor(cursor);//Sets the cursor position
 	m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->insertPlainText(szQueryInformation);//insert text at the cursor position
+}
+
+void QDatabaseWorksheetViewController::exportDataWorksheet()
+{
+	if(m_bExportAvailable){
+		QString szErrorMsg = "";
+		bool bRes = QWindowMainController::saveSQLResultsToCSV(m_pDatabaseDisplayModel, m_pDatabaseWorksheetView, m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->orientation(), szErrorMsg);
+		if (!bRes){
+			QMessageBox::critical(m_pDatabaseWorksheetView, tr("Error"), tr("Unable to export the data into the file:") + "<br/>" + szErrorMsg);
+		}
+	}
 }

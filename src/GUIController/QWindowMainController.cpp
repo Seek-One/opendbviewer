@@ -5,17 +5,24 @@
  *      Author: echopin
  */
 
-#include "GUI/QAboutDialog.h"
-#include "GUI/QWindowMain.h"
-#include "GUI/QOpenHistoryView.h"
+#include <QFile>
+#include <QTextStream>
+
 #include "GUI/QDatabaseConnectionView.h"
-#include "QDatabaseConnectionViewController.h"
-#include "QWindowMainController.h"
+#include "GUI/QAboutDialog.h"
+#include "GUI/QOpenHistoryView.h"
+#include "GUI/QWindowMain.h"
+
+#include "GUIController/QDatabaseConnectionViewController.h"
+#include "GUIController/QWindowMainController.h"
+
+#include "Global/ApplicationSettings.h"
+
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
 #include "Database/DatabaseControllerPostgreSQL.h"
 #include "Database/DatabaseControllerSqlite.h"
-#include "Global/ApplicationSettings.h"
+
 
 QWindowMainController::QWindowMainController()
 {
@@ -116,6 +123,121 @@ void QWindowMainController::callSQLiteFile(const QString& szFileUrl)
 void QWindowMainController::callInitHistoryList()
 {
 	m_pOpenHistoryViewController->initHistoryList();
+}
+
+bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* parent, Qt::Orientation orientation, QString& szErrorMsg)
+{
+	QString szFilePath;
+
+	QString szFieldSeparator;
+	QString szStringSeparator;
+	QString szLineBreakSeparator;
+	bool bIncludesHeaders = true;
+
+	bool bGoOn = true;
+
+	// Open the parameters dialog
+	QExportParametersDialog dialogExportParams(parent);
+	int iRes = dialogExportParams.exec();
+	if(iRes == QDialog::Accepted)
+	{
+		szFieldSeparator = dialogExportParams.getTextFieldSeparator();
+		szStringSeparator = dialogExportParams.getTextStringSeparator();
+		szLineBreakSeparator = dialogExportParams.getTextLineBreakSeparator();
+		szFilePath = dialogExportParams.getFilePath();
+		bIncludesHeaders = dialogExportParams.isIncludesHeaders();
+	}else{
+		bGoOn = false;
+	}
+
+	// Check if the path is not empty
+	if(bGoOn)
+	{
+		if(szFilePath.replace(" ", "").isEmpty()) {
+			szErrorMsg = tr("The file path is empty.");
+			bGoOn = false;
+		}
+	}
+
+	// Check if extension is file is not a directory
+	if(bGoOn) {
+		QFileInfo info(szFilePath);
+		if(info.isDir())
+		{
+			szErrorMsg = tr("The file path is a directory.");
+			bGoOn = false;
+		}
+	}
+
+	// Perform the file write
+	if(bGoOn) {
+		QFile fileToWrite(szFilePath);
+		bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
+		if(bGoOn)
+		{
+			QTextStream fileTextStream(&fileToWrite);
+			QModelIndex index;
+
+			int iColumnCount = model->columnCount();
+
+			if(bIncludesHeaders)
+			{
+				for(int i = 0; i < iColumnCount; i++)
+				{
+					fileTextStream << szStringSeparator;
+					fileTextStream << model->headerData(i, orientation).toString();
+					fileTextStream << szStringSeparator;
+					if(i<iColumnCount-1){
+						fileTextStream << szFieldSeparator;
+					}
+				}
+
+				fileTextStream << szLineBreakSeparator;
+			}
+
+			for(int i = 0; i < model->rowCount(); i++)
+			{
+				for(int j = 0; j < iColumnCount; j++)
+				{
+					index = model->index(i, j);
+
+					int iTypeRole = -1;
+					QVariant typeRole = model->data(index, DataTypeRole);
+					if(!typeRole.isNull()){
+						iTypeRole = typeRole.toInt();
+					}
+
+					QString szDisplayText;
+					if(iTypeRole != DataTypeNull){
+						szDisplayText = model->data(index, Qt::DisplayRole).toString();
+					}
+					fileTextStream << szStringSeparator;
+					fileTextStream << getEscapedText(szDisplayText, szFieldSeparator, szStringSeparator);
+					fileTextStream << szStringSeparator;
+					fileTextStream << szFieldSeparator;
+				}
+				fileTextStream << szLineBreakSeparator;
+			}
+			fileToWrite.flush();
+			fileToWrite.close();
+		}else{
+			szErrorMsg = tr("The file cannot be open for writing.");
+			bGoOn = false;
+		}
+	}
+
+	return bGoOn;
+}
+
+
+QString QWindowMainController::getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator)
+{
+	if(szStringSeparator == "\""){
+		QString szNewText = szData;
+		szNewText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
+		return szNewText;
+	}
+	return szData;
 }
 
 void QWindowMainController::dragEnterReceived(QDragEnterEvent* pEvent)

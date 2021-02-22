@@ -10,6 +10,9 @@
 
 #include <QSqlQueryModel>
 
+#define DataTypeRole Qt::UserRole + 1
+#define DataTypeNull 1
+
 class QSqlDisplayQueryModel : public QSqlQueryModel
 {
 public:

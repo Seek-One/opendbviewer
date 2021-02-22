@@ -13,10 +13,16 @@
 #include <QMimeData>
 #include <QUrl>
 
-#include "Model/DatabaseModel.h"
 #include "Database/DatabaseController.h"
-#include "QOpenDatabaseViewController.h"
-#include "QOpenHistoryViewController.h"
+
+#include "GUI/QExportParametersDialog.h"
+
+#include "GUIController/QDatabaseTableViewController.h"
+#include "GUIController/QDatabaseWorksheetViewController.h"
+#include "GUIController/QOpenDatabaseViewController.h"
+#include "GUIController/QOpenHistoryViewController.h"
+
+#include "Model/DatabaseModel.h"
 
 class QOpenDatabaseViewController;
 class QOpenHistoryViewController;
@@ -48,10 +54,15 @@ public slots:
 	void openExplorer();
 	void openMenuConn();
 
+public:
+	static bool saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* parent, Qt::Orientation orientation, QString& szErrorMsg);
+	static QString getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator);
+
 private:
 	QWindowMain* m_pMainWindow;
 	QOpenDatabaseViewController* m_pOpenDatabaseViewController;
 	QOpenHistoryViewController* m_pOpenHistoryViewController;
+
 };
 
 #endif /* SRC_GUICONTROLLER_QWINDOWMAINCONTROLLER_H_ */

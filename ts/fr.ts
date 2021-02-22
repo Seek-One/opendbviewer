@@ -164,33 +164,18 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="135"/>
-        <source>The file path is empty.</source>
-        <translation>Le chemin du fichier est vide.</translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="145"/>
-        <source>The file path is a directory.</source>
-        <translation>Le chemin du fichier est un dossier.</translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="203"/>
-        <source>The file cannot be open for writing.</source>
-        <translation>Le fichier ne peut pas être ouvert pour écriture.</translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="208"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="225"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="115"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="208"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="109"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="225"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="115"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -198,19 +183,32 @@
 <context>
     <name>QDatabaseWorksheetView</name>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="50"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="49"/>
         <source>Execute</source>
         <translation>Exécuter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="54"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="53"/>
         <source>Reformat</source>
         <translation>Reformater</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="59"/>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="58"/>
         <source>Clear</source>
         <translation>Effacer</translation>
+    </message>
+</context>
+<context>
+    <name>QDatabaseWorksheetViewController</name>
+    <message>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="107"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="107"/>
+        <source>Unable to export the data into the file:</source>
+        <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
     </message>
 </context>
 <context>
@@ -501,6 +499,24 @@
         <location filename="../src/GUI/QWindowMain.cpp" line="280"/>
         <source>New Connection</source>
         <translation>Nouvelle Connexion</translation>
+    </message>
+</context>
+<context>
+    <name>QWindowMainController</name>
+    <message>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="157"/>
+        <source>The file path is empty.</source>
+        <translation type="unfinished">Le chemin du fichier est vide.</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="167"/>
+        <source>The file path is a directory.</source>
+        <translation type="unfinished">Le chemin du fichier est un dossier.</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="224"/>
+        <source>The file cannot be open for writing.</source>
+        <translation type="unfinished">Le fichier ne peut pas être ouvert pour écriture.</translation>
     </message>
 </context>
 </TS>

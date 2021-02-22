@@ -8,8 +8,9 @@
 #ifndef SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 
-#include "GUI/QDatabaseWorksheetView.h"
 #include "Database/DatabaseController.h"
+
+#include "GUI/QDatabaseWorksheetView.h"
 
 #include <QDebug>
 #include <QTextCursor>
@@ -30,12 +31,15 @@ public slots:
 	void executeQuery();
 	void reformatSqlText();
 	void clearWorksheetText();
+	void exportDataWorksheet();
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
 	QSqlDisplayQueryModel* m_pDatabaseDisplayModel;
+
+	bool m_bExportAvailable;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

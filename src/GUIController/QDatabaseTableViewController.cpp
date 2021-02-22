@@ -12,18 +12,13 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <QSqlError>
-#include <QFile>
-#include <QFileDialog>
-#include <QTextStream>
-#include <QRadioButton>
-#include <QDialogButtonBox>
 
 #include "Database/DatabaseController.h"
 
 #include "GUI/QDatabaseTableView.h"
-#include "GUI/QExportParametersDialog.h"
 
 #include "GUIController/QDatabaseTableViewController.h"
+#include "GUIController/QWindowMainController.h"
 
 QDatabaseTableViewController::QDatabaseTableViewController()
 {
@@ -108,116 +103,11 @@ void QDatabaseTableViewController::clearFilterField()
 
 void QDatabaseTableViewController::exportData()
 {
-	bool bGoOn = true;
-	QString szErrorMessage = "";
-
-	QString szFilePath;
-
-	QString szFieldSeparator;
-	QString szStringSeparator;
-	QString szLineBreakSeparator;
-	bool bIncludesHeaders = true;
-
-	// Open the parameters dialog
-	QExportParametersDialog dialogExportParams;
-	int iRes = dialogExportParams.exec();
-	if(iRes == QDialog::Accepted)
-	{
-		szFieldSeparator = dialogExportParams.getTextFieldSeparator();
-		szStringSeparator = dialogExportParams.getTextStringSeparator();
-		szLineBreakSeparator = dialogExportParams.getTextLineBreakSeparator();
-		szFilePath = dialogExportParams.getFilePath();
-		bIncludesHeaders = dialogExportParams.isIncludesHeaders();
-
-		// Check if the path is not empty
-		if(szFilePath.replace(" ", "").isEmpty()) {
-			bGoOn = false;
-			szErrorMessage = tr("The file path is empty.");
-		}
-
-		// Check if extension is file is not a directory
-		if(bGoOn)
-		{
-			QFileInfo info(szFilePath);
-			if(info.isDir())
-			{
-				bGoOn = false;
-				szErrorMessage = tr("The file path is a directory.");
-			}
-		}
-
-		// Perform the file write
-		if(bGoOn)
-		{
-			QFile fileToWrite(szFilePath);
-			bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
-			if(bGoOn)
-			{
-				QTextStream fileTextStream(&fileToWrite);
-				QModelIndex index;
-
-				int iColumnCount = m_pDatabaseTableModel->columnCount();
-
-				if(bIncludesHeaders)
-				{
-					for(int i = 0; i < iColumnCount; i++)
-					{
-						fileTextStream << szStringSeparator;
-						fileTextStream << m_pDatabaseTableModel->headerData(i, m_pDatabaseTableView->getStructureTreeView()->header()->orientation(), 0).toString();
-						fileTextStream << szStringSeparator;
-						if(i<iColumnCount-1){
-							fileTextStream << szFieldSeparator;
-						}
-					}
-
-					fileTextStream << szLineBreakSeparator;
-				}
-
-				for(int i = 0; i < m_pDatabaseTableModel->rowCount(); i++)
-				{
-					for(int j = 0; j < iColumnCount; j++)
-					{
-						index = m_pDatabaseTableModel->index(i, j);
-						
-						int iTypeRole = -1;
-						QVariant typeRole = m_pDatabaseTableModel->data(index, DataTypeRole);
-						if(!typeRole.isNull()){
-							iTypeRole = typeRole.toInt();
-						}
-
-						QString szDisplayText;
-						if(iTypeRole != DataTypeNull){
-							szDisplayText = m_pDatabaseTableModel->data(index, Qt::DisplayRole).toString();
-						}
-						fileTextStream << szStringSeparator;
-						fileTextStream << getEscapedText(szDisplayText, szFieldSeparator, szStringSeparator);
-						fileTextStream << szStringSeparator;
-						fileTextStream << szFieldSeparator;
-					}
-					fileTextStream << szLineBreakSeparator;
-				}
-				fileToWrite.flush();
-				fileToWrite.close();
-			}
-			else{
-				szErrorMessage = tr("The file cannot be open for writing.");
-			}
-		}
-
-		if(!bGoOn){
-			QMessageBox::critical(m_pDatabaseTableView, tr("Error"), tr("Unable to export the data into the file:") + "<br/>" + szErrorMessage);
-		}
+	QString szErrorMsg = "";
+	bool bRes = QWindowMainController::saveSQLResultsToCSV(m_pDatabaseTableModel, m_pDatabaseTableView, m_pDatabaseTableView->getStructureTreeView()->header()->orientation(), szErrorMsg);
+	if (!bRes){
+		QMessageBox::critical(m_pDatabaseTableView, tr("Error"), tr("Unable to export the data into the file:") + "<br/>" + szErrorMsg);
 	}
-}
-
-QString QDatabaseTableViewController::getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator) const
-{
-	if(szStringSeparator == "\""){
-		QString szNewText = szData;
-		szNewText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
-		return szNewText;
-	}
-	return szData;
 }
 
 void QDatabaseTableViewController::displayError()

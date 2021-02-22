@@ -34,7 +34,6 @@ public:
 public:
 	bool loadDatabaseTableInfos();
 	bool loadDatabaseTableData();
-	QString getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator) const;
 
 public slots:
 	void updateTableData();

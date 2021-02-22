@@ -27,10 +27,10 @@ public:
 	QPushButton* getExecuteButton() const;
 	QPushButton* getReformatButton() const;
 	QPushButton* getClearTextButton() const;
+	QPushButton* getExportDataButton() const;
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 
-	QSqlTableModel* getWorksheetResultsModel() const;
 	QTableView* getWorksheetTableView() const;
 
 	void showTabData();

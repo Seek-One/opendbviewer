@@ -55,8 +55,7 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 {
 	setWindowTitle(tr("Export to csv file"));
 
-	QVBoxLayout* pMainLayout = new QVBoxLayout(parent);
-	setLayout(pMainLayout);
+	QVBoxLayout* pMainLayout = new QVBoxLayout(this);
 
 	setMinimumSize(370, 300);
 

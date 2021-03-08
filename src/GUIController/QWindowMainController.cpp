@@ -8,21 +8,21 @@
 #include <QFile>
 #include <QTextStream>
 
-#include "GUI/QDatabaseConnectionView.h"
-#include "GUI/QAboutDialog.h"
-#include "GUI/QOpenHistoryView.h"
-#include "GUI/QWindowMain.h"
-
-#include "GUIController/QDatabaseConnectionViewController.h"
-#include "GUIController/QWindowMainController.h"
-
-#include "Global/ApplicationSettings.h"
-
 #include "Database/DatabaseController.h"
 #include "Database/DatabaseControllerMysql.h"
 #include "Database/DatabaseControllerPostgreSQL.h"
 #include "Database/DatabaseControllerSqlite.h"
 
+#include "Global/ApplicationSettings.h"
+
+#include "GUI/QDatabaseConnectionView.h"
+#include "GUI/QAboutDialog.h"
+#include "GUI/QExportParametersDialog.h"
+#include "GUI/QOpenHistoryView.h"
+#include "GUI/QWindowMain.h"
+
+#include "GUIController/QDatabaseConnectionViewController.h"
+#include "GUIController/QWindowMainController.h"
 
 QWindowMainController::QWindowMainController()
 {
@@ -147,7 +147,7 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 		szFilePath = dialogExportParams.getFilePath();
 		bIncludesHeaders = dialogExportParams.isIncludesHeaders();
 	}else{
-		bGoOn = false;
+		return true;
 	}
 
 	// Check if the path is not empty
@@ -169,75 +169,72 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 		}
 	}
 
+
 	// Perform the file write
-	if(bGoOn) {
-		QFile fileToWrite(szFilePath);
-		bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
-		if(bGoOn)
+	QFile fileToWrite(szFilePath);
+	bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
+	if(bGoOn)
+	{
+		QTextStream fileTextStream(&fileToWrite);
+		QModelIndex index;
+		// Load all the query model datas
+		while(model->canFetchMore()){
+			model->fetchMore();
+		}
+
+		int iColumnCount = model->columnCount();
+		int iRowCount = model->rowCount();
+		int iMaxData  = iRowCount * iColumnCount;
+
+		if(!bIncludesHeaders){
+			iMaxData -= iColumnCount;
+		}
+
+		if(bIncludesHeaders)
 		{
-			QTextStream fileTextStream(&fileToWrite);
-			QModelIndex index;
-
-			int iColumnCount = model->columnCount();
-
-			if(bIncludesHeaders)
+			for(int i = 0; i < iColumnCount; i++)
 			{
-				for(int i = 0; i < iColumnCount; i++)
-				{
-					fileTextStream << szStringSeparator;
-					fileTextStream << model->headerData(i, orientation).toString();
-					fileTextStream << szStringSeparator;
-					if(i<iColumnCount-1){
-						fileTextStream << szFieldSeparator;
-					}
-				}
-
-				fileTextStream << szLineBreakSeparator;
-			}
-
-			for(int i = 0; i < model->rowCount(); i++)
-			{
-				for(int j = 0; j < iColumnCount; j++)
-				{
-					index = model->index(i, j);
-
-					int iTypeRole = -1;
-					QVariant typeRole = model->data(index, DataTypeRole);
-					if(!typeRole.isNull()){
-						iTypeRole = typeRole.toInt();
-					}
-
-					QString szDisplayText;
-					if(iTypeRole != DataTypeNull){
-						szDisplayText = model->data(index, Qt::DisplayRole).toString();
-					}
-					fileTextStream << szStringSeparator;
-					fileTextStream << getEscapedText(szDisplayText, szFieldSeparator, szStringSeparator);
-					fileTextStream << szStringSeparator;
+				fileTextStream << szStringSeparator;
+				fileTextStream << model->headerData(i, orientation).toString();
+				fileTextStream << szStringSeparator;
+				if(i < iColumnCount-1){
 					fileTextStream << szFieldSeparator;
 				}
-				fileTextStream << szLineBreakSeparator;
 			}
-			fileToWrite.flush();
-			fileToWrite.close();
-		}else{
-			szErrorMsg = tr("The file cannot be open for writing.");
-			bGoOn = false;
+
+			fileTextStream << szLineBreakSeparator;
 		}
-	}
 
+		for(int i = 0; i < iRowCount; i++)
+		{
+			for(int j = 0; j < iColumnCount; j++)
+			{
+				index = model->index(i, j);
+
+				int iTypeRole = -1;
+				QVariant typeRole = model->data(index, DataTypeRole);
+				if(!typeRole.isNull()){
+					iTypeRole = typeRole.toInt();
+				}
+
+				QString szDisplayText;
+				if(iTypeRole != DataTypeNull){
+					szDisplayText = model->data(index, Qt::DisplayRole).toString();
+				}
+				fileTextStream << szStringSeparator;
+				if(szStringSeparator == "\""){
+					szDisplayText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
+				}
+				fileTextStream << szDisplayText;
+				fileTextStream << szStringSeparator;
+				fileTextStream << szFieldSeparator;
+			}
+			fileTextStream << szLineBreakSeparator;
+		}
+		fileToWrite.flush();
+		fileToWrite.close();
+	}
 	return bGoOn;
-}
-
-
-QString QWindowMainController::getEscapedText(const QString& szData, const QString& szFieldSeparator, const QString& szStringSeparator)
-{
-	if(szStringSeparator == "\""){
-		QString szNewText = szData;
-		szNewText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
-		return szNewText;
-	}
-	return szData;
 }
 
 void QWindowMainController::dragEnterReceived(QDragEnterEvent* pEvent)

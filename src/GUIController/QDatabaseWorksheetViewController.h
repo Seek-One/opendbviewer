@@ -32,14 +32,13 @@ public slots:
 	void reformatSqlText();
 	void clearWorksheetText();
 	void exportDataWorksheet();
+	void setExportButtonDisabled();
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
 	QSqlDisplayQueryModel* m_pDatabaseDisplayModel;
-
-	bool m_bExportAvailable;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

@@ -34,7 +34,7 @@ public:
 	};
 
 public:
-	QExportParametersDialog(QWidget* pParent = 0);
+	QExportParametersDialog(QWidget* parent = 0);
 	virtual ~QExportParametersDialog();
 
 	QString getFilePath() const;

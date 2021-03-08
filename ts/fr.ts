@@ -172,7 +172,7 @@
     <message>
         <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="109"/>
         <source>Unable to export the data into the file:</source>
-        <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
+        <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
         <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="115"/>
@@ -201,75 +201,86 @@
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="107"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="107"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
         <source>Unable to export the data into the file:</source>
-        <translation>Impossible d&apos;exporter les données dans le fichier.</translation>
+        <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <source>Unable to export the data:</source>
+        <translation>Impossible d&apos;exporter les données : </translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <source>There is no data to export.</source>
+        <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>
 </context>
 <context>
     <name>QExportParametersDialog</name>
-    <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="67"/>
-        <source>Options</source>
-        <translation>Options</translation>
-    </message>
-    <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="78"/>
-        <source>{Space}</source>
-        <translation>{Espace}</translation>
-    </message>
     <message>
         <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
         <source>Export to csv file</source>
         <translation>Exporter vers un fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="79"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="66"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="77"/>
+        <source>{Space}</source>
+        <translation>{Espace}</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="78"/>
         <source>{Tab key}</source>
         <translation>{Tabulation}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="82"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="81"/>
         <source>Data separator:</source>
         <translation>Séparateur de données :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="92"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="91"/>
         <source>String separator:</source>
         <translation>Séparateur de chaînes de caractères :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="100"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="99"/>
         <source>Line break separator:</source>
         <translation>Séparateur de saut de lignes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="106"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="105"/>
         <source>Add column title:</source>
         <translation>Ajouter le titre des colonnes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="111"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="110"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="120"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="119"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="145"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="144"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="145"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="144"/>
         <source>CSV files (*.csv)</source>
         <translation>Fichiers CSV (*.csv)</translation>
     </message>
@@ -506,17 +517,12 @@
     <message>
         <location filename="../src/GUIController/QWindowMainController.cpp" line="157"/>
         <source>The file path is empty.</source>
-        <translation type="unfinished">Le chemin du fichier est vide.</translation>
+        <translation>Le chemin est vide.</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QWindowMainController.cpp" line="167"/>
         <source>The file path is a directory.</source>
-        <translation type="unfinished">Le chemin du fichier est un dossier.</translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QWindowMainController.cpp" line="224"/>
-        <source>The file cannot be open for writing.</source>
-        <translation type="unfinished">Le fichier ne peut pas être ouvert pour écriture.</translation>
+        <translation>Le chemin est un dossier.</translation>
     </message>
 </context>
 </TS>

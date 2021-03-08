@@ -227,9 +227,14 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 				}
 				fileTextStream << szDisplayText;
 				fileTextStream << szStringSeparator;
-				fileTextStream << szFieldSeparator;
+				if(j < iColumnCount-1){
+					fileTextStream << szFieldSeparator;
+				}
 			}
-			fileTextStream << szLineBreakSeparator;
+
+			if(i < iRowCount-1){
+				fileTextStream << szLineBreakSeparator;
+			}
 		}
 		fileToWrite.flush();
 		fileToWrite.close();

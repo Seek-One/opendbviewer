@@ -18,6 +18,7 @@
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QAboutDialog.h"
 #include "GUI/QExportParametersDialog.h"
+#include "GUI/QExportParametersProgressBarDialog.h"
 #include "GUI/QOpenHistoryView.h"
 #include "GUI/QWindowMain.h"
 
@@ -169,75 +170,112 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 		}
 	}
 
-
-	// Perform the file write
-	QFile fileToWrite(szFilePath);
-	bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
 	if(bGoOn)
 	{
-		QTextStream fileTextStream(&fileToWrite);
-		QModelIndex index;
-		// Load all the query model datas
-		while(model->canFetchMore()){
-			model->fetchMore();
-		}
+		QExportParametersProgressBarDialog* pProgressBarDialog = new QExportParametersProgressBarDialog(tr("Loading: exporting data"), parent);
+		pProgressBarDialog->show();
 
-		int iColumnCount = model->columnCount();
-		int iRowCount = model->rowCount();
-		int iMaxData  = iRowCount * iColumnCount;
+		connect(pProgressBarDialog->getCancelButton(), SIGNAL(clicked(QAbstractButton *)), pProgressBarDialog, SLOT(setCancel()));
+		connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));
 
-		if(!bIncludesHeaders){
-			iMaxData -= iColumnCount;
-		}
-
-		if(bIncludesHeaders)
+		// Perform the file write
+		QFile fileToWrite(szFilePath);
+		bool bGoOn = (fileToWrite.open(QFile::WriteOnly | QFile::Text));
+		if(bGoOn)
 		{
-			for(int i = 0; i < iColumnCount; i++)
-			{
-				fileTextStream << szStringSeparator;
-				fileTextStream << model->headerData(i, orientation).toString();
-				fileTextStream << szStringSeparator;
-				if(i < iColumnCount-1){
-					fileTextStream << szFieldSeparator;
-				}
+			QTextStream fileTextStream(&fileToWrite);
+			QModelIndex index;
+
+			// Load all the query model datas
+			while(model->canFetchMore()){
+				model->fetchMore();
 			}
 
-			fileTextStream << szLineBreakSeparator;
-		}
+			int iColumnCount = model->columnCount();
+			int iRowCount = model->rowCount();
+			int iMaxData  = iRowCount * iColumnCount;
 
-		for(int i = 0; i < iRowCount; i++)
-		{
-			for(int j = 0; j < iColumnCount; j++)
-			{
-				index = model->index(i, j);
-
-				int iTypeRole = -1;
-				QVariant typeRole = model->data(index, DataTypeRole);
-				if(!typeRole.isNull()){
-					iTypeRole = typeRole.toInt();
-				}
-
-				QString szDisplayText;
-				if(iTypeRole != DataTypeNull){
-					szDisplayText = model->data(index, Qt::DisplayRole).toString();
-				}
-				fileTextStream << szStringSeparator;
-				if(szStringSeparator == "\""){
-					szDisplayText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
-				}
-				fileTextStream << szDisplayText;
-				fileTextStream << szStringSeparator;
-				if(j < iColumnCount-1){
-					fileTextStream << szFieldSeparator;
-				}
+			if(!bIncludesHeaders){
+				iMaxData -= iColumnCount;
 			}
 
-			if(i < iRowCount-1){
+			pProgressBarDialog->setMaximumData(iMaxData);
+
+			int iRange = iMaxData/100;
+			int iDataHeaders = 0;
+
+			if(bIncludesHeaders)
+			{
+				for(int i = 0; i < iColumnCount; i++)
+				{
+					fileTextStream << szStringSeparator;
+					fileTextStream << model->headerData(i, orientation).toString();
+					fileTextStream << szStringSeparator;
+					if(i < iColumnCount-1){
+						fileTextStream << szFieldSeparator;
+					}
+					iDataHeaders++;
+				}
 				fileTextStream << szLineBreakSeparator;
 			}
+
+			pProgressBarDialog->setData(iDataHeaders);
+
+			int iCurrentData;
+
+			for(int i = 0; i < iRowCount; i++)
+			{
+				for(int j = 0; j < iColumnCount; j++)
+				{
+					index = model->index(i, j);
+
+					int iTypeRole = -1;
+					QVariant typeRole = model->data(index, DataTypeRole);
+					if(!typeRole.isNull()){
+						iTypeRole = typeRole.toInt();
+					}
+
+					QString szDisplayText;
+					if(iTypeRole != DataTypeNull){
+						szDisplayText = model->data(index, Qt::DisplayRole).toString();
+					}
+					fileTextStream << szStringSeparator;
+					// Escape quotes if the string separator is quotes
+					if(szStringSeparator == "\""){
+						szDisplayText.replace(szFieldSeparator, "\"\""+szFieldSeparator+"\"\"");
+					}
+					fileTextStream << szDisplayText;
+					fileTextStream << szStringSeparator;
+					if(j < iColumnCount-1){
+						fileTextStream << szFieldSeparator;
+					}
+
+					iCurrentData = j + i*iColumnCount + iDataHeaders;
+
+					if(iCurrentData % iRange == 0){
+						pProgressBarDialog->setData(iCurrentData);
+					}
+
+					if(iCurrentData == iMaxData){
+						pProgressBarDialog->setData(iCurrentData);
+						pProgressBarDialog->close();
+					}
+				}
+
+				if(i < iRowCount-1){
+					fileTextStream << szLineBreakSeparator;
+				}
+
+				QApplication::processEvents();
+				if(pProgressBarDialog->isCancel()) {
+					fileToWrite.remove();
+					pProgressBarDialog->close();
+					break;
+				}
+			}
+			fileToWrite.flush();
+			fileToWrite.close();
 		}
-		fileToWrite.flush();
-		fileToWrite.close();
 	}
 	return bGoOn;
 }

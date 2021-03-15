@@ -164,18 +164,18 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="109"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="115"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="111"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="117"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="111"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="115"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="117"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -201,23 +201,23 @@
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="108"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="111"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="108"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="111"/>
         <source>Unable to export the data:</source>
         <translation>Impossible d&apos;exporter les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="111"/>
         <source>There is no data to export.</source>
         <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>
@@ -225,14 +225,14 @@
 <context>
     <name>QExportParametersDialog</name>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
-        <source>Export to csv file</source>
-        <translation>Exporter vers un fichier CSV</translation>
-    </message>
-    <message>
         <location filename="../src/GUI/QExportParametersDialog.cpp" line="66"/>
         <source>Options</source>
         <translation>Options</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="56"/>
+        <source>Export to csv file</source>
+        <translation>Exporter vers un fichier CSV</translation>
     </message>
     <message>
         <location filename="../src/GUI/QExportParametersDialog.cpp" line="77"/>
@@ -515,14 +515,19 @@
 <context>
     <name>QWindowMainController</name>
     <message>
-        <location filename="../src/GUIController/QWindowMainController.cpp" line="157"/>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="156"/>
         <source>The file path is empty.</source>
         <translation>Le chemin est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QWindowMainController.cpp" line="167"/>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="166"/>
         <source>The file path is a directory.</source>
         <translation>Le chemin est un dossier.</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QWindowMainController.cpp" line="173"/>
+        <source>Loading: exporting data</source>
+        <translation>Chargement : export des données en cours</translation>
     </message>
 </context>
 </TS>

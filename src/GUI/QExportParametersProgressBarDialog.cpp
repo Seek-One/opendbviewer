@@ -9,14 +9,14 @@
 #include <config.h>
 #endif
 
-#include "GUI/QExportParametersProgressBarDialog.h"
-#include "GUIController/QWindowMainController.h"
+#include <unistd.h>
 
 #include <QVBoxLayout>
 #include <QProgressBar>
 #include <QDialogButtonBox>
 
-#include <unistd.h>
+#include "GUI/QExportParametersProgressBarDialog.h"
+#include "GUIController/QWindowMainController.h"
 
 QExportParametersProgressBarDialog::QExportParametersProgressBarDialog(QString szTitle, QWidget* parent)
 {
@@ -37,6 +37,7 @@ QExportParametersProgressBarDialog::QExportParametersProgressBarDialog(QString s
 	{
 		m_pCancelButtonBox = new QDialogButtonBox(QDialogButtonBox::Cancel);
 		pMainLayout->addWidget(m_pCancelButtonBox);
+		connect(m_pCancelButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
 	}
 }
 

@@ -175,7 +175,6 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 		QExportParametersProgressBarDialog* pProgressBarDialog = new QExportParametersProgressBarDialog(tr("Loading: exporting data"), parent);
 		pProgressBarDialog->show();
 
-		connect(pProgressBarDialog->getCancelButton(), SIGNAL(clicked(QAbstractButton *)), pProgressBarDialog, SLOT(setCancel()));
 		connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));
 
 		// Perform the file write
@@ -258,7 +257,6 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 
 					if(iCurrentData == iMaxData){
 						pProgressBarDialog->setData(iCurrentData);
-						pProgressBarDialog->close();
 					}
 				}
 
@@ -269,10 +267,10 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 				QApplication::processEvents();
 				if(pProgressBarDialog->isCancel()) {
 					fileToWrite.remove();
-					pProgressBarDialog->close();
 					break;
 				}
 			}
+			pProgressBarDialog->close();
 			fileToWrite.flush();
 			fileToWrite.close();
 		}

@@ -6,6 +6,7 @@
  */
 
 #include <QPainter>
+#include <QPainterPath>
 
 #include "QDropAreaWidget.h"
 

@@ -268,7 +268,6 @@ void QOpenDatabaseViewController::loadDatabase(const DatabaseModel&  databaseMod
 
 void QOpenDatabaseViewController::openConnectionMenu(int index)
 {
-	resetForms();
 	switch (index) {
 		case 0:
 			m_pOpenDatabaseView->openSQLiteMenu();

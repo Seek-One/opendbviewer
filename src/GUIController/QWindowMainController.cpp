@@ -18,8 +18,8 @@
 #include "GUI/QDatabaseConnectionView.h"
 #include "GUI/QAboutDialog.h"
 #include "GUI/QExportParametersDialog.h"
-#include "GUI/QExportParametersProgressBarDialog.h"
 #include "GUI/QOpenHistoryView.h"
+#include "GUI/QProgressBarDialog.h"
 #include "GUI/QWindowMain.h"
 
 #include "GUIController/QDatabaseConnectionViewController.h"
@@ -172,7 +172,7 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 
 	if(bGoOn)
 	{
-		QExportParametersProgressBarDialog* pProgressBarDialog = new QExportParametersProgressBarDialog(tr("Loading: exporting data"), parent);
+		QProgressBarDialog* pProgressBarDialog = new QProgressBarDialog(parent, tr("Loading: exporting data"));
 		pProgressBarDialog->show();
 
 		connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));

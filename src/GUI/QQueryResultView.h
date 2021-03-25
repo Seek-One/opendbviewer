@@ -22,7 +22,8 @@ public:
 
 	QTableView* getDataTableView() const;
 	QTextEdit* getConsoleTextEdit() const;
-	QPushButton* getExportDataButton() const;
+	QPushButton* getImportButton() const;
+	QPushButton* getExportButton() const;
 
 	void showTabData();
 	void showTabConsole();
@@ -30,7 +31,8 @@ public:
 private:
 	QTableView* m_pDataTableView;
 	QTextEdit* m_pConsoleTextEdit;
-	QPushButton* m_pExportDataButton;
+	QPushButton* m_pImportButton;
+	QPushButton* m_pExportButton;
 };
 
 #endif /* SRC_GUI_QQUERYRESULTVIEW_H_ */

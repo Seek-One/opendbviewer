@@ -143,9 +143,14 @@ QPushButton* QDatabaseTableView::getClearButton() const
 	return m_pClearButton;
 }
 
-QPushButton* QDatabaseTableView::getExportDataButton() const
+QPushButton* QDatabaseTableView::getImportButton() const
 {
-	return m_pQueryResultView->getExportDataButton();
+	return m_pQueryResultView->getImportButton();
+}
+
+QPushButton* QDatabaseTableView::getExportButton() const
+{
+	return m_pQueryResultView->getExportButton();
 }
 
 QTextEdit* QDatabaseTableView::getConsoleTextEdit() const

@@ -202,13 +202,15 @@ set(APPLICATION_SOURCES
     src/GUI/QDatabaseWorksheetView.h
     src/GUI/QExportParametersDialog.cpp
     src/GUI/QExportParametersDialog.h
-    src/GUI/QExportParametersProgressBarDialog.cpp
-    src/GUI/QExportParametersProgressBarDialog.h
+    src/GUI/QImportParametersDialog.cpp
+    src/GUI/QImportParametersDialog.h
     src/GUI/QLineNumberAreaView.h
     src/GUI/QOpenDatabaseView.cpp
     src/GUI/QOpenDatabaseView.h
     src/GUI/QOpenHistoryView.cpp
     src/GUI/QOpenHistoryView.h
+    src/GUI/QProgressBarDialog.cpp
+    src/GUI/QProgressBarDialog.h
     src/GUI/QQueryResultView.cpp
     src/GUI/QQueryResultView.h
     src/GUI/QSqlSourceView.cpp
@@ -267,9 +269,10 @@ set(APPLICATION_MOC_HEADERS
     src/GUI/QDatabaseTableView.h
     src/GUI/QDatabaseWorksheetView.h
     src/GUI/QExportParametersDialog.h
-    src/GUI/QExportParametersProgressBarDialog.h
+    src/GUI/QImportParametersDialog.h
     src/GUI/QOpenDatabaseView.h
     src/GUI/QOpenHistoryView.h
+    src/GUI/QProgressBarDialog.h
     src/GUI/QQueryResultView.h
     src/GUI/QWindowMain.h
     src/GUI/QSqlSourceView.h
@@ -301,9 +304,10 @@ set (I18N_FILES
     src/GUI/QDatabaseTableView.cpp
     src/GUI/QDatabaseWorksheetView.cpp
     src/GUI/QExportParametersDialog.cpp
-    src/GUI/QExportParametersProgressBarDialog.cpp
+    src/GUI/QImportParametersDialog.cpp
     src/GUI/QOpenDatabaseView.cpp
     src/GUI/QOpenHistoryView.cpp
+    src/GUI/QProgressBarDialog.cpp
     src/GUI/QQueryResultView.cpp
     src/GUI/QWindowMain.cpp
     src/GUIController/QDatabaseConnectionViewController.cpp

@@ -1,7 +1,7 @@
 /*
- * QExportParametersDialog.cpp
+ * QImportParametersDialog.cpp
  *
- *  Created on: 4 feb. 2021
+ *  Created on: 23 mars 2021
  *      Author: gsegard
  */
 
@@ -17,7 +17,7 @@
 #include <QLineEdit>
 #include <QFileDialog>
 
-#include "GUI/QExportParametersDialog.h"
+#include "GUI/QImportParametersDialog.h"
 
 class QComboBoxEventFilter : public QObject
 {
@@ -49,19 +49,19 @@ protected:
 
 };
 
-QExportParametersDialog::QExportParametersDialog(QWidget* parent)
+QImportParametersDialog::QImportParametersDialog(QWidget* parent)
 {
-	setWindowTitle(tr("Export to csv file"));
+	setWindowTitle(tr("Import a CSV file"));
 
 	QVBoxLayout* pMainLayout = new QVBoxLayout(this);
 
-	setMinimumSize(370, 300);
+	setMinimumSize(370, 250);
 
 	QBoxLayout* pTmpBoxLayout;
 
 	// Define the form fields
 	{
-		QGroupBox* pFieldGroupBox = new QGroupBox(tr("Options"), this);
+		QGroupBox* pFieldGroupBox = new QGroupBox(tr("Informations"), this);
 		pMainLayout->addWidget(pFieldGroupBox);
 
 		QFormLayout *pFieldFormLayout = new QFormLayout();
@@ -89,18 +89,6 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 		pFieldFormLayout->addRow(tr("String separator:"), m_pComboBoxStringSeparator);
 
 		m_pComboBoxStringSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxStringSeparator));
-
-		// Line break separator
-		m_pComboBoxLineBreakSeparator = new QComboBox();
-		m_pComboBoxLineBreakSeparator->addItem("\\n", LineBreakSeparatorType_LF);
-		m_pComboBoxLineBreakSeparator->addItem("\\r\\n", LineBreakSeparatorType_CRLF);
-		pFieldFormLayout->addRow(tr("Line break separator:"), m_pComboBoxLineBreakSeparator);
-
-		// Header check box
-		m_pCheckBoxHeader = new QCheckBox();
-		m_pCheckBoxHeader->setChecked(true);
-		m_pCheckBoxHeader->setMaximumWidth(20);
-		pFieldFormLayout->addRow(tr("Add column title:"), m_pCheckBoxHeader);
 	}
 
 	// Define the file path section
@@ -132,14 +120,13 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 	}
 }
 
+QImportParametersDialog::~QImportParametersDialog() {
 
-QExportParametersDialog::~QExportParametersDialog()
-{
 }
 
-void QExportParametersDialog::explore()
+void QImportParametersDialog::explore()
 {
-	QString szFilePath = QFileDialog::getSaveFileName(this, tr("Export"), m_szCurrentPath, tr("CSV files (*.csv)"));
+	QString szFilePath = QFileDialog::getOpenFileName(this, tr("Import"), m_szCurrentPath, tr("CSV files (*.csv)"));
 	QFileInfo info(szFilePath);
 	m_szCurrentPath = info.absoluteDir().path();
 	if(!szFilePath.isEmpty()){
@@ -147,12 +134,12 @@ void QExportParametersDialog::explore()
 	}
 }
 
-QString QExportParametersDialog::getFilePath() const
+QString QImportParametersDialog::getFilePath() const
 {
 	return m_pFileExplorerLineEdit->text();
 }
 
-QString QExportParametersDialog::getTextFieldSeparator() const
+QString QImportParametersDialog::getTextFieldSeparator() const
 {
 	QString szCurrText = m_pComboBoxFieldSeparator->currentText();
 
@@ -167,7 +154,7 @@ QString QExportParametersDialog::getTextFieldSeparator() const
 	return szCurrText;
 }
 
-QString QExportParametersDialog::getTextStringSeparator() const
+QString QImportParametersDialog::getTextStringSeparator() const
 {
 	QString szCurrText = m_pComboBoxStringSeparator->currentText();
 
@@ -180,17 +167,4 @@ QString QExportParametersDialog::getTextStringSeparator() const
 			break;
 	}
 	return szCurrText;
-}
-
-QString QExportParametersDialog::getTextLineBreakSeparator() const
-{
-	if (m_pComboBoxLineBreakSeparator->currentIndex() == LineBreakSeparatorType_CRLF){
-		return "\r\n";
-	}
-	return "\n";
-}
-
-bool QExportParametersDialog::isIncludesHeaders()
-{
-	return m_pCheckBoxHeader->isChecked();
 }

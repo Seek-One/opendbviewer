@@ -12,7 +12,7 @@
 
 #include "QQueryResultView.h"
 
-QQueryResultView::QQueryResultView(QWidget* pParent)
+QQueryResultView::QQueryResultView(QWidget* parent)
 {
 	setTabPosition(QTabWidget::South);
 
@@ -35,7 +35,7 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 
 	// Add the console Tab
 	{
-		pWidget = new QWidget();
+		pWidget = new QWidget(this);
 		addTab(pWidget, tr("Console"));
 
 		pTmpVLayout = new QVBoxLayout();
@@ -46,10 +46,20 @@ QQueryResultView::QQueryResultView(QWidget* pParent)
 		pTmpVLayout->addWidget(m_pConsoleTextEdit);
 	}
 
-	// Add the export button
+	// Add the import/export buttons
 	{
-		m_pExportDataButton = new QPushButton(tr("Export"));
-		setCornerWidget(m_pExportDataButton, Qt::BottomRightCorner);
+		pWidget = new QWidget();
+		QHBoxLayout *pTmpHLayout = new QHBoxLayout();
+		pTmpHLayout->setMargin(0);
+
+		m_pImportButton = new QPushButton(tr("Import"));
+		pTmpHLayout->addWidget(m_pImportButton);
+
+		m_pExportButton = new QPushButton(tr("Export"));
+		pTmpHLayout->addWidget(m_pExportButton);
+
+		pWidget->setLayout(pTmpHLayout);
+		setCornerWidget(pWidget, Qt::BottomRightCorner);
 	}
 }
 
@@ -68,9 +78,14 @@ QTableView* QQueryResultView::getDataTableView() const
 	return m_pDataTableView;
 }
 
-QPushButton* QQueryResultView::getExportDataButton() const
+QPushButton* QQueryResultView::getImportButton() const
 {
-	return m_pExportDataButton;
+	return m_pImportButton;
+}
+
+QPushButton* QQueryResultView::getExportButton() const
+{
+	return m_pExportButton;
 }
 
 void QQueryResultView::showTabData()

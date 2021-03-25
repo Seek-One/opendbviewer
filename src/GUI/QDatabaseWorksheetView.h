@@ -27,7 +27,8 @@ public:
 	QPushButton* getExecuteButton() const;
 	QPushButton* getReformatButton() const;
 	QPushButton* getClearTextButton() const;
-	QPushButton* getExportDataButton() const;
+	QPushButton* getImportButton() const;
+	QPushButton* getExportButton() const;
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 

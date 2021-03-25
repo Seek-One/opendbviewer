@@ -77,9 +77,14 @@ QPushButton* QDatabaseWorksheetView::getClearTextButton() const
 	return m_pClearTextButton;
 }
 
-QPushButton* QDatabaseWorksheetView::getExportDataButton() const
+QPushButton* QDatabaseWorksheetView::getImportButton() const
 {
-	return m_pQueryResultView->getExportDataButton();
+	return m_pQueryResultView->getImportButton();
+}
+
+QPushButton* QDatabaseWorksheetView::getExportButton() const
+{
+	return m_pQueryResultView->getExportButton();
 }
 
 QSqlSourceView* QDatabaseWorksheetView::getWorksheetTextEdit() const

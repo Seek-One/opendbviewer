@@ -15,7 +15,6 @@
 #include "Database/DatabaseController.h"
 
 #include "GUI/QDatabaseWorksheetView.h"
-#include "GUI/QExportParametersDialog.h"
 
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
@@ -41,14 +40,15 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 {
 	m_pDatabaseWorksheetView = pDatabaseWorksheetView;
 	m_pDatabaseController = pDatabaseController;
-	m_pDatabaseWorksheetView->getExportDataButton()->setEnabled(false);
+	m_pDatabaseWorksheetView->getImportButton()->setVisible(false);
+	m_pDatabaseWorksheetView->getExportButton()->setEnabled(false);
 
 	m_pSqlHighlighterController = new QSqlHighlighterController(m_pDatabaseWorksheetView->getWorksheetTextEdit()->document());
 
 	connect(m_pDatabaseWorksheetView->getExecuteButton(), SIGNAL(clicked()), this, SLOT(executeQuery()));
 	connect(m_pDatabaseWorksheetView->getReformatButton(), SIGNAL(clicked()), this, SLOT(reformatSqlText()));
 	connect(m_pDatabaseWorksheetView->getClearTextButton(), SIGNAL(clicked()), this, SLOT(clearWorksheetText()));
-	connect(m_pDatabaseWorksheetView->getExportDataButton(), SIGNAL(clicked()), this, SLOT(exportDataWorksheet()));
+	connect(m_pDatabaseWorksheetView->getExportButton(), SIGNAL(clicked()), this, SLOT(exportDataWorksheet()));
 	connect(m_pDatabaseWorksheetView->getWorksheetTextEdit(), SIGNAL(textChanged()), this, SLOT(setExportButtonDisabled()));
 }
 
@@ -71,7 +71,7 @@ void QDatabaseWorksheetViewController::executeQuery()
 
 	if(bRes){
 		m_pDatabaseWorksheetView->showTabData();
-		m_pDatabaseWorksheetView->getExportDataButton()->setEnabled(true);
+		m_pDatabaseWorksheetView->getExportButton()->setEnabled(true);
 	} else {
 		m_pDatabaseWorksheetView->showTabConsole();
 	}
@@ -99,7 +99,7 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 void QDatabaseWorksheetViewController::exportDataWorksheet()
 {
 	bool bEmptyText = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText().isEmpty();
-	if(!bEmptyText && m_pDatabaseWorksheetView->getExportDataButton()->isEnabled()){
+	if(!bEmptyText && m_pDatabaseWorksheetView->getExportButton()->isEnabled()){
 		QString szErrorMsg = "";
 		bool bRes = QWindowMainController::saveSQLResultsToCSV(m_pDatabaseDisplayModel, m_pDatabaseWorksheetView, m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->orientation(), szErrorMsg);
 		if (!bRes){
@@ -112,5 +112,5 @@ void QDatabaseWorksheetViewController::exportDataWorksheet()
 
 void QDatabaseWorksheetViewController::setExportButtonDisabled()
 {
-	m_pDatabaseWorksheetView->getExportDataButton()->setEnabled(false);
+	m_pDatabaseWorksheetView->getExportButton()->setEnabled(false);
 }

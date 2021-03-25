@@ -1,20 +1,19 @@
 /*
- * QExportParametersDialog.h
+ * QImportParametersDialog.h
  *
- *  Created on: 4 feb. 2021
+ *  Created on: 23 mars 2021
  *      Author: gsegard
  */
 
-#ifndef SRC_GUI_QEXPORTPARAMETERSDIALOG_H_
-#define SRC_GUI_QEXPORTPARAMETERSDIALOG_H_
+#ifndef SRC_GUI_QIMPORTPARAMETERSDIALOG_H_
+#define SRC_GUI_QIMPORTPARAMETERSDIALOG_H_
 
 #include <QDialog>
 #include <QComboBox>
-#include <QCheckBox>
 
-class QExportParametersDialog : public QDialog {
+class QImportParametersDialog : public QDialog {
 	Q_OBJECT
-public:
+public :
 	enum FieldSeparatorType {
 		FieldSeparatorType_Comma,
 		FieldSeparatorType_Semicolon,
@@ -28,20 +27,13 @@ public:
 		StringSeparatorType_SimpleQuote,
 	};
 
-	enum LineBreakSeparatorType {
-		LineBreakSeparatorType_CRLF,
-		LineBreakSeparatorType_LF,
-	};
-
 public:
-	QExportParametersDialog(QWidget* parent = 0);
-	virtual ~QExportParametersDialog();
+	QImportParametersDialog(QWidget* parent = 0);
+	virtual ~QImportParametersDialog();
 
 	QString getFilePath() const;
 	QString getTextFieldSeparator() const;
 	QString getTextStringSeparator() const;
-	QString getTextLineBreakSeparator() const;
-	bool isIncludesHeaders();
 
 public slots :
 	void explore();
@@ -49,11 +41,9 @@ public slots :
 private:
 	QComboBox* m_pComboBoxFieldSeparator;
 	QComboBox* m_pComboBoxStringSeparator;
-	QComboBox* m_pComboBoxLineBreakSeparator;
-	QCheckBox* m_pCheckBoxHeader;
 	QLineEdit* m_pFileExplorerLineEdit;
 
 	QString m_szCurrentPath;
 };
 
-#endif /* SRC_GUI_QEXPORTPARAMETERSDIALOG_H_ */
+#endif /* SRC_GUI_QIMPORTPARAMETERSDIALOG_H_ */

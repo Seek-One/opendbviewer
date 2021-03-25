@@ -1,12 +1,12 @@
 /*
- * QExportParametersProgressBarDialog.h
+ * QProgressBarDialog.h
  *
  *  Created on: 23 févr. 2021
  *      Author: gsegard
  */
 
-#ifndef SRC_GUI_QEXPORTPARAMETERSPROGRESSBARDIALOG_H_
-#define SRC_GUI_QEXPORTPARAMETERSPROGRESSBARDIALOG_H_
+#ifndef SRC_GUI_QProgressBarDialog_H_
+#define SRC_GUI_QProgressBarDialog_H_
 
 #include <QDialog>
 #include <QApplication>
@@ -14,12 +14,12 @@
 
 class QProgressBar;
 
-class QExportParametersProgressBarDialog : public QDialog
+class QProgressBarDialog : public QDialog
 {
 	Q_OBJECT
 public:
-	QExportParametersProgressBarDialog(QString szTitle, QWidget* parent);
-	virtual ~QExportParametersProgressBarDialog();
+	QProgressBarDialog(QWidget* parent, QString szTitle);
+	virtual ~QProgressBarDialog();
 
 	QDialogButtonBox* getCancelButton() const;
 	bool isCancel() const;
@@ -35,4 +35,4 @@ private:
 	bool m_bCancel;
 };
 
-#endif /* SRC_GUI_QEXPORTPARAMETERSPROGRESSBARDIALOG_H_ */
+#endif /* SRC_GUI_QProgressBarDialog_H_ */

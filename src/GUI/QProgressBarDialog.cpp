@@ -1,5 +1,5 @@
 /*
- * QExportParametersProgressBarDialog.cpp
+ * QProgressBarDialog.cpp
  *
  *  Created on: 23 févr. 2021
  *      Author: gsegard
@@ -15,10 +15,10 @@
 #include <QProgressBar>
 #include <QDialogButtonBox>
 
-#include "GUI/QExportParametersProgressBarDialog.h"
+#include "GUI/QProgressBarDialog.h"
 #include "GUIController/QWindowMainController.h"
 
-QExportParametersProgressBarDialog::QExportParametersProgressBarDialog(QString szTitle, QWidget* parent)
+QProgressBarDialog::QProgressBarDialog(QWidget* parent, QString szTitle)
 {
 	m_pProgressBar = NULL;
 	m_bCancel = false;
@@ -41,31 +41,31 @@ QExportParametersProgressBarDialog::QExportParametersProgressBarDialog(QString s
 	}
 }
 
-QExportParametersProgressBarDialog::~QExportParametersProgressBarDialog()
+QProgressBarDialog::~QProgressBarDialog()
 {
 }
 
-QDialogButtonBox* QExportParametersProgressBarDialog::getCancelButton() const
+QDialogButtonBox* QProgressBarDialog::getCancelButton() const
 {
 	return m_pCancelButtonBox;
 }
 
-bool QExportParametersProgressBarDialog::isCancel() const
+bool QProgressBarDialog::isCancel() const
 {
 	return m_bCancel;
 }
 
-void QExportParametersProgressBarDialog::setCancel()
+void QProgressBarDialog::setCancel()
 {
 	m_bCancel = true;
 }
 
-void QExportParametersProgressBarDialog::setData(int iData)
+void QProgressBarDialog::setData(int iData)
 {
 	m_pProgressBar->setValue(iData);
 }
 
-void QExportParametersProgressBarDialog::setMaximumData(int maxData)
+void QProgressBarDialog::setMaximumData(int maxData)
 {
 	m_pProgressBar->setMaximum(maxData);
 }

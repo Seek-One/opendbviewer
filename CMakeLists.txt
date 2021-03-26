@@ -424,6 +424,7 @@ add_executable (${APPLICATION_EXE_NAME}
     ${APPLICATION_MOC_OUTFILES}
     ${RCS_OUTFILES}
     ${RCS_TS_OUTFILES}
+	${qm_FILES}
 )
 target_link_libraries (${APPLICATION_EXE_NAME}
     ${QT_LIBRARIES}

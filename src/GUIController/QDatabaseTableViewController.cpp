@@ -111,17 +111,19 @@ void QDatabaseTableViewController::importData()
 
 	QString szFieldSeparator;
 	QString szStringSeparator;
+	bool bClearDatabase = false;
 
 	bool bGoOn = true;
 
 	// Open the parameters dialog
-	QImportParametersDialog dialogImportParams(m_pDatabaseTableView);
+	QImportParametersDialog dialogImportParams(m_pDatabaseTableView, m_pDatabaseTableModel->tableName());
 	int iRes = dialogImportParams.exec();
 	if(iRes == QDialog::Accepted)
 	{
 		szFieldSeparator = dialogImportParams.getTextFieldSeparator();
 		szStringSeparator = dialogImportParams.getTextStringSeparator();
 		szFilePath = dialogImportParams.getFilePath();
+		bClearDatabase = dialogImportParams.isClearDatabaseChecked();
 	}else{
 		return;
 	}
@@ -145,6 +147,21 @@ void QDatabaseTableViewController::importData()
 		}
 	}
 
+	// Clear the database
+	if(bGoOn && bClearDatabase){
+		QSqlQuery query("DELETE FROM " + m_pDatabaseTableModel->tableName() + ";", m_pDatabaseTableModel->database());
+		bool bRes = query.exec();
+		if(!bRes){
+			szErrorMsg = tr("An error occurred when clearing the database.");
+			bGoOn = false;
+		}
+		updateTableData();
+	}
+
+	if(bGoOn){
+		bGoOn = m_pDatabaseTableModel->database().transaction();
+	}
+
 	if(bGoOn)
 	{
 		QString szCurrentString;
@@ -163,15 +180,13 @@ void QDatabaseTableViewController::importData()
 				iNbLineFile++;
 			}
 
-			// Reset the stream
-			fileTextStream.seek(0);
-
 			QProgressBarDialog* pProgressBarDialog = new QProgressBarDialog(m_pDatabaseTableView, tr("Loading: importing data"));
 			pProgressBarDialog->show();
 			pProgressBarDialog->setMaximumData(iNbLineFile);
 			connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));
 
-			bGoOn = m_pDatabaseTableModel->database().transaction();
+			// Reset the stream
+			bGoOn = fileTextStream.seek(0);
 
 			if(bGoOn)
 			{
@@ -191,7 +206,8 @@ void QDatabaseTableViewController::importData()
 					if(szLineData.size() != m_pDatabaseTableModel->columnCount()){
 						szErrorMsg = tr("The CSV file doesn't have as much columns as the database.");
 						bGoOn = false;
-						m_pDatabaseTableModel->database().rollback();
+						bRollback = true;
+						break;
 					}
 
 					for(int i = 0; i < szLineData.size(); i++){

@@ -51,11 +51,9 @@ protected:
 
 QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 {
-	setWindowTitle(tr("Export to csv file"));
+	setWindowTitle(tr("Export to CSV file"));
 
 	QVBoxLayout* pMainLayout = new QVBoxLayout(this);
-
-	setMinimumSize(370, 300);
 
 	QBoxLayout* pTmpBoxLayout;
 
@@ -99,7 +97,6 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 		// Header check box
 		m_pCheckBoxHeader = new QCheckBox();
 		m_pCheckBoxHeader->setChecked(true);
-		m_pCheckBoxHeader->setMaximumWidth(20);
 		pFieldFormLayout->addRow(tr("Add column title:"), m_pCheckBoxHeader);
 	}
 
@@ -118,6 +115,9 @@ QExportParametersDialog::QExportParametersDialog(QWidget* parent)
 		pTmpBoxLayout->addWidget(pButtonExplore);
 		connect(pButtonExplore, SIGNAL(clicked()), this, SLOT(explore()));
 	}
+
+	// Stretch the layout, without the validation buttons
+	pMainLayout->addStretch();
 
 	// Define validation buttons
 	{

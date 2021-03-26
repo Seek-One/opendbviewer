@@ -164,49 +164,54 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="133"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="135"/>
         <source>The file path is empty.</source>
         <translation>Le chemin est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="143"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="145"/>
         <source>The file path is a directory.</source>
         <translation>Le chemin est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="169"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="157"/>
+        <source>An error occurred when clearing the database.</source>
+        <translation>Une erreur est survenue lors du nettoyage de la base de données.</translation>
+    </message>
+    <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="185"/>
         <source>Loading: importing data</source>
         <translation>Chargement : import en cours</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="192"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="209"/>
         <source>The CSV file doesn&apos;t have as much columns as the database.</source>
         <translation>Le fichier CSV n&apos;a pas autant de colonnes que la base de données.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="212"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="230"/>
         <source>Primary key duplicated, or data type not met.</source>
         <translation>Clé primaire dupliquée, ou type de données non respecté.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="240"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="249"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="255"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="257"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="266"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="272"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="240"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="257"/>
         <source>Unable to import data:</source>
         <translation>Impossible d&apos;importer les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="249"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="266"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="255"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="272"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -257,51 +262,51 @@
     <name>QExportParametersDialog</name>
     <message>
         <location filename="../src/GUI/QExportParametersDialog.cpp" line="54"/>
-        <source>Export to csv file</source>
+        <source>Export to CSV file</source>
         <translation>Exporter vers un fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="64"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="62"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="75"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="73"/>
         <source>{Space}</source>
         <translation>{Espace}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="76"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="74"/>
         <source>{Tab key}</source>
         <translation>{Tabulation}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="79"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="77"/>
         <source>Data separator:</source>
         <translation>Séparateur de données :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="89"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="87"/>
         <source>String separator:</source>
         <translation>Séparateur de chaînes de caractères :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="97"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="95"/>
         <source>Line break separator:</source>
         <translation>Séparateur de saut de lignes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="103"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="100"/>
         <source>Add column title:</source>
         <translation>Ajouter le titre des colonnes :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="108"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="105"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QExportParametersDialog.cpp" line="117"/>
+        <location filename="../src/GUI/QExportParametersDialog.cpp" line="114"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
@@ -332,47 +337,62 @@
         <translation>Importer un fichier CSV</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="64"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="62"/>
         <source>Informations</source>
         <translation>Informations</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="75"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="71"/>
+        <source>Database name:</source>
+        <translation>Nom de la base de données :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="76"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="87"/>
         <source>{Space}</source>
         <translation>{Espace}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="76"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="88"/>
         <source>{Tab key}</source>
         <translation>{Tabulation}</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="79"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="91"/>
         <source>Data separator:</source>
         <translation>Séparateur de données :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="89"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="101"/>
         <source>String separator:</source>
         <translation>Séparateur de chaînes de caractères :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="96"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="108"/>
+        <source>Clear database:</source>
+        <translation>Vider la base de données :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="105"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="122"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="129"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="149"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="129"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="149"/>
         <source>CSV files (*.csv)</source>
         <translation>Fichiers CSV (*.csv)</translation>
     </message>

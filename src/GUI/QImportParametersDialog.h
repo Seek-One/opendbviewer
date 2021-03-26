@@ -10,6 +10,7 @@
 
 #include <QDialog>
 #include <QComboBox>
+#include <QCheckBox>
 
 class QImportParametersDialog : public QDialog {
 	Q_OBJECT
@@ -28,12 +29,13 @@ public :
 	};
 
 public:
-	QImportParametersDialog(QWidget* parent = 0);
+	QImportParametersDialog(QWidget* parent = 0, QString szDatabaseName = "");
 	virtual ~QImportParametersDialog();
 
 	QString getFilePath() const;
 	QString getTextFieldSeparator() const;
 	QString getTextStringSeparator() const;
+	bool isClearDatabaseChecked();
 
 public slots :
 	void explore();
@@ -42,6 +44,8 @@ private:
 	QComboBox* m_pComboBoxFieldSeparator;
 	QComboBox* m_pComboBoxStringSeparator;
 	QLineEdit* m_pFileExplorerLineEdit;
+	QLineEdit *m_pDatabaseNameLineEdit;
+	QCheckBox* m_pClearDatabaseCheckBox;
 
 	QString m_szCurrentPath;
 };

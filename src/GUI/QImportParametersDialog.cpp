@@ -49,19 +49,31 @@ protected:
 
 };
 
-QImportParametersDialog::QImportParametersDialog(QWidget* parent)
+QImportParametersDialog::QImportParametersDialog(QWidget* parent, QString szDatabaseName)
 {
 	setWindowTitle(tr("Import a CSV file"));
 
 	QVBoxLayout* pMainLayout = new QVBoxLayout(this);
 
-	setMinimumSize(370, 250);
-
 	QBoxLayout* pTmpBoxLayout;
+
+	// Define the informations field
+	{
+		QGroupBox* pInformationsGroupBox = new QGroupBox(tr("Informations"), this);
+		pMainLayout->addWidget(pInformationsGroupBox);
+
+		QFormLayout *pInformationsFormLayout = new QFormLayout();
+		pInformationsGroupBox->setLayout(pInformationsFormLayout);
+
+		m_pDatabaseNameLineEdit = new QLineEdit(pInformationsGroupBox);
+		m_pDatabaseNameLineEdit->setReadOnly(true);
+		m_pDatabaseNameLineEdit->setText(szDatabaseName);
+		pInformationsFormLayout->addRow(tr("Database name:"), m_pDatabaseNameLineEdit);
+	}
 
 	// Define the form fields
 	{
-		QGroupBox* pFieldGroupBox = new QGroupBox(tr("Informations"), this);
+		QGroupBox* pFieldGroupBox = new QGroupBox(tr("Options"), this);
 		pMainLayout->addWidget(pFieldGroupBox);
 
 		QFormLayout *pFieldFormLayout = new QFormLayout();
@@ -89,6 +101,11 @@ QImportParametersDialog::QImportParametersDialog(QWidget* parent)
 		pFieldFormLayout->addRow(tr("String separator:"), m_pComboBoxStringSeparator);
 
 		m_pComboBoxStringSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxStringSeparator));
+
+		// Clear database check box
+		m_pClearDatabaseCheckBox = new QCheckBox();
+		m_pClearDatabaseCheckBox->setChecked(false);
+		pFieldFormLayout->addRow(tr("Clear database:"), m_pClearDatabaseCheckBox);
 	}
 
 	// Define the file path section
@@ -106,6 +123,9 @@ QImportParametersDialog::QImportParametersDialog(QWidget* parent)
 		pTmpBoxLayout->addWidget(pButtonExplore);
 		connect(pButtonExplore, SIGNAL(clicked()), this, SLOT(explore()));
 	}
+
+	// Stretch the layout, without the validation buttons
+	pMainLayout->addStretch();
 
 	// Define validation buttons
 	{
@@ -167,4 +187,9 @@ QString QImportParametersDialog::getTextStringSeparator() const
 			break;
 	}
 	return szCurrText;
+}
+
+bool QImportParametersDialog::isClearDatabaseChecked()
+{
+	return m_pClearDatabaseCheckBox->isChecked();
 }

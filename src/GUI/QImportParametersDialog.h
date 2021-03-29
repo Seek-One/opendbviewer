@@ -35,7 +35,7 @@ public:
 	QString getFilePath() const;
 	QString getTextFieldSeparator() const;
 	QString getTextStringSeparator() const;
-	bool isClearDatabaseChecked();
+	bool isClearTableChecked();
 
 public slots :
 	void explore();
@@ -44,8 +44,8 @@ private:
 	QComboBox* m_pComboBoxFieldSeparator;
 	QComboBox* m_pComboBoxStringSeparator;
 	QLineEdit* m_pFileExplorerLineEdit;
-	QLineEdit *m_pDatabaseNameLineEdit;
-	QCheckBox* m_pClearDatabaseCheckBox;
+	QLineEdit *m_pTableNameLineEdit;
+	QCheckBox* m_pClearTableCheckBox;
 
 	QString m_szCurrentPath;
 };

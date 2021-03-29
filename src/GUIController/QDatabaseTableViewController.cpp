@@ -111,7 +111,7 @@ void QDatabaseTableViewController::importData()
 
 	QString szFieldSeparator;
 	QString szStringSeparator;
-	bool bClearDatabase = false;
+	bool bClearTable = false;
 
 	bool bGoOn = true;
 
@@ -123,7 +123,7 @@ void QDatabaseTableViewController::importData()
 		szFieldSeparator = dialogImportParams.getTextFieldSeparator();
 		szStringSeparator = dialogImportParams.getTextStringSeparator();
 		szFilePath = dialogImportParams.getFilePath();
-		bClearDatabase = dialogImportParams.isClearDatabaseChecked();
+		bClearTable = dialogImportParams.isClearTableChecked();
 	}else{
 		return;
 	}
@@ -147,109 +147,111 @@ void QDatabaseTableViewController::importData()
 		}
 	}
 
-	// Clear the database
-	if(bGoOn && bClearDatabase){
-		QSqlQuery query("DELETE FROM " + m_pDatabaseTableModel->tableName() + ";", m_pDatabaseTableModel->database());
-		bool bRes = query.exec();
-		if(!bRes){
-			szErrorMsg = tr("An error occurred when clearing the database.");
-			bGoOn = false;
-		}
-		updateTableData();
-	}
-
 	if(bGoOn){
 		bGoOn = m_pDatabaseTableModel->database().transaction();
 	}
 
 	if(bGoOn)
 	{
-		QString szCurrentString;
-		QSqlRecord sqlRecord = m_pDatabaseTableModel->record();
+		bool bRollback = false;
 
-		// Perform the file read
-		QFile fileToRead(szFilePath);
-		bGoOn = (fileToRead.open(QFile::ReadOnly));
-		if(bGoOn)
-		{
-			QTextStream fileTextStream(&fileToRead);
-			int iNbLineFile = 0;
-
-			while(!fileTextStream.atEnd()){
-				fileTextStream.readLine();
-				iNbLineFile++;
-			}
-
-			QProgressBarDialog* pProgressBarDialog = new QProgressBarDialog(m_pDatabaseTableView, tr("Loading: importing data"));
-			pProgressBarDialog->show();
-			pProgressBarDialog->setMaximumData(iNbLineFile);
-			connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));
-
-			// Reset the stream
-			bGoOn = fileTextStream.seek(0);
-
-			if(bGoOn)
-			{
-				QString szStreamLine;
-				QStringList szLineData;
-				bool bInserted = true;
-				bool bRollback = false;
-				iNbLineFile = 0;
-
-				while(!fileTextStream.atEnd() && bGoOn)
-				{
-					iNbLineFile++;
-
-					szStreamLine = fileTextStream.readLine();
-					szLineData = szStreamLine.split(szFieldSeparator);
-
-					if(szLineData.size() != m_pDatabaseTableModel->columnCount()){
-						szErrorMsg = tr("The CSV file doesn't have as much columns as the database.");
-						bGoOn = false;
-						bRollback = true;
-						break;
-					}
-
-					for(int i = 0; i < szLineData.size(); i++){
-						szCurrentString = szLineData[i];
-						if(!szStringSeparator.isEmpty()){
-							szCurrentString.replace(szStringSeparator, "");
-						}
-
-						if(!szCurrentString.isEmpty() && szCurrentString != "NULL"){
-							sqlRecord.setValue(i, szCurrentString);
-						}
-					}
-
-					// -1 indicate the last row
-					bInserted = m_pDatabaseTableModel->insertRecord(-1, sqlRecord);
-
-					if(!bInserted){
-						szErrorMsg = tr("Primary key duplicated, or data type not met.");
-						bGoOn = false;
-						bRollback = true;
-					}
-
-					pProgressBarDialog->setData(iNbLineFile);
-
-					QApplication::processEvents();
-					if(pProgressBarDialog->isCancel()) {
-						bRollback = true;
-						break;
-					}
-				}
-
-				if(bRollback){
-					m_pDatabaseTableModel->database().rollback();
-				}else{
-					m_pDatabaseTableModel->database().commit();
-				}
-
-				pProgressBarDialog->close();
-
-				fileToRead.close();
+		// Clear the database
+		if(bClearTable){
+			QSqlQuery query("DELETE FROM " + m_pDatabaseTableModel->tableName() + ";", m_pDatabaseTableModel->database());
+			bool bRes = query.exec();
+			if(!bRes){
+				szErrorMsg = tr("An error occurred when clearing the table.");
+				bGoOn = false;
 			}
 		}
+
+		if(bGoOn)
+		{
+			QString szCurrentString;
+			QSqlRecord sqlRecord = m_pDatabaseTableModel->record();
+
+			// Perform the file read
+			QFile fileToRead(szFilePath);
+			bGoOn = (fileToRead.open(QFile::ReadOnly));
+			if(bGoOn)
+			{
+				QTextStream fileTextStream(&fileToRead);
+				int iNbLineFile = 0;
+
+				while(!fileTextStream.atEnd()){
+					fileTextStream.readLine();
+					iNbLineFile++;
+				}
+
+				QProgressBarDialog* pProgressBarDialog = new QProgressBarDialog(m_pDatabaseTableView, tr("Loading: importing data"));
+				pProgressBarDialog->show();
+				pProgressBarDialog->setMaximumData(iNbLineFile);
+				connect(pProgressBarDialog, SIGNAL(rejected()), pProgressBarDialog, SLOT(setCancel()));
+
+				// Reset the stream
+				bGoOn = fileTextStream.seek(0);
+
+				if(bGoOn)
+				{
+					QString szStreamLine;
+					QStringList szLineData;
+					bool bInserted = true;
+					iNbLineFile = 0;
+
+					while(!fileTextStream.atEnd() && bGoOn)
+					{
+						iNbLineFile++;
+
+						szStreamLine = fileTextStream.readLine();
+						szLineData = szStreamLine.split(szFieldSeparator);
+
+						if(szLineData.size() != m_pDatabaseTableModel->columnCount()){
+							szErrorMsg = tr("The CSV file doesn't have as much columns as the table.");
+							bGoOn = false;
+							bRollback = true;
+							break;
+						}
+
+						for(int i = 0; i < szLineData.size(); i++){
+							szCurrentString = szLineData[i];
+							if(!szStringSeparator.isEmpty()){
+								szCurrentString.replace(szStringSeparator, "");
+							}
+
+							if(!szCurrentString.isEmpty() && szCurrentString != "NULL"){
+								sqlRecord.setValue(i, szCurrentString);
+							}
+						}
+
+						// -1 indicate the last row
+						bInserted = m_pDatabaseTableModel->insertRecord(-1, sqlRecord);
+
+						if(!bInserted){
+							szErrorMsg = tr("Primary key duplicated, or data type not met.");
+							bGoOn = false;
+							bRollback = true;
+						}
+
+						pProgressBarDialog->setData(iNbLineFile);
+
+						QApplication::processEvents();
+						if(pProgressBarDialog->isCancel()) {
+							bRollback = true;
+							break;
+						}
+					}
+				}
+				pProgressBarDialog->close();
+			}
+			fileToRead.close();
+		}
+
+		if(bRollback){
+			m_pDatabaseTableModel->database().rollback();
+		}else{
+			m_pDatabaseTableModel->database().commit();
+		}
+		updateTableData();
 	}
 
 	if (!bGoOn){

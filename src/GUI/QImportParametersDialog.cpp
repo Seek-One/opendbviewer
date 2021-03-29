@@ -65,10 +65,10 @@ QImportParametersDialog::QImportParametersDialog(QWidget* parent, QString szData
 		QFormLayout *pInformationsFormLayout = new QFormLayout();
 		pInformationsGroupBox->setLayout(pInformationsFormLayout);
 
-		m_pDatabaseNameLineEdit = new QLineEdit(pInformationsGroupBox);
-		m_pDatabaseNameLineEdit->setReadOnly(true);
-		m_pDatabaseNameLineEdit->setText(szDatabaseName);
-		pInformationsFormLayout->addRow(tr("Database name:"), m_pDatabaseNameLineEdit);
+		m_pTableNameLineEdit = new QLineEdit(pInformationsGroupBox);
+		m_pTableNameLineEdit->setReadOnly(true);
+		m_pTableNameLineEdit->setText(szDatabaseName);
+		pInformationsFormLayout->addRow(tr("Table name:"), m_pTableNameLineEdit);
 	}
 
 	// Define the form fields
@@ -103,9 +103,9 @@ QImportParametersDialog::QImportParametersDialog(QWidget* parent, QString szData
 		m_pComboBoxStringSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxStringSeparator));
 
 		// Clear database check box
-		m_pClearDatabaseCheckBox = new QCheckBox();
-		m_pClearDatabaseCheckBox->setChecked(false);
-		pFieldFormLayout->addRow(tr("Clear database:"), m_pClearDatabaseCheckBox);
+		m_pClearTableCheckBox = new QCheckBox();
+		m_pClearTableCheckBox->setChecked(false);
+		pFieldFormLayout->addRow(tr("Clear table:"), m_pClearTableCheckBox);
 	}
 
 	// Define the file path section
@@ -189,7 +189,7 @@ QString QImportParametersDialog::getTextStringSeparator() const
 	return szCurrText;
 }
 
-bool QImportParametersDialog::isClearDatabaseChecked()
+bool QImportParametersDialog::isClearTableChecked()
 {
-	return m_pClearDatabaseCheckBox->isChecked();
+	return m_pClearTableCheckBox->isChecked();
 }

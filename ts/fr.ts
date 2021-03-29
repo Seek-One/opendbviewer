@@ -174,19 +174,19 @@
         <translation>Le chemin est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="157"/>
-        <source>An error occurred when clearing the database.</source>
-        <translation>Une erreur est survenue lors du nettoyage de la base de données.</translation>
-    </message>
-    <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="185"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="186"/>
         <source>Loading: importing data</source>
         <translation>Chargement : import en cours</translation>
     </message>
     <message>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
+        <source>An error occurred when clearing the table.</source>
+        <translation>Une erreur est survenue lors du nettoyage de la table.</translation>
+    </message>
+    <message>
         <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="209"/>
-        <source>The CSV file doesn&apos;t have as much columns as the database.</source>
-        <translation>Le fichier CSV n&apos;a pas autant de colonnes que la base de données.</translation>
+        <source>The CSV file doesn&apos;t have as much columns as the table.</source>
+        <translation>Le fichier CSV n&apos;a pas autant de colonnes que la table.</translation>
     </message>
     <message>
         <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="230"/>
@@ -194,24 +194,24 @@
         <translation>Clé primaire dupliquée, ou type de données non respecté.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="257"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="266"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="272"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="259"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="268"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="274"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="257"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="259"/>
         <source>Unable to import data:</source>
         <translation>Impossible d&apos;importer les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="266"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="268"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="272"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="274"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -343,8 +343,8 @@
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="71"/>
-        <source>Database name:</source>
-        <translation>Nom de la base de données :</translation>
+        <source>Table name:</source>
+        <translation>Nom de la table :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="76"/>
@@ -373,8 +373,8 @@
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="108"/>
-        <source>Clear database:</source>
-        <translation>Vider la base de données :</translation>
+        <source>Clear table:</source>
+        <translation>Vider la table :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>

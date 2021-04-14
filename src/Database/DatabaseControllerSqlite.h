@@ -24,6 +24,8 @@ public:
 	DatabaseControllerSqlite(const DatabaseModel& databaseModel);
 	virtual ~DatabaseControllerSqlite();
 
+	QString getDatabaseName() const;
+
 protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName);
 	virtual QStringList loadTableDescriptionResult(const QSqlQuery query);

@@ -309,3 +309,8 @@ QString DatabaseController::getQueryResultString() const
 {
 	return m_szResultString;
 }
+
+QString DatabaseController::getDatabaseName() const
+{
+	return m_db.databaseName();
+}

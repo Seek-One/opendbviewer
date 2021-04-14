@@ -194,24 +194,24 @@
         <translation>Clé primaire dupliquée, ou type de données non respecté.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="259"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="268"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="274"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="258"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="267"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="273"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="259"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="258"/>
         <source>Unable to import data:</source>
         <translation>Impossible d&apos;importer les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="268"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="267"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="274"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="273"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -233,27 +233,32 @@
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
+    <message>
+        <location filename="../src/GUI/QDatabaseWorksheetView.cpp" line="62"/>
+        <source>Last requests</source>
+        <translation>Dernières requêtes</translation>
+    </message>
 </context>
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="116"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="106"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="116"/>
         <source>Unable to export the data:</source>
         <translation>Impossible d&apos;exporter les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="109"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="116"/>
         <source>There is no data to export.</source>
         <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>

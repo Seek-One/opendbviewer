@@ -9,6 +9,9 @@
 #define SRC_SETTINGS_QSETTINGSMANAGER_H_
 
 #include <QSettings>
+#include <QJsonDocument>
+
+#include "GUI/QDatabaseWorksheetView.h"
 
 class QSettingsManager {
 private:
@@ -27,9 +30,19 @@ public:
 	void loadDatabaseSettings();
 	void saveDatabaseSettings();
 
+	QString getStringDatabaseId(QString szDatabaseIdentifier) const;
+	QString getDatabasesJsonDir() const;
+	QString getDatabasesJson() const;
+
+public:
+	static bool writeToFile(QString szFilePath, QByteArray szText);
+	static QJsonDocument parseToJsonDocument(QString szFile);
+
 private:
 	QSettings* m_pConfigSettings;
 	QSettings* m_pDatabaseSettings;
+	QSettings* m_pDatabasesJsonSettings;
+	QDir m_szDatabasesJsonDir;
 
 	static QSettingsManager m_gInstance;
 };

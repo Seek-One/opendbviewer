@@ -30,6 +30,8 @@ public:
 	DatabaseController(const DatabaseModel&  databaseModel);
 	virtual ~DatabaseController();
 
+	virtual QString getDatabaseName() const;
+
 	bool openDatabase();
 	void closeDataBase();
 

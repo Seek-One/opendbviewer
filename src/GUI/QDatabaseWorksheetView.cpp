@@ -59,6 +59,12 @@ QToolBar* QDatabaseWorksheetView::makeWorksheetToolbar()
 	pWorksheetToolbar->addWidget(m_pClearTextButton);
 	//m_pClearTextButton->setToolTip(tr("Clear the text"));
 
+	m_pRequestHistoryButton = new QPushButton(tr("Last requests"));
+	m_pRequestHistoryMenu = new QMenu();
+	m_pRequestHistoryButton->setMenu(m_pRequestHistoryMenu);;
+	pWorksheetToolbar->addWidget(m_pRequestHistoryButton);
+	//m_pRequestHistoryButton->setToolTip(tr("Get request history"));
+
 	return pWorksheetToolbar;
 }
 
@@ -75,6 +81,11 @@ QPushButton* QDatabaseWorksheetView::getReformatButton() const
 QPushButton* QDatabaseWorksheetView::getClearTextButton() const
 {
 	return m_pClearTextButton;
+}
+
+QPushButton* QDatabaseWorksheetView::getRequestHistoryButton() const
+{
+	return m_pRequestHistoryButton;
 }
 
 QPushButton* QDatabaseWorksheetView::getImportButton() const
@@ -111,3 +122,19 @@ void QDatabaseWorksheetView::showTabConsole()
 {
 	m_pQueryResultView->showTabConsole();
 }
+
+QMenu* QDatabaseWorksheetView::getRequestHistoryMenu() const
+{
+	return m_pRequestHistoryMenu;
+}
+
+void QDatabaseWorksheetView::requestHistoryAddItem(QString szItemText){
+	QAction* pAction = new QAction(szItemText, this);
+	m_pRequestHistoryMenu->addAction(pAction);
+}
+
+void QDatabaseWorksheetView::requestHistoryClearItems(){
+	m_pRequestHistoryMenu->clear();
+}
+
+

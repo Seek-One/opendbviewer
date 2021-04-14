@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QFileInfo>
+
 #include "DatabaseControllerSqlite.h"
 
 DatabaseControllerSqlite::DatabaseControllerSqlite(const DatabaseModel& databaseModel) : DatabaseController(databaseModel)
@@ -70,4 +72,10 @@ QStringList DatabaseControllerSqlite::listColumnNames(const QString& szTableName
 		szListColumnName += szName;
 	   }
 	return szListColumnName;
+}
+
+QString DatabaseControllerSqlite::getDatabaseName() const
+{
+	QFileInfo infoDatabase(m_db.databaseName());
+	return infoDatabase.fileName();
 }

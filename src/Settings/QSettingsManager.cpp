@@ -6,6 +6,10 @@
  */
 
 #include <QDir>
+#include <QFile>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonArray>
 
 #include "Global/ApplicationSettings.h"
 #include "Model/DatabaseModel.h"
@@ -30,8 +34,22 @@ static const QString DATABASE_KEY_DATABASE_PORT = "port";
 
 QSettingsManager::QSettingsManager()
 {
-	m_pConfigSettings = new QSettings(QDir::homePath() + "/" + APPLICATION_PACKAGE_NAME + "/config.ini", QSettings::IniFormat);
-	m_pDatabaseSettings = new QSettings(QDir::homePath() + "/" + APPLICATION_PACKAGE_NAME + "/database.ini", QSettings::IniFormat);
+	QDir dirHomePath = QDir::homePath();
+	QDir dirSettingsPath = dirHomePath.filePath(APPLICATION_PACKAGE_NAME);
+
+	QDir dirFilePathConfigSettings = dirSettingsPath.filePath("config.ini");
+	m_pConfigSettings = new QSettings(dirFilePathConfigSettings.path(), QSettings::IniFormat);
+
+	QDir dirFilePathDatabaseSettings = dirSettingsPath.filePath("database.ini");
+	m_pDatabaseSettings = new QSettings(dirFilePathDatabaseSettings.path(), QSettings::IniFormat);
+
+	QDir dirFilePathDatabaseJsonSettings = dirSettingsPath.filePath("databases.json");
+	m_pDatabasesJsonSettings = new QSettings(dirFilePathDatabaseJsonSettings.path(), QSettings::NativeFormat);
+
+	if(!dirSettingsPath.exists("databases")){
+		dirSettingsPath.mkpath("databases");
+	}
+	m_szDatabasesJsonDir = dirSettingsPath.filePath("databases");
 }
 
 QSettingsManager::~QSettingsManager()
@@ -196,4 +214,63 @@ void QSettingsManager::saveDatabaseSettings()
 			m_pDatabaseSettings->endGroup();
 		}
 	}
+}
+
+bool QSettingsManager::writeToFile(QString szFilePath, QByteArray szText)
+{
+	QFile file(szFilePath);
+	bool bGoOn = (file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate));
+
+	if(bGoOn){
+		file.write(szText);
+	}
+	file.close();
+	return bGoOn;
+}
+
+QJsonDocument QSettingsManager::parseToJsonDocument(QString szFile)
+{
+	QJsonDocument resJsonDoc;
+
+	QFile fileDatabases(szFile);
+	bool bGoOn = (fileDatabases.open(QFile::ReadOnly));
+
+	if(bGoOn)
+	{
+		QByteArray jsonFile = fileDatabases.readAll();
+		QJsonParseError jsonError;
+		resJsonDoc = QJsonDocument::fromJson(jsonFile, &jsonError);
+		if (resJsonDoc.isNull()) {
+			qDebug("[JSON Settings] Parse failed");
+		}
+	}
+	fileDatabases.close();
+	return resJsonDoc;
+}
+
+QString QSettingsManager::getStringDatabaseId(QString szDatabaseIdentifier) const
+{
+	QJsonDocument jsonDatabaseDocument = parseToJsonDocument(m_pDatabasesJsonSettings->fileName());
+	QJsonObject jsonDatabaseObject = jsonDatabaseDocument.object();
+	QJsonArray jsonDatabaseArray = jsonDatabaseObject.value("databases").toArray();
+
+	foreach(const QJsonValue & val, jsonDatabaseArray)
+	{
+		QString szIdentifier = val.toObject().value("identifier").toString();
+		if(QString::compare(szIdentifier, szDatabaseIdentifier) == 0){
+			QString szDatabaseName = val.toObject().value("name").toString();
+			return szDatabaseName.at(szDatabaseName.size()-1);
+		}
+	}
+	return "";
+}
+
+QString QSettingsManager::getDatabasesJsonDir() const
+{
+	return m_szDatabasesJsonDir.path() + "/";
+}
+
+QString QSettingsManager::getDatabasesJson() const
+{
+	return m_pDatabasesJsonSettings->fileName();
 }

@@ -14,6 +14,7 @@
 
 #include <QDebug>
 #include <QTextCursor>
+#include <QJsonDocument>
 
 class QDatabaseWorksheetView;
 
@@ -27,18 +28,27 @@ public:
 	void init(QDatabaseWorksheetView* pDatabaseWorksheetView, DatabaseController* pDatabaseController);
 	void showWorksheetQueryInformation();
 
+	void updateRequestHistory();
+	void setRequestHistory();
+	void setJsonDatabases();
+	void addRequestHistoryToJson(QString szWorksheetQuery);
+
 public slots:
 	void executeQuery();
 	void reformatSqlText();
 	void clearWorksheetText();
 	void exportDataWorksheet();
 	void setExportButtonDisabled();
+	void changeWorksheetTextFromHistory(QAction* action);
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
 	QSqlDisplayQueryModel* m_pDatabaseDisplayModel;
+
+	QString m_szDatabasesJsonPath;
+	QString m_szDatabasesFilePath;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

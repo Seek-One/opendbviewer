@@ -9,18 +9,15 @@
 #include <QPalette>
 #include <QTableView>
 #include <QMessageBox>
+#include <QFont>
 
+#include "Controller/ConfigDatabaseController.h"
 #include "Database/DatabaseController.h"
-
 #include "Global/ApplicationSettings.h"
-
 #include "GUI/QDatabaseWorksheetView.h"
-
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUIController/QWindowMainController.h"
-
-#include "Controller/ConfigDatabaseController.h"
 
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 {
@@ -124,7 +121,7 @@ void QDatabaseWorksheetViewController::setExportButtonDisabled()
 
 void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* action)
 {
-	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(action->text());
+	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(action->data().toString());
 }
 
 void QDatabaseWorksheetViewController::updateRequestHistory()
@@ -144,9 +141,19 @@ void QDatabaseWorksheetViewController::updateRequestHistory()
 	}else{
 		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(true);
 
+		int iMargin = iMaxSize/10;
+
 		foreach(const QString& szQuery, szListQueries)
 		{
-			m_pDatabaseWorksheetView->addRequestHistoryItem(szQuery);
+			QFontMetrics fontMetrics = m_pDatabaseWorksheetView->getRequestHistoryMenu()->fontMetrics();
+			int iElidedTextSize = fontMetrics.width(szQuery);
+
+			if(iElidedTextSize >= iMaxSize - iMargin){
+				QString szElidedText = fontMetrics.elidedText(szQuery, Qt::ElideMiddle, iMaxSize - iMargin);
+				m_pDatabaseWorksheetView->addRequestHistoryItem(szElidedText, szQuery);
+			}else{
+				m_pDatabaseWorksheetView->addRequestHistoryItem(szQuery, szQuery);
+			}
 		}
 	}
 }

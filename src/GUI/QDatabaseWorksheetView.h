@@ -41,7 +41,7 @@ public:
 	void showTabData();
 	void showTabConsole();
 
-	void addRequestHistoryItem(const QString& szItemText);
+	void addRequestHistoryItem(const QString& szItemText, const QString& szItemData);
 	void clearRequestHistoryItems();
 
 private:

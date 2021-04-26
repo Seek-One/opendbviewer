@@ -242,23 +242,23 @@
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="112"/>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="114"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="112"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="114"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
         <source>Unable to export the data:</source>
         <translation>Impossible d&apos;exporter les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
         <source>There is no data to export.</source>
         <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>

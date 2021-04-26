@@ -15,8 +15,6 @@
 #include <QTextEdit>
 #include <QStandardItemModel>
 
-#include <QKeySequence>
-
 #include "QDatabaseTableView.h"
 #include "QSqlSourceView.h"
 
@@ -43,8 +41,8 @@ public:
 	void showTabData();
 	void showTabConsole();
 
-	void requestHistoryAddItem(QString szItemText);
-	void requestHistoryClearItems();
+	void addRequestHistoryItem(const QString& szItemText);
+	void clearRequestHistoryItems();
 
 private:
 	QToolBar* makeWorksheetToolbar();

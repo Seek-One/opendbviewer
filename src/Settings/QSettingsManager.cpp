@@ -44,12 +44,12 @@ QSettingsManager::QSettingsManager()
 	m_pDatabaseSettings = new QSettings(dirFilePathDatabaseSettings.path(), QSettings::IniFormat);
 
 	QDir dirFilePathDatabaseJsonSettings = dirSettingsPath.filePath("databases.json");
-	m_pDatabasesJsonSettings = new QSettings(dirFilePathDatabaseJsonSettings.path(), QSettings::NativeFormat);
+	m_szDatabasesFilePath = dirFilePathDatabaseJsonSettings.path();
 
 	if(!dirSettingsPath.exists("databases")){
 		dirSettingsPath.mkpath("databases");
 	}
-	m_szDatabasesJsonDir = dirSettingsPath.filePath("databases");
+	m_dirDatabases = dirSettingsPath.filePath("databases");
 }
 
 QSettingsManager::~QSettingsManager()
@@ -216,61 +216,12 @@ void QSettingsManager::saveDatabaseSettings()
 	}
 }
 
-bool QSettingsManager::writeToFile(QString szFilePath, QByteArray szText)
-{
-	QFile file(szFilePath);
-	bool bGoOn = (file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate));
-
-	if(bGoOn){
-		file.write(szText);
-	}
-	file.close();
-	return bGoOn;
-}
-
-QJsonDocument QSettingsManager::parseToJsonDocument(QString szFile)
-{
-	QJsonDocument resJsonDoc;
-
-	QFile fileDatabases(szFile);
-	bool bGoOn = (fileDatabases.open(QFile::ReadOnly));
-
-	if(bGoOn)
-	{
-		QByteArray jsonFile = fileDatabases.readAll();
-		QJsonParseError jsonError;
-		resJsonDoc = QJsonDocument::fromJson(jsonFile, &jsonError);
-		if (resJsonDoc.isNull()) {
-			qDebug("[JSON Settings] Parse failed");
-		}
-	}
-	fileDatabases.close();
-	return resJsonDoc;
-}
-
-QString QSettingsManager::getStringDatabaseId(QString szDatabaseIdentifier) const
-{
-	QJsonDocument jsonDatabaseDocument = parseToJsonDocument(m_pDatabasesJsonSettings->fileName());
-	QJsonObject jsonDatabaseObject = jsonDatabaseDocument.object();
-	QJsonArray jsonDatabaseArray = jsonDatabaseObject.value("databases").toArray();
-
-	foreach(const QJsonValue & val, jsonDatabaseArray)
-	{
-		QString szIdentifier = val.toObject().value("identifier").toString();
-		if(QString::compare(szIdentifier, szDatabaseIdentifier) == 0){
-			QString szDatabaseName = val.toObject().value("name").toString();
-			return szDatabaseName.at(szDatabaseName.size()-1);
-		}
-	}
-	return "";
-}
-
 QString QSettingsManager::getDatabasesJsonDir() const
 {
-	return m_szDatabasesJsonDir.path() + "/";
+	return m_dirDatabases.path() + "/";
 }
 
-QString QSettingsManager::getDatabasesJson() const
+QString QSettingsManager::getDatabasesJsonFile() const
 {
-	return m_pDatabasesJsonSettings->fileName();
+	return m_szDatabasesFilePath;
 }

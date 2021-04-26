@@ -8,10 +8,12 @@
 #ifndef SRC_GLOBAL_APPLICATIONSETTINGS_H_
 #define SRC_GLOBAL_APPLICATIONSETTINGS_H_
 
-#include <Model/HistoryDatabaseList.h>
 #include <QString>
 #include <QList>
 
+#include "Model/HistoryDatabaseList.h"
+
+class ConfigDatabaseController;
 
 class ApplicationSettings {
 public:
@@ -25,11 +27,15 @@ public:
 	static void setHistoryList(const HistoryDatabaseList& databaseList);
 	static void addHistoryDatabase(const DatabaseModel& database);
 
+	static ConfigDatabaseController* getConfigDatabaseController();
+	static void setConfigDatabaseController(ConfigDatabaseController* pConfigDatabaseController);
+
 private:
 	static QString m_szCurrentExplorerPath;
 	static bool m_bWindowMaximized;
 
 	static HistoryDatabaseList m_listHistory;
+	static ConfigDatabaseController* m_pConfigDatabaseController;
 };
 
 #endif /* SRC_GLOBAL_APPLICATIONSETTINGS_H_ */

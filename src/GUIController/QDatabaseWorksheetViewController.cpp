@@ -12,13 +12,15 @@
 
 #include "Database/DatabaseController.h"
 
+#include "Global/ApplicationSettings.h"
+
 #include "GUI/QDatabaseWorksheetView.h"
 
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUIController/QWindowMainController.h"
 
-#include "Settings/QSettingsManager.h"
+#include "Controller/ConfigDatabaseController.h"
 
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 {
@@ -26,8 +28,6 @@ QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 	m_pDatabaseController = NULL;
 	m_pSqlHighlighterController = NULL;
 	m_pDatabaseDisplayModel = NULL;
-	m_szDatabasesJsonPath = QSettingsManager::getInstance().getDatabasesJson();
-	m_szDatabasesFilePath = QSettingsManager::getInstance().getDatabasesJsonDir();
 }
 
 QDatabaseWorksheetViewController::~QDatabaseWorksheetViewController()
@@ -45,7 +45,6 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 	m_pDatabaseWorksheetView->getImportButton()->setVisible(false);
 	m_pDatabaseWorksheetView->getExportButton()->setEnabled(false);
 
-	setJsonDatabases();
 	setRequestHistory();
 
 	m_pSqlHighlighterController = new QSqlHighlighterController(m_pDatabaseWorksheetView->getWorksheetTextEdit()->document());
@@ -78,7 +77,7 @@ void QDatabaseWorksheetViewController::executeQuery()
 	if(bRes){
 		m_pDatabaseWorksheetView->showTabData();
 		m_pDatabaseWorksheetView->getExportButton()->setEnabled(true);
-		addRequestHistoryToJson(szWorksheetQuery);
+		addRequestHistory(szWorksheetQuery);
 	} else {
 		m_pDatabaseWorksheetView->showTabConsole();
 	}
@@ -106,7 +105,8 @@ void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
 void QDatabaseWorksheetViewController::exportDataWorksheet()
 {
 	bool bEmptyText = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText().isEmpty();
-	if(!bEmptyText && m_pDatabaseWorksheetView->getExportButton()->isEnabled()){
+	if(!bEmptyText && m_pDatabaseWorksheetView->getExportButton()->isEnabled())
+	{
 		QString szErrorMsg = "";
 		bool bRes = QWindowMainController::saveSQLResultsToCSV(m_pDatabaseDisplayModel, m_pDatabaseWorksheetView, m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->orientation(), szErrorMsg);
 		if (!bRes){
@@ -127,61 +127,26 @@ void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* a
 	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(action->text());
 }
 
-void QDatabaseWorksheetViewController::setJsonDatabases()
-{
-	QJsonDocument jsonDocument = QSettingsManager::parseToJsonDocument(m_szDatabasesJsonPath);
-	QJsonObject jsonObject = jsonDocument.object();
-	QJsonArray jsonArray = jsonObject.value("databases").toArray();
-
-	int iVal = 0;
-	foreach(const QJsonValue & val, jsonArray)
-	{
-		QString szIdentifier = val.toObject().value("identifier").toString();
-		// Check if each file path exists: if not, the database is deleted from the json
-		if(!QFileInfo::exists(szIdentifier)){
-			jsonArray.removeAt(iVal);
-			iVal--;
-		}
-		iVal++;
-	}
-
-	int iLastId = 0;
-
-	if(!jsonArray.isEmpty()){
-		iLastId = jsonObject.value("last_id").toInt();
-	}
-
-	jsonObject.insert("last_id", iLastId);
-	jsonObject.insert("databases", jsonArray);
-	jsonDocument.setObject(jsonObject);
-
-	QSettingsManager::writeToFile(m_szDatabasesJsonPath, jsonDocument.toJson());
-}
-
 void QDatabaseWorksheetViewController::updateRequestHistory()
 {
 	// Update the queries in the requests history
-	m_pDatabaseWorksheetView->requestHistoryClearItems();
+	m_pDatabaseWorksheetView->clearRequestHistoryItems();
 
 	int iMaxSize = m_pDatabaseWorksheetView->window()->width();
-
 	m_pDatabaseWorksheetView->getRequestHistoryMenu()->setMaximumWidth(iMaxSize);
 
-	QString szDatabaseID = QSettingsManager::getInstance().getStringDatabaseId(m_pDatabaseController->getSqlDatabase().databaseName());
-	QString szFilePath = m_szDatabasesFilePath + "database_" + szDatabaseID + ".json";
+	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
+	QStringList szListQueries;
+	ApplicationSettings::getConfigDatabaseController()->loadDatabaseQueries(szDatabaseName, szListQueries);
 
-	QJsonDocument jsonDocument = QSettingsManager::parseToJsonDocument(szFilePath);
-	QJsonObject jsonObject = jsonDocument.object();
-	QJsonArray jsonArray = jsonObject.value("queries").toArray();
-
-	if(jsonArray.isEmpty()){
+	if(szListQueries.isEmpty()){
 		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(false);
 	}else{
 		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(true);
 
-		foreach(const QJsonValue & val, jsonArray){
-			QString szValue = val.toString();
-			m_pDatabaseWorksheetView->requestHistoryAddItem(szValue);
+		foreach(const QString& szQuery, szListQueries)
+		{
+			m_pDatabaseWorksheetView->addRequestHistoryItem(szQuery);
 		}
 	}
 }
@@ -189,19 +154,15 @@ void QDatabaseWorksheetViewController::updateRequestHistory()
 void QDatabaseWorksheetViewController::setRequestHistory()
 {
 	QString szDatabaseIdentifier = m_pDatabaseController->getSqlDatabase().databaseName();
-	QString szDatabaseName = m_pDatabaseController->getDatabaseName();
 
 	bool bDatabaseExists = false;
 
-	QJsonDocument jsonDocument = QSettingsManager::parseToJsonDocument(m_szDatabasesJsonPath);
-	QJsonObject jsonObject = jsonDocument.object();
-	QJsonValue jsonID = jsonObject.value("last_id");
-	QJsonArray jsonArray = jsonObject.value("databases").toArray();
+	ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
 
-	foreach(const QJsonValue & val, jsonArray)
+	foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
 	{
-		QString szIdentifier = val.toObject().value("identifier").toString();
-		if(QString::compare(szIdentifier, szDatabaseIdentifier) == 0){
+		if(QString::compare(configDatabase.getDatabaseIdentifier(), szDatabaseIdentifier) == 0)
+		{
 			bDatabaseExists = true;
 		}
 	}
@@ -209,42 +170,40 @@ void QDatabaseWorksheetViewController::setRequestHistory()
 	// Add a new database to databases.json
 	if(!bDatabaseExists)
 	{
-		// Add an ID in the name of the file
-		szDatabaseName = "database_" + QString::number(jsonID.toInt());
-		int iNewId = jsonID.toInt() + 1;
+		int iNextID = ApplicationSettings::getConfigDatabaseController()->getNextID();
+		bool bTakenID = false;
 
-		QJsonObject newJsonObject;
-		newJsonObject.insert("identifier", szDatabaseIdentifier);
-		newJsonObject.insert("name", szDatabaseName);
+		do{
+			bTakenID = false;
+			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+			{
+				if(configDatabase.getDatabaseID() == iNextID)
+				{
+					bTakenID = true;
+					iNextID++;
+				}
+			}
+		}while(bTakenID);
 
-		jsonArray.push_back(newJsonObject);
-		QJsonObject jsonArrayToObject;
-		jsonArrayToObject.insert("last_id", iNewId);
-		jsonArrayToObject.insert("databases", jsonArray);
-		jsonDocument.setObject(jsonArrayToObject);
-
-		bool bGoOn = QSettingsManager::writeToFile(m_szDatabasesJsonPath, jsonDocument.toJson());
+		ConfigDatabase configDatabaseNew(szDatabaseIdentifier, iNextID);
+		ApplicationSettings::getConfigDatabaseController()->addDatabase(configDatabaseNew);
+		bool bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
 
 		if(bGoOn)
 		{
 			// Create a new json file for the requests corresponding to the database
-			QJsonObject newDatabaseJsonObject;
-			QJsonArray newDatabaseJsonArray;
-			newDatabaseJsonObject.insert("queries", newDatabaseJsonArray);
-			QJsonDocument newDatabaseJsonDocument;
-			newDatabaseJsonDocument.setObject(newDatabaseJsonObject);
-
-			bGoOn = QSettingsManager::writeToFile(m_szDatabasesFilePath + szDatabaseName + ".json", newDatabaseJsonDocument.toJson());
+			QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
+			bGoOn = ApplicationSettings::getConfigDatabaseController()->initDatabaseQueries(szDatabaseName);
 		}
 
 		if(!bGoOn){
-			qDebug("[Worsheet History] Error while writing databases");
+			qDebug("[Worsheet requests history] Error while writing databases");
 		}
 	}
 	updateRequestHistory();
 }
 
-void QDatabaseWorksheetViewController::addRequestHistoryToJson(QString szWorksheetQuery)
+void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksheetQuery)
 {
 	// Check the duplicate requests and set a maximum of requests
 	bool bGoOn = true;
@@ -257,38 +216,33 @@ void QDatabaseWorksheetViewController::addRequestHistoryToJson(QString szWorkshe
 
 	if(bGoOn)
 	{
-		QString szDatabaseID = QSettingsManager::getInstance().getStringDatabaseId(m_pDatabaseController->getSqlDatabase().databaseName());
-		QString szFilePath = m_szDatabasesFilePath + "database_" + szDatabaseID + ".json";
-		QJsonDocument jsonDocument = QSettingsManager::parseToJsonDocument(szFilePath);
-		QJsonObject jsonObject;
-		QJsonArray jsonArray = jsonDocument.object().find("queries").value().toArray();
+		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
+
+		QStringList szListQueries;
+		ApplicationSettings::getConfigDatabaseController()->loadDatabaseQueries(szDatabaseName, szListQueries);
 
 		int iVal = 0;
-		foreach(const QJsonValue & val, jsonArray){
-			QString szRequest = val.toString();
-			if(QString::compare(szRequest.simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
-				jsonArray.removeAt(iVal);
+		foreach(const QString& szQuery, szListQueries)
+		{
+			if(QString::compare(szQuery.simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
+				szListQueries.removeAt(iVal);
 				break;
 			}
 			iVal++;
 		}
 
-		if((jsonArray.size() < 0 || jsonArray.size() > iMaxRequestHistory) && bGoOn){
+		if((szListQueries.size() < 0 || szListQueries.size() > iMaxRequestHistory) && bGoOn){
 			bGoOn = false;
 		}
 
-		if(jsonArray.size() == iMaxRequestHistory && bGoOn){
-			jsonArray.removeLast();
+		if(szListQueries.size() == iMaxRequestHistory && bGoOn){
+			szListQueries.removeLast();
 		}
 
 		if(bGoOn)
 		{
-			jsonArray.push_front(szWorksheetQuery);
-			jsonObject.insert("queries", jsonArray);
-			QJsonDocument jsonDocument;
-			jsonDocument.setObject(jsonObject);
-
-			bGoOn = QSettingsManager::writeToFile(szFilePath, jsonDocument.toJson());
+			ApplicationSettings::getConfigDatabaseController()->addDatabaseQuery(szWorksheetQuery, szListQueries);
+			bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabaseQueries(szDatabaseName, szListQueries);
 		}
 	}
 

@@ -12,6 +12,8 @@ bool ApplicationSettings::m_bWindowMaximized;
 
 HistoryDatabaseList ApplicationSettings::m_listHistory;
 
+ConfigDatabaseController* ApplicationSettings::m_pConfigDatabaseController = NULL;
+
 const QString& ApplicationSettings::getCurrentExplorerPath()
 {
 	return m_szCurrentExplorerPath;
@@ -45,4 +47,14 @@ void ApplicationSettings::setHistoryList(const HistoryDatabaseList& databaseList
 void ApplicationSettings::addHistoryDatabase(const DatabaseModel& database)
 {
 	m_listHistory.append(database);
+}
+
+ConfigDatabaseController* ApplicationSettings::getConfigDatabaseController()
+{
+	return m_pConfigDatabaseController;
+}
+
+void ApplicationSettings::setConfigDatabaseController(ConfigDatabaseController* pConfigDatabaseController)
+{
+	m_pConfigDatabaseController = pConfigDatabaseController;
 }

@@ -80,6 +80,13 @@ int main(int argc, char *argv[])
 	QSettingsManager::getInstance().loadConfigSettings();
 	QSettingsManager::getInstance().loadDatabaseSettings();
 
+	ConfigDatabaseController* pDatabaseController = new ConfigDatabaseController();
+	ApplicationSettings::setConfigDatabaseController(pDatabaseController);
+	if(bGoOn){
+		qDebug("[Main] Initializing database controller");
+		bGoOn = pDatabaseController->initDatabasesList();
+	}
+
 	// Init GUI
 	QWindowMain* pWindowMain = NULL;
 	QWindowMainController pWindowMainController;
@@ -93,7 +100,7 @@ int main(int argc, char *argv[])
 	if(bGoOn && pWindowMain){
 		qDebug("[Main] Show application");
 		if (ApplicationSettings::getWindowMaximized()){
-					pWindowMain->showMaximized();
+			pWindowMain->showMaximized();
 		}else{
 			pWindowMain->show();
 		}
@@ -118,6 +125,11 @@ int main(int argc, char *argv[])
 	if(pWindowMain){
 		delete pWindowMain;
 		pWindowMain = NULL;
+	}
+
+	if(pDatabaseController){
+		delete pDatabaseController;
+		pDatabaseController = NULL;
 	}
 
 	qDebug("[Main] Shutdown application");

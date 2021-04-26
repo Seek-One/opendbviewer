@@ -61,7 +61,7 @@ QToolBar* QDatabaseWorksheetView::makeWorksheetToolbar()
 
 	m_pRequestHistoryButton = new QPushButton(tr("Last requests"));
 	m_pRequestHistoryMenu = new QMenu();
-	m_pRequestHistoryButton->setMenu(m_pRequestHistoryMenu);;
+	m_pRequestHistoryButton->setMenu(m_pRequestHistoryMenu);
 	pWorksheetToolbar->addWidget(m_pRequestHistoryButton);
 	//m_pRequestHistoryButton->setToolTip(tr("Get request history"));
 
@@ -128,13 +128,14 @@ QMenu* QDatabaseWorksheetView::getRequestHistoryMenu() const
 	return m_pRequestHistoryMenu;
 }
 
-void QDatabaseWorksheetView::requestHistoryAddItem(QString szItemText){
+void QDatabaseWorksheetView::addRequestHistoryItem(const QString& szItemText)
+{
 	QAction* pAction = new QAction(szItemText, this);
 	m_pRequestHistoryMenu->addAction(pAction);
 }
 
-void QDatabaseWorksheetView::requestHistoryClearItems(){
+void QDatabaseWorksheetView::clearRequestHistoryItems()
+{
 	m_pRequestHistoryMenu->clear();
 }
-
 

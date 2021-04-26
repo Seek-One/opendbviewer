@@ -186,6 +186,8 @@ set(APPLICATION_MODEL_SOURCES
     src/Model/HistoryDatabaseList.h
     src/Model/DatabaseModel.cpp
     src/Model/DatabaseModel.h
+    src/Model/ConfigDatabase.cpp
+    src/Model/ConfigDatabase.h
 )
 
 set(APPLICATION_SOURCES
@@ -243,6 +245,8 @@ set(APPLICATION_SOURCES
     src/GUIModel/HTMLDelegate.h
     src/Image/QIconThemeFallback.cpp
     src/Image/QIconThemeFallback.h
+    src/Controller/ConfigDatabaseController.cpp
+    src/Controller/ConfigDatabaseController.h
     src/Database/DatabaseController.cpp
     src/Database/DatabaseController.h
     src/Database/DatabaseControllerMysql.cpp

@@ -8,13 +8,12 @@
 #ifndef SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 #define SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_
 
+#include "Controller/ConfigDatabaseController.h"
 #include "Database/DatabaseController.h"
-
 #include "GUI/QDatabaseWorksheetView.h"
 
 #include <QDebug>
 #include <QTextCursor>
-#include <QJsonDocument>
 
 class QDatabaseWorksheetView;
 
@@ -30,8 +29,7 @@ public:
 
 	void updateRequestHistory();
 	void setRequestHistory();
-	void setJsonDatabases();
-	void addRequestHistoryToJson(QString szWorksheetQuery);
+	void addRequestHistory(const QString& szWorksheetQuery);
 
 public slots:
 	void executeQuery();
@@ -46,9 +44,6 @@ private:
 	DatabaseController* m_pDatabaseController;
 	QSqlHighlighterController* m_pSqlHighlighterController;
 	QSqlDisplayQueryModel* m_pDatabaseDisplayModel;
-
-	QString m_szDatabasesJsonPath;
-	QString m_szDatabasesFilePath;
 };
 
 #endif /* SRC_GUICONTROLLER_QDATABASEWORKSHEETVIEWCONTROLLER_H_ */

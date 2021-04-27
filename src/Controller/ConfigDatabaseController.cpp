@@ -101,13 +101,19 @@ bool ConfigDatabaseController::saveDatabasesList()
 	QJsonArray jsonArray;
 	int iNextID = 0;
 
+	int iMaxDatabases = 15;
+	int iDatabasesCounter = 0;
 	foreach(const ConfigDatabase& configDatabase, m_listConfigDatabase)
 	{
-		QJsonObject jsonNewObject;
-		jsonNewObject.insert("identifier", configDatabase.getDatabaseIdentifier());
-		jsonNewObject.insert("name", configDatabase.getDatabaseName());
-		jsonArray.push_back(jsonNewObject);
-		iNextID = qMax(configDatabase.getDatabaseID(), iNextID);
+		if(iDatabasesCounter < iMaxDatabases)
+		{
+			QJsonObject jsonNewObject;
+			jsonNewObject.insert("identifier", configDatabase.getDatabaseIdentifier());
+			jsonNewObject.insert("name", configDatabase.getDatabaseName());
+			jsonArray.push_back(jsonNewObject);
+			iNextID = qMax(configDatabase.getDatabaseID(), iNextID);
+		}
+		iDatabasesCounter++;
 	}
 
 	jsonObject.insert("next_id", iNextID + 1);
@@ -119,7 +125,13 @@ bool ConfigDatabaseController::saveDatabasesList()
 
 void ConfigDatabaseController::addDatabase(const ConfigDatabase& configDatabase)
 {
-	m_listConfigDatabase.append(configDatabase);
+	m_listConfigDatabase.push_front(configDatabase);
+}
+
+void ConfigDatabaseController::moveDatabaseFirstInList(const ConfigDatabase& configDatabase, int iIndex)
+{
+	m_listConfigDatabase.removeAt(iIndex);
+	m_listConfigDatabase.push_front(configDatabase);
 }
 
 bool ConfigDatabaseController::initDatabaseQueries(const QString& szName)

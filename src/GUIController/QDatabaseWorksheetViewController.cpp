@@ -42,7 +42,7 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 	m_pDatabaseWorksheetView->getImportButton()->setVisible(false);
 	m_pDatabaseWorksheetView->getExportButton()->setEnabled(false);
 
-	setRequestHistory();
+	initRequestHistory();
 
 	m_pSqlHighlighterController = new QSqlHighlighterController(m_pDatabaseWorksheetView->getWorksheetTextEdit()->document());
 
@@ -124,6 +124,68 @@ void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* a
 	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(action->data().toString());
 }
 
+void QDatabaseWorksheetViewController::initRequestHistory()
+{
+	QString szDatabaseIdentifier = m_pDatabaseController->getSqlDatabase().databaseName();
+
+	bool bGoOn = true;
+	bool bDatabaseExists = false;
+
+	ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
+
+	int iDatabaseIndex = 0;
+	foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+	{
+		if(QString::compare(configDatabase.getDatabaseIdentifier(), szDatabaseIdentifier) == 0)
+		{
+			bDatabaseExists = true;
+			ApplicationSettings::getConfigDatabaseController()->moveDatabaseFirstInList(configDatabase, iDatabaseIndex);
+			break;
+		}
+		iDatabaseIndex++;
+	}
+
+	// Add a new database to the databases list
+	if(!bDatabaseExists)
+	{
+		int iNextID = ApplicationSettings::getConfigDatabaseController()->getNextID();
+		bool bTakenID = false;
+
+		do{
+			bTakenID = false;
+			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+			{
+				if(configDatabase.getDatabaseID() == iNextID)
+				{
+					bTakenID = true;
+					iNextID++;
+				}
+			}
+		}while(bTakenID);
+
+		ConfigDatabase configDatabaseNew(szDatabaseIdentifier, iNextID);
+		ApplicationSettings::getConfigDatabaseController()->addDatabase(configDatabaseNew);
+
+		// Create a new json file for the requests corresponding to the database
+		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
+		bGoOn = ApplicationSettings::getConfigDatabaseController()->initDatabaseQueries(szDatabaseName);
+
+		if(!bGoOn){
+			qDebug("[Worsheet requests history] Error while writing databases");
+		}
+	}
+
+	// Update the databases list
+	if(bGoOn){
+		bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
+	}
+
+	if(bGoOn){
+		updateRequestHistory();
+	}
+
+}
+
 void QDatabaseWorksheetViewController::updateRequestHistory()
 {
 	// Update the queries in the requests history
@@ -158,64 +220,12 @@ void QDatabaseWorksheetViewController::updateRequestHistory()
 	}
 }
 
-void QDatabaseWorksheetViewController::setRequestHistory()
-{
-	QString szDatabaseIdentifier = m_pDatabaseController->getSqlDatabase().databaseName();
-
-	bool bDatabaseExists = false;
-
-	ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
-
-	foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
-	{
-		if(QString::compare(configDatabase.getDatabaseIdentifier(), szDatabaseIdentifier) == 0)
-		{
-			bDatabaseExists = true;
-		}
-	}
-
-	// Add a new database to databases.json
-	if(!bDatabaseExists)
-	{
-		int iNextID = ApplicationSettings::getConfigDatabaseController()->getNextID();
-		bool bTakenID = false;
-
-		do{
-			bTakenID = false;
-			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
-			{
-				if(configDatabase.getDatabaseID() == iNextID)
-				{
-					bTakenID = true;
-					iNextID++;
-				}
-			}
-		}while(bTakenID);
-
-		ConfigDatabase configDatabaseNew(szDatabaseIdentifier, iNextID);
-		ApplicationSettings::getConfigDatabaseController()->addDatabase(configDatabaseNew);
-		bool bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
-
-		if(bGoOn)
-		{
-			// Create a new json file for the requests corresponding to the database
-			QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
-			bGoOn = ApplicationSettings::getConfigDatabaseController()->initDatabaseQueries(szDatabaseName);
-		}
-
-		if(!bGoOn){
-			qDebug("[Worsheet requests history] Error while writing databases");
-		}
-	}
-	updateRequestHistory();
-}
-
 void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksheetQuery)
 {
-	// Check the duplicate requests and set a maximum of requests
 	bool bGoOn = true;
 
-	const int iMaxRequestHistory = 15;
+	// Set a maximum of requests
+	int iMaxRequestHistory = 15;
 
 	if(szWorksheetQuery.isEmpty()){
 		bGoOn = false;
@@ -228,6 +238,7 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 		QStringList szListQueries;
 		ApplicationSettings::getConfigDatabaseController()->loadDatabaseQueries(szDatabaseName, szListQueries);
 
+		// Check the duplicate requests
 		int iVal = 0;
 		foreach(const QString& szQuery, szListQueries)
 		{
@@ -246,10 +257,28 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 			szListQueries.removeLast();
 		}
 
+		// Add the query to the corresponding database
 		if(bGoOn)
 		{
 			ApplicationSettings::getConfigDatabaseController()->addDatabaseQuery(szWorksheetQuery, szListQueries);
 			bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabaseQueries(szDatabaseName, szListQueries);
+		}
+
+		// Update the databases list
+		if(bGoOn)
+		{
+			ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
+
+			int iDatabaseIndex = 0;
+			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+			{
+				if(QString::compare(configDatabase.getDatabaseName(), szDatabaseName) == 0)
+				{
+					ApplicationSettings::getConfigDatabaseController()->moveDatabaseFirstInList(configDatabase, iDatabaseIndex);
+					bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
+				}
+				iDatabaseIndex++;
+			}
 		}
 	}
 

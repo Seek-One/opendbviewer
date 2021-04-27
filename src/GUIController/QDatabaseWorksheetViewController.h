@@ -27,8 +27,8 @@ public:
 	void init(QDatabaseWorksheetView* pDatabaseWorksheetView, DatabaseController* pDatabaseController);
 	void showWorksheetQueryInformation();
 
+	void initRequestHistory();
 	void updateRequestHistory();
-	void setRequestHistory();
 	void addRequestHistory(const QString& szWorksheetQuery);
 
 public slots:

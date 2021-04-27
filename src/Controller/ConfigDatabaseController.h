@@ -24,6 +24,7 @@ public:
 
 	bool saveDatabasesList();
 	void addDatabase(const ConfigDatabase& configDatabase);
+	void moveDatabaseFirstInList(const ConfigDatabase& configDatabase, int iIndex);
 
 	bool initDatabaseQueries(const QString& szName);
 	void addDatabaseQuery(const QString& szQuery, QStringList& listQueries);

@@ -12,7 +12,6 @@
 #include <QString>
 
 #include "Database/DatabaseController.h"
-#include "QWindowMainController.h"
 
 class QWindowMainController;
 class QDatabaseConnectionViewController;

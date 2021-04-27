@@ -9,6 +9,7 @@
 #define SRC_MODEL_CONFIGDATABASE_H_
 
 #include <QList>
+#include <QString>
 
 class ConfigDatabase {
 public:

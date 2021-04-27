@@ -242,23 +242,23 @@
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="114"/>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="110"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="114"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="110"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
         <source>Unable to export the data:</source>
         <translation>Impossible d&apos;exporter les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="117"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
         <source>There is no data to export.</source>
         <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>
@@ -468,48 +468,48 @@
 <context>
     <name>QOpenDatabaseViewController</name>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="57"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="58"/>
         <source>Select a file</source>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="57"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="58"/>
         <source>SQLite files (*.sqlite *.db)</source>
         <translation>Fichiers SQLite (*.sqlite *.db)</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="152"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="153"/>
         <source>Please select a valid SQLite file</source>
         <translation>Veuillez choisir un fichier SQLite valide</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="160"/>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="168"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="161"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="169"/>
         <source>Please enter the necessary information.</source>
         <translation>Veuillez entrer les informations nécessaires.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="178"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="179"/>
         <source>Invalid Informations</source>
         <translation>Informations invalides</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="239"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="240"/>
         <source>Unable to connect to the database, please check the connection information.</source>
         <translation>Impossible de se connecter à la base de données, veuillez vérifier les informations de connexion.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="254"/>
         <source>Database problem</source>
         <translation>Problème de base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="253"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="254"/>
         <source>Problem while loading database tables</source>
         <translation>Problème durant le chargement des tables de la base de données</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="265"/>
+        <location filename="../src/GUIController/QOpenDatabaseViewController.cpp" line="266"/>
         <source>Connection error</source>
         <translation>Erreur de connexion</translation>
     </message>

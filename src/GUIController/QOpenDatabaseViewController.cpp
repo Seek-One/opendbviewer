@@ -22,6 +22,7 @@
 #include "GUI/QWindowMain.h"
 #include "QDatabaseConnectionViewController.h"
 #include "QOpenDatabaseViewController.h"
+#include "QWindowMainController.h"
 #include "Settings/QSettingsManager.h"
 
 QOpenDatabaseViewController::QOpenDatabaseViewController(QWindowMain* pMainWindow, QWindowMainController* pMainWindowController)

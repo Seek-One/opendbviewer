@@ -261,6 +261,8 @@ set(APPLICATION_SOURCES
     src/Widget/QDropAreaWidget.h
     src/Widget/QFileExplorerWidget.cpp
     src/Widget/QFileExplorerWidget.h
+    src/Widget/QHistoryMenuWidget.cpp
+    src/Widget/QHistoryMenuWidget.h
     src/Widget/QMidClickClosableTabWidget.cpp
     src/Widget/QMidClickClosableTabWidget.h
 )
@@ -290,6 +292,7 @@ set(APPLICATION_MOC_HEADERS
     src/GUIModel/QSqlDisplayTableModel.h
     src/Widget/QDropAreaWidget.h
     src/Widget/QFileExplorerWidget.h
+    src/Widget/QHistoryMenuWidget.h
 )
 qt_wrap_cpp(
     APPLICATION_MOC_OUTFILES
@@ -322,6 +325,7 @@ set (I18N_FILES
     src/GUIController/QWindowMainController.cpp
     src/Widget/QDropAreaWidget.cpp
     src/Widget/QFileExplorerWidget.cpp
+    src/Widget/QHistoryMenuWidget.cpp
 )
 
 set (TS_FILES

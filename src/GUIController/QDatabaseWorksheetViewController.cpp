@@ -10,6 +10,7 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <QFont>
+#include <QWidgetAction>
 
 #include "Controller/ConfigDatabaseController.h"
 #include "Database/DatabaseController.h"
@@ -18,6 +19,7 @@
 #include "GUIController/QDatabaseWorksheetViewController.h"
 #include "GUIController/QDatabaseTableViewController.h"
 #include "GUIController/QWindowMainController.h"
+#include "Widget/QHistoryMenuWidget.h"
 
 QDatabaseWorksheetViewController::QDatabaseWorksheetViewController()
 {
@@ -119,14 +121,10 @@ void QDatabaseWorksheetViewController::setExportButtonDisabled()
 	m_pDatabaseWorksheetView->getExportButton()->setEnabled(false);
 }
 
-void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* action)
-{
-	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(action->data().toString());
-}
-
 void QDatabaseWorksheetViewController::initRequestHistory()
 {
 	QString szDatabaseIdentifier = m_pDatabaseController->getSqlDatabase().databaseName();
+	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
 
 	bool bGoOn = true;
 	bool bDatabaseExists = false;
@@ -166,65 +164,39 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 		ConfigDatabase configDatabaseNew(szDatabaseIdentifier, iNextID);
 		ApplicationSettings::getConfigDatabaseController()->addDatabase(configDatabaseNew);
 
-		// Create a new json file for the requests corresponding to the database
-		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
-		bGoOn = ApplicationSettings::getConfigDatabaseController()->initDatabaseQueries(szDatabaseName);
+		// Create a new file to store the queries corresponding to the database
+		bGoOn = ApplicationSettings::getConfigDatabaseController()->initQueries(szDatabaseName);
 
 		if(!bGoOn){
 			qDebug("[Worsheet requests history] Error while writing databases");
 		}
 	}
 
-	// Update the databases list
 	if(bGoOn){
 		bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
 	}
 
-	if(bGoOn){
-		updateRequestHistory();
-	}
+	if(bGoOn)
+	{
+		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
+		QStringList szListQueries;
+		ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
 
-}
-
-void QDatabaseWorksheetViewController::updateRequestHistory()
-{
-	// Update the queries in the requests history
-	m_pDatabaseWorksheetView->clearRequestHistoryItems();
-
-	int iMaxSize = m_pDatabaseWorksheetView->window()->width();
-	m_pDatabaseWorksheetView->getRequestHistoryMenu()->setMaximumWidth(iMaxSize);
-
-	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
-	QStringList szListQueries;
-	ApplicationSettings::getConfigDatabaseController()->loadDatabaseQueries(szDatabaseName, szListQueries);
-
-	if(szListQueries.isEmpty()){
-		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(false);
-	}else{
-		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(true);
-
-		int iMargin = iMaxSize/10;
-
-		foreach(const QString& szQuery, szListQueries)
+		/* Why a reverse loop ?
+		* 'addQueryToMenu(szQuery)' add query as first item in menu
+		* But the queries read in the file are already in the other way*/
+		for(int i = szListQueries.size()-1; i >= 0; i--)
 		{
-			QFontMetrics fontMetrics = m_pDatabaseWorksheetView->getRequestHistoryMenu()->fontMetrics();
-			int iElidedTextSize = fontMetrics.width(szQuery);
-
-			if(iElidedTextSize >= iMaxSize - iMargin){
-				QString szElidedText = fontMetrics.elidedText(szQuery, Qt::ElideMiddle, iMaxSize - iMargin);
-				m_pDatabaseWorksheetView->addRequestHistoryItem(szElidedText, szQuery);
-			}else{
-				m_pDatabaseWorksheetView->addRequestHistoryItem(szQuery, szQuery);
-			}
+			addQueryToMenu(szListQueries.at(i));
 		}
+
+		updateAvailabilityMenu();
 	}
 }
 
 void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksheetQuery)
 {
 	bool bGoOn = true;
-
-	// Set a maximum of requests
 	int iMaxRequestHistory = 15;
 
 	if(szWorksheetQuery.isEmpty()){
@@ -236,17 +208,19 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
 
 		QStringList szListQueries;
-		ApplicationSettings::getConfigDatabaseController()->loadDatabaseQueries(szDatabaseName, szListQueries);
+		ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
 
 		// Check the duplicate requests
-		int iVal = 0;
+		int iCounter = 0;
 		foreach(const QString& szQuery, szListQueries)
 		{
 			if(QString::compare(szQuery.simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
-				szListQueries.removeAt(iVal);
+				szListQueries.removeAt(iCounter);
+				QAction* pActionToRemove = m_pDatabaseWorksheetView->getRequestHistoryMenu()->actions().at(iCounter);
+				m_pDatabaseWorksheetView->getRequestHistoryMenu()->removeAction(pActionToRemove);
 				break;
 			}
-			iVal++;
+			iCounter++;
 		}
 
 		if((szListQueries.size() < 0 || szListQueries.size() > iMaxRequestHistory) && bGoOn){
@@ -260,8 +234,9 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 		// Add the query to the corresponding database
 		if(bGoOn)
 		{
-			ApplicationSettings::getConfigDatabaseController()->addDatabaseQuery(szWorksheetQuery, szListQueries);
-			bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabaseQueries(szDatabaseName, szListQueries);
+			addQueryToMenu(szWorksheetQuery);
+			ApplicationSettings::getConfigDatabaseController()->addQuery(szWorksheetQuery, szListQueries);
+			bGoOn = ApplicationSettings::getConfigDatabaseController()->saveQueries(szDatabaseName, szListQueries);
 		}
 
 		// Update the databases list
@@ -281,8 +256,82 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 			}
 		}
 	}
+	updateAvailabilityMenu();
+}
+
+void QDatabaseWorksheetViewController::addQueryToMenu(const QString& szQuery)
+{
+	int iMaxSize = m_pDatabaseWorksheetView->window()->width();
+	int iMargin = iMaxSize/10;
+	m_pDatabaseWorksheetView->getRequestHistoryMenu()->setMaximumWidth(iMaxSize);
+
+	QMenu* pMenu = m_pDatabaseWorksheetView->getRequestHistoryMenu();
+	QHistoryMenuWidget* pHistoryMenuWidget = new QHistoryMenuWidget(pMenu, szQuery);
+
+	connect(pHistoryMenuWidget, SIGNAL(signalAboutToBeRemoved(const QString&)), this, SLOT(removeQuery(const QString&)));
+
+	QFontMetrics fontMetrics = m_pDatabaseWorksheetView->getRequestHistoryMenu()->fontMetrics();
+	int iElidedTextSize = fontMetrics.width(szQuery);
+
+	if(iElidedTextSize >= iMaxSize - iMargin){
+		QString szElidedText = fontMetrics.elidedText(szQuery, Qt::ElideMiddle, iMaxSize - iMargin);
+		pHistoryMenuWidget->setTextLabel(szElidedText);
+	}else{
+		pHistoryMenuWidget->setTextLabel(szQuery);
+	}
+
+	QWidgetAction* pWidgetAction = new QWidgetAction(this);
+	pWidgetAction->setDefaultWidget(pHistoryMenuWidget);
+	pWidgetAction->setData(szQuery);
+
+	// Insert action at first in the menu
+	QList<QAction*> listAction = pMenu->actions();
+	if(listAction.isEmpty()){
+		pMenu->addAction(pWidgetAction);
+	}else{
+		pMenu->insertAction(listAction.at(0), pWidgetAction);
+	}
+}
+
+void QDatabaseWorksheetViewController::removeQuery(const QString& szQuery)
+{
+	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
+	QStringList szListQueries;
+	ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
+	bool bGoOn = ApplicationSettings::getConfigDatabaseController()->removeQuery(szQuery, szListQueries);
 
 	if(bGoOn){
-		updateRequestHistory();
+		bGoOn = ApplicationSettings::getConfigDatabaseController()->saveQueries(szDatabaseName, szListQueries);
 	}
+
+	if(bGoOn)
+	{
+		QMenu* pMenu = m_pDatabaseWorksheetView->getRequestHistoryMenu();
+		foreach(QAction* pAction, pMenu->actions())
+		{
+			if(QString::compare(pAction->data().toString(), szQuery) == 0)
+			{
+				pMenu->removeAction(pAction);
+				break;
+			}
+		}
+		updateAvailabilityMenu();
+	}
+}
+
+void QDatabaseWorksheetViewController::updateAvailabilityMenu()
+{
+	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
+	QStringList szListQueries;
+	ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
+	if(szListQueries.isEmpty()){
+		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(false);
+	}else{
+		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(true);
+	}
+}
+
+void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* pAction)
+{
+	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(pAction->data().toString());
 }

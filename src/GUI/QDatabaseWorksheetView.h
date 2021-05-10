@@ -41,9 +41,6 @@ public:
 	void showTabData();
 	void showTabConsole();
 
-	void addRequestHistoryItem(const QString& szItemText, const QString& szItemData);
-	void clearRequestHistoryItems();
-
 private:
 	QToolBar* makeWorksheetToolbar();
 
@@ -51,10 +48,10 @@ private:
 	QPushButton *m_pExecuteButton;
 	QPushButton *m_pReformatButton;
 	QPushButton *m_pClearTextButton;
-	QPushButton* m_pRequestHistoryButton;
-	QMenu* m_pRequestHistoryMenu;
 	QSqlSourceView* m_pWorksheetTextEdit;
 	QQueryResultView* m_pQueryResultView;
+	QMenu* m_pRequestHistoryMenu;
+	QPushButton* m_pRequestHistoryButton;	
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

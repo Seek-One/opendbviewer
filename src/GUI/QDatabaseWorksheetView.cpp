@@ -127,15 +127,3 @@ QMenu* QDatabaseWorksheetView::getRequestHistoryMenu() const
 {
 	return m_pRequestHistoryMenu;
 }
-
-void QDatabaseWorksheetView::addRequestHistoryItem(const QString& szItemText, const QString& szItemData)
-{
-	QAction* pAction = new QAction(szItemText, this);
-	pAction->setData(szItemData);
-	m_pRequestHistoryMenu->addAction(pAction);
-}
-
-void QDatabaseWorksheetView::clearRequestHistoryItems()
-{
-	m_pRequestHistoryMenu->clear();
-}

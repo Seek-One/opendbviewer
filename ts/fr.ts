@@ -242,23 +242,23 @@
 <context>
     <name>QDatabaseWorksheetViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="110"/>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="112"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="110"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="112"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
         <source>Unable to export the data:</source>
         <translation>Impossible d&apos;exporter les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="113"/>
+        <location filename="../src/GUIController/QDatabaseWorksheetViewController.cpp" line="115"/>
         <source>There is no data to export.</source>
         <translation>Il n&apos;y a pas de données à exporter.</translation>
     </message>
@@ -332,6 +332,14 @@
         <location filename="../src/Widget/QFileExplorerWidget.cpp" line="62"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
+    </message>
+</context>
+<context>
+    <name>QHistoryMenuWidget</name>
+    <message>
+        <location filename="../src/Widget/QHistoryMenuWidget.cpp" line="30"/>
+        <source>Delete</source>
+        <translation type="unfinished">Supprimer</translation>
     </message>
 </context>
 <context>
@@ -642,6 +650,13 @@
         <location filename="../src/GUIController/QWindowMainController.cpp" line="175"/>
         <source>Loading: exporting data</source>
         <translation>Chargement : export en cours</translation>
+    </message>
+</context>
+<context>
+    <name>QWorksheetMenuWidget</name>
+    <message>
+        <source>Delete</source>
+        <translation type="vanished">Supprimer</translation>
     </message>
 </context>
 </TS>

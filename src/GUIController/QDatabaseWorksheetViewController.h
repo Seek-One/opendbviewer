@@ -28,7 +28,8 @@ public:
 	void showWorksheetQueryInformation();
 
 	void initRequestHistory();
-	void updateRequestHistory();
+	void updateAvailabilityMenu();
+	void addQueryToMenu(const QString& szQuery);
 	void addRequestHistory(const QString& szWorksheetQuery);
 
 public slots:
@@ -38,6 +39,7 @@ public slots:
 	void exportDataWorksheet();
 	void setExportButtonDisabled();
 	void changeWorksheetTextFromHistory(QAction* action);
+	void removeQuery(const QString& szQuery);
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;

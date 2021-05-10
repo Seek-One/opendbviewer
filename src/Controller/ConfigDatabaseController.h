@@ -26,10 +26,11 @@ public:
 	void addDatabase(const ConfigDatabase& configDatabase);
 	void moveDatabaseFirstInList(const ConfigDatabase& configDatabase, int iIndex);
 
-	bool initDatabaseQueries(const QString& szName);
-	void addDatabaseQuery(const QString& szQuery, QStringList& listQueries);
-	void loadDatabaseQueries(const QString& szName, QStringList& listQueries);
-	bool saveDatabaseQueries(const QString& szName, const QStringList& listQueries);
+	bool initQueries(const QString& szName);
+	void addQuery(const QString& szQuery, QStringList& listQueries);
+	bool removeQuery(const QString& szQuery, QStringList& listQueries);
+	void loadQueries(const QString& szName, QStringList& listQueries);
+	bool saveQueries(const QString& szName, const QStringList& listQueries);
 
 	QString getDatabaseName(const QString& szDatabaseIdentifier) const;
 	const ConfigDatabaseList& getDatabaseList() const;

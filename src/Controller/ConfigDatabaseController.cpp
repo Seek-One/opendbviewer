@@ -134,7 +134,7 @@ void ConfigDatabaseController::moveDatabaseFirstInList(const ConfigDatabase& con
 	m_listConfigDatabase.push_front(configDatabase);
 }
 
-bool ConfigDatabaseController::initDatabaseQueries(const QString& szName)
+bool ConfigDatabaseController::initQueries(const QString& szName)
 {
 	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
 	QJsonObject newDatabaseJsonObject;
@@ -146,25 +146,30 @@ bool ConfigDatabaseController::initDatabaseQueries(const QString& szName)
 	return writeToFile(szFilePath, newDatabaseJsonDocument.toJson());
 }
 
-void ConfigDatabaseController::loadDatabaseQueries(const QString& szName, QStringList& listQueries)
+void ConfigDatabaseController::loadQueries(const QString& szName, QStringList& szListQueries)
 {
 	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);
 	QJsonArray jsonArray = jsonDocument.object().find("queries").value().toArray();
 
-	listQueries.clear();
+	szListQueries.clear();
 	foreach(const QJsonValue& val, jsonArray)
 	{
-		listQueries.append(val.toString());
+		szListQueries.append(val.toString());
 	}
 }
 
-void ConfigDatabaseController::addDatabaseQuery(const QString& szQuery, QStringList& listQueries)
+void ConfigDatabaseController::addQuery(const QString& szQuery, QStringList& szListQueries)
 {
-	listQueries.push_front(szQuery);
+	szListQueries.push_front(szQuery);
 }
 
-bool ConfigDatabaseController::saveDatabaseQueries(const QString& szName, const QStringList& szListQueries)
+bool ConfigDatabaseController::removeQuery(const QString& szQuery, QStringList& szListQueries)
+{
+	return szListQueries.removeOne(szQuery);
+}
+
+bool ConfigDatabaseController::saveQueries(const QString& szName, const QStringList& szListQueries)
 {
 	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);

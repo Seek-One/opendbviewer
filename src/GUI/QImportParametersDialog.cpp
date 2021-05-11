@@ -102,6 +102,11 @@ QImportParametersDialog::QImportParametersDialog(QWidget* parent, QString szData
 
 		m_pComboBoxStringSeparator->installEventFilter(new QComboBoxEventFilter(m_pComboBoxStringSeparator));
 
+		// If the imported file got a header
+		m_pGotHeaderCheckBox = new QCheckBox();
+		m_pGotHeaderCheckBox->setChecked(false);
+		pFieldFormLayout->addRow(tr("The file got a header:"), m_pGotHeaderCheckBox);
+
 		// Clear database check box
 		m_pClearTableCheckBox = new QCheckBox();
 		m_pClearTableCheckBox->setChecked(false);
@@ -192,4 +197,9 @@ QString QImportParametersDialog::getTextStringSeparator() const
 bool QImportParametersDialog::isClearTableChecked()
 {
 	return m_pClearTableCheckBox->isChecked();
+}
+
+bool QImportParametersDialog::isGotHeaderChecked()
+{
+	return m_pGotHeaderCheckBox->isChecked();
 }

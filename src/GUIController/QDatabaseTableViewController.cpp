@@ -112,6 +112,7 @@ void QDatabaseTableViewController::importData()
 	QString szFieldSeparator;
 	QString szStringSeparator;
 	bool bClearTable = false;
+	bool bGotHeader = false;
 
 	bool bGoOn = true;
 
@@ -124,6 +125,7 @@ void QDatabaseTableViewController::importData()
 		szStringSeparator = dialogImportParams.getTextStringSeparator();
 		szFilePath = dialogImportParams.getFilePath();
 		bClearTable = dialogImportParams.isClearTableChecked();
+		bGotHeader = dialogImportParams.isGotHeaderChecked();
 	}else{
 		return;
 	}
@@ -183,6 +185,10 @@ void QDatabaseTableViewController::importData()
 					iNbLineFile++;
 				}
 
+				if(bGotHeader){
+					iNbLineFile--;
+				}
+
 				QProgressBarDialog* pProgressBarDialog = new QProgressBarDialog(m_pDatabaseTableView, tr("Loading: importing data"));
 				pProgressBarDialog->show();
 				pProgressBarDialog->setMaximumData(iNbLineFile);
@@ -197,6 +203,11 @@ void QDatabaseTableViewController::importData()
 					QStringList szLineData;
 					bool bInserted = true;
 					iNbLineFile = 0;
+
+					// If the imported file got header, the first line is read but not count
+					if(bGotHeader && !fileTextStream.atEnd()){
+						fileTextStream.readLine();
+					}
 
 					while(!fileTextStream.atEnd() && bGoOn)
 					{

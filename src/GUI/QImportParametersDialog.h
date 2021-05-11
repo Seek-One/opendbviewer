@@ -36,6 +36,7 @@ public:
 	QString getTextFieldSeparator() const;
 	QString getTextStringSeparator() const;
 	bool isClearTableChecked();
+	bool isGotHeaderChecked();
 
 public slots :
 	void explore();
@@ -46,6 +47,7 @@ private:
 	QLineEdit* m_pFileExplorerLineEdit;
 	QLineEdit *m_pTableNameLineEdit;
 	QCheckBox* m_pClearTableCheckBox;
+	QCheckBox* m_pGotHeaderCheckBox;
 
 	QString m_szCurrentPath;
 };

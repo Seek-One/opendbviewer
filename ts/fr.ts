@@ -164,54 +164,54 @@
 <context>
     <name>QDatabaseTableViewController</name>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="135"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="137"/>
         <source>The file path is empty.</source>
         <translation>Le chemin est vide.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="145"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="147"/>
         <source>The file path is a directory.</source>
         <translation>Le chemin est un dossier.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="186"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="192"/>
         <source>Loading: importing data</source>
         <translation>Chargement : import en cours</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="163"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="165"/>
         <source>An error occurred when clearing the table.</source>
         <translation>Une erreur est survenue lors du nettoyage de la table.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="209"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="220"/>
         <source>The CSV file doesn&apos;t have as much columns as the table.</source>
         <translation>Le fichier CSV n&apos;a pas autant de colonnes que la table.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="230"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="241"/>
         <source>Primary key duplicated, or data type not met.</source>
         <translation>Clé primaire dupliquée, ou type de données non respecté.</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="258"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="267"/>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="273"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="269"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="278"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="284"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="258"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="269"/>
         <source>Unable to import data:</source>
         <translation>Impossible d&apos;importer les données : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="267"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="278"/>
         <source>Unable to export the data into the file:</source>
         <translation>Impossible d&apos;exporter les données dans le fichier : </translation>
     </message>
     <message>
-        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="273"/>
+        <location filename="../src/GUIController/QDatabaseTableViewController.cpp" line="284"/>
         <source>Error: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Erreur: &lt;br/&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
@@ -386,26 +386,31 @@
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="108"/>
+        <source>The file got a header:</source>
+        <translation>Le fichier possède un entête :</translation>
+    </message>
+    <message>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>
         <source>Clear table:</source>
         <translation>Vider la table :</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="118"/>
         <source>File path</source>
         <translation>Emplacement du fichier</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="122"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="127"/>
         <source>Explore</source>
         <translation>Parcourir</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="149"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="154"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QImportParametersDialog.cpp" line="149"/>
+        <location filename="../src/GUI/QImportParametersDialog.cpp" line="154"/>
         <source>CSV files (*.csv)</source>
         <translation>Fichiers CSV (*.csv)</translation>
     </message>

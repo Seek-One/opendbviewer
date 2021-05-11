@@ -59,3 +59,21 @@ void QHistoryMenuWidget::slotAboutToBeRemoved()
 		}
 	}
 }
+
+void QHistoryMenuWidget::enterEvent(QEvent *event)
+{
+	QPalette palette = this->style()->standardPalette();
+	palette.setColor(QPalette::Window, palette.highlight().color());
+	palette.setColor(QPalette::WindowText, Qt::white);
+	setAutoFillBackground(true);
+	setPalette(palette);
+}
+
+void QHistoryMenuWidget::leaveEvent(QEvent *event)
+{
+	QPalette palette = this->palette();
+	palette.setColor(QPalette::Window, Qt::white);
+	palette.setColor(QPalette::WindowText, Qt::black);
+	setAutoFillBackground(true);
+	setPalette(palette);
+}

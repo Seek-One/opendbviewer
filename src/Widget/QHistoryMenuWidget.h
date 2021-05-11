@@ -22,6 +22,9 @@ public:
 	void setTextLabel(const QString& szText);
 	QPushButton* getButton() const;
 
+    virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
+
 signals:
 	void signalAboutToBeRemoved(const QString& szData);
 

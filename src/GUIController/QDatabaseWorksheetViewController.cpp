@@ -183,16 +183,18 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 	{
 		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
 		QStringList szListQueries;
-		ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
+		bool bGetQueries = ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
 
-		/* Why a reverse loop ?
-		* 'addQueryToMenu(szQuery)' add query as first item in menu
-		* But the queries read in the file are already in the other way*/
-		for(int i = szListQueries.size()-1; i >= 0; i--)
+		if(bGetQueries)
 		{
-			addQueryToMenu(szListQueries.at(i));
+			/* Why a reverse loop ?
+			* 'addQueryToMenu(szQuery)' add query as first item in menu
+			* But the queries read in the file are already in the other way*/
+			for(int i = szListQueries.size()-1; i >= 0; i--)
+			{
+				addQueryToMenu(szListQueries.at(i));
+			}
 		}
-
 		updateAvailabilityMenu();
 	}
 }
@@ -211,20 +213,23 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
 
 		QStringList szListQueries;
-		ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
+		bool bGetQueries = ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
 
-		// Check the duplicate requests
-		int iCounter = 0;
-		QStringList::const_iterator iterListQuery;
-		for(iterListQuery = szListQueries.constBegin(); iterListQuery != szListQueries.constEnd(); ++iterListQuery)
+		if(bGetQueries)
 		{
-			if(QString::compare(iterListQuery->simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
-				szListQueries.removeAt(iCounter);
-				QAction* pActionToRemove = m_pDatabaseWorksheetView->getRequestHistoryMenu()->actions().at(iCounter);
-				m_pDatabaseWorksheetView->getRequestHistoryMenu()->removeAction(pActionToRemove);
-				break;
+			// Check the duplicate requests
+			int iCounter = 0;
+			QStringList::const_iterator iterListQuery;
+			for(iterListQuery = szListQueries.constBegin(); iterListQuery != szListQueries.constEnd(); ++iterListQuery)
+			{
+				if(QString::compare(iterListQuery->simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
+					szListQueries.removeAt(iCounter);
+					QAction* pActionToRemove = m_pDatabaseWorksheetView->getRequestHistoryMenu()->actions().at(iCounter);
+					m_pDatabaseWorksheetView->getRequestHistoryMenu()->removeAction(pActionToRemove);
+					break;
+				}
+				iCounter++;
 			}
-			iCounter++;
 		}
 
 		if((szListQueries.size() < 0 || szListQueries.size() > iMaxRequestHistory) && bGoOn){
@@ -303,39 +308,42 @@ void QDatabaseWorksheetViewController::removeQuery(const QString& szQuery)
 {
 	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
 	QStringList szListQueries;
-	ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
-	bool bGoOn = ApplicationSettings::getConfigDatabaseController()->removeQuery(szQuery, szListQueries);
+	bool bGetQueries = ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
 
-	if(bGoOn){
-		bGoOn = ApplicationSettings::getConfigDatabaseController()->saveQueries(szDatabaseName, szListQueries);
-	}
-
-	if(bGoOn)
+	if(bGetQueries)
 	{
-		QMenu* pMenu = m_pDatabaseWorksheetView->getRequestHistoryMenu();
-		QList<QAction*>::const_iterator iterAction;
-		for(iterAction = pMenu->actions().constBegin(); iterAction != pMenu->actions().constEnd(); ++iterAction)
+		bool bGoOn = ApplicationSettings::getConfigDatabaseController()->removeQuery(szQuery, szListQueries);
+		if(bGoOn){
+			bGoOn = ApplicationSettings::getConfigDatabaseController()->saveQueries(szDatabaseName, szListQueries);
+		}
+
+		if(bGoOn)
 		{
-			if(QString::compare(iterAction.i->t()->data().toString(), szQuery) == 0)
+			QMenu* pMenu = m_pDatabaseWorksheetView->getRequestHistoryMenu();
+			QList<QAction*>::const_iterator iterAction;
+			for(iterAction = pMenu->actions().constBegin(); iterAction != pMenu->actions().constEnd(); ++iterAction)
 			{
 				QAction* pAction = (*iterAction);
-				pMenu->removeAction(pAction);
-				break;
+				if(QString::compare(pAction->data().toString(), szQuery) == 0)
+				{
+					pMenu->removeAction(pAction);
+					break;
+				}
 			}
 		}
-		updateAvailabilityMenu();
 	}
+	updateAvailabilityMenu();
 }
 
 void QDatabaseWorksheetViewController::updateAvailabilityMenu()
 {
 	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(m_pDatabaseController->getSqlDatabase().databaseName());
 	QStringList szListQueries;
-	ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
-	if(szListQueries.isEmpty()){
-		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(false);
-	}else{
+	bool bGetQueries = ApplicationSettings::getConfigDatabaseController()->loadQueries(szDatabaseName, szListQueries);
+	if(bGetQueries){
 		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(true);
+	}else{
+		m_pDatabaseWorksheetView->getRequestHistoryButton()->setEnabled(false);
 	}
 }
 

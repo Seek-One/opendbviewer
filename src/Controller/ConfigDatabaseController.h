@@ -29,7 +29,7 @@ public:
 	bool initQueries(const QString& szName);
 	void addQuery(const QString& szQuery, QStringList& listQueries);
 	bool removeQuery(const QString& szQuery, QStringList& listQueries);
-	void loadQueries(const QString& szName, QStringList& listQueries);
+	bool loadQueries(const QString& szName, QStringList& listQueries);
 	bool saveQueries(const QString& szName, const QStringList& listQueries);
 
 	QString getDatabaseName(const QString& szDatabaseIdentifier) const;

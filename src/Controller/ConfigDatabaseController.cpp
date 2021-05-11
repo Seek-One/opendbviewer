@@ -29,22 +29,22 @@ bool ConfigDatabaseController::initDatabasesList()
 	QJsonObject jsonObject = jsonDocument.object();
 	QJsonArray jsonArray = jsonObject.value("databases").toArray();
 
-	int iVal = 0;
+	int iCounter = 0;
 	QJsonArray::const_iterator iterJson;
 	for(iterJson = jsonArray.constBegin(); iterJson != jsonArray.constEnd(); ++iterJson)
 	{
 		QString szDatabaseIdentifier = iterJson->toObject().value("identifier").toString();
 		// Check if each file path exists: if not, the database is deleted from the json
 		if(!QFileInfo::exists(szDatabaseIdentifier)){
-			jsonArray.removeAt(iVal);
-			iVal--;
+			jsonArray.removeAt(iCounter);
+			iCounter--;
 		}else{
 			QString szDatabaseName = iterJson->toObject().value("name").toString();
 			int iID = szDatabaseName.split("_").last().toInt();
 			ConfigDatabase configDatabase(szDatabaseIdentifier, iID);
 			addDatabase(configDatabase);
 		}
-		iVal++;
+		iCounter++;
 	}
 
 	bool bGoOn = removeUnusedQueriesFiles();
@@ -152,7 +152,7 @@ bool ConfigDatabaseController::initQueries(const QString& szName)
 	return writeToFile(szFilePath, newDatabaseJsonDocument.toJson());
 }
 
-void ConfigDatabaseController::loadQueries(const QString& szName, QStringList& szListQueries)
+bool ConfigDatabaseController::loadQueries(const QString& szName, QStringList& szListQueries)
 {
 	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);
@@ -165,6 +165,8 @@ void ConfigDatabaseController::loadQueries(const QString& szName, QStringList& s
 	{
 		szListQueries.append(iterJson->toString());
 	}
+
+	return !szListQueries.isEmpty();
 }
 
 void ConfigDatabaseController::addQuery(const QString& szQuery, QStringList& szListQueries)

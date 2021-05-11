@@ -30,15 +30,16 @@ bool ConfigDatabaseController::initDatabasesList()
 	QJsonArray jsonArray = jsonObject.value("databases").toArray();
 
 	int iVal = 0;
-	foreach(const QJsonValue& val, jsonArray)
+	QJsonArray::const_iterator iterJson;
+	for(iterJson = jsonArray.constBegin(); iterJson != jsonArray.constEnd(); ++iterJson)
 	{
-		QString szDatabaseIdentifier = val.toObject().value("identifier").toString();
+		QString szDatabaseIdentifier = iterJson->toObject().value("identifier").toString();
 		// Check if each file path exists: if not, the database is deleted from the json
 		if(!QFileInfo::exists(szDatabaseIdentifier)){
 			jsonArray.removeAt(iVal);
 			iVal--;
 		}else{
-			QString szDatabaseName = val.toObject().value("name").toString();
+			QString szDatabaseName = iterJson->toObject().value("name").toString();
 			int iID = szDatabaseName.split("_").last().toInt();
 			ConfigDatabase configDatabase(szDatabaseIdentifier, iID);
 			addDatabase(configDatabase);
@@ -72,22 +73,25 @@ bool ConfigDatabaseController::removeUnusedQueriesFiles()
 
 	bool bDatabaseExists = false;
 
-	foreach(const QString& szDatabaseName, szListFiles)
+	QStringList::const_iterator iterListFile;
+	for(iterListFile = szListFiles.constBegin(); iterListFile != szListFiles.constEnd(); ++iterListFile)
 	{
 		// Split database name to get its ID
-		int iDatabaseID = szDatabaseName.split("_").last().split(".").first().toInt();
+		int iDatabaseID = iterListFile->split("_").last().split(".").first().toInt();
 		bDatabaseExists = false;
 
-		foreach(const ConfigDatabase& configDatabase, m_listConfigDatabase)
+		ConfigDatabaseList::const_iterator iterConfig;
+		for(iterConfig = m_listConfigDatabase.constBegin(); iterConfig != m_listConfigDatabase.constEnd(); ++iterConfig)
 		{
-			if(configDatabase.getDatabaseID() == iDatabaseID){
+			if(iterConfig->getDatabaseID() == iDatabaseID){
 				bDatabaseExists = true;
 			}
 		}
 
 		// The file is deleted if it is not used
 		if(!bDatabaseExists){
-			QFile file(QSettingsManager::getInstance().getDatabasesJsonDir() + szDatabaseName);
+			const QString szQueriesFile = (*iterListFile);
+			QFile file(QSettingsManager::getInstance().getDatabasesJsonDir() + szQueriesFile);
 			file.remove();
 		}
 	}
@@ -103,15 +107,17 @@ bool ConfigDatabaseController::saveDatabasesList()
 
 	int iMaxDatabases = 15;
 	int iDatabasesCounter = 0;
-	foreach(const ConfigDatabase& configDatabase, m_listConfigDatabase)
+
+	ConfigDatabaseList::const_iterator iterConfig;
+	for(iterConfig = m_listConfigDatabase.constBegin(); iterConfig != m_listConfigDatabase.constEnd(); ++iterConfig)
 	{
 		if(iDatabasesCounter < iMaxDatabases)
 		{
 			QJsonObject jsonNewObject;
-			jsonNewObject.insert("identifier", configDatabase.getDatabaseIdentifier());
-			jsonNewObject.insert("name", configDatabase.getDatabaseName());
+			jsonNewObject.insert("identifier", iterConfig->getDatabaseIdentifier());
+			jsonNewObject.insert("name", iterConfig->getDatabaseName());
 			jsonArray.push_back(jsonNewObject);
-			iNextID = qMax(configDatabase.getDatabaseID(), iNextID);
+			iNextID = qMax(iterConfig->getDatabaseID(), iNextID);
 		}
 		iDatabasesCounter++;
 	}
@@ -153,9 +159,11 @@ void ConfigDatabaseController::loadQueries(const QString& szName, QStringList& s
 	QJsonArray jsonArray = jsonDocument.object().find("queries").value().toArray();
 
 	szListQueries.clear();
-	foreach(const QJsonValue& val, jsonArray)
+
+	QJsonArray::const_iterator iterJson;
+	for(iterJson = jsonArray.constBegin(); iterJson != jsonArray.constEnd(); ++iterJson)
 	{
-		szListQueries.append(val.toString());
+		szListQueries.append(iterJson->toString());
 	}
 }
 
@@ -175,8 +183,10 @@ bool ConfigDatabaseController::saveQueries(const QString& szName, const QStringL
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);
 	QJsonArray jsonArray;
 
-	foreach(const QString& szQuery, szListQueries)
+	QStringList::const_iterator iterListQuery;
+	for(iterListQuery = szListQueries.constBegin(); iterListQuery != szListQueries.constEnd(); ++iterListQuery)
 	{
+		const QString szQuery = (*iterListQuery);
 		jsonArray.append(szQuery);
 	}
 
@@ -221,10 +231,11 @@ QJsonDocument ConfigDatabaseController::parseToJsonDocument(const QString& szFil
 
 QString ConfigDatabaseController::getDatabaseName(const QString& szDatabaseIdentifier) const
 {
-	foreach(const ConfigDatabase& configDatabase, m_listConfigDatabase)
+	ConfigDatabaseList::const_iterator iterConfig;
+	for(iterConfig = m_listConfigDatabase.constBegin(); iterConfig != m_listConfigDatabase.constEnd(); ++iterConfig)
 	{
-		if(QString::compare(configDatabase.getDatabaseIdentifier(), szDatabaseIdentifier) == 0){
-			return configDatabase.getDatabaseName();
+		if(QString::compare(iterConfig->getDatabaseIdentifier(), szDatabaseIdentifier) == 0){
+			return iterConfig->getDatabaseName();
 		}
 	}
 	return "";

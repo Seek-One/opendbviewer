@@ -132,11 +132,13 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 	ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
 
 	int iDatabaseIndex = 0;
-	foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+	ConfigDatabaseList::const_iterator iterConfig;
+	for(iterConfig = listConfigDatabase.constBegin(); iterConfig != listConfigDatabase.constEnd(); ++iterConfig)
 	{
-		if(QString::compare(configDatabase.getDatabaseIdentifier(), szDatabaseIdentifier) == 0)
+		if(QString::compare(iterConfig->getDatabaseIdentifier(), szDatabaseIdentifier) == 0)
 		{
 			bDatabaseExists = true;
+			const ConfigDatabase& configDatabase = (*iterConfig);
 			ApplicationSettings::getConfigDatabaseController()->moveDatabaseFirstInList(configDatabase, iDatabaseIndex);
 			break;
 		}
@@ -151,9 +153,10 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 
 		do{
 			bTakenID = false;
-			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+			ConfigDatabaseList::const_iterator iterConfig;
+			for(iterConfig = listConfigDatabase.constBegin(); iterConfig != listConfigDatabase.constEnd(); ++iterConfig)
 			{
-				if(configDatabase.getDatabaseID() == iNextID)
+				if(iterConfig->getDatabaseID() == iNextID)
 				{
 					bTakenID = true;
 					iNextID++;
@@ -212,9 +215,10 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 
 		// Check the duplicate requests
 		int iCounter = 0;
-		foreach(const QString& szQuery, szListQueries)
+		QStringList::const_iterator iterListQuery;
+		for(iterListQuery = szListQueries.constBegin(); iterListQuery != szListQueries.constEnd(); ++iterListQuery)
 		{
-			if(QString::compare(szQuery.simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
+			if(QString::compare(iterListQuery->simplified().toUpper(), szWorksheetQuery.simplified().toUpper()) == 0){
 				szListQueries.removeAt(iCounter);
 				QAction* pActionToRemove = m_pDatabaseWorksheetView->getRequestHistoryMenu()->actions().at(iCounter);
 				m_pDatabaseWorksheetView->getRequestHistoryMenu()->removeAction(pActionToRemove);
@@ -245,10 +249,12 @@ void QDatabaseWorksheetViewController::addRequestHistory(const QString& szWorksh
 			ConfigDatabaseList listConfigDatabase = ApplicationSettings::getConfigDatabaseController()->getDatabaseList();
 
 			int iDatabaseIndex = 0;
-			foreach(const ConfigDatabase& configDatabase, listConfigDatabase)
+			ConfigDatabaseList::const_iterator iterConfig;
+			for(iterConfig = listConfigDatabase.constBegin(); iterConfig != listConfigDatabase.constEnd(); ++iterConfig)
 			{
-				if(QString::compare(configDatabase.getDatabaseName(), szDatabaseName) == 0)
+				if(QString::compare(iterConfig->getDatabaseName(), szDatabaseName) == 0)
 				{
+					const ConfigDatabase& configDatabase = (*iterConfig);
 					ApplicationSettings::getConfigDatabaseController()->moveDatabaseFirstInList(configDatabase, iDatabaseIndex);
 					bGoOn = ApplicationSettings::getConfigDatabaseController()->saveDatabasesList();
 				}
@@ -307,10 +313,12 @@ void QDatabaseWorksheetViewController::removeQuery(const QString& szQuery)
 	if(bGoOn)
 	{
 		QMenu* pMenu = m_pDatabaseWorksheetView->getRequestHistoryMenu();
-		foreach(QAction* pAction, pMenu->actions())
+		QList<QAction*>::const_iterator iterAction;
+		for(iterAction = pMenu->actions().constBegin(); iterAction != pMenu->actions().constEnd(); ++iterAction)
 		{
-			if(QString::compare(pAction->data().toString(), szQuery) == 0)
+			if(QString::compare(iterAction.i->t()->data().toString(), szQuery) == 0)
 			{
+				QAction* pAction = (*iterAction);
 				pMenu->removeAction(pAction);
 				break;
 			}

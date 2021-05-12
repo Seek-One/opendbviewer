@@ -219,7 +219,7 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 		if (szRequest.toLower() == "select") {
 			*ppQueryModel = new QSqlDisplayQueryModel();
 			(*ppQueryModel)->setQuery(szWorksheetQuery, m_db);
-			if ((*ppQueryModel)->query().lastError().text()!=" ") {
+			if ((*ppQueryModel)->query().lastError().isValid()) {
 				bRes = false;
 			}
 			QSqlQuery query = (*ppQueryModel)->query();

@@ -88,12 +88,12 @@ QPushButton* QDatabaseWorksheetView::getRequestHistoryButton() const
 	return m_pRequestHistoryButton;
 }
 
-QPushButton* QDatabaseWorksheetView::getImportButton() const
+QToolButton* QDatabaseWorksheetView::getImportButton() const
 {
 	return m_pQueryResultView->getImportButton();
 }
 
-QPushButton* QDatabaseWorksheetView::getExportButton() const
+QToolButton* QDatabaseWorksheetView::getExportButton() const
 {
 	return m_pQueryResultView->getExportButton();
 }

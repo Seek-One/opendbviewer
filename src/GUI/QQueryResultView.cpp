@@ -9,6 +9,7 @@
 #include <QTableView>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QToolButton>
 
 #include "QQueryResultView.h"
 
@@ -50,12 +51,14 @@ QQueryResultView::QQueryResultView(QWidget* parent)
 	{
 		pWidget = new QWidget();
 		QHBoxLayout *pTmpHLayout = new QHBoxLayout();
-		pTmpHLayout->setMargin(0);
+		pTmpHLayout->setContentsMargins(0, 2, 0, 0);
 
-		m_pImportButton = new QPushButton(tr("Import"));
+		m_pImportButton = new QToolButton();
+		m_pImportButton->setText(tr("Import"));
 		pTmpHLayout->addWidget(m_pImportButton);
 
-		m_pExportButton = new QPushButton(tr("Export"));
+		m_pExportButton = new QToolButton();
+		m_pExportButton->setText(tr("Export"));
 		pTmpHLayout->addWidget(m_pExportButton);
 
 		pWidget->setLayout(pTmpHLayout);
@@ -78,12 +81,12 @@ QTableView* QQueryResultView::getDataTableView() const
 	return m_pDataTableView;
 }
 
-QPushButton* QQueryResultView::getImportButton() const
+QToolButton* QQueryResultView::getImportButton() const
 {
 	return m_pImportButton;
 }
 
-QPushButton* QQueryResultView::getExportButton() const
+QToolButton* QQueryResultView::getExportButton() const
 {
 	return m_pExportButton;
 }

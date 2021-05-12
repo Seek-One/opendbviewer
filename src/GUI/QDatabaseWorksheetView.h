@@ -12,6 +12,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QToolBar>
+#include <QToolButton>
 #include <QTextEdit>
 #include <QStandardItemModel>
 
@@ -29,8 +30,8 @@ public:
 	QPushButton* getExecuteButton() const;
 	QPushButton* getReformatButton() const;
 	QPushButton* getClearTextButton() const;
-	QPushButton* getImportButton() const;
-	QPushButton* getExportButton() const;
+	QToolButton* getImportButton() const;
+	QToolButton* getExportButton() const;
 	QSqlSourceView* getWorksheetTextEdit() const;
 	QTextEdit* getWorksheetConsoleTextEdit() const;
 	QPushButton* getRequestHistoryButton() const;

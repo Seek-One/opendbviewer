@@ -339,7 +339,7 @@
     <message>
         <location filename="../src/Widget/QHistoryMenuWidget.cpp" line="30"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -566,22 +566,22 @@
 <context>
     <name>QQueryResultView</name>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="25"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="26"/>
         <source>Results</source>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="39"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="40"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="55"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="57"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="58"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="61"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
@@ -655,13 +655,6 @@
         <location filename="../src/GUIController/QWindowMainController.cpp" line="175"/>
         <source>Loading: exporting data</source>
         <translation>Chargement : export en cours</translation>
-    </message>
-</context>
-<context>
-    <name>QWorksheetMenuWidget</name>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Supprimer</translation>
     </message>
 </context>
 </TS>

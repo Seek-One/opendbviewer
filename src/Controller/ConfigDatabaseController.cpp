@@ -142,7 +142,7 @@ void ConfigDatabaseController::moveDatabaseFirstInList(const ConfigDatabase& con
 
 bool ConfigDatabaseController::initQueries(const QString& szName)
 {
-	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
+	QString szFilePath = QString("%1%2.json").arg(QSettingsManager::getInstance().getDatabasesJsonDir(), szName);
 	QJsonObject newDatabaseJsonObject;
 	QJsonArray newDatabaseJsonArray;
 	newDatabaseJsonObject.insert("queries", newDatabaseJsonArray);
@@ -154,7 +154,7 @@ bool ConfigDatabaseController::initQueries(const QString& szName)
 
 bool ConfigDatabaseController::loadQueries(const QString& szName, QStringList& szListQueries)
 {
-	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
+	QString szFilePath = QString("%1%2.json").arg(QSettingsManager::getInstance().getDatabasesJsonDir(), szName);
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);
 	QJsonArray jsonArray = jsonDocument.object().find("queries").value().toArray();
 
@@ -181,7 +181,7 @@ bool ConfigDatabaseController::removeQuery(const QString& szQuery, QStringList& 
 
 bool ConfigDatabaseController::saveQueries(const QString& szName, const QStringList& szListQueries)
 {
-	QString szFilePath = QSettingsManager::getInstance().getDatabasesJsonDir() + szName + ".json";
+	QString szFilePath = QString("%1%2.json").arg(QSettingsManager::getInstance().getDatabasesJsonDir(), szName);
 	QJsonDocument jsonDocument = parseToJsonDocument(szFilePath);
 	QJsonArray jsonArray;
 

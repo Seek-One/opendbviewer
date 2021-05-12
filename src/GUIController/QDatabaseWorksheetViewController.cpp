@@ -124,7 +124,6 @@ void QDatabaseWorksheetViewController::setExportButtonDisabled()
 void QDatabaseWorksheetViewController::initRequestHistory()
 {
 	QString szDatabaseIdentifier = m_pDatabaseController->getSqlDatabase().databaseName();
-	QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
 
 	bool bGoOn = true;
 	bool bDatabaseExists = false;
@@ -168,6 +167,7 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 		ApplicationSettings::getConfigDatabaseController()->addDatabase(configDatabaseNew);
 
 		// Create a new file to store the queries corresponding to the database
+		QString szDatabaseName = ApplicationSettings::getConfigDatabaseController()->getDatabaseName(szDatabaseIdentifier);
 		bGoOn = ApplicationSettings::getConfigDatabaseController()->initQueries(szDatabaseName);
 
 		if(!bGoOn){
@@ -189,7 +189,7 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 		{
 			/* Why a reverse loop ?
 			* 'addQueryToMenu(szQuery)' add query as first item in menu
-			* But the queries read in the file are already in the other way*/
+			* But the queries read in the file are store like that too*/
 			for(int i = szListQueries.size()-1; i >= 0; i--)
 			{
 				addQueryToMenu(szListQueries.at(i));

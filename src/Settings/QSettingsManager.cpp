@@ -218,7 +218,7 @@ void QSettingsManager::saveDatabaseSettings()
 
 QString QSettingsManager::getDatabasesJsonDir() const
 {
-	return m_dirDatabases.path() + "/";
+	return m_dirDatabases.path() + QDir::separator();
 }
 
 QString QSettingsManager::getDatabasesJsonFile() const

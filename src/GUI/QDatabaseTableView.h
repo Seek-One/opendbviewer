@@ -16,7 +16,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QTextEdit>
-#include <QToolButton>
 #include <QStandardItemModel>
 #include <QSqlTableModel>
 #include <QHeaderView>
@@ -42,8 +41,8 @@ public:
 	QTableView* getDataTableView() const;
 	QPushButton* getRefreshButton() const;
 	QPushButton* getClearButton() const;
-	QToolButton* getImportButton() const;
-	QToolButton* getExportButton() const;
+	QPushButton* getImportButton() const;
+	QPushButton* getExportButton() const;
 	QLineEdit* getFilterLine() const;
 	QTextEdit* getConsoleTextEdit() const;
 	void showTabData();

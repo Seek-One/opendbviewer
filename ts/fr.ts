@@ -339,7 +339,7 @@
     <message>
         <location filename="../src/Widget/QHistoryMenuWidget.cpp" line="30"/>
         <source>Delete</source>
-        <translation>Supprimer</translation>
+        <translation type="unfinished">Supprimer</translation>
     </message>
 </context>
 <context>
@@ -387,7 +387,7 @@
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="108"/>
         <source>The file got a header:</source>
-        <translation>Le fichier possède un entête :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>
@@ -566,22 +566,22 @@
 <context>
     <name>QQueryResultView</name>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="26"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="25"/>
         <source>Results</source>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="40"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="39"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="57"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="55"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
     <message>
-        <location filename="../src/GUI/QQueryResultView.cpp" line="61"/>
+        <location filename="../src/GUI/QQueryResultView.cpp" line="58"/>
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
@@ -655,6 +655,13 @@
         <location filename="../src/GUIController/QWindowMainController.cpp" line="175"/>
         <source>Loading: exporting data</source>
         <translation>Chargement : export en cours</translation>
+    </message>
+</context>
+<context>
+    <name>QWorksheetMenuWidget</name>
+    <message>
+        <source>Delete</source>
+        <translation type="vanished">Supprimer</translation>
     </message>
 </context>
 </TS>

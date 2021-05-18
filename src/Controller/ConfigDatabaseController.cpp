@@ -29,22 +29,14 @@ bool ConfigDatabaseController::initDatabasesList()
 	QJsonObject jsonObject = jsonDocument.object();
 	QJsonArray jsonArray = jsonObject.value("databases").toArray();
 
-	int iCounter = 0;
 	QJsonArray::const_iterator iterJson;
 	for(iterJson = jsonArray.constBegin(); iterJson != jsonArray.constEnd(); ++iterJson)
 	{
 		QString szDatabaseIdentifier = iterJson->toObject().value("identifier").toString();
-		// Check if each file path exists: if not, the database is deleted from the json
-		if(!QFileInfo::exists(szDatabaseIdentifier)){
-			jsonArray.removeAt(iCounter);
-			iCounter--;
-		}else{
-			QString szDatabaseName = iterJson->toObject().value("name").toString();
-			int iID = szDatabaseName.split("_").last().toInt();
-			ConfigDatabase configDatabase(szDatabaseIdentifier, iID);
-			addDatabase(configDatabase);
-		}
-		iCounter++;
+		QString szDatabaseName = iterJson->toObject().value("name").toString();
+		int iID = szDatabaseName.split("_").last().toInt();
+		ConfigDatabase configDatabase(szDatabaseIdentifier, iID);
+		addDatabase(configDatabase);
 	}
 
 	bool bGoOn = removeUnusedQueriesFiles();

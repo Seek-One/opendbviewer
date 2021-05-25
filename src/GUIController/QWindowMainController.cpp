@@ -192,25 +192,29 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 
 			int iColumnCount = model->columnCount();
 			int iRowCount = model->rowCount();
-			int iMaxData  = iRowCount * iColumnCount;
+			int iMaxData  = iRowCount;
 
 			if(!bIncludesHeaders){
-				iMaxData -= iColumnCount;
+				iMaxData -= 1;
 			}
 
 			pProgressBarDialog->setMaximumData(iMaxData);
 
-			int iRange = iMaxData/100;
+			int iRange = 1;
+			if(iMaxData > 100){
+				iRange = iMaxData/100;
+			}
+
 			int iDataHeaders = 0;
 
 			if(bIncludesHeaders)
 			{
-				for(int i = 0; i < iColumnCount; i++)
+				for(int iColumn = 0; iColumn < iColumnCount; iColumn++)
 				{
 					fileTextStream << szStringSeparator;
-					fileTextStream << model->headerData(i, orientation).toString();
+					fileTextStream << model->headerData(iColumn, orientation).toString();
 					fileTextStream << szStringSeparator;
-					if(i < iColumnCount-1){
+					if(iColumn < iColumnCount-1){
 						fileTextStream << szFieldSeparator;
 					}
 					iDataHeaders++;
@@ -220,13 +224,11 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 
 			pProgressBarDialog->setData(iDataHeaders);
 
-			int iCurrentData;
-
-			for(int i = 0; i < iRowCount; i++)
+			for(int iRow = 0; iRow < iRowCount; iRow++)
 			{
-				for(int j = 0; j < iColumnCount; j++)
+				for(int iColumn = 0; iColumn < iColumnCount; iColumn++)
 				{
-					index = model->index(i, j);
+					index = model->index(iRow, iColumn);
 
 					int iTypeRole = -1;
 					QVariant typeRole = model->data(index, DataTypeRole);
@@ -245,25 +247,22 @@ bool QWindowMainController::saveSQLResultsToCSV(QSqlQueryModel* model, QWidget* 
 					}
 					fileTextStream << szDisplayText;
 					fileTextStream << szStringSeparator;
-					if(j < iColumnCount-1){
+					if(iColumn < iColumnCount-1){
 						fileTextStream << szFieldSeparator;
-					}
-
-					iCurrentData = j + i*iColumnCount + iDataHeaders;
-
-					if(iCurrentData % iRange == 0){
-						pProgressBarDialog->setData(iCurrentData);
-					}
-
-					if(iCurrentData == iMaxData){
-						pProgressBarDialog->setData(iCurrentData);
 					}
 				}
 
-				if(i < iRowCount-1){
+				if(iRow < iRowCount-1){
 					fileTextStream << szLineBreakSeparator;
 				}
 
+				if(iRow % iRange == 0){
+					pProgressBarDialog->setData(iRow + iDataHeaders);
+				}
+
+				if(iRow == iMaxData){
+					pProgressBarDialog->setData(iRow + iDataHeaders);
+				}
 				QApplication::processEvents();
 				if(pProgressBarDialog->isCancel()) {
 					fileToWrite.remove();

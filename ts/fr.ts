@@ -339,7 +339,7 @@
     <message>
         <location filename="../src/Widget/QHistoryMenuWidget.cpp" line="30"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -387,7 +387,7 @@
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="108"/>
         <source>The file got a header:</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier contient un entête :</translation>
     </message>
     <message>
         <location filename="../src/GUI/QImportParametersDialog.cpp" line="113"/>
@@ -655,13 +655,6 @@
         <location filename="../src/GUIController/QWindowMainController.cpp" line="175"/>
         <source>Loading: exporting data</source>
         <translation>Chargement : export en cours</translation>
-    </message>
-</context>
-<context>
-    <name>QWorksheetMenuWidget</name>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Supprimer</translation>
     </message>
 </context>
 </TS>

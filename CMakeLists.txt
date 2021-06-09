@@ -330,6 +330,7 @@ set (I18N_FILES
 
 set (TS_FILES
     ts/fr.ts
+    ts/ru.ts
 )
 
 option (UPDATE_TRANSLATIONS "Update source translation ts/*.ts files (WARNING: make clean will delete the source .ts files! Danger!)" ON)
@@ -354,6 +355,7 @@ configure_file (
 if (WIN32)
   set (QT_TS_FILES
     "${QT_TRANSLATIONS_DIR}/qt_fr.qm"
+    "${QT_TRANSLATIONS_DIR}/qt_ru.qm"
   )
   INSTALL(FILES ${QT_TS_FILES} DESTINATION ${INSTALL_PATH_SHARE}/translations)
 
@@ -362,6 +364,7 @@ if (WIN32)
       "${QT_TRANSLATIONS_DIR}/qt_en.qm"
       "${QT_TRANSLATIONS_DIR}/qtbase_en.qm"
       "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+      "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
     )
     INSTALL(FILES ${QT_TS_FILES} DESTINATION ${INSTALL_PATH_SHARE}/translations)
   endif()

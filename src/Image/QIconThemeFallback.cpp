@@ -378,7 +378,7 @@ void QIconThemeFallback::updateThemeInfo()
         QString themeDir = iconDir.path() + QLatin1Char('/') + m_szThemeName;
         themeIndex.setFileName(themeDir + QLatin1String("/index.theme"));
         if (themeIndex.exists()) {
-            m_contentDir = themeDir;
+            m_contentDir.setPath(themeDir);
             break;
         }
     }

@@ -5,6 +5,7 @@
  *      Author: mlegarrec
  */
 
+#include "Global/QtCompat.h"
 #include "QOpenHistoryViewController.h"
 #include "Global/ApplicationSettings.h"
 #include "GUIModel/QHistoryDatabaseModel.h"
@@ -140,7 +141,13 @@ void QOpenHistoryViewController::setSQLiteInfo()
 	//Set the History Path Label
 	while (j<i) {
 		qTemp = qSection + m_databaseModel.getDatabasePath().section('/', j, j+1) + '/';
-		if ( m_pOpenHistoryView->getHistoryPathLabel()->fontMetrics().width(qTemp)<m_iWindowWidth-iCorrect)
+
+#ifdef USE_QTFMHORIZONTALADVANCE
+		int iLabelSize = m_pOpenHistoryView->getHistoryPathLabel()->fontMetrics().horizontalAdvance(qTemp);
+#else
+		int iLabelSize = m_pOpenHistoryView->getHistoryPathLabel()->fontMetrics().width(qTemp);
+#endif
+		if (iLabelSize<m_iWindowWidth-iCorrect)
 		{
 			qSection = qTemp;
 		} else {

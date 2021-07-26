@@ -5,21 +5,21 @@
  *      Author: echopin
  */
 
-#include "GUI/QSqlSourceView.h"
-#include "GUI/QLineNumberAreaView.h"
-#include "GUIController/QSqlHighlighterController.h"
-
 #include <QHBoxLayout>
 #include <QTextEdit>
 #include <QColor>
 #include <QWidget>
 #include <QDebug>
-#include <QTextDocument>
 #include <QPoint>
 #include <QTextBlock>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QRect>
+
+#include "Global/QtCompat.h"
+
+#include "GUI/QSqlSourceView.h"
+#include "GUI/QLineNumberAreaView.h"
 
 QSqlSourceView::QSqlSourceView(QWidget* parent) : QPlainTextEdit(parent)
 {
@@ -47,7 +47,11 @@ int QSqlSourceView::lineNumberAreaWidth()
         ++digits;
     }
 
+#ifdef USE_QTFMHORIZONTALADVANCE
+	int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+#else
     int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+#endif
 
     return space;
 }

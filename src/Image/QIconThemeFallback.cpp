@@ -274,7 +274,7 @@ public:
 
 			    int actualSize = qMin(size.width(), size.height());
 
-			    QString key = QLatin1Literal("$qt_fallbacktheme_")
+			    QString key = QLatin1String("$qt_fallbacktheme_")
 			                  % HexString<qint64>(pBasePixmap->cacheKey())
 			                  % HexString<int>(mode)
 			                  % HexString<qint64>(qApp->palette().cacheKey())

@@ -49,7 +49,7 @@ QSettingsManager::QSettingsManager()
 	if(!dirSettingsPath.exists("databases")){
 		dirSettingsPath.mkpath("databases");
 	}
-	m_dirDatabases = dirSettingsPath.filePath("databases");
+	m_dirDatabases.setPath(dirSettingsPath.filePath("databases"));
 }
 
 QSettingsManager::~QSettingsManager()

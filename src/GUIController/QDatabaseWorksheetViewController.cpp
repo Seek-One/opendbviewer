@@ -12,12 +12,13 @@
 #include <QFont>
 #include <QWidgetAction>
 
+#include "Global/QtCompat.h"
+
 #include "Controller/ConfigDatabaseController.h"
 #include "Database/DatabaseController.h"
 #include "Global/ApplicationSettings.h"
 #include "GUI/QDatabaseWorksheetView.h"
 #include "GUIController/QDatabaseWorksheetViewController.h"
-#include "GUIController/QDatabaseTableViewController.h"
 #include "GUIController/QWindowMainController.h"
 #include "Widget/QHistoryMenuWidget.h"
 
@@ -282,7 +283,12 @@ void QDatabaseWorksheetViewController::addQueryToMenu(const QString& szQuery)
 	connect(pHistoryMenuWidget, SIGNAL(signalAboutToBeRemoved(const QString&)), this, SLOT(removeQuery(const QString&)));
 
 	QFontMetrics fontMetrics = m_pDatabaseWorksheetView->getRequestHistoryMenu()->fontMetrics();
+
+#ifdef USE_QTFMHORIZONTALADVANCE
+	int iElidedTextSize = fontMetrics.horizontalAdvance(szQuery);
+#else
 	int iElidedTextSize = fontMetrics.width(szQuery);
+#endif
 
 	if(iElidedTextSize >= iMaxSize - iMargin){
 		QString szElidedText = fontMetrics.elidedText(szQuery, Qt::ElideMiddle, iMaxSize - iMargin);

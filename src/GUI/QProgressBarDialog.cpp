@@ -9,8 +9,6 @@
 #include <config.h>
 #endif
 
-#include <unistd.h>
-
 #include <QVBoxLayout>
 #include <QProgressBar>
 #include <QDialogButtonBox>

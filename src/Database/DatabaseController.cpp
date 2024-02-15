@@ -7,6 +7,12 @@
 
 #include <QElapsedTimer>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpression>
+#else
+#include <QRegExp>
+#endif
+
 #include "DatabaseController.h"
 
 int DatabaseController::g_iConnectionIdentifier = 0;
@@ -215,14 +221,20 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 
 	bRes = openDatabase();
 	if(bRes && !szWorksheetQuery.isEmpty()){
-		szRequest = szWorksheetQuery.section(QRegExp("\\s+"), 0, 0, QString::SectionSkipEmpty);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QRegularExpression regExp("\\s+");
+#else
+		QRegExp regExp("\\s+");
+#endif
+		szRequest = szWorksheetQuery.section(regExp, 0, 0, QString::SectionSkipEmpty);
 		if (szRequest.toLower() == "select") {
 			*ppQueryModel = new QSqlDisplayQueryModel();
 			(*ppQueryModel)->setQuery(szWorksheetQuery, m_db);
 			if ((*ppQueryModel)->query().lastError().isValid()) {
 				bRes = false;
 			}
-			QSqlQuery query = (*ppQueryModel)->query();
+			const QSqlQuery& query = (*ppQueryModel)->query();
 			m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
 		} else {
 			QSqlQuery query(m_db);

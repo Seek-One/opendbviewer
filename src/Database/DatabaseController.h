@@ -51,11 +51,11 @@ public:
 
 protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName) = 0;
-	virtual QStringList loadTableDescriptionResult(const QSqlQuery query) = 0;
-	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery query) = 0;
+	virtual QStringList loadTableDescriptionResult(const QSqlQuery& query) = 0;
+	virtual QStringList loadTableDescriptionColumnNames(const QSqlQuery& query) = 0;
 	virtual QStringList listColumnNames(const QString& szTableName) = 0;
 	virtual QString loadTableCreationScriptQuery(const QString& szTableName) = 0;
-	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery query) = 0;
+	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery& query) = 0;
 
 private:
 	QString makeQueryResultString(const QSqlQuery& query, qint64 iTimeMS, int iNbRowsSelected = 0);

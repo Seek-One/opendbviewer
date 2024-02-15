@@ -25,7 +25,7 @@ QString DatabaseControllerSqlite::loadTableDescriptionQuery(const QString& szTab
 	return QString("PRAGMA table_info(%0);").arg(szTableName);
 }
 
-QStringList DatabaseControllerSqlite::loadTableDescriptionResult(const QSqlQuery query)
+QStringList DatabaseControllerSqlite::loadTableDescriptionResult(const QSqlQuery& query)
 {
 	QStringList listRowData;
 	QString szNotNull;
@@ -44,7 +44,7 @@ QStringList DatabaseControllerSqlite::loadTableDescriptionResult(const QSqlQuery
 	return listRowData;
 }
 
-QStringList DatabaseControllerSqlite::loadTableDescriptionColumnNames(const QSqlQuery query)
+QStringList DatabaseControllerSqlite::loadTableDescriptionColumnNames(const QSqlQuery& query)
 {
 	QStringList listColumnName;
 	listColumnName << "Field" << "Type" << "Not null" << "Default value" << "Primary key";
@@ -56,7 +56,7 @@ QString DatabaseControllerSqlite::loadTableCreationScriptQuery(const QString& sz
 	return QString("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = '"+szTableName+"';");
 }
 
-QString DatabaseControllerSqlite::makeTableCreationScriptQueryResult(const QSqlQuery query)
+QString DatabaseControllerSqlite::makeTableCreationScriptQueryResult(const QSqlQuery& query)
 {
 	return QString(query.value(0).toString());
 }

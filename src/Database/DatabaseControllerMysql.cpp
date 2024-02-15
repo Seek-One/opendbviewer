@@ -26,7 +26,7 @@ QString DatabaseControllerMysql::loadTableDescriptionQuery(const QString& szTabl
 	return QString("DESCRIBE %0;").arg(szTableName);
 }
 
-QStringList DatabaseControllerMysql::loadTableDescriptionResult(const QSqlQuery query)
+QStringList DatabaseControllerMysql::loadTableDescriptionResult(const QSqlQuery& query)
 {
 	QStringList pRowData;
 	QString szField = query.value(0).toString();
@@ -40,7 +40,7 @@ QStringList DatabaseControllerMysql::loadTableDescriptionResult(const QSqlQuery 
 	return pRowData;
 }
 
-QStringList DatabaseControllerMysql::loadTableDescriptionColumnNames(const QSqlQuery query)
+QStringList DatabaseControllerMysql::loadTableDescriptionColumnNames(const QSqlQuery& query)
 {
 	QStringList pColumnNames;
 	int currentColumnNumber;
@@ -71,7 +71,7 @@ QString DatabaseControllerMysql::loadTableCreationScriptQuery(const QString& szT
 	return QString("SHOW CREATE TABLE %0;").arg(szTableName);
 }
 
-QString DatabaseControllerMysql::makeTableCreationScriptQueryResult(const QSqlQuery query)
+QString DatabaseControllerMysql::makeTableCreationScriptQueryResult(const QSqlQuery& query)
 {
 	return QString(query.value(1).toString());
 }

@@ -179,6 +179,56 @@ macro (product_image_make_customized_icon SRC_PATH DST_PATH)
 	endforeach(ICON_IN)
 endmacro(product_image_make_customized_icon)
 
+macro (product_image_make_icon SRC_PATH DST_PATH)
+	message(STATUS "Product: creating icon")
+
+	file(GLOB SVG_FILES RELATIVE ${SRC_PATH} ${SRC_PATH}/*.svg)
+
+	set(ICON_SIZES 16 22 24 32 48 64 128)
+	set(ICON_SPECIAL_SIZES 112x70:64 144x90:64 192x120:64)
+
+	foreach(SVG_ICON ${SVG_FILES})
+
+		get_filename_component(ICON ${SVG_ICON} NAME_WE)
+
+		string(REGEX REPLACE "([a-zA-Z0-9]+)_(.*)" "\\1" ICON_CATEGORY ${ICON})
+		string(REGEX REPLACE "([a-zA-Z0-9]+)_(.*)" "\\2" ICON_NAME ${ICON})
+
+		message(STATUS "Product: creating icon: ${SVG_ICON}")
+		set(SVG_ICON_PATH ${SRC_PATH}/${SVG_ICON})
+
+		# Create icon for all size
+		foreach(ICON_SIZE ${ICON_SIZES})
+			set(DST_ICON_PATH ${DST_PATH}/${ICON_CATEGORY}/${ICON_SIZE})
+			file(MAKE_DIRECTORY ${DST_ICON_PATH})
+			execute_process(COMMAND ${IMAGEMAGICK_CONVERT} -background none ${SVG_ICON_PATH} -resize ${ICON_SIZE}x${ICON_SIZE} ${DST_ICON_PATH}/${ICON_NAME}.png)
+		endforeach(ICON_SIZE)
+
+		# Create special sizes derived from 184px icon
+		foreach(ICON_SPECIAL_SIZE ${ICON_SPECIAL_SIZES})
+
+			string(REGEX REPLACE "([0-9]+x[0-9]+):([0-9]+)" "\\1" SIZE_DIR ${ICON_SPECIAL_SIZE})
+			string(REGEX REPLACE "([0-9]+)x([0-9]+)" "\\1" SIZE_WIDTH ${SIZE_DIR})
+			string(REGEX REPLACE "([0-9]+)x([0-9]+)" "\\2" SIZE_HEIGHT ${SIZE_DIR})
+			string(REGEX REPLACE "([0-9]+x[0-9]+):([0-9]+)" "\\2" ICON_SIZE ${ICON_SPECIAL_SIZE})
+
+			# message(STATUS "Product: customizing svg icon ${ICON_NAME} to ${SIZE_WIDTH}x${SIZE_HEIGHT}, ${ICON_SIZE}")
+
+			set(DST_ICON_PATH ${DST_PATH}/${ICON_CATEGORY}/${SIZE_DIR})
+			file(MAKE_DIRECTORY ${DST_ICON_PATH})
+			execute_process(COMMAND ${IMAGEMAGICK_CONVERT} -background none ${SVG_ICON_PATH} -resize ${ICON_SIZE}x${ICON_SIZE} -gravity center -extent ${SIZE_WIDTH}x${SIZE_HEIGHT} -flatten ${DST_ICON_PATH}/${ICON_NAME}.png)
+		endforeach(ICON_SPECIAL_SIZE)
+
+		# TODO MP: clean YYxYY icons
+		# create svg directory and copy the svg file into
+		set(SVG_DEST_DIR "${DST_PATH}/${ICON_CATEGORY}/svg")
+		file(MAKE_DIRECTORY ${SVG_DEST_DIR})
+		file(COPY ${SVG_ICON_PATH} DESTINATION ${SVG_DEST_DIR})
+		file(RENAME "${SVG_DEST_DIR}/${ICON_CATEGORY}_${ICON_NAME}.svg" "${SVG_DEST_DIR}/${ICON_NAME}.svg")
+
+	endforeach(SVG_ICON)
+endmacro(product_image_make_icon)
+
 ###########################
 # Create androidcv logo about
 ###########################

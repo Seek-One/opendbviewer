@@ -5,6 +5,14 @@
  *      Author: echopin
  */
 
+#include <QtGlobal>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpression>
+#else
+#include <QRegExp>
+#endif
+
 #include "GUIController/QSqlHighlighterController.h"
 
 QSqlHighlighterController::QSqlHighlighterController(QTextDocument *parent)
@@ -72,9 +80,16 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 	{
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 		QRegularExpression expression(rule.m_pattern);
+		expression.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+		QRegularExpressionMatchIterator iter = expression.globalMatch(szText);
+		while (iter.hasNext()) {
+			QRegularExpressionMatch regExpMatch = iter.next();
+			if (regExpMatch.hasMatch()) {
+				setFormat((int) regExpMatch.capturedStart(), (int) regExpMatch.capturedLength(), rule.m_format);
+			}
+		}
 #else
 		QRegExp expression(rule.m_pattern);
-#endif
 		expression.setCaseSensitivity(Qt::CaseInsensitive);
 		int index = expression.indexIn(szText);
 		while (index >= 0)
@@ -82,14 +97,45 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 			int length = expression.matchedLength();
 			setFormat(index, length, rule.m_format);
 			index = expression.indexIn(szText, index + length);
-	    }
+		}
+#endif
 	}
 
 	setCurrentBlockState(0);
 
-	int startIndex = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	qsizetype iStartIndex = 0;
 	if (previousBlockState() != 1)
+	{
+		QRegularExpressionMatch match = m_commentStartExpression.match(szText);
+		if (match.hasMatch()) {
+			iStartIndex = match.capturedStart();
+		}
+	}
+
+	while (iStartIndex >= 0) {
+		QRegularExpressionMatch endMatch = m_commentEndExpression.match(szText, iStartIndex);
+		qsizetype iCommentLength;
+		if (!endMatch.hasMatch()) {
+			setCurrentBlockState(1);
+			iCommentLength = szText.length() - iStartIndex;
+		} else {
+			iCommentLength = endMatch.capturedStart() - iStartIndex + endMatch.capturedLength();
+		}
+		setFormat((int)iStartIndex, (int)iCommentLength, m_multiLineCommentFormat);
+		if (endMatch.hasMatch()) {
+			iStartIndex = m_commentStartExpression.match(szText, iStartIndex + iCommentLength).capturedStart();
+		}else {
+			// quit if no comment is found
+			break;
+		}
+	}
+
+#else
+	int startIndex = 0;
+	if (previousBlockState() != 1){
 		startIndex = m_commentStartExpression.indexIn(szText);
+	}
 
 	while (startIndex >= 0) {
 		int endIndex = m_commentEndExpression.indexIn(szText, startIndex);
@@ -105,6 +151,7 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 		setFormat(startIndex, commentLength, m_multiLineCommentFormat);
 		startIndex = m_commentStartExpression.indexIn(szText, startIndex + commentLength);
 	}
+#endif
 }
 
 QStringList QSqlHighlighterController::makeKeywordList()

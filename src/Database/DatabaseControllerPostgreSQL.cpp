@@ -27,7 +27,7 @@ QString DatabaseControllerPostgreSQL::loadTableDescriptionQuery(const QString& s
 	return QString("SELECT column_name, data_type, character_maximum_length, is_nullable, column_default FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '%0';").arg(szTableName);
 }
 
-QStringList DatabaseControllerPostgreSQL::loadTableDescriptionResult(const QSqlQuery query)
+QStringList DatabaseControllerPostgreSQL::loadTableDescriptionResult(const QSqlQuery& query)
 {
 	QStringList pRowData;
 	QString szColName = query.value(0).toString();
@@ -41,7 +41,7 @@ QStringList DatabaseControllerPostgreSQL::loadTableDescriptionResult(const QSqlQ
 	return pRowData;
 }
 
-QStringList DatabaseControllerPostgreSQL::loadTableDescriptionColumnNames(const QSqlQuery query)
+QStringList DatabaseControllerPostgreSQL::loadTableDescriptionColumnNames(const QSqlQuery& query)
 {
 	QStringList pColumnNames;
 	int currentColumnNumber;
@@ -72,7 +72,7 @@ QString DatabaseControllerPostgreSQL::loadTableCreationScriptQuery(const QString
 	return QString();
 }
 
-QString DatabaseControllerPostgreSQL::makeTableCreationScriptQueryResult(const QSqlQuery query)
+QString DatabaseControllerPostgreSQL::makeTableCreationScriptQueryResult(const QSqlQuery& query)
 {
 	return QString(query.value(1).toString());
 }

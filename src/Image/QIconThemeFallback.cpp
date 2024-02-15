@@ -9,31 +9,48 @@
 
 #include <QApplication>
 #include <QCache>
-#include <QtGlobal>
+
 #include <QIcon>
 #include <QString>
 #include <QDir>
+
 #include <QSettings>
-#include <QIconEngineV2>
 #include <QPainter>
 #include <QPixmap>
 #include <QPixmapCache>
-#include <QLatin1Literal>
 #include <QStringBuilder>
+
 #include <QStyle>
 #include <QStyleOption>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-# define USE_QTENGINEDEFAULT
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#define USE_QICONENGINEV2_MERGED QT_VERSION
+#define USE_QICONENGINE_LESS_HOOKS
+#endif
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#define USE_QTENGINEDEFAULT
 #endif
 
+#ifdef USE_QICONENGINEV2_MERGED
+
+#include <QIconEngine>
+#define QIconEngineDefault QIconEngine
+
+#else
+
+#include <QLatin1Literal>
+#include <QIconEngineV2>
 #ifdef USE_QTENGINEDEFAULT
 #define QIconEngineDefault QIconEngine
 #else
 #define QIconEngineDefault QIconEngineV2
-#endif
+#endif // USE_QTENGINEDEFAULT
+
+#endif // USE_QICONENGINEV2_MERGED
+
 
 static void q_cleanup_fallback_icon_cache();
+
 
 typedef QCache<QString, QIcon> FallbackIconCache;
 
@@ -215,6 +232,7 @@ public:
 	void virtual_hook(int id, void *data)
 	{
 	    switch (id) {
+#ifndef USE_QICONENGINE_LESS_HOOKS
 	    case QIconEngineDefault::AvailableSizesHook:
 	    	{
 	    		QIconEngineDefault::AvailableSizesArgument &arg = *reinterpret_cast<QIconEngineDefault::AvailableSizesArgument*>(data);
@@ -237,7 +255,7 @@ public:
 	            name = m_iconName;
 	        }
 	        break;
-
+#endif
 	    default:
 	    	QIconEngineDefault::virtual_hook(id, data);
 	        break;
@@ -308,6 +326,21 @@ public:
 
 	    painter->drawPixmap(rect, pixmap(pixmapSize, mode, state));
 	};
+
+	QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state)
+	{
+		QList<QSize> listSizes;
+
+		QIconEntryList entryList = qIconFallbackLoaderInstance()->entryList(m_iconName);
+		// Gets all sizes from the DirectoryInfo entries
+		for (auto pEntry : entryList)
+		{
+			listSizes.append(QSize(pEntry->size(), pEntry->size()));
+		}
+
+		return listSizes;
+	}
+
 };
 
 static void q_cleanup_fallback_icon_cache()
@@ -351,9 +384,10 @@ QIcon QIconThemeFallback::fromThemeFallback(const QString& szName, const QIcon &
 	if (qFallbackIconCache()->contains(szName)) {
 		icon = *qFallbackIconCache()->object(szName);
 	} else {
-		QIcon *cachedIcon = new QIcon(new QIconFallbackLoaderEngine(szName));
-		qFallbackIconCache()->insert(szName, cachedIcon);
-		icon = *cachedIcon;
+		auto pLoaderEngine = new QIconFallbackLoaderEngine(szName);
+		auto pCachedIcon = new QIcon(pLoaderEngine);
+		qFallbackIconCache()->insert(szName, pCachedIcon);
+		icon = *pCachedIcon;
 	}
 
 	// Note the qapp check is to allow lazy loading of static icons
@@ -373,12 +407,13 @@ void QIconThemeFallback::updateThemeInfo()
 	QFile themeIndex;
     QStringList iconDirs = QIcon::themeSearchPaths();
     for ( int i = 0 ; i < iconDirs.size() ; ++i) {
+
         QDir iconDir(iconDirs[i]);
 
-        QString themeDir = iconDir.path() + QLatin1Char('/') + m_szThemeName;
-        themeIndex.setFileName(themeDir + QLatin1String("/index.theme"));
+        QString szThemeDir = iconDir.path() + QLatin1Char('/') + m_szThemeName;
+        themeIndex.setFileName(szThemeDir + QLatin1String("/index.theme"));
         if (themeIndex.exists()) {
-            m_contentDir.setPath(themeDir);
+            m_contentDir.setPath(szThemeDir);
             break;
         }
     }
@@ -419,7 +454,6 @@ void QIconThemeFallback::updateThemeInfo()
 
 					QFileInfo iconFile(curDir.filePath(szFile));
 					QString szIconName = iconFile.baseName();
-					QIcon icon;
 
 					qIconFallbackLoaderInstance()->addEntry(szIconName, iconFile.filePath(), iIconSize);
 				}

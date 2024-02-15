@@ -76,6 +76,7 @@ QSqlHighlighterController::~QSqlHighlighterController()
 
 void QSqlHighlighterController::highlightBlock(const QString &szText)
 {
+	// Highlight SQL keyword
 	foreach (const HighlightingRule &rule, highlightingRules)
 	{
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -101,37 +102,36 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 #endif
 	}
 
-	setCurrentBlockState(0);
-
+	// Highlight comments
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 	qsizetype iStartIndex = 0;
-	if (previousBlockState() != 1)
-	{
-		QRegularExpressionMatch match = m_commentStartExpression.match(szText);
-		if (match.hasMatch()) {
-			iStartIndex = match.capturedStart();
+	qsizetype iEndIndex = -1;
+
+	// Look for comments start
+	QRegularExpressionMatchIterator iter = m_commentStartExpression.globalMatch(szText);
+	while (iter.hasNext()) {
+		QRegularExpressionMatch startMatch = iter.next();
+		if (startMatch.hasMatch()) {
+			iStartIndex = startMatch.capturedStart();
+			if (iStartIndex > iEndIndex) {
+				// Look for comments end
+				QRegularExpressionMatch endMatch = m_commentEndExpression.match(szText, iStartIndex);
+				qsizetype iCommentLength = 0;
+				if (endMatch.hasMatch()) {
+					iEndIndex = endMatch.capturedEnd();
+					iCommentLength = iEndIndex - iStartIndex;
+				} else {
+					iCommentLength = szText.length() - iStartIndex;
+				}
+				setFormat((int) iStartIndex, (int) iCommentLength, m_multiLineCommentFormat);
+			} else {
+				// We find a start comment within a comment
+			}
 		}
 	}
-
-	while (iStartIndex >= 0) {
-		QRegularExpressionMatch endMatch = m_commentEndExpression.match(szText, iStartIndex);
-		qsizetype iCommentLength;
-		if (!endMatch.hasMatch()) {
-			setCurrentBlockState(1);
-			iCommentLength = szText.length() - iStartIndex;
-		} else {
-			iCommentLength = endMatch.capturedStart() - iStartIndex + endMatch.capturedLength();
-		}
-		setFormat((int)iStartIndex, (int)iCommentLength, m_multiLineCommentFormat);
-		if (endMatch.hasMatch()) {
-			iStartIndex = m_commentStartExpression.match(szText, iStartIndex + iCommentLength).capturedStart();
-		}else {
-			// quit if no comment is found
-			break;
-		}
-	}
-
 #else
+	setCurrentBlockState(0);
+
 	int startIndex = 0;
 	if (previousBlockState() != 1){
 		startIndex = m_commentStartExpression.indexIn(szText);

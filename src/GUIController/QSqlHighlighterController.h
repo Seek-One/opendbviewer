@@ -10,10 +10,16 @@
 
 #include <QObject>
 #include <QSyntaxHighlighter>
-#include <QRegExp>
 #include <QTextCharFormat>
 #include <QString>
 #include <QTextDocument>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpression>
+#else
+#include <QRegExp>
+#endif
+
 
 /* Class created as per http://doc.qt.io/qt-5/qtwidgets-richtext-syntaxhighlighter-example.html
  */
@@ -34,13 +40,22 @@ private:
 private:
     struct HighlightingRule
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QRegularExpression m_pattern;
+#else
         QRegExp m_pattern;
+#endif
         QTextCharFormat m_format;
     };
     QVector<HighlightingRule> highlightingRules;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	QRegularExpression m_commentStartExpression;
+    QRegularExpression m_commentEndExpression;
+#else
     QRegExp m_commentStartExpression;
     QRegExp m_commentEndExpression;
+#endif
 
     QTextCharFormat m_keywordFormat;
     QTextCharFormat m_singleLineCommentFormat;

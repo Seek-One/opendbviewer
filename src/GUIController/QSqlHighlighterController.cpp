@@ -21,26 +21,43 @@ QSqlHighlighterController::QSqlHighlighterController(QTextDocument *parent)
 	szKeywordPatterns = makeKeywordList();
 	foreach(const QString &szPattern, szKeywordPatterns)
 	{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		rule.m_pattern = QRegularExpression(szPattern);
+#else
 		rule.m_pattern = QRegExp(szPattern);
+#endif
 		rule.m_format = m_keywordFormat;
 		highlightingRules.append(rule);
 	}
 
 	//single line comment format rule
 	m_singleLineCommentFormat.setForeground(Qt::blue);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	rule.m_pattern = QRegularExpression("--[^\n]*");
+#else
 	rule.m_pattern = QRegExp("--[^\n]*");
+#endif
 	rule.m_format = m_singleLineCommentFormat;
 	highlightingRules.append(rule);
 
 	//multiline comment format rule used in mySQL
 	m_multiLineCommentFormat.setForeground(Qt::blue);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	m_commentStartExpression = QRegularExpression("/\\*");
+	m_commentEndExpression = QRegularExpression("\\*/");
+#else
 	m_commentStartExpression = QRegExp("/\\*");
 	m_commentEndExpression = QRegExp("\\*/");
+#endif
 
 	//quotation format rule
 	//TODO multiline quotation format, could not get it to work alongside multiline comment format
 	m_quotationFormat.setForeground(Qt::magenta);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	rule.m_pattern = QRegularExpression("'.*'");
+#else
 	rule.m_pattern = QRegExp("'.*'");
+#endif
 	rule.m_format = m_quotationFormat;
 	highlightingRules.append(rule);
 }
@@ -53,7 +70,11 @@ void QSqlHighlighterController::highlightBlock(const QString &szText)
 {
 	foreach (const HighlightingRule &rule, highlightingRules)
 	{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		QRegularExpression expression(rule.m_pattern);
+#else
 		QRegExp expression(rule.m_pattern);
+#endif
 		expression.setCaseSensitivity(Qt::CaseInsensitive);
 		int index = expression.indexIn(szText);
 		while (index >= 0)

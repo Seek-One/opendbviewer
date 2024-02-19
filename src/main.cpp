@@ -12,6 +12,8 @@
 #include <QLocale>
 
 #include "Global/ApplicationSettings.h"
+#include "Global/QtCompat.h"
+
 #include "GUI/QWindowMain.h"
 #include "GUIController/QWindowMainController.h"
 #include "Image/QIconThemeFallback.h"
@@ -26,6 +28,38 @@
 #define DEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__ )
 #define new DEBUG_NEW
 #endif // _DEBUG
+
+bool QApplication_loadTranslation(QApplication& app)
+{
+	bool bRes = true;
+
+	// Load system translation
+	QTranslator qtTranslator;
+	qDebug("[Main] Current locale is %s", qPrintable(QLocale::system().name()));
+#ifdef USE_QLIBRARYINFO_PATH
+	QString szQtTranslationPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+#else
+	QString szQtTranslationPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+#endif
+	qDebug("[Main] Current locale path is %s", qPrintable(szQtTranslationPath));
+	bRes = qtTranslator.load("qt_" + QLocale::system().name(), szQtTranslationPath) && bRes;
+	if(bRes){
+		app.installTranslator(&qtTranslator);
+	}else{
+		qWarning("[Main] Failed to load qt translation");
+	}
+
+	// Load application translation
+	QTranslator appTranslator;
+	bRes = appTranslator.load(QLocale::system().name(), ":/ts/") && bRes;
+	if(appTranslator.load(QLocale::system().name(), ":/ts/")) {
+		app.installTranslator(&appTranslator);
+	}else{
+		qWarning("[Main] Failed to load application translation");
+	}
+
+	return bRes;
+}
 
 int main(int argc, char *argv[])
 {
@@ -68,20 +102,7 @@ int main(int argc, char *argv[])
 	qDebug("[Main] Using theme: %s, fallback theme: %s", qPrintable(QIcon::themeName()), qPrintable(QIconThemeFallback::themeName()));
 
 	// Initialize translation
-	QTranslator qtTranslator;
-	qDebug("[Main] Current locale is %s", qPrintable(QLocale::system().name()));
-	// qDebug("[Main] Current locale path is %s", qPrintable(QLibraryInfo::location(QLibraryInfo::TranslationsPath)));
-	if(qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))){
-		app.installTranslator(&qtTranslator);
-	}else{
-		qWarning("[Main] Failed to load qt translation");
-	}
-	QTranslator appTranslator;
-	if(appTranslator.load(QLocale::system().name(), ":/ts/")) {
-		app.installTranslator(&appTranslator);
-	}else{
-		qWarning("[Main] Failed to load application translation");
-	}
+	QApplication_loadTranslation(app);
 
 	QSettingsManager::getInstance().loadConfigSettings();
 	QSettingsManager::getInstance().loadDatabaseSettings();

@@ -223,7 +223,7 @@ public:
 	};
 
 #ifdef USE_QTENGINEDEFAULT
-    QIconEngine *clone() const
+    QIconEngine *clone() const override
     {
     	return new QIconFallbackLoaderEngine(m_iconName);
     }

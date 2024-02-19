@@ -229,7 +229,7 @@ public:
     }
 #endif
 
-	void virtual_hook(int id, void *data)
+	void virtual_hook(int id, void *data) override
 	{
 	    switch (id) {
 #ifndef USE_QICONENGINE_LESS_HOOKS
@@ -282,7 +282,7 @@ public:
         return pBestEntry;
 	}
 
-	QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state)
+	QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) override
 	{
 		//ensureLoaded();
 		QIconEntry *entry = entryForSize(size);
@@ -316,7 +316,7 @@ public:
 		return QPixmap();
 	}
 
-	void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state)
+	void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override
 	{
 	    QSize pixmapSize = rect.size();
 
@@ -327,7 +327,7 @@ public:
 	    painter->drawPixmap(rect, pixmap(pixmapSize, mode, state));
 	};
 
-	QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state)
+	QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state) override
 	{
 		QList<QSize> listSizes;
 

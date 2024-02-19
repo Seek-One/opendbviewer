@@ -71,11 +71,17 @@ int main(int argc, char *argv[])
 	QTranslator qtTranslator;
 	qDebug("[Main] Current locale is %s", qPrintable(QLocale::system().name()));
 	// qDebug("[Main] Current locale path is %s", qPrintable(QLibraryInfo::location(QLibraryInfo::TranslationsPath)));
-	qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-	app.installTranslator(&qtTranslator);
+	if(qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))){
+		app.installTranslator(&qtTranslator);
+	}else{
+		qWarning("[Main] Failed to load qt translation");
+	}
 	QTranslator appTranslator;
-	appTranslator.load(QLocale::system().name(), ":/ts/");
-	app.installTranslator(&appTranslator);
+	if(appTranslator.load(QLocale::system().name(), ":/ts/")) {
+		app.installTranslator(&appTranslator);
+	}else{
+		qWarning("[Main] Failed to load application translation");
+	}
 
 	QSettingsManager::getInstance().loadConfigSettings();
 	QSettingsManager::getInstance().loadDatabaseSettings();

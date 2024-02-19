@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION "3.13.4")
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
-# Define project data 
+# Define project data
 set (APPLICATION_VENDOR_NAME "seekone")
 set (APPLICATION_VENDOR_DOMAIN "www.seek-one.fr")
 set (APPLICATION_NAME "OpenDBViewer")

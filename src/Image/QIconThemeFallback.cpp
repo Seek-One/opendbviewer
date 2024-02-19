@@ -24,7 +24,7 @@
 #include <QStyleOption>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#define USE_QICONENGINEV2_MERGED QT_VERSION
+#define USE_QICONENGINEV2_MERGED
 #define USE_QICONENGINE_LESS_HOOKS
 #endif
 #if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
@@ -327,7 +327,11 @@ public:
 	    painter->drawPixmap(rect, pixmap(pixmapSize, mode, state));
 	};
 
+#ifdef USE_QICONENGINEV2_MERGED
 	QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state) override
+#else
+	QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state) const override
+#endif
 	{
 		QList<QSize> listSizes;
 

@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
 #elif defined(APPLE)
 	listPathsTheme.append(app.applicationDirPath() + "/../Resources/icons_themes"); // Add from bundle
 #else
+	listPathsTheme.append(app.applicationDirPath() + "/../icons_themes"); // Add from the binary directory
 	listPathsTheme.append(app.applicationDirPath() + "/../share/" + APPLICATION_PACKAGE_NAME + "/icons_themes"); // Add from the binary directory
 #endif
 	QIcon::setThemeSearchPaths(listPathsTheme);

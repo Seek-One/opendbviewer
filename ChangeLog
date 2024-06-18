@@ -1,3 +1,9 @@
+Version 1.2.0 (2024-06-18)
+    - Use Qt6 in autonomous package
+	- Add highlighy color
+	- Add request history
+	- Export for query results
+
 Version 1.1.1 (2019-04-26)
     - Don't clear connection information if connection fail (Closes #29) 
     - Fix installation on debian buster (Closes #30)

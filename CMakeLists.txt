@@ -250,7 +250,7 @@ set (TS_FILES
 
 option (UPDATE_TRANSLATIONS "Update source translation ts/*.ts files (WARNING: make clean will delete the source .ts files! Danger!)" ON)
 if (UPDATE_TRANSLATIONS)
-	qtx_create_translation(qm_FILES ${TS_FILES} ${I18N_FILES})
+	qtx_create_translation(qm_FILES ${TS_FILES} ${I18N_FILES} OPTIONS -locations none)
 else (UPDATE_TRANSLATIONS)
 	qtx_add_translation(qm_FILES ${TS_FILES})
 endif (UPDATE_TRANSLATIONS)

@@ -108,6 +108,19 @@ if(WITH_ALEAKD)
 	endif(ALeakD_FOUND)
 endif(WITH_ALEAKD)
 
+# Get libc6 dependencies on linux to check OS version
+if(UNIX AND NOT APPLE)
+	if(AUTONOMOUS_PACKAGE_BUILD)
+		include(${CMAKE_CURRENT_LIST_DIR}/glibc.cmake)
+		CHECK_GLIBC_VERSION()
+		if(GLIBC_VERSION)
+			message(STATUS "Found glibc/libc6 version: ${GLIBC_VERSION}")
+			# Package glibc is not present in Ubuntu, ask for libc6 instead
+			list(APPEND PACKAGE_DEPS "libc6 (>=${GLIBC_VERSION})")
+		endif()
+	endif()
+endif()
+
 #####################
 ### Security
 #####################

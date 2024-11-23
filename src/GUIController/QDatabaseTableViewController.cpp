@@ -231,6 +231,8 @@ void QDatabaseTableViewController::importData()
 
 							if(!szCurrentString.isEmpty() && szCurrentString != "NULL"){
 								sqlRecord.setValue(i, szCurrentString);
+							}else{
+								sqlRecord.setValue(i, QVariant());
 							}
 						}
 

@@ -60,7 +60,7 @@ void QHistoryMenuWidget::slotAboutToBeRemoved()
 	}
 }
 
-void QHistoryMenuWidget::enterEvent(QEvent *event)
+void QHistoryMenuWidget::enterEvent(QEnterEvent *event)
 {
 	QPalette palette = this->style()->standardPalette();
 	palette.setColor(QPalette::Window, palette.highlight().color());

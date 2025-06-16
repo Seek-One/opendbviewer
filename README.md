@@ -26,7 +26,7 @@ Requirements
 ------------
 
 - CMake
-- Qt version 4 or Qt version 5
+- Qt version 4, 5 or 6
 - ImageMagick
 
 Compiling from source
@@ -37,11 +37,16 @@ Compiling from source
 Install dependencies:
   * in debian OS (with Qt4) :
 ```
-    apt-get install git cmake libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql imagemagick
+    apt-get install git cmake g++ imagemagick libqt4-dev libqt4-sql-sqlite libqt4-sql-mysql libqt4-sql-psql
 ```
   * in debian OS (with Qt5) :
 ```
-    apt-get install git cmake qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql imagemagick
+    apt-get install git cmake g++ imagemagick qtbase5-dev qttools5-dev qttools5-dev-tools libqt5sql5-sqlite libqt5sql5-mysql libqt5sql5-psql
+```
+  * in debian OS (with Qt6) :
+```
+    apt-get install git cmake g++ imagemagick qt6-base-dev qt6-tools-dev qt6-base-dev-tools
+ 
 ```
   * in fedora OS : 
 ```

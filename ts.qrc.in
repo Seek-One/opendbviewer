@@ -3,6 +3,6 @@
 <qresource prefix="/ts">
 	<file alias="fr.qm">@PROJECT_BINARY_DIR@/fr.qm</file>
 	<file alias="ru.qm">@PROJECT_BINARY_DIR@/ru.qm</file>
-	<file alias="ua.qm">@PROJECT_BINARY_DIR@/ua.qm</file>
+	<file alias="uk.qm">@PROJECT_BINARY_DIR@/uk.qm</file>
 </qresource>
 </RCC>

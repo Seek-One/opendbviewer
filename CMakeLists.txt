@@ -363,7 +363,7 @@ endif(UNIX AND NOT APPLE)
 add_dependencies(${APPLICATION_EXE_NAME}_rcs ${APPLICATION_EXE_NAME}_ts)
 
 ####################
-# Create Executable
+# Create executable
 ####################
 
 ## Remove the output console

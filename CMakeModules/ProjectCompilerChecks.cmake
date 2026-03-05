@@ -1,5 +1,5 @@
 ############################
-# Add some copiler options
+# Add some compiler options
 ############################
 
 #set(STACKSIZE 64000)
@@ -13,6 +13,10 @@ if(NOT MSVC)
 #else()
 	#set(CMAKE_EXE_LINKER_FLAGS "/STACK:${STACKSIZE}")
 endif(NOT MSVC)
+
+if(APPLE)
+	message(STATUS "Using MacOS SDK at: ${CMAKE_OSX_SYSROOT}")
+endif()
 
 ############################
 # Check of some C files

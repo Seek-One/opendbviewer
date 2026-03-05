@@ -23,7 +23,7 @@ QSqlDisplayTableModel::~QSqlDisplayTableModel()
 QVariant QSqlDisplayTableModel::data(const QModelIndex &index, int role) const
 {
 	QVariant value = QSqlTableModel::data(index, role);
-	int iOccur = m_errorIndexVector.indexOf(index);
+	auto iOccur = m_errorIndexVector.indexOf(index);
 	if (!index.isValid()) {
 		return QVariant();
 	}

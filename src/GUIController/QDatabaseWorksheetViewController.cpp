@@ -191,7 +191,7 @@ void QDatabaseWorksheetViewController::initRequestHistory()
 			/* Why a reverse loop ?
 			* 'addQueryToMenu(szQuery)' add query as first item in menu
 			* But the queries read in the file are store like that too*/
-			for(int i = szListQueries.size()-1; i >= 0; i--)
+			for(auto i = szListQueries.size()-1; i >= 0; i--)
 			{
 				addQueryToMenu(szListQueries.at(i));
 			}

@@ -177,7 +177,7 @@ void QOpenHistoryViewController::initHistoryList()
 	DatabaseModel database;
 
 	m_pHistoryDatabaseModel->clear();
-	for (int row = list.size() - 1 ; row >= 0 ; row--){
+	for (auto row = list.size() - 1 ; row >= 0 ; row--){
 		database = list.at(row);
 		QHistoryDatabaseItem *item = new QHistoryDatabaseItem(database);
 		m_pHistoryDatabaseModel->appendRow(item);

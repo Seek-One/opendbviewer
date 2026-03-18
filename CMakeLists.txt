@@ -1,5 +1,4 @@
 # CMake file
-
 cmake_minimum_required(VERSION "3.13.4")
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
@@ -64,7 +63,7 @@ endif()
 set(QT_IMAGEFORMATS_COMPONENTS qjpeg)
 set(QT_SQL_COMPONENTS qsqlite qsqlmysql qsqlpsql)
 
-# Define output variable
+# Set packaging options
 set (PACKAGE_DEPS)
 if(WITH_AUTONOMOUS_PACKAGE_BUILD)
 	set(AUTONOMOUS_PACKAGE_BUILD ON CACHE BOOL "Enable build of autonomous package without dependencies")
@@ -268,12 +267,17 @@ add_custom_target(update_ts ALL DEPENDS ${APPLICATION_EXE_NAME}_ts)
 # Resource files
 ####################
 
-# Configure translation file
+# Translations resource file
 configure_file (
 	"${PROJECT_SOURCE_DIR}/ts.qrc.in"
 	"${PROJECT_BINARY_DIR}/ts.qrc"
 )
+set (QRC_TS_FILES
+	${PROJECT_BINARY_DIR}/ts.qrc
+)
+qtx_add_resources(RCS_TS_OUTFILES ${QRC_TS_FILES})
 
+# Qt translations resources files
 if (WIN32)
 	set (QT_TS_FILES
 		"${QT_TRANSLATIONS_DIR}/qt_fr.qm"
@@ -294,43 +298,26 @@ if (WIN32)
 	endif()
 endif()
 
-# Theme resource file
+# Image and logos build
 product_image_make_icon(${PROJECT_SOURCE_DIR}/data/theme/icons_src/svg ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
 
-# Icon resource file
+# Theme configuration
 file(COPY ${PROJECT_SOURCE_DIR}/data/theme/icons_src/author DESTINATION ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
 file(COPY ${PROJECT_SOURCE_DIR}/data/theme/icons_src/index.theme DESTINATION ${PROJECT_BINARY_DIR}/data/theme/icons/app_default)
 
-# Resources
-configure_file (
-	"${PROJECT_SOURCE_DIR}/data/logos/icon.rc.in"
-	"${PROJECT_BINARY_DIR}/data/logos/icon.rc"
-)
+# Application resource file
 configure_file (
 	"${PROJECT_SOURCE_DIR}/data/app.qrc.in"
 	"${PROJECT_BINARY_DIR}/data/app.qrc"
 )
 
-# Resources
-set (QRC_TS_FILES
-	${PROJECT_BINARY_DIR}/ts.qrc
+# Icon resource file
+configure_file (
+	"${PROJECT_SOURCE_DIR}/data/logos/icon.rc.in"
+	"${PROJECT_BINARY_DIR}/data/logos/icon.rc"
 )
-qtx_add_resources(RCS_TS_OUTFILES ${QRC_TS_FILES})
-
-set (QRC_FILES
-	${PROJECT_BINARY_DIR}/data/app.qrc
-)
-qtx_add_resources(RCS_OUTFILES ${QRC_FILES})
-
-
-# Create a library for resources
-add_library(${APPLICATION_EXE_NAME}_rcs OBJECT
-	${RCS_OUTFILES}
-	${RCS_TS_OUTFILES}
-)
-
-IF(WIN32)
-	set (RC_FILES
+if(WIN32)
+	set(RC_FILES
 		"${PROJECT_BINARY_DIR}/data/logos/icon.rc"
 		"platforms/win32/versioninfo.rc"
 	)
@@ -342,6 +329,18 @@ IF(WIN32)
 		SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff -i <SOURCE> -o <OBJECT>")
 	endif(MINGW)
 endif(WIN32)
+
+# Resources files
+set (QRC_FILES
+	${PROJECT_BINARY_DIR}/data/app.qrc
+)
+qtx_add_resources(RCS_OUTFILES ${QRC_FILES})
+
+# Create a library for resources
+add_library(${APPLICATION_EXE_NAME}_rcs OBJECT
+	${RCS_OUTFILES}
+	${RCS_TS_OUTFILES}
+)
 
 ####################
 # RPATH

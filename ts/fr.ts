@@ -585,6 +585,10 @@
         <source>Export</source>
         <translation>Exporter</translation>
     </message>
+    <message>
+        <source>Results: %1</source>
+        <translation>Résultats : %1</translation>
+    </message>
 </context>
 <context>
     <name>QWindowMain</name>

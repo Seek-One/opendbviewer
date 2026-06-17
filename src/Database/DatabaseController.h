@@ -43,13 +43,11 @@ public:
 	bool loadSystemTables(DbLoadTableCB func, void* user_data);
 	bool loadViewsTables(DbLoadTableCB func, void* user_data);
 
-	bool loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel* pTableModel);
-	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
+	bool loadTableData(const QString& szTableName, const QString& szFilter, DatabaseProcessHandler* pHandler);
+	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data, DatabaseProcessHandler* pHandler);
 
-	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
+	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data, DatabaseProcessHandler* pHandler);
 	bool processWorksheetQueryResults(const QString& szWorksheetQuery, DatabaseProcessHandler* pHandler);
-
-	QString getQueryResultString() const;
 
 protected:
 	virtual QString loadTableDescriptionQuery(const QString& szTableName) = 0;
@@ -68,7 +66,6 @@ private:
 protected:
 	DatabaseModel m_databaseModel;
 	QSqlDatabase m_db;
-	QString m_szResultString;
 
 	static int g_iConnectionIdentifier;
 };

@@ -48,6 +48,8 @@ public:
 	void showTabData();
 	void showTabConsole();
 
+	void setResultCount(int iResultCount);
+
 	// Creation script tab
 	QTextEdit* getCreationScriptTextEdit() const;
 

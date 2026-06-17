@@ -467,6 +467,10 @@
         <source>Export</source>
         <translation>Експорт</translation>
     </message>
+    <message>
+        <source>Results: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QWindowMain</name>

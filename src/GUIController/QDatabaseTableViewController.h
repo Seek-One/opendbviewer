@@ -13,6 +13,7 @@
 #include <QSqlTableModel>
 #include <QSortFilterProxyModel>
 
+#include "Database/DatabaseProcessHandler.h"
 #include "Database/DatabaseCallback.h"
 #include "GUIModel/QSqlDisplayTableModel.h"
 
@@ -20,7 +21,7 @@ class QStandardItem;
 class QDatabaseTableView;
 class DatabaseController;
 
-class QDatabaseTableViewController : public QWidget
+class QDatabaseTableViewController : public QWidget, public DatabaseProcessHandler
 {
 	Q_OBJECT
 public:
@@ -28,11 +29,13 @@ public:
 	virtual ~QDatabaseTableViewController();
 
 	void init(QDatabaseTableView* pDatabaseTableView, QString& szTableName, DatabaseController* pDatabaseController);
-	void showQueryInformation();
+	void addQueryInformation(const QString& szQueryInformation);
 
 public:
 	bool loadDatabaseTableInfos();
 	bool loadDatabaseTableData();
+
+	void setResultCount(int iResultCount);
 
 public slots:
 	void updateTableData();
@@ -40,6 +43,11 @@ public slots:
 	void importData();
 	void exportData();
 	void displayError();
+
+// Database handler
+public:
+	void notifyQueryResult(const QString& szQuery, bool bSuccess, int iResultCount, const QString& szQueryResult) override;
+	void notifyQueriesFinished(bool bSuccess, bool bLastQueryHasResults) override;
 
 private:
 	static void onDbLoadTableDescription(const QStringList& listRowHeader, const QStringList& listRowData, DatabaseQueryStep step, void* user_data);

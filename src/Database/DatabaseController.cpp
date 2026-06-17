@@ -130,7 +130,7 @@ bool DatabaseController::loadViewsTables(DbLoadTableCB func, void* user_data)
 	return bRes;
 }
 
-bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoadTableDescription func, void* user_data)
+bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoadTableDescription func, void* user_data, DatabaseProcessHandler* pHandler)
 {
 	bool bRes;
 
@@ -144,7 +144,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	if(bRes){
 		QString szQuery = loadTableDescriptionQuery(szTableName);
 
-		int iCount = 0;
+		int iResultCount = 0;
 
 		QSqlQuery query(m_db);
 		bRes = query.exec(szQuery); // Loading the query according to the type of database used
@@ -160,7 +160,7 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 				func(listRowHeader, listRowData, DBQueryStepRow, user_data);
 				listRowData.clear();
 
-				iCount++;
+				iResultCount++;
 			}
 
 			// Tell all data are read
@@ -169,7 +169,10 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 			qCritical("[DatabaseController] Cannot execute query for table description loading");
 		}
 
-		m_szResultString = makeQueryResultString(query, timerQuery.elapsed(), iCount);
+		const auto& szResultString = makeQueryResultString(query, timerQuery.elapsed(), iResultCount);
+		if (pHandler) {
+			pHandler->notifyQueryResult(szQuery, bRes, iResultCount, szResultString);
+		}
 
 		closeDataBase();
 	}else{
@@ -179,14 +182,19 @@ bool DatabaseController::loadTableDescription(const QString& szTableName, DbLoad
 	return bRes;
 }
 
-bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, QSqlDisplayTableModel* pTableModel)
+bool DatabaseController::loadTableData(const QString& szTableName, const QString& szFilter, DatabaseProcessHandler* pHandler)
 {
 	bool bRes;
 
 	QStringList listRowHeader;
 
+	QSqlDisplayTableModel* pTableModel = pHandler->getTableModel();
+
 	bRes = openDatabase();
 	if(bRes){
+		QElapsedTimer timerQuery;
+		timerQuery.start();
+
 		listRowHeader = listColumnNames(szTableName);
 
 		pTableModel->setTable(szTableName);
@@ -202,8 +210,33 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 		}
 		bRes = pTableModel->select();
 
+
+		QString szQuery = pTableModel->query().executedQuery();
+
+		int iResultCount = 0;
+		if(pTableModel->query().driver()->hasFeature(QSqlDriver::QuerySize)) {
+			iResultCount = pTableModel->query().size();
+		}else {
+			// Re-execute the request to count the number of rows
+			QSqlQuery queryCount(szQuery, m_db);
+			bRes = queryCount.exec();
+			if (bRes) {
+				while (queryCount.next()) {
+					iResultCount++;
+				}
+			}
+		}
+
+		QString szResultString = makeQueryResultString(pTableModel->query(), timerQuery.elapsed(), iResultCount);
+		if (pHandler) {
+			pHandler->notifyQueryResult(szQuery, bRes, iResultCount, szResultString);
+		}
 	} else {
 		qCritical("[DatabaseController] Cannot open database for table data loading");
+	}
+
+	if (pHandler) {
+		pHandler->notifyQueriesFinished(bRes, true);
 	}
 
 	return bRes;
@@ -217,9 +250,6 @@ bool DatabaseController::processWorksheetQueryResults(const QString& szWorksheet
 	QStringList listRowData;
 	QString szRequest;
 
-	QElapsedTimer timerQuery;
-	timerQuery.start();
-
 	QStringList listQueries = splitSQLQueries(szWorksheetQuery);
 
 	bool bHasResult = false;
@@ -230,6 +260,12 @@ bool DatabaseController::processWorksheetQueryResults(const QString& szWorksheet
 			for (const QString& szCurrentQuery : listQueries)
 			{
 				bHasResult = false;
+
+				int iResultCount = 0;
+				QString szResultString;
+
+				QElapsedTimer timerQuery;
+				timerQuery.start();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 				QRegularExpression regExp("\\s+");
@@ -252,31 +288,30 @@ bool DatabaseController::processWorksheetQueryResults(const QString& szWorksheet
 					const QSqlQuery& query = pQueryModel->query();
 					const auto& iTimeElapsed = timerQuery.elapsed();
 
-					// Get rows count
-					int iCount = 0;
-					{
+					// Compute rows count
+					if (bRes){
 						QSqlQuery queryCount(szCurrentQuery, m_db);
 						bRes = queryCount.exec();
 						if (bRes) {
 							if (queryCount.driver()->hasFeature(QSqlDriver::QuerySize)) {
-								iCount = queryCount.size();
+								iResultCount = queryCount.size();
 							}else {
 								while (queryCount.next()) {
-									iCount++;
+									iResultCount++;
 								}
 							}
 						}
 					}
 
-					m_szResultString = makeQueryResultString(query, iTimeElapsed, iCount);
+					szResultString = makeQueryResultString(query, iTimeElapsed, iResultCount);
 				} else {
 					QSqlQuery query(m_db);
 					bRes = query.exec(szCurrentQuery);
-					m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
+					szResultString = makeQueryResultString(query, timerQuery.elapsed());
 				}
 
 				if (pHandler) {
-					pHandler->notifyQueryResult(szCurrentQuery, bRes, m_szResultString);
+					pHandler->notifyQueryResult(szCurrentQuery, bRes, iResultCount, szResultString);
 				}
 
 				if (!bRes) {
@@ -366,29 +401,40 @@ QStringList DatabaseController::splitSQLQueries(const QString& szSQLScript)
     return listQueries;
 }
 
-bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)
+bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data, DatabaseProcessHandler* pHandler)
 {
 	bool bRes = true;
 
 	QString szQuery = loadTableCreationScriptQuery(szTableName);
 
 	if(!szQuery.isEmpty()){
-		if(bRes){
+		QString szTmp;
 
-			QSqlQuery query(m_db);
-			bRes = query.exec(szQuery);
+		QElapsedTimer timerQuery;
+		timerQuery.start();
 
-			QString szTmp;
+		// Run table creation script query
+		QSqlQuery query(m_db);
+		bRes = query.exec(szQuery);
 
+		int iResultCount = 0;
+
+		// Iterate results
+		if (bRes) {
 			while(query.next())
 			{
 				szTmp = makeTableCreationScriptQueryResult(query);
 				func(szTmp, user_data);
+				iResultCount++;
 			}
-
-		} else {
-			qCritical("[DatabaseController] Cannot open database for table creation script loading");
 		}
+
+		const auto& szResultString = makeQueryResultString(query, timerQuery.elapsed(), iResultCount);
+		if (pHandler) {
+			pHandler->notifyQueryResult(szQuery, bRes, -1, szResultString);
+		}
+	} else {
+		qCritical("[DatabaseController] Cannot open database for table creation script loading");
 	}
 
 	return bRes;
@@ -430,11 +476,6 @@ QString DatabaseController::makeQueryResultString(const QSqlQuery& query, qint64
 	szResultString += "\n";
 
 	return szResultString;
-}
-
-QString DatabaseController::getQueryResultString() const
-{
-	return m_szResultString;
 }
 
 QString DatabaseController::getDatabaseName() const

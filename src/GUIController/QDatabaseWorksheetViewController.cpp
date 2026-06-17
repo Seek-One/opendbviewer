@@ -77,9 +77,8 @@ void QDatabaseWorksheetViewController::clearWorksheetText()
 	m_pDatabaseWorksheetView->getWorksheetTextEdit()->clear();
 }
 
-void QDatabaseWorksheetViewController::showWorksheetQueryInformation()
+void QDatabaseWorksheetViewController::addWorksheetQueryInformation(const QString& szQueryInformation)
 {
-	QString szQueryInformation = m_pDatabaseController->getQueryResultString();
 	QTextCursor cursor(m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->textCursor());//Creates a cursor
 	cursor.movePosition(QTextCursor::Start);//Moves the cursor to the start
 	m_pDatabaseWorksheetView->getWorksheetConsoleTextEdit()->setTextCursor(cursor);//Sets the cursor position
@@ -342,9 +341,10 @@ void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* p
 	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(pAction->data().toString());
 }
 
-void QDatabaseWorksheetViewController::notifyQueryResult(const QString& szQuery, bool bSuccess, const QString& szQueryResult)
+void QDatabaseWorksheetViewController::notifyQueryResult(const QString& szQuery, bool bSuccess, int iResultCount, const QString& szQueryResult)
 {
-	showWorksheetQueryInformation();
+	addWorksheetQueryInformation(szQueryResult);
+	m_pDatabaseWorksheetView->setResultCount(iResultCount);
 	if (bSuccess) {
 		addRequestHistory(szQuery);
 	}

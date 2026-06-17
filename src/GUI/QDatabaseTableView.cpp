@@ -172,3 +172,8 @@ void QDatabaseTableView::showTabConsole()
 {
 	m_pQueryResultView->showTabConsole();
 }
+
+void QDatabaseTableView::setResultCount(int iResultCount)
+{
+	m_pQueryResultView->setResultCount(iResultCount);
+}

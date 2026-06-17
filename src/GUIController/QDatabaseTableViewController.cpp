@@ -43,6 +43,7 @@ void QDatabaseTableViewController::init(QDatabaseTableView* pDatabaseTableView, 
 	m_szTableName = szTableName;
 	m_pDatabaseController = pDatabaseController;
 	m_pDatabaseTableModel = new QSqlDisplayTableModel(NULL, pDatabaseController->getSqlDatabase());
+	setTableModel(m_pDatabaseTableModel);
 
 	connect(m_pDatabaseTableView->getRefreshButton(), SIGNAL(clicked()), this, SLOT(updateTableData()));
 	connect(m_pDatabaseTableView->getClearButton(), SIGNAL(clicked()), this, SLOT(clearFilterField()));
@@ -56,16 +57,14 @@ bool QDatabaseTableViewController::loadDatabaseTableInfos()
 	bool bRes;
 
 	// Load table structure
-	bRes = m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this);
-	showQueryInformation();
+	bRes = m_pDatabaseController->loadTableDescription(m_szTableName, onDbLoadTableDescription, this, this);
 	m_pDatabaseTableView->getStructureTreeView()->header()->resizeSections(QHeaderView::ResizeToContents);
 
 	// Load table data
 	bRes = loadDatabaseTableData() && bRes;
-	
+
 	// Load table creation script (if any)
-	bRes = m_pDatabaseController->loadTableCreationScript(m_szTableName, onDbLoadTableCreationScript, this) && bRes;
-	showQueryInformation();
+	bRes = m_pDatabaseController->loadTableCreationScript(m_szTableName, onDbLoadTableCreationScript, this, this) && bRes;
 
 	return bRes;
 }
@@ -73,18 +72,8 @@ bool QDatabaseTableViewController::loadDatabaseTableInfos()
 bool QDatabaseTableViewController::loadDatabaseTableData()
 {
 	bool bRes;
-	int iDefaultSize = 20;
 	QString szFilter = m_pDatabaseTableView->getFilterLine()->text();
-	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, m_pDatabaseTableModel); //Load the data
-
-	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
-	m_pDatabaseTableView->getDataTableView()->setShowGrid(false);
-	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
-	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setDefaultSectionSize(iDefaultSize);
-	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setHidden(true);
-	m_pDatabaseTableView->getDataTableView()->sortByColumn(0, Qt::AscendingOrder);
-	showQueryInformation();
+	bRes = m_pDatabaseController->loadTableData(m_szTableName, szFilter, this); //Load the data
 
 	return bRes;
 }
@@ -96,6 +85,11 @@ void QDatabaseTableViewController::updateTableData()
 	}else{
 		m_pDatabaseTableView->showTabConsole();
 	}
+}
+
+void QDatabaseTableViewController::setResultCount(int iResultCount)
+{
+	m_pDatabaseTableView->setResultCount(iResultCount);
 }
 
 void QDatabaseTableViewController::clearFilterField()
@@ -316,9 +310,8 @@ QList<QStandardItem*> QDatabaseTableViewController::makeStandardItemListFromStri
 	return listStandardItemList;
 }
 
-void QDatabaseTableViewController::showQueryInformation()
+void QDatabaseTableViewController::addQueryInformation(const QString& szQueryInformation)
 {
-	QString szQueryInformation = m_pDatabaseController->getQueryResultString();
 	QTextCursor cursor(m_pDatabaseTableView->getConsoleTextEdit()->textCursor());//Creates a cursor
 	cursor.movePosition(QTextCursor::Start);//Moves the cursor to the start
 	m_pDatabaseTableView->getConsoleTextEdit()->setTextCursor(cursor);//Sets the cursor position
@@ -348,4 +341,24 @@ void QDatabaseTableViewController::onDbLoadTableCreationScript(const QString& sz
 {
 	QDatabaseTableViewController* pDatabaseTableViewController = (QDatabaseTableViewController*)(user_data);
 	pDatabaseTableViewController->m_pDatabaseTableView->getCreationScriptTextEdit()->append(szCreationScriptString);
+}
+
+void QDatabaseTableViewController::notifyQueryResult(const QString& szQuery, bool bSuccess, int iResultCount, const QString& szQueryResult)
+{
+	addQueryInformation(szQueryResult);
+	if (iResultCount >= 0) {
+		m_pDatabaseTableView->setResultCount(iResultCount);
+	}
+}
+
+void QDatabaseTableViewController::notifyQueriesFinished(bool bSuccess, bool bLastQueryHasResults)
+{
+	int iDefaultSize = 20;
+	m_pDatabaseTableView->getDataTableView()->setModel(m_pDatabaseTableModel);
+	m_pDatabaseTableView->getDataTableView()->setShowGrid(false);
+	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+	m_pDatabaseTableView->getDataTableView()->horizontalHeader()->setStretchLastSection(true);
+	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setDefaultSectionSize(iDefaultSize);
+	m_pDatabaseTableView->getDataTableView()->verticalHeader()->setHidden(true);
+	m_pDatabaseTableView->getDataTableView()->sortByColumn(0, Qt::AscendingOrder);
 }

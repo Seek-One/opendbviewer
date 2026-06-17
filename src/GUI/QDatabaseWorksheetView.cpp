@@ -127,3 +127,8 @@ QMenu* QDatabaseWorksheetView::getRequestHistoryMenu() const
 {
 	return m_pRequestHistoryMenu;
 }
+
+void QDatabaseWorksheetView::setResultCount(int iResultCount)
+{
+	m_pQueryResultView->setResultCount(iResultCount);
+}

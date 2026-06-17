@@ -9,6 +9,7 @@
 #include <QTableView>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QLabel>
 
 #include "QQueryResultView.h"
 
@@ -51,6 +52,10 @@ QQueryResultView::QQueryResultView(QWidget* parent)
 		pWidget = new QWidget();
 		QHBoxLayout *pTmpHLayout = new QHBoxLayout();
 		pTmpHLayout->setContentsMargins(0, 2, 0, 0);
+
+		m_pResultCountLabel = new QLabel();
+		pTmpHLayout->addWidget(m_pResultCountLabel);
+		setResultCount(0);
 
 		m_pImportButton = new QPushButton(tr("Import"));
 		pTmpHLayout->addWidget(m_pImportButton);
@@ -96,4 +101,10 @@ void QQueryResultView::showTabData()
 void QQueryResultView::showTabConsole()
 {
 	setCurrentIndex(1);
+}
+
+void QQueryResultView::setResultCount(int iResultCount)
+{
+	QString szLabel = tr("Results: %1").arg(iResultCount);
+	m_pResultCountLabel->setText(szLabel);
 }

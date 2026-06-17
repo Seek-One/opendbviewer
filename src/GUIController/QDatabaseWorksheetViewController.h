@@ -25,7 +25,7 @@ public:
 	virtual ~QDatabaseWorksheetViewController();
 
 	void init(QDatabaseWorksheetView* pDatabaseWorksheetView, DatabaseController* pDatabaseController);
-	void showWorksheetQueryInformation();
+	void addWorksheetQueryInformation(const QString& szQueryInformation);
 
 	void initRequestHistory();
 	void updateAvailabilityMenu();
@@ -43,7 +43,7 @@ public slots:
 
 // Database handler
 public:
-	void notifyQueryResult(const QString& szQuery, bool bSuccess, const QString& szQueryResult) override;
+	void notifyQueryResult(const QString& szQuery, bool bSuccess, int iResultCount, const QString& szQueryResult) override;
 	void notifyQueryModel(QSqlDisplayQueryModel* pQueryModel) override;
 	void notifyQueriesFinished(bool bSuccess, bool bLastQueryHasResults) override;
 

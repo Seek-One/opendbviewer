@@ -6,7 +6,7 @@
 
 DatabaseProcessHandler::DatabaseProcessHandler()
 {
-
+	m_pTableModel = nullptr;
 }
 
 DatabaseProcessHandler::~DatabaseProcessHandler()
@@ -14,7 +14,17 @@ DatabaseProcessHandler::~DatabaseProcessHandler()
 
 }
 
-void DatabaseProcessHandler::notifyQueryResult(const QString& szQuery, bool bSuccess, const QString& szQueryResult)
+void DatabaseProcessHandler::setTableModel(QSqlDisplayTableModel* pTableModel)
+{
+	m_pTableModel = pTableModel;
+}
+
+QSqlDisplayTableModel* DatabaseProcessHandler::getTableModel() const
+{
+	return m_pTableModel;
+}
+
+void DatabaseProcessHandler::notifyQueryResult(const QString& szQuery, bool bSuccess, int iResultCount, const QString& szQueryResult)
 {
 
 }

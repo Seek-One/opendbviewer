@@ -13,6 +13,7 @@
 class QTableView;
 class QTextEdit;
 class QPushButton;
+class QLabel;
 
 class QQueryResultView : public QTabWidget {
 	Q_OBJECT
@@ -28,9 +29,12 @@ public:
 	void showTabData();
 	void showTabConsole();
 
+	void setResultCount(int iResultCount);
+
 private:
 	QTableView* m_pDataTableView;
 	QTextEdit* m_pConsoleTextEdit;
+	QLabel* m_pResultCountLabel;
 	QPushButton* m_pImportButton;
 	QPushButton* m_pExportButton;
 };

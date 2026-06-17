@@ -41,6 +41,8 @@ public:
 	void showTabData();
 	void showTabConsole();
 
+	void setResultCount(int iResultCount);
+
 private:
 	QToolBar* makeWorksheetToolbar();
 
@@ -51,7 +53,7 @@ private:
 	QSqlSourceView* m_pWorksheetTextEdit;
 	QQueryResultView* m_pQueryResultView;
 	QMenu* m_pRequestHistoryMenu;
-	QPushButton* m_pRequestHistoryButton;	
+	QPushButton* m_pRequestHistoryButton;
 };
 
 #endif /* SRC_GUI_QDATABASEWORKSHEETVIEW_H_ */

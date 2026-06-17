@@ -5,6 +5,8 @@
  *      Author: echopin
  */
 
+#include <QProgressDialog>
+
 #include "QDatabaseConnectionViewController.h"
 #include "QDatabaseTableViewController.h"
 #include "QDatabaseWorksheetViewController.h"
@@ -71,6 +73,16 @@ void QDatabaseConnectionViewController::openTableTab(const QModelIndex& index)
 		// Prevents the tab from opening if the user clicks on the "tables", "system tables" or "views" item
 		return;
 	}
+
+	QProgressDialog progress(m_pDatabaseConnectionView->topLevelWidget());
+	progress.setWindowTitle(tr("Loading"));
+	progress.setLabelText(tr("Loading data. Please wait..."));
+	progress.setCancelButton(nullptr);
+	progress.setRange(0, 0);
+	progress.setAutoClose(true);
+	progress.setValue(1);
+	progress.show();
+	QApplication::processEvents();
 
 	QStandardItem *pTableItem = m_pListTableModel->itemFromIndex(index);
 	QString szTableName = pTableItem->text();

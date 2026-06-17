@@ -99,6 +99,14 @@
         <source>Problem while loading database table informations</source>
         <translation>Проблема під час завантаження інформації про таблиці бази даних</translation>
     </message>
+    <message>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading data. Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QDatabaseTableView</name>

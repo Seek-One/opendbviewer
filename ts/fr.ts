@@ -121,6 +121,14 @@
         <source>Problem while loading database table informations</source>
         <translation>Problème durant le chargement des informations de la table</translation>
     </message>
+        <message>
+            <source>Loading</source>
+            <translation>Chargement</translation>
+        </message>
+        <message>
+            <source>Loading data. Please wait...</source>
+            <translation>Chargement des données. Veuillez attendre...</translation>
+        </message>
 </context>
 <context>
     <name>QDatabaseTableView</name>

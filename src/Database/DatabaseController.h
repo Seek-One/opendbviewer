@@ -20,6 +20,8 @@
 #include <QDebug>
 
 #include "DatabaseCallback.h"
+#include "DatabaseProcessHandler.h"
+
 #include "GUIModel/QSqlDisplayQueryModel.h"
 #include "GUIModel/QSqlDisplayTableModel.h"
 
@@ -45,7 +47,7 @@ public:
 	bool loadTableDescription(const QString& szTable, DbLoadTableDescription func, void* user_data);
 
 	bool loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data);
-	bool loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppQueryModel);
+	bool processWorksheetQueryResults(const QString& szWorksheetQuery, DatabaseProcessHandler* pHandler);
 
 	QString getQueryResultString() const;
 
@@ -58,6 +60,8 @@ protected:
 	virtual QString makeTableCreationScriptQueryResult(const QSqlQuery& query) = 0;
 
 private:
+	QStringList splitSQLQueries(const QString& szSQLScript);
+
 	QString makeQueryResultString(const QSqlQuery& query, qint64 iTimeMS, int iNbRowsSelected = 0);
 
 

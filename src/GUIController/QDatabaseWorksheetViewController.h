@@ -17,7 +17,7 @@
 
 class QDatabaseWorksheetView;
 
-class QDatabaseWorksheetViewController : public QWidget
+class QDatabaseWorksheetViewController : public QWidget, public DatabaseProcessHandler
 {
 	Q_OBJECT
 public:
@@ -40,6 +40,12 @@ public slots:
 	void setExportButtonDisabled();
 	void changeWorksheetTextFromHistory(QAction* action);
 	void removeQuery(const QString& szQuery);
+
+// Database handler
+public:
+	void notifyQueryResult(const QString& szQuery, bool bSuccess, const QString& szQueryResult) override;
+	void notifyQueryModel(QSqlDisplayQueryModel* pQueryModel) override;
+	void notifyQueriesFinished(bool bSuccess, bool bLastQueryHasResults) override;
 
 private:
 	QDatabaseWorksheetView* m_pDatabaseWorksheetView;

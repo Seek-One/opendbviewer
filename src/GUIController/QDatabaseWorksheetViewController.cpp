@@ -60,26 +60,10 @@ void QDatabaseWorksheetViewController::init(QDatabaseWorksheetView* pDatabaseWor
 void QDatabaseWorksheetViewController::executeQuery()
 {
 	bool bRes;
-	int iDefaultSize = 20;
 	QString szWorksheetQuery = m_pDatabaseWorksheetView->getWorksheetTextEdit()->toPlainText();
-	bRes = m_pDatabaseController->loadWorksheetQueryResults(szWorksheetQuery, &m_pDatabaseDisplayModel);
-
-	m_pDatabaseWorksheetView->getWorksheetTableView()->setModel(m_pDatabaseDisplayModel);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->setShowGrid(false);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->setStretchLastSection(true);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setDefaultSectionSize(iDefaultSize);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setHidden(true);
-	m_pDatabaseWorksheetView->getWorksheetTableView()->sortByColumn(0, Qt::AscendingOrder);
-	showWorksheetQueryInformation();
-
-	if(bRes){
-		m_pDatabaseWorksheetView->showTabData();
-		m_pDatabaseWorksheetView->getExportButton()->setEnabled(true);
-		addRequestHistory(szWorksheetQuery);
-	} else {
-		m_pDatabaseWorksheetView->showTabConsole();
+	bRes = m_pDatabaseController->processWorksheetQueryResults(szWorksheetQuery, this);
+	if (!bRes) {
+		qWarning("[Worksheet] Error while executing the query");
 	}
 }
 
@@ -356,4 +340,37 @@ void QDatabaseWorksheetViewController::updateAvailabilityMenu()
 void QDatabaseWorksheetViewController::changeWorksheetTextFromHistory(QAction* pAction)
 {
 	m_pDatabaseWorksheetView->getWorksheetTextEdit()->setPlainText(pAction->data().toString());
+}
+
+void QDatabaseWorksheetViewController::notifyQueryResult(const QString& szQuery, bool bSuccess, const QString& szQueryResult)
+{
+	showWorksheetQueryInformation();
+	if (bSuccess) {
+		addRequestHistory(szQuery);
+	}
+}
+
+void QDatabaseWorksheetViewController::notifyQueryModel(QSqlDisplayQueryModel* pQueryModel)
+{
+	int iDefaultSize = 20;
+
+	m_pDatabaseDisplayModel = pQueryModel;
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setModel(m_pDatabaseDisplayModel);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setShowGrid(false);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->horizontalHeader()->setStretchLastSection(true);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setDefaultSectionSize(iDefaultSize);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->verticalHeader()->setHidden(true);
+	m_pDatabaseWorksheetView->getWorksheetTableView()->sortByColumn(0, Qt::AscendingOrder);
+}
+
+void QDatabaseWorksheetViewController::notifyQueriesFinished(bool bSuccess, bool bLastQueryHasResults)
+{
+	if(bLastQueryHasResults){
+		m_pDatabaseWorksheetView->showTabData();
+		m_pDatabaseWorksheetView->getExportButton()->setEnabled(true);
+	} else {
+		m_pDatabaseWorksheetView->showTabConsole();
+	}
 }

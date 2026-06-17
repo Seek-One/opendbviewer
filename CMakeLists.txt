@@ -171,6 +171,8 @@ set(APPLICATION_SOURCES
 	src/Database/DatabaseControllerSqlite.h
 	src/Database/DatabaseControllerPostgreSQL.cpp
 	src/Database/DatabaseControllerPostgreSQL.h
+	src/Database/DatabaseProcessHandler.cpp
+	src/Database/DatabaseProcessHandler.h
 	src/Settings/QSettingsManager.cpp
 	src/Settings/QSettingsManager.h
 	src/Widget/QDropAreaWidget.cpp

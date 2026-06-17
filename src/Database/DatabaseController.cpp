@@ -6,6 +6,7 @@
  */
 
 #include <QElapsedTimer>
+#include <QSqlDriver>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QRegularExpression>
@@ -208,7 +209,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 	return bRes;
 }
 
-bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QSqlDisplayQueryModel** ppQueryModel)
+bool DatabaseController::processWorksheetQueryResults(const QString& szWorksheetQuery, DatabaseProcessHandler* pHandler)
 {
 	bool bRes;
 
@@ -219,36 +220,150 @@ bool DatabaseController::loadWorksheetQueryResults(QString& szWorksheetQuery, QS
 	QElapsedTimer timerQuery;
 	timerQuery.start();
 
-	bRes = openDatabase();
-	if(bRes && !szWorksheetQuery.isEmpty()){
+	QStringList listQueries = splitSQLQueries(szWorksheetQuery);
+
+	bool bHasResult = false;
+
+	if (!listQueries.isEmpty()) {
+		bRes = openDatabase();
+		if (bRes){
+			for (const QString& szCurrentQuery : listQueries)
+			{
+				bHasResult = false;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-		QRegularExpression regExp("\\s+");
+				QRegularExpression regExp("\\s+");
 #else
-		QRegExp regExp("\\s+");
+				QRegExp regExp("\\s+");
 #endif
-		szRequest = szWorksheetQuery.section(regExp, 0, 0, QString::SectionSkipEmpty);
-		if (szRequest.toLower() == "select") {
-			*ppQueryModel = new QSqlDisplayQueryModel();
-			(*ppQueryModel)->setQuery(szWorksheetQuery, m_db);
-			if ((*ppQueryModel)->query().lastError().isValid()) {
-				bRes = false;
-			}
-			const QSqlQuery& query = (*ppQueryModel)->query();
-			m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
-		} else {
-			QSqlQuery query(m_db);
-			query.exec(szWorksheetQuery);
-			bRes = false; 	//No results to display in this case
-			m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
-		}
+				szRequest = szCurrentQuery.section(regExp, 0, 0, QString::SectionSkipEmpty);
+				if (szRequest.toLower() == "select") {
+					auto* pQueryModel = new QSqlDisplayQueryModel();
+					pQueryModel->setQuery(szCurrentQuery, m_db);
+					bHasResult = true;
+					if (pQueryModel->query().lastError().isValid()) {
+						bRes = false;
+						bHasResult = false;
+					}
+					if (pHandler) {
+						pHandler->notifyQueryModel(pQueryModel);
+					}
 
-		closeDataBase();
-	} else {
-		qCritical("[DatabaseController] Cannot open database for new query loading");
+					const QSqlQuery& query = pQueryModel->query();
+					const auto& iTimeElapsed = timerQuery.elapsed();
+
+					// Get rows count
+					int iCount = 0;
+					{
+						QSqlQuery queryCount(szCurrentQuery, m_db);
+						bRes = queryCount.exec();
+						if (bRes) {
+							if (queryCount.driver()->hasFeature(QSqlDriver::QuerySize)) {
+								iCount = queryCount.size();
+							}else {
+								while (queryCount.next()) {
+									iCount++;
+								}
+							}
+						}
+					}
+
+					m_szResultString = makeQueryResultString(query, iTimeElapsed, iCount);
+				} else {
+					QSqlQuery query(m_db);
+					bRes = query.exec(szCurrentQuery);
+					m_szResultString = makeQueryResultString(query, timerQuery.elapsed());
+				}
+
+				if (pHandler) {
+					pHandler->notifyQueryResult(szCurrentQuery, bRes, m_szResultString);
+				}
+
+				if (!bRes) {
+					break;
+				}
+			}
+
+			closeDataBase();
+		} else {
+			qCritical("[DatabaseController] Cannot open database for new query loading");
+		}
 	}
 
+	pHandler->notifyQueriesFinished(bRes, bHasResult);
+
 	return bRes;
+}
+
+QStringList DatabaseController::splitSQLQueries(const QString& szSQLScript)
+{
+    QStringList listQueries;
+    QString szCurrentQuery;
+    bool bInSingleQuote = false;
+    bool bInDoubleQuote = false;
+    bool bInLineComment = false;
+    bool bInBlockComment = false;
+
+    for (int i = 0; i < szSQLScript.size(); ++i)
+    {
+        QChar c = szSQLScript[i];
+        QChar next = (i + 1 < szSQLScript.size()) ? szSQLScript[i + 1] : QChar();
+
+        // Gestion des commentaires de ligne (--)
+        if (!bInSingleQuote && !bInDoubleQuote && !bInBlockComment && c == '-' && next == '-') {
+            bInLineComment = true;
+            szCurrentQuery += c;
+            continue;
+        }
+        if (bInLineComment && c == '\n') {
+            bInLineComment = false;
+        }
+
+        // Gestion des commentaires de bloc (/* ... */)
+        if (!bInSingleQuote && !bInDoubleQuote && !bInLineComment && c == '/' && next == '*') {
+            bInBlockComment = true;
+            szCurrentQuery += c;
+            ++i; // Sauter le '*'
+            continue;
+        }
+        if (bInBlockComment && c == '*' && next == '/') {
+            bInBlockComment = false;
+            szCurrentQuery += c;
+            ++i; // Sauter le '/'
+            continue;
+        }
+
+        // Gestion des chaînes littérales
+        if (!bInLineComment && !bInBlockComment) {
+            if (c == '\'' && !bInDoubleQuote) {
+                bInSingleQuote = !bInSingleQuote;
+            } else if (c == '"' && !bInSingleQuote) {
+                bInDoubleQuote = !bInDoubleQuote;
+            }
+        }
+
+        // Si on est dans un commentaire ou une chaîne, on ajoute le caractère et on passe
+        if (bInLineComment || bInBlockComment || bInSingleQuote || bInDoubleQuote) {
+            szCurrentQuery += c;
+            continue;
+        }
+
+    	// Handle semicolon (query separator)
+        if (c == ';') {
+            szCurrentQuery += c;
+            listQueries << szCurrentQuery.trimmed();
+            szCurrentQuery.clear();
+        } else {
+            szCurrentQuery += c;
+        }
+    }
+
+    // Add last query if not empty
+    if (!szCurrentQuery.trimmed().isEmpty()) {
+        listQueries << szCurrentQuery.trimmed();
+    }
+
+    return listQueries;
 }
 
 bool DatabaseController::loadTableCreationScript(const QString& szTableName, DbLoadTableCreationScript func, void* user_data)

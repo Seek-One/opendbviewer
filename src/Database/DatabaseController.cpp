@@ -244,7 +244,7 @@ bool DatabaseController::loadTableData(const QString& szTableName, const QString
 
 bool DatabaseController::processWorksheetQueryResults(const QString& szWorksheetQuery, DatabaseProcessHandler* pHandler)
 {
-	bool bRes;
+	bool bRes = false;
 
 	QStringList listRowHeader;
 	QStringList listRowData;
